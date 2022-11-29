@@ -1,0 +1,167 @@
+<html><head>
+<title>4.4 Localization</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d3.html" tppabs="http://www.lysator.liu.se/c/rat/d3.html">4.3 Character Handling</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-4" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-4">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d5.html" tppabs="http://www.lysator.liu.se/c/rat/d5.html">4.5 Mathematics</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-4">4.4</a>&#160;<tt> </tt>Localization&#160;<tt> </tt>&lt;<a name="-60locale-46h-62-4-4">locale</a>.h&gt;</h1>
+
+<p>
+
+C has become an international language.&#160;<tt> </tt>
+Users of the language outside the United States have been forced to
+deal with the various Americanisms built into the standard library
+routines.&#160;<tt> </tt>
+<p>
+Areas affected by international considerations include:
+<dl><dt><b>Alphabet.</b><dd>
+    The English language uses 26 letters derived from the Latin alphabet.&#160;<tt> </tt>
+    This set of letters suffices for English, Swahili, and Hawaiian;
+    all other living languages use either the Latin alphabet <i>plus</i>
+    other characters, or other, non-Latin alphabets or syllabaries.&#160;<tt> </tt>
+<p>
+    In English, each letter has an upper-case and lower-case form.&#160;<tt> </tt>
+    The German ``sharp S'', &szlig;, occurs only in lower-case.&#160;<tt> </tt>
+    European French usually omits diacriticals on upper-case letters.&#160;<tt> </tt>
+    Some languages do not have the concept of two cases.&#160;<tt> </tt>
+<p>
+<dt><b>Collation.</b><dd>
+    In both <a name="EBCDIC-4-4">EBCDIC</a> and <a name="ASCII-4-4">ASCII</a> the code for `z' is greater
+    than the code for `a', and so on for other letters in the alphabet,
+    so a ``machine sort'' gives not unreasonable results for ordering
+    strings.&#160;<tt> </tt>
+    In contrast,
+    most European languages use a <a name="codeset-4-4">codeset</a> resembling ASCII
+    in which some of the codes used in ASCII for punctuation characters are
+    used for alphabetic characters.  (See <a href="b.html#2-2-1" tppabs="http://www.lysator.liu.se/c/rat/b.html#2-2-1">&#167;2.2.1</a>.)&#160;<tt> </tt>
+    The ordering of these codes is not alphabetic.&#160;<tt> </tt>
+    In some languages letters with diacritics sort as separate letters;
+    in others they should be collated just as the unmarked form.&#160;<tt> </tt>
+    In Spanish, ``ll'' sorts as a single letter following ``l'';
+    in German, ``&szlig;'' sorts like ``ss''.&#160;<tt> </tt>
+<p>
+<dt><b>Formatting of numbers and currency amounts.</b><dd>
+    In the United States the period is invariably used for the decimal point;
+    this usage was built into the definitions of such functions as
+    <code>printf</code> and <code>scanf</code>.&#160;<tt> </tt>
+    Prevalent practice in several major European countries is to use a comma;
+    a raised dot is employed in some locales.&#160;<tt> </tt>
+    Similarly, in the United States a comma is used to separate
+    groups of three digits to the left of the decimal point;
+    a period is common in Europe, and in some countries digits are
+    not grouped by threes.  In printing currency amounts, the
+    currency symbol (which may be more than one character) may
+    precede, follow, or be embedded in the digits.&#160;<tt> </tt>
+<p>
+<dt><b>Date and time.</b><dd>
+    The standard function <code>asctime</code> returns a string which includes
+    abbreviations for month and weekday names,
+    and returns the various elements in a format which might be
+    considered unusual even in its country of origin.&#160;<tt> </tt>
+<p>
+    Various common date formats include
+<pre>
+    1776-07-04                 ISO Format
+    4.7.76                     customary central
+                               European and British usage
+    7/4/76                     customary U.S. usage
+    4.VII.76                   Italian usage
+    76186                      Julian date (YYDDD)
+    04JUL76                    airline usage
+    Thursday, July 4, 1776     full U.S. format
+    Donnerstag, 4. Juli 1776   full German format
+</pre>
+
+Time formats are also quite diverse:
+
+<pre>
+    3:30 PM                    customary U.S. and British format
+    1530                       U.S. military format
+    15h.30                     Italian usage
+    15.30                      German usage
+    15:30                      common European usage
+</pre>
+</dl>The Committee has introduced mechanisms into the C library to allow
+these and other issues to be treated in the appropriate
+<a name="locale-specific"><i>locale-specific</i></a> manner.&#160;<tt> </tt>
+<p>
+The localization features of the Standard are based on these
+principles:
+<dl><dt><b>English for C source.</b><dd>
+    The C language proper is based on English.&#160;<tt> </tt>
+    Keywords are based on English words.&#160;<tt> </tt>
+    A program which uses ``national characters'' in identifiers
+    is not strictly conforming.&#160;<tt> </tt>
+    (Use of national characters in comments is strictly conforming,
+    though what happens when such a program is printed in a different
+    locale is unspecified.)&#160;<tt> </tt>
+    The decimal point must be a period in C source,
+    and no thousands delimiter may be used.&#160;<tt> </tt>
+<dt><b>Runtime selectability.</b><dd>
+    The locale must be selectable at runtime,
+    from an implementation-defined set of possibilities.&#160;<tt> </tt>
+    Translate-time selection does not offer sufficient flexibility.&#160;<tt> </tt>
+    Software vendors do not want to supply different object forms
+    of their programs in different locales.&#160;<tt> </tt>
+    Users do not want to use different versions of a program just
+    because they deal with several different locales.&#160;<tt> </tt>
+<dt><b>Function interface.</b><dd>
+    Locale is changed by calling a function,
+    thus allowing the implementation to recognize the change,
+    rather than by, say, changing a memory location that contains
+    the decimal point character.&#160;<tt> </tt>
+<dt><b>Immediate effect.</b><dd>
+    When a new locale is selected, affected functions reflect the
+    change immediately.&#160;<tt> </tt>
+    (This is not meant to imply if a signal-handling function were to
+    change the selected locale and return to a library function,
+    that the return value from that library function must be completely
+    correct with respect to the new locale.)&#160;<tt> </tt>
+</dl><p>
+<h2><a name="4-4-1">4.4.1</a>&#160;<tt> </tt>Locale control</h2>
+<p>
+<h2><a name="4-4-1-1">4.4.1.1</a>&#160;<tt> </tt>The <a name="setlocale-4-4-1-1"><code>setlocale</code></a> function</h2>
+
+<p>
+<code>setlocale</code> provides the mechanism for controlling
+<a name="locale-specific-4-4-1-1"><i>locale-specific</i></a> features of the library.&#160;<tt> </tt>
+The <code>category</code> argument allows parts of the library to be localized
+as necessary without changing the entire locale-specific environment.&#160;<tt> </tt>
+Specifying the <code>locale</code> argument as a string
+gives an implementation maximum flexibility in providing a set of locales.&#160;<tt> </tt>
+For instance, an implementation could map the argument string into
+the name of a file containing appropriate localization parameters
+--- these files could then be added and
+modified without requiring any recompilation of a localizable
+program.&#160;<tt> </tt>
+<p>
+<h2><a name="4-4-2">4.4.2</a>&#160;<tt> </tt>Numeric formatting convention inquiry</h2>
+<p>
+<h2><a name="4-4-2-1">4.4.2.1</a>&#160;<tt> </tt>The <a name="localeconv-4-4-2-1"><code>localeconv</code></a> function</h2>
+
+<p>
+The <code>localeconv</code> function gives a programmer access to information
+about how to format numeric quantities (monetary or otherwise).&#160;<tt> </tt>
+This sort of interface was considered preferable to defining conversion
+functions directly:
+even with a specified locale, the set of distinct formats that can
+be constructed from these elements is large, and the ones desired
+very application-dependent.&#160;<tt> </tt>
+<hr>
+<a href="d3.html" tppabs="http://www.lysator.liu.se/c/rat/d3.html">4.3 Character Handling</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-4" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-4">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d5.html" tppabs="http://www.lysator.liu.se/c/rat/d5.html">4.5 Mathematics</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

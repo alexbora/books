@@ -1,0 +1,110 @@
+<html><head>
+<title>4.3 Character Handling</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d2.html" tppabs="http://www.lysator.liu.se/c/rat/d2.html">4.2 Diagnostics</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-3" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-3">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d4.html" tppabs="http://www.lysator.liu.se/c/rat/d4.html">4.4 Localization</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-3">4.3</a>&#160;<tt> </tt>Character Handling&#160;<tt> </tt>&lt;<a name="-60ctype-46h-62-4-3">ctype</a>.h&gt;</h1>
+
+<p>
+Pains were taken to eliminate any <a name="ASCII-4-3">ASCII</a> dependencies
+from the definition of the character handling functions.&#160;<tt> </tt>
+One notable result of this policy was the elimination of the function
+<a name="isascii-4-3"><code>isascii</code></a>,
+both because of the name and because its function was hard to generalize.&#160;<tt> </tt>
+Nevertheless,
+the character functions are often most clearly explained in concrete terms,
+so ASCII is used frequently to express examples.&#160;<tt> </tt>
+<p>
+Since these functions are often used primarily as macros,
+their domain is restricted to the small positive integers representable in an
+<code>unsigned char</code>, plus the value of <a name="EOF-4-3"><code>EOF</code></a>.&#160;<tt> </tt>
+<code>EOF</code> is traditionally <i>-1</i>,
+but may be any negative integer,
+and hence distinguishable from any valid character code.&#160;<tt> </tt>
+These macros may thus be efficiently implemented by using the argument
+as an index into a small array of attributes.&#160;<tt> </tt>
+<p>
+The Standard (<a href="d13.html#4-13-1" tppabs="http://www.lysator.liu.se/c/rat/d13.html#4-13-1">&#167;4.13.1</a>) warns that names beginning with <code>is</code> and <code>to</code>,
+when these are followed by lower-case letters,
+are subject to future use in adding items to <code>&lt;ctype.h&gt;</code>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-3-1">4.3.1</a>&#160;<tt> </tt>Character testing functions</h2>
+<p>
+The definitions of <a name="printing-character"><i>printing character</i></a> and <a name="control-character"><i>control character</i></a>
+have been generalized from ASCII.&#160;<tt> </tt>
+<p>
+Note that none of these functions returns
+a nonzero value (true) for the argument value <code>EOF</code>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-3-1-1">4.3.1.1</a>&#160;<tt> </tt>The <code>isalnum</code> function</h2>
+<p>
+<h2><a name="4-3-1-2">4.3.1.2</a>&#160;<tt> </tt>The <code>isalpha</code> function</h2>
+<p>
+The Standard specifies that the set of letters,
+in the default <a name="locale"><i>locale</i></a>, comprises the
+26 upper-case and 26 lower-case letters of the Latin (English)&#160;<tt> </tt>
+alphabet.&#160;<tt> </tt>
+This set may vary in a <a name="locale-specific"><i>locale-specific</i></a> fashion
+(that is, under control of the <a name="setlocale-4-3-1-2"><code>setlocale</code></a> function, <a href="d4.html#4-4" tppabs="http://www.lysator.liu.se/c/rat/d4.html#4-4">&#167;4.4</a>)&#160;<tt> </tt>
+so long as
+<ul><li><code>isupper(c)</code> implies <code>isalpha(c)</code>
+<li><code>islower(c)</code> implies <code>isalpha(c)</code>
+<li><code>isspace(c)</code>, <code>ispunct(c)</code>, <code>iscntrl(c)</code>, or <code>isdigit(c)</code>
+	implies <code>!isalpha(c)</code>
+</ul><h2><a name="4-3-1-3">4.3.1.3</a>&#160;<tt> </tt>The <code>iscntrl</code> function</h2>
+<p>
+<h2><a name="4-3-1-4">4.3.1.4</a>&#160;<tt> </tt>The <code>isdigit</code> function</h2>
+<p>
+<h2><a name="4-3-1-5">4.3.1.5</a>&#160;<tt> </tt>The <code>isgraph</code> function</h2>
+<p>
+<h2><a name="4-3-1-6">4.3.1.6</a>&#160;<tt> </tt>The <code>islower</code> function</h2>
+<p>
+<h2><a name="4-3-1-7">4.3.1.7</a>&#160;<tt> </tt>The <code>isprint</code> function</h2>
+<p>
+<h2><a name="4-3-1-8">4.3.1.8</a>&#160;<tt> </tt>The <code>ispunct</code> function</h2>
+<p>
+<h2><a name="4-3-1-9">4.3.1.9</a>&#160;<tt> </tt>The <code>isspace</code> function</h2>
+<p>
+<a name="isspace-4-3-1-9"><code>isspace</code></a> is widely used within the library as the working definition
+of white space.&#160;<tt> </tt>
+<p>
+<h2><a name="4-3-1-10">4.3.1.10</a>&#160;<tt> </tt>The <code>isupper</code> function</h2>
+<p>
+<h2><a name="4-3-1-11">4.3.1.11</a>&#160;<tt> </tt>The <code>isxdigit</code> function</h2>
+<p>
+<h2><a name="4-3-2">4.3.2</a>&#160;<tt> </tt>Character case mapping functions</h2>
+<p>
+Earlier libraries had (almost equivalent) macros,
+<code>_tolower</code> and <code>_toupper</code>,
+for these functions.&#160;<tt> </tt>
+The Standard now permits any library function to be additionally
+implemented as a macro;  the underlying function must still be present.&#160;<tt> </tt>
+<code>_toupper</code> and <code>_tolower</code> are thus unnecessary and
+were dropped as part of the general standardization of library macros.&#160;<tt> </tt>
+<p>
+<h2><a name="4-3-2-1">4.3.2.1</a>&#160;<tt> </tt>The <code>tolower</code> function</h2>
+<p>
+<h2><a name="4-3-2-2">4.3.2.2</a>&#160;<tt> </tt>The <code>toupper</code> function</h2>
+<hr>
+<a href="d2.html" tppabs="http://www.lysator.liu.se/c/rat/d2.html">4.2 Diagnostics</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-3" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-3">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d4.html" tppabs="http://www.lysator.liu.se/c/rat/d4.html">4.4 Localization</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

@@ -1,0 +1,72 @@
+<html><head>
+<title>4.2 Diagnostics</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d1.html" tppabs="http://www.lysator.liu.se/c/rat/d1.html">4.1 Introduction</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-2" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-2">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d3.html" tppabs="http://www.lysator.liu.se/c/rat/d3.html">4.3 Character Handling</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-2">4.2</a>&#160;<tt> </tt>Diagnostics&#160;<tt> </tt>&lt;<a name="-60assert-46h-62-4-2">assert</a>.h&gt;</h1>
+
+<p>
+<h2><a name="4-2-1">4.2.1</a>&#160;<tt> </tt>Program diagnostics</h2>
+<p>
+<h2><a name="4-2-1-1">4.2.1.1</a>&#160;<tt> </tt>The <code>assert</code> macro</h2>
+<p>
+Some implementations tolerate an arbitrary scalar expression as the
+argument to <a name="assert-4-2-1-1"><code>assert</code></a>,
+but the Committee decided to require correct operation only for
+<code>int</code> expressions.&#160;<tt> </tt>
+For the sake of implementors,
+no hard and fast format for the output of a failing assertion is required;
+but the Standard mandates enough machinery to replicate
+the form shown in the footnote.&#160;<tt> </tt>
+<p>
+It can be difficult or impossible to make <code>assert</code> a true function,
+so it is restricted to macro form only.&#160;<tt> </tt>
+<p>
+To minimize the number of different methods for program termination,
+<code>assert</code> is now defined in terms of the
+<a href="d10.html#abort-4-10-4-1" tppabs="http://www.lysator.liu.se/c/rat/d10.html#abort-4-10-4-1" name="abort-4-2-1-1"><code>abort</code></a> function.&#160;<tt> </tt>
+<p>
+Note that defining the macro <code>NDEBUG</code> to disable assertions may
+change the behavior of a program with no failing assertion
+if any argument expression to <code>assert</code> has side-effects,
+because the expression is no longer evaluated.&#160;<tt> </tt>
+<p>
+It is possible to turn assertions off and on in different
+functions within a translation unit by defining (or undefining)&#160;<tt> </tt>
+<code>NDEBUG</code> and including <code>&lt;assert.h&gt;</code> again.&#160;<tt> </tt>
+The implementation of this behavior in <code>&lt;assert.h&gt;</code> is simple:
+undefine any previous definition of <code>assert</code> before providing
+the new one.&#160;<tt> </tt>
+Thus the header might look like
+<pre>        #undef assert
+        #ifdef NDEBUG
+         #define assert(ignore)  ((void) 0)
+        #else
+         extern void __gripe(char *_Expr, char *_File, int _Line);
+         #define assert(expr) \
+           ( (expr)? (void)0 : __gripe(#expr, __FILE__, __LINE__) )
+        #endif
+</pre>Note that <code>assert</code> must expand to a void expression,
+so the more obvious <code>if</code> statement does not suffice as a definition
+of <code>assert</code>.&#160;<tt> </tt>
+Note also the avoidance of names in a header which would conflict
+with the user's name space (see <a href="c1.html#3-1-2-1" tppabs="http://www.lysator.liu.se/c/rat/c1.html#3-1-2-1">&#167;3.1.2.1</a>).&#160;<tt> </tt>
+<hr>
+<a href="d1.html" tppabs="http://www.lysator.liu.se/c/rat/d1.html">4.1 Introduction</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-2" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-2">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d3.html" tppabs="http://www.lysator.liu.se/c/rat/d3.html">4.3 Character Handling</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

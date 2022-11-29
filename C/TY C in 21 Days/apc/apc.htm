@@ -1,0 +1,299 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Appendix C -- Working with Binary and Hexadecimal Numbers</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../apb/apb.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apd/apd.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- C -</H1>
+</CENTER>
+<CENTER>
+<H1>Working with Binary and Hexadecimal Numbers</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">The Decimal Number System</A>
+	<LI><A HREF="#Heading2">The Binary System</A>
+	<LI><A HREF="#Heading3">The Hexadecimal System</A>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>As a computer programmer, you might sometimes be required to work with numbers
+expressed in binary and hexadecimal notation. This appendix explains what these systems
+are and how they work. To help you understand, let's first review the common decimal
+number system.</P>
+<P>
+<H2><A NAME="Heading1"></A>The Decimal Number System</H2>
+<P>The decimal system is the base-10 system that you use every day. A number in this
+system--for example, 342--is expressed as powers of 10. The first digit (counting
+from the right) gives 10 to the 0 power, the second digit gives 10 to the 1 power,
+and so on. Any number to the 0 power equals 1, and any number to the 1 power equals
+itself. Thus, continuing with the example of 342, you have:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">3</TD>
+		<TD ALIGN="LEFT">3 * 10<SUP>2</SUP> = 3 * 100 = 300</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">4 * 10<SUP>1</SUP> = 4 * 10 = 40</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">2 * 10<SUP>0</SUP> = 2 * 1 = 2</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">Sum = 342</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The base-10 system requires 10 different digits, 0 through 9. The following rules
+apply to base 10 and to any other base number system:</P>
+
+<UL>
+	<LI>A number is represented as powers of the system's base.
+	<P>
+	<LI>The system of base <I>n</I> requires <I>n</I> different digits.
+</UL>
+
+<P>Now let's look at the other number systems.</P>
+<P>
+<H2><A NAME="Heading2"></A>The Binary System</H2>
+<P>The binary number system is base 2 and therefore requires only two digits, 0 and
+1. The binary system is useful for computer programmers, because it can be used to
+represent the digital on/off method in which computer chips and memory work. Here's
+an example of a binary number and its representation in the decimal notation you're
+more familiar with, writing 1011 vertically:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">1 * 2<SUP>3</SUP> = 1 * 8 = 8</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">0</TD>
+		<TD ALIGN="LEFT">0 * 2<SUP>2</SUP> = 0 * 4 = 0</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">1 * 2<SUP>1</SUP> = 1 * 2 = 2</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">1 * 2<SUP>0</SUP> = 1 * 1 = 1</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">Sum = 11 (decimal)</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Binary has one shortcoming: It's cumbersome for representing large numbers.</P>
+<P>
+<H2><A NAME="Heading3"></A>The Hexadecimal System</H2>
+<P>The hexadecimal system is base 16. Therefore, it requires 16 digits. The digits
+0 through 9 are used, along with the letters A through F, which represent the decimal
+values 10 through 15. Here is an example of a hexadecimal number and its decimal
+equivalent:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">2 * 16<SUP>2</SUP> = 2 * 256 = 512</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">D</TD>
+		<TD ALIGN="LEFT">13 * 16<SUP>1</SUP> = 13 * 16 = 208</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">A</TD>
+		<TD ALIGN="LEFT">10 * 16<SUP>0</SUP> = 10 * 1 = 10</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">Sum = 730 (decimal)</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The hexadecimal system (often called the <I>hex</I> system) is useful in computer
+work because it's based on powers of 2. Each digit in the hex system is equivalent
+to a four-digit binary number, and each two-digit hex number is equivalent to an
+eight-digit binary number. Table C.1 shows some hex/decimal/binary equivalents.</P>
+<P>
+<H4>Table C.1. Hexadecimal numbers and their decimal and binary equivalents.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Hexadecimal Digit</B></TD>
+		<TD ALIGN="LEFT"><B>Decimal Equivalent</B></TD>
+		<TD ALIGN="LEFT"><B>Binary Equivalent</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">0</TD>
+		<TD ALIGN="LEFT">0</TD>
+		<TD ALIGN="LEFT">0000</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">0001</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">0010</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">3</TD>
+		<TD ALIGN="LEFT">3</TD>
+		<TD ALIGN="LEFT">0011</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">0100</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">5</TD>
+		<TD ALIGN="LEFT">5</TD>
+		<TD ALIGN="LEFT">0101</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">6</TD>
+		<TD ALIGN="LEFT">6</TD>
+		<TD ALIGN="LEFT">0110</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">7</TD>
+		<TD ALIGN="LEFT">7</TD>
+		<TD ALIGN="LEFT">0111</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">8</TD>
+		<TD ALIGN="LEFT">8</TD>
+		<TD ALIGN="LEFT">1000</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">9</TD>
+		<TD ALIGN="LEFT">9</TD>
+		<TD ALIGN="LEFT">1001</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">A</TD>
+		<TD ALIGN="LEFT">10</TD>
+		<TD ALIGN="LEFT">1010</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">B</TD>
+		<TD ALIGN="LEFT">11</TD>
+		<TD ALIGN="LEFT">1011</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">C</TD>
+		<TD ALIGN="LEFT">12</TD>
+		<TD ALIGN="LEFT">1100</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">D</TD>
+		<TD ALIGN="LEFT">13</TD>
+		<TD ALIGN="LEFT">1101</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">E</TD>
+		<TD ALIGN="LEFT">14</TD>
+		<TD ALIGN="LEFT">1110</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">F</TD>
+		<TD ALIGN="LEFT">15</TD>
+		<TD ALIGN="LEFT">1111</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">10</TD>
+		<TD ALIGN="LEFT">16</TD>
+		<TD ALIGN="LEFT">10000</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">F0</TD>
+		<TD ALIGN="LEFT">240</TD>
+		<TD ALIGN="LEFT">11110000</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FF</TD>
+		<TD ALIGN="LEFT">255</TD>
+		<TD ALIGN="LEFT">11111111</TD>
+	</TR>
+</TABLE>
+</P>
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../apb/apb.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apd/apd.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

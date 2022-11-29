@@ -1,0 +1,333 @@
+<html><head>
+<title>4 Library</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="c1.html" tppabs="http://www.lysator.liu.se/c/rat/c1.html">3 Language</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="c9.html" tppabs="http://www.lysator.liu.se/c/rat/c9.html">3.9 Future</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#lib" tppabs="http://www.lysator.liu.se/c/rat/title.html#lib">Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d2.html" tppabs="http://www.lysator.liu.se/c/rat/d2.html">4.2 Diagnostics</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="e.html" tppabs="http://www.lysator.liu.se/c/rat/e.html">5 Appendices</a>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>
+<hr>
+<h1><a name="4">4</a>&#160;<tt> </tt>Library</h1>
+<p>
+<h2><a name="4-1">4.1</a>&#160;<tt> </tt>Introduction</h2>
+<p>
+The Base Document for this section of the Standard was the
+<a name="1984--47usr-47group-Standard-4-1">1984 /usr/group Standard</a>.
+The /usr/group document
+contains definitions of some facilities which were specific to the <a name="UNIX-4-1">UNIX</a>
+Operating System and not relevant to other operating environments,
+such as
+pipes, ioctls, file access permissions and process control
+facilities.&#160;<tt> </tt>
+Those definitions were dropped from the Standard.&#160;<tt> </tt>
+Some other functions were excluded from
+the Standard because they were non-portable or were ill-defined.&#160;<tt> </tt>
+<p>
+Other facilities not in the library Base Document but present in
+many UNIX implementations,
+such as the <a name="curses-4-1">curses</a> (terminal-independent screen handling) library
+were considered to be more complex and less essential
+than the facilities of the Base Document;
+these functions were not added to the Standard.&#160;<tt> </tt>
+<p>
+<h2><a name="4-1-1">4.1.1</a>&#160;<tt> </tt>Definitions of terms</h2>
+<p>
+The <a name="decimal-point-character"><i>decimal-point character</i></a> is the character used in
+the input or output of floating point numbers, and may be changed
+by <code>setlocale</code>.  This is a library construct;  the decimal point
+in numeric literals in C source text is always a period.&#160;<tt> </tt>
+<p>
+<h2><a name="4-1-2">4.1.2</a>&#160;<tt> </tt>Standard headers</h2>
+<p>
+Whereas in prior practice
+only certain library functions have been associated with header files,
+the Standard now mandates that <i>all</i> library functions have a header.&#160;<tt> </tt>
+Several headers have therefore been added,
+and the contents of a few old ones have been changed.&#160;<tt> </tt>
+<p>
+In many implementations the names of headers are the names of files
+in special directories.&#160;<tt> </tt>
+This implementation technique is not required, however:
+the Standard makes no assumptions about the form that a file
+name may take on any system.&#160;<tt> </tt>
+Headers may thus have a special status if an implementation so chooses.&#160;<tt> </tt>
+Standard headers may even be built into a translator,
+provided that their contents do not become ``known''&#160;<tt> </tt>
+until after they are explicitly included.&#160;<tt> </tt>
+One purpose of permitting these header ``files'' to be ``built in''&#160;<tt> </tt>
+to the translator is to allow an implementation of the C language
+as an interpreter in an un-hosted environment,
+where the only ``file'' support may be a network interface.&#160;<tt> </tt>
+<p>
+The Committee decided to make library headers ``idempotent'' ---
+they should be includable any number of times, and includable in any order.&#160;<tt> </tt>
+This requirement, which reflects widespread existing practice,
+may necessitate some protective wrappers within the headers, to avoid,
+for instance, redefinitions of typedefs.&#160;<tt> </tt>
+To ensure that such protective wrapping can be made to work,
+and to ensure proper scoping of typedefs,
+headers may only be included outside of any declaration.&#160;<tt> </tt>
+<p>
+Note to implementors: a common way of providing this ``protective
+wrapping'' is:
+<pre>        #ifndef __ERRNO_H
+        #define __ERRNO_H
+        /* body of &lt;errno.h&gt; */
+        /* ...               */
+        #endif
+</pre>where <code>__ERRNO_H</code> is an otherwise unused macro name.
+<p>
+
+Implementors often desire to provide implementations of C
+in addition to that prescribed by the Standard.&#160;<tt> </tt>
+For instance, an implementation
+may want to provide system-specific I/O facilities in <code>&lt;stdio.h&gt;</code>.&#160;<tt> </tt>
+A technique that allows the same header to be used in both the
+Standard-conforming and alternate implementations is to add the
+extra, non-Standard, declarations to the header as in this illustration:
+<pre>        #ifdef __EXTENSIONS__
+        typedef int file_no;
+        extern int read(file_no _N, void * _Buffer, int _Nbytes);
+        /*...*/
+        #endif
+</pre>The header is usable in an implementation of the Standard in the absence
+of a definition of <code>__EXTENSIONS__</code>, and the non-Standard implementation
+can provide the appropriate definitions to enable the extra declarations.&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-1-2-1">4.1.2.1</a>&#160;<tt> </tt>Reserved identifiers</h2>
+<p>
+To give implementors maximum latitude in packing library functions into
+files, all external identifiers defined by the library are reserved
+(in a hosted environment).&#160;<tt> </tt>
+This means, in effect, that no user supplied external names may match
+library names,
+<i>not even if the user function has the same specification</i>.&#160;<tt> </tt>
+Thus, for instance, <code>strtod</code> may be defined in the same object module as
+<code>printf</code>,
+with no fear that link-time conflicts will occur.&#160;<tt> </tt>
+Equally, <code>strtod</code> may call <code>printf</code>, or
+<code>printf</code> may call <code>strtod</code>, for whatever reason,
+with no fear that the wrong function will be called.&#160;<tt> </tt>
+<p>
+Also reserved for the implementor are
+<i>all</i> external identifiers beginning with an underscore,
+and all other identifiers beginning with an underscore followed
+by a capital letter or an underscore.&#160;<tt> </tt>
+This gives a space of names for writing the numerous
+behind-the-scenes non-external macros and functions
+a library needs to do its job properly.&#160;<tt> </tt>
+<p>
+With these exceptions, the Standard assures the programmer that
+<i>all other</i> identifiers are available,
+with no fear of unexpected collisions when moving programs
+from one implementation to another.&#160;<tt> </tt>[Footnote: See <a href="c1.html#3-1-2-1" tppabs="http://www.lysator.liu.se/c/rat/c1.html#3-1-2-1">&#167;3.1.2.1</a> for a discussion of some of the precautions
+an implementor should take to keep this promise.&#160;<tt> </tt>
+Note also that any implementation-defined member names in structures
+defined in <code>&lt;time.h&gt;</code> and <code>&lt;locals.h&gt;</code> must begin with an
+underscore, rather than following the pattern of other names in
+those structures.]&#160;<tt> </tt>
+Note, in particular, that
+part of the name space of internal identifiers beginning with underscore 
+is available to the user --- translator implementors have not been the only
+ones to find use for ``hidden'' names.&#160;<tt> </tt>
+C is such a portable language in many respects that this issue of
+``name space pollution''&#160;<tt> </tt>
+is currently one of the principal barriers to writing completely portable code.&#160;<tt> </tt>
+Therefore the Standard assures that macro and typedef names are
+reserved only if the associated header is explicitly included.&#160;<tt> </tt>
+<p>
+<h2><a name="4-1-3">4.1.3</a>&#160;<tt> </tt>Errors&#160;<tt> </tt><code>&lt;errno.h&gt;</code></h2>
+<p>
+<a name="-60errno-46h-62-4-1-3"><code>&lt;errno.h&gt;</code></a> is a header invented to encapsulate the
+error handling mechanism used by many of the 
+library routines in <code>math.h</code> and <code>strlib.h</code>.&#160;<tt> </tt>[Footnote: 	In earlier drafts of the Standard, <code>errno</code> and related
+	macros were defined in <code>&lt;stddef.h&gt;</code>.&#160;<tt> </tt>
+	When the Committee decided that the other definitions in
+	this header were of such general utility that they should
+	be required even in freestanding environments, it
+	created <code>&lt;errno.h&gt;</code>.]&#160;<tt> </tt>
+<p>
+The error reporting machinery centered about the setting of
+<a name="errno-4-1-3"><code>errno</code></a> is generally regarded with tolerance at best.&#160;<tt> </tt>
+It requires a ``pathological coupling'' between library functions and
+makes use of a static writable memory cell,
+which interferes with the construction of shareable libraries.&#160;<tt> </tt>
+Nevertheless, the Committee preferred to standardize this
+existing, however deficient,
+machinery rather than invent something more ambitious.&#160;<tt> </tt>
+<p>
+The definition of <code>errno</code> as an lvalue macro
+grants implementors the license to expand it to something like
+<code>*__errno_addr()</code>,
+where the function returns a pointer to the (current) modifiable copy of
+<code>errno.</code>
+<p>
+
+<h2><a name="4-1-4">4.1.4</a>&#160;<tt> </tt>Limits&#160;<tt> </tt><code>&lt;float.h&gt;</code> and <code>&lt;</code><a name="-60limits-46h-62-4-1-4"><code>limits</code></a><code>.h&gt;</code></h2>
+
+
+
+<p>
+Both <a name="-60float-46h-62-4-1-4"><code>&lt;float.h&gt;</code></a> and <code>&lt;limits.h&gt;</code> are inventions.&#160;<tt> </tt>
+Included in these headers are various parameters of the execution
+environment which are potentially useful at compile time,
+and which are difficult or impossible to determine by other means.&#160;<tt> </tt>
+<p>
+The availability of this information in headers
+provides a portable way of tuning a program to different environments.&#160;<tt> </tt>
+Another possible method of determining some of this information is
+to evaluate arithmetic expressions in the
+<a name="preprocessing-4-1-4">preprocessing</a> statements.&#160;<tt> </tt>
+Requiring that preprocessing always yield the same results as
+run-time arithmetic, however,
+would cause problems for portable compilers (themselves written in C) or
+for <a name="cross-compilation-4-1-4">cross compilers</a>,
+which would then be required to implement the
+(possibly wildly different) arithmetic
+of the target machine on the host machine.&#160;<tt> </tt>
+(See <a href="c4.html#3-4" tppabs="http://www.lysator.liu.se/c/rat/c4.html#3-4">&#167;3.4</a>.)&#160;<tt> </tt>
+<p>
+
+<code>&lt;float.h&gt;</code>
+makes available to programmers a set of useful quantities for
+numerical analysis. (See <a href="b.html#2-2-4-2" tppabs="http://www.lysator.liu.se/c/rat/b.html#2-2-4-2">&#167;2.2.4.2</a>.)&#160;<tt> </tt>
+This set of quantities has seen widespread use for such analysis,
+in C and in other languages,
+and was recommended by the numerical analysts on the Committee.&#160;<tt> </tt>
+The set was chosen so as not to prejudice
+an implementation's selection of floating-point representation.&#160;<tt> </tt>
+<p>
+Most of the limits in <code>&lt;float.h&gt;</code> 
+are specified to be general <code>double</code> expressions
+rather than restricted constant expressions
+<ul><li>to allow use of values which cannot readily
+    (or, in some cases, cannot possibly)&#160;<tt> </tt>
+    be constructed as manifest constants,
+and
+<li>to allow for run-time selection of floating-point properties,
+    as is possible, for instance, in <a name="IEEE-854-4-1-4">IEEE-854</a> implementations.&#160;<tt> </tt>
+</ul><h2><a name="4-1-5">4.1.5</a>&#160;<tt> </tt>Common definitions&#160;<tt> </tt><code>&lt;stddef.h&gt;</code></h2>
+<p>
+<a name="-60stddef-46h-62-4-1-5"><code>&lt;stddef.h&gt;</code></a>
+is a header invented to provide definitions of several types and macros
+used widely in conjunction with the library:
+<a name="ptrdiff-95t-4-1-5"><code>ptrdiff_t</code></a> (see <a href="c3.html#3-3-6" tppabs="http://www.lysator.liu.se/c/rat/c3.html#3-3-6">&#167;3.3.6</a>),
+<a name="size-95t-4-1-5"><code>size_t</code></a> (see <a href="c3.html#3-3-3-4" tppabs="http://www.lysator.liu.se/c/rat/c3.html#3-3-3-4">&#167;3.3.3.4</a>),
+<a name="wchar-95t-4-1-5"><code>wchar_t</code></a> (see <a href="c1.html#3-1-3-4" tppabs="http://www.lysator.liu.se/c/rat/c1.html#3-1-3-4">&#167;3.1.3.4</a>),
+and
+<a name="NULL-4-1-5"><code>NULL</code></a>.&#160;<tt> </tt>
+Including any header that references one of these macros will also
+define it, an exception to the usual library rule that each macro or function
+belongs to exactly one header.&#160;<tt> </tt>
+<p>
+<code>NULL</code> can be defined as any <a name="null-pointer-constant"><i>null pointer constant</i></a>.&#160;<tt> </tt>
+Thus existing code can retain definitions of <code>NULL</code>
+as <code>0</code> or <code>0L</code>,
+but an implementation may choose to define it as <code>(void</code> <code>*)0</code>;
+this latter form of definition is convenient
+on architectures where the pointer size(s) do(es) not equal
+the size of any integer type.&#160;<tt> </tt>
+It has never been wise to use <code>NULL</code>
+in place of an arbitrary pointer as a function argument, however,
+since pointers to different types need not be the same size.&#160;<tt> </tt>
+The library avoids this problem by providing special macros for the
+arguments to <a name="signal-4-1-5"><code>signal</code></a>,
+the one library function that might see a null function pointer.&#160;<tt> </tt>
+<p>
+
+The <a name="offsetof-4-1-5"><code>offsetof</code></a>
+macro has been added to provide a portable means of determining
+the offset, in bytes, of a member within its structure.&#160;<tt> </tt>
+This capability is useful in programs,
+such as are typical in data-base implementations,
+which declare a large number of different data structures:
+it is desirable to provide ``generic'' routines
+that work from descriptions of the structures,
+rather than from the structure declarations themselves.&#160;<tt> </tt>[Footnote: 
+Consider, for instance,
+a set of nodes (structures) which are to be dynamically
+allocated and garbage-collected, and which can contain pointers to
+other such nodes.  A possible implementation is to have the first
+field in each node point to a descriptor for that node.&#160;<tt> </tt>
+The descriptor includes
+a table of the offsets of fields which are pointers to other nodes.&#160;<tt> </tt>
+A garbage-collector ``mark'' routine needs no further information
+about the content of the node (except, of course, where to put the mark).&#160;<tt> </tt>
+New node types can be added to the program without requiring the
+mark routine to be rewritten or even recompiled.]&#160;<tt> </tt>
+<p>
+In many implementations, <code>offsetof</code> could be defined as one of
+<pre>        (size_t)&amp;(((s_name*)0)-&gt;m_name)
+</pre>or
+<pre>        (size_t)(char *)&amp;(((s_name*)0)-&gt;m_name)
+</pre>or,
+where <code>X</code> is some predeclared address (or 0)&#160;<tt> </tt>
+and <code>A(Z)</code> is defined as <code>((char*)&amp;Z)</code>,
+<pre>        (size_t)( A( (s_name*)X-&gt;m_name ) - A( X ))
+</pre>It was not feasible, however, to mandate any single one of these forms as
+a construct guaranteed to be portable.&#160;<tt> </tt>
+<p>
+Other implementations may choose to expand this macro as a call to a
+built-in function that interrogates the translator's symbol table.&#160;<tt> </tt>
+<p>
+<h2><a name="4-1-6">4.1.6</a>&#160;<tt> </tt>Use of library functions</h2>
+<p>
+To make usage more uniform for both implementor and programmer,
+the Standard requires that every library function
+(unless specifically noted otherwise) must be represented as an actual function,
+in case a program wishes to pass
+its address as a parameter to another function.&#160;<tt> </tt>
+On the other hand,
+every library function is now a candidate for redefinition,
+in its associated header,
+as a macro,
+provided that the macro performs a
+``<a name="safe-evaluation-4-1-6">safe</a>''
+evaluation of its arguments,
+i.e., it evaluates each of the arguments
+exactly once and parenthesizes them thoroughly,
+and provided that its top-level operator is such that the execution of the macro
+is not interleaved with other expressions.&#160;<tt> </tt>
+Two exceptions are the macros
+<a name="getc-4-1-6"><code>getc</code></a> and <a name="putc-4-1-6"><code>putc</code></a>,
+which may evaluate their arguments in an unsafe manner.&#160;<tt> </tt>
+(See <a href="d9.html#4-9-7-5" tppabs="http://www.lysator.liu.se/c/rat/d9.html#4-9-7-5">&#167;4.9.7.5</a>.)&#160;<tt> </tt>
+<p>
+If a program requires that a library facility
+be implemented as an actual function,
+not as a macro, then the macro name, if any, may be erased by using the
+<a name="-35undef-4-1-6"><code>#undef</code></a> <a name="preprocessing-4-1-6">preprocessing</a> directive (see <a href="c8.html#3-8-3" tppabs="http://www.lysator.liu.se/c/rat/c8.html#3-8-3">&#167;3.8.3</a>).&#160;<tt> </tt>
+<p>
+All library prototypes are specified in terms of the
+``<a name="widened-types-4-1-6">widened</a>'' types:
+an argument formerly declared as <code>char</code> is now written as <code>int</code>.&#160;<tt> </tt>
+This ensures that most library functions can be called with or without
+a prototype in scope (see <a href="c3.html#3-3-2-2" tppabs="http://www.lysator.liu.se/c/rat/c3.html#3-3-2-2">&#167;3.3.2.2</a>),
+thus maintaining backwards compatibility with existing, pre-Standard, code.&#160;<tt> </tt>
+Note, however, that since functions like <a name="printf-4-1-6"><code>printf</code></a> and <a name="scanf-4-1-6"><code>scanf</code></a>
+use variable-length argument lists,
+they must be called in the scope of a prototype.&#160;<tt> </tt>
+<p>
+The Standard contains an example showing
+how certain library functions may be ``built in''&#160;<tt> </tt>
+in an implementation that remains <i>conforming</i>.&#160;<tt> </tt>
+<hr>
+<a href="c1.html" tppabs="http://www.lysator.liu.se/c/rat/c1.html">3 Language</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="c9.html" tppabs="http://www.lysator.liu.se/c/rat/c9.html">3.9 Future</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#lib" tppabs="http://www.lysator.liu.se/c/rat/title.html#lib">Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d2.html" tppabs="http://www.lysator.liu.se/c/rat/d2.html">4.2 Diagnostics</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="e.html" tppabs="http://www.lysator.liu.se/c/rat/e.html">5 Appendices</a>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>
+</body></html>

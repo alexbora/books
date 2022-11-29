@@ -1,0 +1,1015 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 3 -- Storing Data: Variables and Constants</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch02/ch02.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch04/ch04.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 3 -</H1>
+</CENTER>
+<CENTER>
+<H1>Storing Data: Variables and Constants</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Computer Memory</A>
+	<LI><A HREF="#Heading2">Variables</A>
+	<UL>
+		<LI><A HREF="#Heading3">Variable Names</A>
+	</UL>
+	<LI><A HREF="#Heading4">Numeric Variable Types</A>
+	<UL>
+		<LI><A HREF="#Heading5">Variable Declarations</A>
+		<LI><A HREF="#Heading6">The typedef Keyword</A>
+		<LI><A HREF="#Heading7">Initializing Numeric Variables</A>
+	</UL>
+	<LI><A HREF="#Heading8">Constants</A>
+	<UL>
+		<LI><A HREF="#Heading9">Literal Constants</A>
+		<LI><A HREF="#Heading10">Symbolic Constants</A>
+	</UL>
+	<LI><A HREF="#Heading11">Summary</A>
+	<LI><A HREF="#Heading12">Q&amp;A</A>
+	<LI><A HREF="#Heading13">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading14">Quiz</A>
+		<LI><A HREF="#Heading15">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>Computer programs usually work with different types of data and need a way to
+store the values being used. These values can be numbers or characters. C has two
+ways of storing number values--variables and constants--with many options for each.
+A variable is a data storage location that has a value that can change during program
+execution. In contrast, a constant has a fixed value that can't change. Today you
+will learn</P>
+
+<UL>
+	<LI>How to create variable names in C
+	<P>
+	<LI>The use of different types of numeric variables
+	<P>
+	<LI>The differences and similarities between character and numeric values
+	<P>
+	<LI>How to declare and initialize numeric variables
+	<P>
+	<LI>C's two types of numeric constants
+</UL>
+
+<P>Before you get to variables, however, you need to know a little about the operation
+of your computer's memory.</P>
+<P>
+<H2><A NAME="Heading1"></A>Computer Memory</H2>
+<P>If you already know how a computer's memory operates, you can skip this section.
+If you're not sure, however, read on. This information will help you better understand
+certain aspects of C programming.</P>
+<P>A computer uses random-access memory (RAM) to store information while it's operating.
+RAM is located in integrated circuits, or chips, inside your computer. RAM is volatile,
+which means that it is erased and replaced with new information as often as needed.
+Being volatile also means that RAM &quot;remembers&quot; only while the computer
+is turned on and loses its information when you turn the computer off.</P>
+<P>Each computer has a certain amount of RAM installed. The amount of RAM in a system
+is usually specified in kilobytes (KB) or megabytes (MB), such as 512KB, 640KB, 2MB,
+4MB, or 8MB. One kilobyte of memory consists of 1,024 bytes. Thus, a system with
+640KB of memory actually has 640 * 1,024, or 65,536, bytes of RAM. One megabyte is
+1,024 kilobytes. A machine with 4MB of RAM would have 4,096KB or 4,194,304 bytes
+of RAM.</P>
+<P>The <I>byte</I> is the fundamental unit of computer data storage. Day 20, &quot;Working
+with Memory,&quot; has more information about bytes. For now, to get an idea of how
+many bytes it takes to store certain kinds of data, refer to Table 3.1.</P>
+<P>
+<H4>Table 3.1. Memory space required to store data.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Data</B></TD>
+		<TD ALIGN="LEFT"><B>Bytes Required</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">The letter x</TD>
+		<TD ALIGN="LEFT">1</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">The number 500</TD>
+		<TD ALIGN="LEFT">2</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">The number 241.105</TD>
+		<TD ALIGN="LEFT">4</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">The phrase <I>Teach Yourself C</I></TD>
+		<TD ALIGN="LEFT">17</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">One typewritten page</TD>
+		<TD ALIGN="LEFT">Approximately 3,000</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The RAM in your computer is organized sequentially, one byte following another.
+Each byte of memory has a unique address by which it is identified--an address that
+also distinguishes it from all other bytes in memory. Addresses are assigned to memory
+locations in order, starting at zero and increasing to the system limit. For now,
+you don't need to worry about addresses; it's all handled automatically by the C
+compiler.</P>
+<P>What is your computer's RAM used for? It has several uses, but only data storage
+need concern you as a programmer. Data is the information with which your C program
+works. Whether your program is maintaining an address list, monitoring the stock
+market, keeping a household budget, or tracking the price of hog bellies, the information
+(names, stock prices, expense amounts, or hog futures) is kept in your computer's
+RAM while the program is running.</P>
+<P>Now that you understand a little about the nuts and bolts of memory storage, you
+can get back to C programming and how C uses memory to store information.</P>
+<P>
+<H2><A NAME="Heading2"></A>Variables</H2>
+<P>A <I>variable</I> is a named data storage location in your computer's memory.
+By using a variable's name in your program, you are, in effect, referring to the
+data stored there.</P>
+<P>
+<H3><A NAME="Heading3"></A>Variable Names</H3>
+<P>To use variables in your C programs, you must know how to create variable names.
+In C, variable names must adhere to the following rules:</P>
+
+<UL>
+	<LI>The name can contain letters, digits, and the underscore character (_).
+	<P>
+	<LI>The first character of the name must be a letter. The underscore is also a legal
+	first character, but its use is not recommended.
+	<P>
+	<LI>Case matters (that is, upper- and lowercase letters). Thus, the names count and
+	Count refer to two different variables.
+	<P>
+	<LI>C keywords can't be used as variable names. A keyword is a word that is part
+	of the C language. (A complete list of 33 C keywords can be found in Appendix B,
+	&quot;Reserved Words.&quot;)
+</UL>
+
+<P>The following list contains some examples of legal and illegal C variable names:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><I>Variable Name</I></TD>
+		<TD ALIGN="LEFT"><I>Legality</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Percent</TD>
+		<TD ALIGN="LEFT">Legal</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">y2x5__fg7h</TD>
+		<TD ALIGN="LEFT">Legal</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">annual_profit</TD>
+		<TD ALIGN="LEFT">Legal</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">_1990_tax</TD>
+		<TD ALIGN="LEFT">Legal but not advised</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">savings#account</TD>
+		<TD ALIGN="LEFT">Illegal: Contains the illegal character #</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">double</TD>
+		<TD ALIGN="LEFT">Illegal: Is a C keyword</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">9winter</TD>
+		<TD ALIGN="LEFT">Illegal: First character is a digit</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Because C is case-sensitive, the names percent, PERCENT, and Percent would be
+considered three different variables. C programmers commonly use only lowercase letters
+in variable names, although this isn't required. Using all-uppercase letters is usually
+reserved for the names of constants (which are covered later in this chapter).</P>
+<P>For many compilers, a C variable name can be up to 31 characters long. (It can
+actually be longer than that, but the compiler looks at only the first 31 characters
+of the name.) With this flexibility, you can create variable names that reflect the
+data being stored. For example, a program that calculates loan payments could store
+the value of the prime interest rate in a variable named interest_rate. The variable
+name helps make its usage clear. You could also have created a variable named x or
+even johnny_carson; it doesn't matter to the C compiler. The use of the variable,
+however, wouldn't be nearly as clear to someone else looking at the source code.
+Although it might take a little more time to type descriptive variable names, the
+improvements in program clarity make it worthwhile.</P>
+<P>Many naming conventions are used for variable names created from multiple words.
+You've seen one style: interest_rate. Using an underscore to separate words in a
+variable name makes it easy to interpret. The second style is called <I>camel notation</I>.
+Instead of using spaces, the first letter of each word is capitalized. Instead of
+interest_rate, the variable would be named InterestRate. Camel notation is gaining
+popularity, because it's easier to type a capital letter than an underscore. We use
+the underscore in this book because it's easier for most people to read. You should
+decide which style you want to adopt.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use variable names that are descriptive.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> adopt and stick with a style for naming your variables.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> start your variable names with an underscore unnecessarily.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> name your variables with all capital letters unnecessarily. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading4"></A>Numeric Variable Types</H2>
+<P>C provides several different types of numeric variables. You need different types
+of variables because different numeric values have varying memory storage requirements
+and differ in the ease with which certain mathematical operations can be performed
+on them. Small integers (for example, 1, 199, and -8) require less memory to store,
+and your computer can perform mathematical operations (addition, multiplication,
+and so on) with such numbers very quickly. In contrast, large integers and floating-point
+values (123,000,000 or 0.000000871256, for example) require more storage space and
+more time for mathematical operations. By using the appropriate variable types, you
+ensure that your program runs as efficiently as possible.</P>
+<P>C's numeric variables fall into the following two main categories:</P>
+
+<UL>
+	<LI>Integer variables hold values that have no fractional part (that is, whole numbers
+	only). Integer variables come in two flavors: signed integer variables can hold positive
+	or negative values, whereas unsigned integer variables can hold only positive values
+	(and 0).
+	<P>
+	<LI>Floating-point variables hold values that have a fractional part (that is, real
+	numbers).
+</UL>
+
+<P>Within each of these categories are two or more specific variable types. These
+are summarized in Table 3.2, which also shows the amount of memory, in bytes, required
+to hold a single variable of each type when you use a microcomputer with 16-bit architecture.</P>
+<P>
+<H4>Table 3.2. C's numeric data types.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Variable Type</B></TD>
+		<TD ALIGN="LEFT"><B>Keyword</B></TD>
+		<TD ALIGN="LEFT"><B>Bytes Required</B></TD>
+		<TD ALIGN="LEFT"><B>Range</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Character</TD>
+		<TD ALIGN="LEFT">char</TD>
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">-128 to 127</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Integer</TD>
+		<TD ALIGN="LEFT">int</TD>
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">-32768 to 32767</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Short integer</TD>
+		<TD ALIGN="LEFT">short</TD>
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">-32768 to 32767</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Long integer</TD>
+		<TD ALIGN="LEFT">long</TD>
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">-2,147,483,648 to 2,147,438,647</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Unsigned character</TD>
+		<TD ALIGN="LEFT">unsigned char</TD>
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">0 to 255</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Unsigned integer</TD>
+		<TD ALIGN="LEFT">unsigned int</TD>
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">0 to 65535</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Unsigned short integer</TD>
+		<TD ALIGN="LEFT">unsigned short</TD>
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">0 to 65535</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Unsigned long integer</TD>
+		<TD ALIGN="LEFT">unsigned long</TD>
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">0 to 4,294,967,295</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Single-precision</TD>
+		<TD ALIGN="LEFT">float</TD>
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">1.2E-38 to</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">floating-point</TD>
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">3.4E38<SUP>1</SUP></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Double-precision</TD>
+		<TD ALIGN="LEFT">double</TD>
+		<TD ALIGN="LEFT">8</TD>
+		<TD ALIGN="LEFT">2.2E-308 to</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">floating-point</TD>
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">1.8E308<SUP>2</SUP></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT" COLSPAN="4"><SUP>1</SUP>Approximate range; precision = 7 digits.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT" COLSPAN="4"><SUP>2</SUP>Approximate range; precision = 19 digits.</TD>
+	</TR>
+</TABLE>
+</P>
+<P><I>Approximate range</I> means the highest and lowest values a given variable
+can hold. (Space limitations prohibit listing exact ranges for the values of these
+variables.) <I>Precision</I> means the accuracy with which the variable is stored.
+(For example, if you evaluate 1/3, the answer is 0.33333... with 3s going to infinity.
+A variable with a precision of 7 stores seven 3s.)</P>
+<P>Looking at Table 3.2, you might notice that the variable types int and short are
+identical. Why are two different types necessary? The int and short variable types
+are indeed identical on 16-bit IBM PC-compatible systems, but they might be different
+on other types of hardware. On a VAX system, a short and an int aren't the same size.
+Instead, a short is 2 bytes, whereas an int is 4. Remember that C is a flexible,
+portable language, so it provides different keywords for the two types. If you're
+working on a PC, you can use int and short interchangeably.</P>
+<P>No special keyword is needed to make an integer variable signed; integer variables
+are signed by default. You can, however, include the signed keyword if you wish.
+The keywords shown in Table 3.2 are used in variable declarations, which are discussed
+in the next section.</P>
+<P>Listing 3.1 will help you determine the size of variables on your particular computer.
+Don't be surprised if your output doesn't match the output presented after the listing.</P>
+<P>
+<H4>Listing 3.1. A program that displays the size of variable types.</H4>
+<PRE>1:    /* SIZEOF.C--Program to tell the size of the C variable */
+2:    /*           type in bytes */
+3:
+4:    #include &lt;stdio.h&gt;
+5:
+6:    main()
+7:   {
+8:
+9:        printf( &quot;\nA char      is %d bytes&quot;, sizeof( char ));
+10:       printf( &quot;\nAn int      is %d bytes&quot;, sizeof( int ));
+11:       printf( &quot;\nA short     is %d bytes&quot;, sizeof( short ));
+12:       printf( &quot;\nA long      is %d bytes&quot;, sizeof( long ));
+13:       printf( &quot;\nAn unsigned char  is %d bytes&quot;, sizeof( unsigned char ));
+14:       printf( &quot;\nAn unsigned int   is %d bytes&quot;, sizeof( unsigned int ));
+15:       printf( &quot;\nAn unsigned short is %d bytes&quot;, sizeof( unsigned short ));
+16:       printf( &quot;\nAn unsigned long  is %d bytes&quot;, sizeof( unsigned long ));
+17:       printf( &quot;\nA float     is %d bytes&quot;, sizeof( float ));
+18:       printf( &quot;\nA double    is %d bytes\n&quot;, sizeof( double ));
+19:
+20:       return 0;
+21:   }
+A char      is 1 bytes
+An int      is 2 bytes
+A short     is 2 bytes
+A long      is 4 bytes
+An unsigned char  is 1 bytes
+An unsigned int   is 2 bytes
+An unsigned short is 2 bytes
+An unsigned long  is 4 bytes
+A float     is 4 bytes
+A double    is 8 bytes
+</PRE>
+<P><strong>ANALYSIS: </strong> As the preceding output shows, Listing 3.1 tells you exactly
+how many bytes each variable type on your computer takes. If you're using a 16-bit
+PC, your numbers should match those in Table 3.2.</P>
+<P>Don't worry about trying to understand all the individual components of the program.
+Although some items are new, such as sizeof(), others should look familiar. Lines
+1 and 2 are comments about the name of the program and a brief description. Line
+4 includes the standard input/output header file to help print the information on-screen.
+This is a simple program, in that it contains only a single function, main() (lines
+7 through 21). Lines 9 through 18 are the bulk of the program. Each of these lines
+prints a textual description with the size of each of the variable types, which is
+done using the sizeof operator. Day 19, &quot;Exploring the C Function Library,&quot;
+covers the sizeof operator in detail. Line 20 of the program returns the value 0
+to the operating system before ending the program.</P>
+<P>Although I said the size of the data types can vary depending on your computer
+platform, C does make some guarantees, thanks to the ANSI Standard. There are five
+things you can count on:</P>
+
+<UL>
+	<LI>The size of a char is one byte.
+	<P>
+	<LI>The size of a short is less than or equal to the size of an int.
+	<P>
+	<LI>The size of an int is less than or equal to the size of a long.
+	<P>
+	<LI>The size of an unsigned is equal to the size of an int.
+	<P>
+	<LI>The size of a float is less than or equal to the size of a double.
+</UL>
+
+<H3><A NAME="Heading5"></A>Variable Declarations</H3>
+<P>Before you can use a variable in a C program, it must be declared. A variable
+declaration tells the compiler the name and type of a variable and optionally initializes
+the variable to a specific value. If your program attempts to use a variable that
+hasn't been declared, the compiler generates an error message. A variable declaration
+has the following form:</P>
+<P>
+<PRE><I>typename</I> <I>varname</I>;
+</PRE>
+<P><I>typename</I> specifies the variable type and must be one of the keywords listed
+in Table 3.2. <I>varname</I> is the variable name, which must follow the rules mentioned
+earlier. You can declare multiple variables of the same type on one line by separating
+the variable names with commas:</P>
+<P>
+<PRE>int count, number, start;    /* three integer variables */
+float percent, total;        /* two float variables */
+</PRE>
+<P>On Day 12, &quot;Understanding Variable Scope,&quot; you'll learn that the location
+of variable declarations in the source code is important, because it affects the
+ways in which your program can use the variables. For now, you can place all the
+variable declarations together just before the start of the main() function.</P>
+<P>
+<H3><A NAME="Heading6"></A>The typedef Keyword</H3>
+<P>The typedef keyword is used to create a new name for an existing data type. In
+effect, typedef creates a synonym. For example, the statement</P>
+<P>
+<PRE>typedef int integer;
+</PRE>
+<P>creates integer as a synonym for int. You then can use integer to define variables
+of type int, as in this example:</P>
+<P>
+<PRE>integer count;
+</PRE>
+<P>Note that typedef doesn't create a new data type; it only lets you use a different
+name for a predefined data type. The most common use of typedef concerns aggregate
+data types, as explained on Day 11, &quot;Structures.&quot; An aggregate data type
+consists of a combination of data types presented in this chapter.</P>
+<P>
+<H3><A NAME="Heading7"></A>Initializing Numeric Variables</H3>
+<P>When you declare a variable, you instruct the compiler to set aside storage space
+for the variable. However, the value stored in that space--the value of the variable--isn't
+defined. It might be zero, or it might be some random &quot;garbage&quot; value.
+Before using a variable, you should always initialize it to a known value. You can
+do this independently of the variable declaration by using an assignment statement,
+as in this example:</P>
+<P>
+<PRE>int count;   /* Set aside storage space for count */
+count = 0;   /* Store 0 in count */
+</PRE>
+<P>Note that this statement uses the equal sign (=), which is C's assignment operator
+and is discussed further on Day 4, &quot;Statements, Expressions, and Operators.&quot;
+For now, you need to be aware that the equal sign in programming is not the same
+as the equal sign in algebra. If you write</P>
+<P>
+<PRE>x = 12
+</PRE>
+<P>in an algebraic statement, you are stating a fact: &quot;x equals 12.&quot; In
+C, however, it means something quite different: &quot;Assign the value 12 to the
+variable named x.&quot;</P>
+<P>You can also initialize a variable when it's declared. To do so, follow the variable
+name in the declaration statement with an equal sign and the desired initial value:</P>
+<P>
+<PRE>int count = 0;
+double percent = 0.01, taxrate = 28.5;
+</PRE>
+<P>Be careful not to initialize a variable with a value outside the allowed range.
+Here are two examples of out-of-range initializations:</P>
+<P>
+<PRE>int weight = 100000;
+unsigned int value = -2500;
+</PRE>
+<P>The C compiler doesn't catch such errors. Your program might compile and link,
+but you might get unexpected results when the program is run.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> understand the number of bytes that variable types take for your computer.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use typedef to make your programs more readable.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> initialize variables when you declare them whenever possible.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> use a variable that hasn't been initialized. Results can be unpredictable.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> use a float or double variable if you're only storing integers. Although
+	they will work, using them is inefficient.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> try to put numbers into variable types that are too small to hold
+	them.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> put negative numbers into variables with an unsigned type. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading8"></A>Constants</H2>
+<P>Like a variable, a <I>constant</I> is a data storage location used by your program.
+Unlike a variable, the value stored in a constant can't be changed during program
+execution. C has two types of constants, each with its own specific uses.</P>
+<P>
+<H3><A NAME="Heading9"></A>Literal Constants</H3>
+<P>A <I>literal constant</I> is a value that is typed directly into the source code
+wherever it is needed. Here are two examples:</P>
+<P>
+<PRE>int count = 20;
+float tax_rate = 0.28;
+</PRE>
+<P>The 20 and the 0.28 are literal constants. The preceding statements store these
+values in the variables count and tax_rate. Note that one of these constants contains
+a decimal point, whereas the other does not. The presence or absence of the decimal
+point distinguishes floating-point constants from integer constants.</P>
+<P>A literal constant written with a decimal point is a floating-point constant and
+is represented by the C compiler as a double-precision number. Floating-point constants
+can be written in standard decimal notation, as shown in these examples:</P>
+<P>
+<PRE>123.456
+0.019
+100.
+</PRE>
+<P>Note that the third constant, 100., is written with a decimal point even though
+it's an integer (that is, it has no fractional part). The decimal point causes the
+C compiler to treat the constant as a double-precision value. Without the decimal
+point, it is treated as an integer constant.</P>
+<P>Floating-point constants also can be written in scientific notation. You might
+recall from high school math that scientific notation represents a number as a decimal
+part multiplied by 10 to a positive or negative power. Scientific notation is particularly
+useful for representing extremely large and extremely small values. In C, scientific
+notation is written as a decimal number followed immediately by an E or e and the
+exponent:</P>
+<P>1.23E2 1.23 times 10 to the 2nd power, or 123</P>
+<P>4.08e6 4.08 times 10 to the 6th power, or 4,080,000</P>
+<P>0.85e-4 0.85 times 10 to the -4th power, or 0.000085</P>
+<P>A constant written without a decimal point is represented by the compiler as an
+integer number. Integer constants can be written in three different notations:</P>
+
+<UL>
+	<LI>A constant starting with any digit other than 0 is interpreted as a decimal integer
+	(that is, the standard base-10 number system). Decimal constants can contain the
+	digits 0 through 9 and a leading minus or plus sign. (Without a leading minus or
+	plus, a constant is assumed to be positive.)
+	<P>
+	<LI>A constant starting with the digit 0 is interpreted as an octal integer (the
+	base-8 number system). Octal constants can contain the digits 0 through 7 and a leading
+	minus or plus sign.
+	<P>
+	<LI>A constant starting with 0x or 0X is interpreted as a hexadecimal constant (the
+	base-16 number system). Hexadecimal constants can contain the digits 0 through 9,
+	the letters A through F, and a leading minus or plus sign.
+</UL>
+
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> See Appendix C, &quot;Working with Binary and Hexadecimal Numbers,&quot;
+	for a more complete explanation of decimal and hexadecimal notation. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading10"></A>Symbolic Constants</H3>
+<P>A <I>symbolic constant</I> is a constant that is represented by a name (symbol)
+in your program. Like a literal constant, a symbolic constant can't change. Whenever
+you need the constant's value in your program, you use its name as you would use
+a variable name. The actual value of the symbolic constant needs to be entered only
+once, when it is first defined.</P>
+<P>Symbolic constants have two significant advantages over literal constants, as
+the following example shows. Suppose that you're writing a program that performs
+a variety of geometrical calculations. The program frequently needs the value ,,
+(3.14159) for its calculations. (You might recall from geometry class that ,, is
+the ratio of a circle's circumference to its diameter.) For example, to calculate
+the circumference and area of a circle with a known radius, you could write</P>
+<P>
+<PRE>circumference = 3.14159 * (2 * radius);
+area = 3.14159 * (radius)*(radius);
+</PRE>
+<P>The asterisk (*) is C's multiplication operator and is covered on Day 4. Thus,
+the first of these statements means &quot;Multiply 2 times the value stored in the
+variable radius, and then multiply the result by 3.14159. Finally, assign the result
+to the variable named circumference.&quot;</P>
+<P>If, however, you define a symbolic constant with the name PI and the value 3.14,
+you could write</P>
+<P>
+<PRE>circumference = PI * (2 * radius);
+area = PI * (radius)*(radius);
+</PRE>
+<P>The resulting code is clearer. Rather than puzzling over what the value 3.14 is
+for, you can see immediately that the constant PI is being used.</P>
+<P>The second advantage of symbolic constants becomes apparent when you need to change
+a constant. Continuing with the preceding example, you might decide that for greater
+accuracy your program needs to use a value of PI with more decimal places: 3.14159
+rather than 3.14. If you had used literal constants for PI, you would have to go
+through your source code and change each occurrence of the value from 3.14 to 3.14159.
+With a symbolic constant, you need to make a change only in the place where the constant
+is defined.</P>
+<P>C has two methods for defining a symbolic constant: the #define directive and
+the const keyword. The #define directive is one of C's preprocessor directives, and
+it is discussed fully on Day 21, &quot;Advanced Compiler Use.&quot; The #define directive
+is used as follows:</P>
+<P>
+<PRE>#define <I>CONSTNAME</I> <I>literal</I>
+</PRE>
+<P>This creates a constant named <I>CONSTNAME</I> with the value of <I>literal</I>.
+<I>literal</I> represents a literal constant, as described earlier. <I>CONSTNAME</I>
+follows the same rules described earlier for variable names. By convention, the names
+of symbolic constants are uppercase. This makes them easy to distinguish from variable
+names, which by convention are lowercase. For the previous example, the required
+#define directive would be</P>
+<P>
+<PRE>#define PI 3.14159
+</PRE>
+<P>Note that #define lines don't end with a semicolon (;). #defines can be placed
+anywhere in your source code, but they are in effect only for the portions of the
+source code that follow the #define directive. Most commonly, programmers group all
+#defines together, near the beginning of the file and before the start of main().</P>
+<P>
+<H4>How a #define Works</H4>
+<P>The precise action of the #define directive is to instruct the compiler as follows:
+&quot;In the source code, replace <I>CONSTNAME</I> with <I>literal</I>.&quot; The
+effect is exactly the same as if you had used your editor to go through the source
+code and make the changes manually. Note that #define doesn't replace instances of
+its target that occur as parts of longer names, within double quotes, or as part
+of a program comment. For example, in the following code, the instances of PI in
+the second and third lines would not get changed:</P>
+<P>
+<PRE>#define PI 3.14159
+/* You have defined a constant for PI. */
+#define PIPETTE 100
+</PRE>
+<H4>Defining Constants with the const Keyword</H4>
+<P>The second way to define a symbolic constant is with the const keyword. const
+is a modifier that can be applied to any variable declaration. A variable declared
+to be const can't be modified during program execution--only initialized at the time
+of declaration. Here are some examples:</P>
+<P>
+<PRE>const int count = 100;
+const float pi = 3.14159;
+const long debt = 12000000, float tax_rate = 0.21;
+</PRE>
+<P>const affects all variables on the declaration line. In the last line, debt and
+tax_rate are symbolic constants. If your program tries to modify a const variable,
+the compiler generates an error message, as shown here:</P>
+<P>
+<PRE>const int count = 100;
+count = 200;        /* Does not compile! Cannot reassign or alter */
+                    /* the value of a constant. */
+</PRE>
+<P>What are the practical differences between symbolic constants created with the
+#define directive and those created with the const keyword? The differences have
+to do with pointers and variable scope. Pointers and variable scope are two very
+important aspects of C programming, and they are covered on Day 9, &quot;Understanding
+Pointers,&quot; and Day 12.</P>
+<P>Now let's look at a program that demonstrates variable declarations and the use
+of literal and symbolic constants. Listing 3.2 prompts the user to input his or her
+weight and year of birth. It then calculates and displays a user's weight in grams
+and his or her age in the year 2000. You can enter, compile, and run this program
+using the procedures explained on Day 1, &quot;Getting Started with C.&quot;</P>
+<P>
+<H4>Listing 3.2. A program that demonstrates the use of variables and constants.</H4>
+<PRE>1:    /* Demonstrates variables and constants */
+2:    #include &lt;stdio.h&gt;
+3:
+4:    /* Define a constant to convert from pounds to grams */
+5:    #define GRAMS_PER_POUND 454
+6:
+7:    /* Define a constant for the start of the next century */
+8:    const int NEXT_CENTURY = 2000;
+9:
+10:   /* Declare the needed variables */
+11:   long weight_in_grams, weight_in_pounds;
+12    int year_of_birth, age_in_2000;
+13:
+14:   main()
+15:   {
+16:       /* Input data from user */
+17:
+18:       printf(&quot;Enter your weight in pounds: &quot;);
+19:       scanf(&quot;%d&quot;, &amp;weight_in_pounds);
+20:       printf(&quot;Enter your year of birth: &quot;);
+21:       scanf(&quot;%d&quot;, &amp;year_of_birth);
+22:
+23:       /* Perform conversions */
+24:
+25:       weight_in_grams = weight_in_pounds * GRAMS_PER_POUND;
+26:       age_in_2000 = NEXT_CENTURY - year_of_birth;
+27:
+28:       /* Display results on the screen */
+29:
+30:       printf(&quot;\nYour weight in grams = %ld&quot;, weight_in_grams);
+31:       printf(&quot;\nIn 2000 you will be %d years old\n&quot;, age_in_2000);
+32:
+33:       return 0;
+34:   }
+Enter your weight in pounds: <B>175</B>
+Enter your year of birth: <B>1960</B>
+Your weight in grams = 79450
+In 2000 you will be 40 years old
+</PRE>
+<P><strong>ANALYSIS: </strong> This program declares the two types of symbolic constants
+in lines 5 and 8. In line 5, a constant is used to make the value 454 more understandable.
+Because it uses GRAMS_PER_POUND, line 25 is easy to understand. Lines 11 and 12 declare
+the variables used in the program. Notice the use of descriptive names such as weight_in_grams.
+You can tell what this variable is used for. Lines 18 and 20 print prompts on-screen.
+The printf() function is covered in greater detail later. To allow the user to respond
+to the prompts, lines 19 and 21 use another library function, scanf(), which is covered
+later. scanf() gets information from the screen. For now, accept that this works
+as shown in the listing. Later, you will learn exactly how it works. Lines 25 and
+26 calculate the user's weight in grams and his or her age in the year 2000. These
+statements and others are covered in detail in the next chapter. To finish the program,
+lines 30 and 31 display the results for the user.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use constants to make your programs easier to read.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> try to assign a value to a constant after it has already been initialized.
+	
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading11"></A>Summary</H2>
+<P>This chapter explored numeric variables, which are used by a C program to store
+data during program execution. You've seen that there are two broad classes of numeric
+variables, integer and floating-point. Within each class are specific variable types.
+Which variable type--int, long, float, or double--you use for a specific application
+depends on the nature of the data to be stored in the variable. You've also seen
+that in a C program, you must declare a variable before it can be used. A variable
+declaration informs the compiler of the name and type of a variable.</P>
+<P>This chapter also covered C's two constant types, literal and symbolic. Unlike
+variables, the value of a constant can't change during program execution. You type
+literal constants into your source code whenever the value is needed. Symbolic constants
+are assigned a name that is used wherever the constant value is needed. Symbolic
+constants can be created with the #define directive or with the const keyword.</P>
+<P>
+<H2><A NAME="Heading12"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q long int variables hold bigger numbers, so why not always use them instead
+	of int variables?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> A long int variable takes up more RAM than the smaller int. In smaller
+	programs, this doesn't pose a problem. As programs get bigger, however, you should
+	try to be efficient with the memory you use.
+	<P>
+	<DT></DT>
+	<DD><B>Q What happens if I assign a number with a decimal to an integer?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> You can assign a number with a decimal to an int variable. If you're
+	using a constant variable, your compiler probably will give you a warning. The value
+	assigned will have the decimal portion truncated. For example, if you assign 3.14
+	to an integer variable called pi, pi will only contain 3. The .14 will be chopped
+	off and thrown away.
+	<P>
+	<DT></DT>
+	<DD><B>Q What happens if I put a number into a type that isn't big enough to hold
+	it?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> Many compilers will allow this without signaling any errors. The number
+	is wrapped to fit, however, and it isn't correct. For example, if you assign 32768
+	to a two-byte signed integer, the integer really contains the value -32768. If you
+	assign the value 65535 to this integer, it really contains the value -1. Subtracting
+	the maximum value that the field will hold generally gives you the value that will
+	be stored.
+	<P>
+	<DT></DT>
+	<DD><B>Q What happens if I put a negative number into an unsigned variable?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> As the preceding answer indicated, your compiler might not signal any
+	errors if you do this. The compiler does the same wrapping as if you assigned a number
+	that was too big. For instance, if you assign -1 to an unsigned int variable that
+	is two bytes long, the compiler will put the highest number possible in the variable
+	(65535).
+	<P>
+	<DT></DT>
+	<DD><B>Q What are the practical differences between symbolic constants created with
+	the #define directive and those created with the const keyword?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> The differences have to do with pointers and variable scope. Pointers
+	and variable scope are two very important aspects of C programming and are covered
+	on Days 9 and 12. For now, know that by using #define to create constants, you can
+	make your programs much easier to read.
+	<P>
+</DL>
+
+<H2><A NAME="Heading13"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered and exercises to provide you with experience in using what you've
+learned.</P>
+<P>
+<H3><A NAME="Heading14"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>What's the difference between an integer variable and a floating-point
+	variable?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Give two reasons for using a double-precision floating-point variable
+	(type double) instead of a single-precision floating-point variable (type float).
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>What are five rules that the ANSI Standard states are always true when
+	allocating size for variables?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>What are the two advantages of using a symbolic constant instead of
+	a literal constant?
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Show two methods for defining a symbolic constant named MAXIMUM that
+	has a value of 100.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>What characters are allowed in C variable names?
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>What guidelines should you follow in creating names for variables and
+	constants?
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>What's the difference between a symbolic and a literal constant?
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>What's the minimum value that a type int variable can hold?
+	<P>
+</DL>
+
+<H3><A NAME="Heading15"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>In what variable type would you best store the following values?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>A person's age to the nearest year.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>A person's weight in pounds.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>The radius of a circle.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>Your annual salary.
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>The cost of an item.
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>The highest grade on a test (assume it is always 100).
+	<P>
+	<DT></DT>
+	<DD><B>g. </B>The temperature.
+	<P>
+	<DT></DT>
+	<DD><B>h. </B>A person's net worth.
+	<P>
+	<DT></DT>
+	<DD><B>i. </B>The distance to a star in miles.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Determine appropriate variable names for the values in exercise 1.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Write declarations for the variables in exercise 2.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Which of the following variable names are valid?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>123variable
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>x
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>total_score
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>Weight_in_#s
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>one.0
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>gross-cost
+	<P>
+	<DT></DT>
+	<DD><B>g. </B>RADIUS
+	<P>
+	<DT></DT>
+	<DD><B>h. </B>Radius
+	<P>
+	<DT></DT>
+	<DD><B>i. </B>radius
+	<P>
+	<DT></DT>
+	<DD><B>j. </B>this_is_a_variable_to_hold_the_width_of_a_box
+</DL>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch02/ch02.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch04/ch04.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

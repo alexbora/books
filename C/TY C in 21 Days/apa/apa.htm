@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Appendix A -- ASCII Character Chart</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch21/ch21.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apb/apb.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- A -</H1>
+</CENTER>
+<CENTER>
+<H1>ASCII Character Chart</H1>
+</CENTER>
+<P><A HREF="javascript:popUp('tb01.gif')">Figure 01</A></P>
+<P><A HREF="javascript:popUp('tb02.gif')">Figure 02</A></P>
+<P><A HREF="javascript:popUp('tb03.gif')">Figure 03</A></P>
+<P><A HREF="javascript:popUp('tb04.gif')">Figure 04</A></P>
+<P><A HREF="javascript:popUp('tb05.gif')">Figure 05</A></P>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch21/ch21.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apb/apb.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> </P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

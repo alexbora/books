@@ -1,0 +1,95 @@
+<html><head>
+<title>4.7 Signal Handling</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d6.html" tppabs="http://www.lysator.liu.se/c/rat/d6.html">4.6 Nonlocal jumps</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-7" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-7">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d8.html" tppabs="http://www.lysator.liu.se/c/rat/d8.html">4.8 Variable Arguments</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-7">4.7</a>&#160;<tt> </tt>Signal Handling&#160;<tt> </tt>&lt;<a name="-60signal-46h-62-4-7">signal</a>.h&gt;</h1>
+
+<p>
+This facility has been retained from the Base Document
+since the Committee felt it important to provide some standard mechanism
+for dealing with exceptional program conditions.&#160;<tt> </tt>
+Thus a subset of the signals defined in <a name="UNIX-4-7">UNIX</a>
+were retained in the Standard,
+along with the basic mechanisms of declaring signal handlers and
+(with adaptations, see <a href="#4-7-2-1">&#167;4.7.2.1</a>) raising signals.&#160;<tt> </tt>
+For a discussion of the problems created by including signals,
+see <a href="b.html#2-2-3" tppabs="http://www.lysator.liu.se/c/rat/b.html#2-2-3">&#167;2.2.3</a>.&#160;<tt> </tt>
+<p>
+The signal machinery contains many misnomers: <code>SIGFPE</code>, <code>SIGILL</code>, and <code>SIGSEGV</code>
+have their roots in PDP-11 hardware terminology,
+but the names are too entrenched to change.&#160;<tt> </tt>
+(The occurrence of <code>SIGFPE</code>, for instance, does not necessarily
+indicate a floating-point error.)
+A conforming implementation is not required to field
+<i>any</i> hardware interrupts.&#160;<tt> </tt>
+<p>
+The Committee has reserved the space of names beginning with
+<code>SIG</code> to permit implementations to add local names to
+<code>&lt;signal.h&gt;</code>.&#160;<tt> </tt>
+This implies that such names should not be otherwise used in
+a C source file which includes <code>&lt;signal.h&gt;</code>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-7-1">4.7.1</a>&#160;<tt> </tt>Specify signal handling</h2>
+<p>
+<h2><a name="4-7-1-1">4.7.1.1</a>&#160;<tt> </tt>The <code>signal</code> function</h2>
+<p>
+When a signal occurs
+the normal flow of control of a program is interrupted.&#160;<tt> </tt>
+If a signal occurs that is being trapped by a signal handler,
+that handler is invoked.&#160;<tt> </tt>
+When it is finished, execution continues at the
+point at which the signal occurred.&#160;<tt> </tt>
+This arrangement could cause problems if the
+signal handler invokes a library function that was being executed at the
+time of the signal.&#160;<tt> </tt>
+Since library functions are not guaranteed to be re-entrant,
+they should not be called from a signal handler that returns.&#160;<tt> </tt>
+(See <a href="b.html#2-2-3" tppabs="http://www.lysator.liu.se/c/rat/b.html#2-2-3">&#167;2.2.3</a>.)&#160;<tt> </tt>
+A specific exception to this rule has been granted for calls to
+<code>signal</code> from within the signal handler;
+otherwise, the handler could not reliably reset the signal.&#160;<tt> </tt>
+<p>
+The specification that some signals may be effectively set to 
+<code>SIG_IGN</code> instead of <code>SIG_DFL</code> at program startup
+allows programs under UNIX systems to
+inherit this effective setting from parent processes.&#160;<tt> </tt>
+<p>
+For performance reasons, <a name="UNIX-4-7-1-1">UNIX</a> does not reset
+<a name="SIGILL-4-7-1-1"><code>SIGILL</code></a> to default handling when the handler
+is called (usually to emulate missing instructions).&#160;<tt> </tt>
+This treatment is sanctioned by specifying that whether
+reset occurs for <code>SIGILL</code> is
+<a name="implementation-defined"><i>implementation-defined</i></a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-7-2">4.7.2</a>&#160;<tt> </tt>Send signal</h2>
+<p>
+<h2><a name="4-7-2-1">4.7.2.1</a>&#160;<tt> </tt>The <code>raise</code> function</h2>
+The function <a name="raise-4-7-2-1"><code>raise</code></a>
+replaces the Base Document's <a name="kill-4-7-2-1"><code>kill</code></a> function.&#160;<tt> </tt>
+The latter has an extra argument which refers to the ``process ID''&#160;<tt> </tt>
+affected by the signal.&#160;<tt> </tt>
+Since the execution model of the Standard does not deal with
+<a name="multi-processing-4-7-2-1">multi-processing</a>,
+the Committee deemed it preferable to introduce a function which
+requires no (dummy) process argument.&#160;<tt> </tt>
+The Committee anticipates that <a name="IEEE-1003-4-7-2-1">IEEE 1003</a>
+will wish to standardize the <code>kill</code> function in the <a name="POSIX-4-7-2-1">POSIX</a>
+specification.&#160;<tt> </tt>
+<hr>
+<a href="d6.html" tppabs="http://www.lysator.liu.se/c/rat/d6.html">4.6 Nonlocal jumps</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-7" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-7">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d8.html" tppabs="http://www.lysator.liu.se/c/rat/d8.html">4.8 Variable Arguments</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

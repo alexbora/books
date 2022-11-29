@@ -1,0 +1,1669 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 15 -- Pointers: Beyond the Basics</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch14/ch14.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch16/ch16.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 15 -</H1>
+
+<H1>Pointers: Beyond the Basics</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Pointers to Pointers</A>
+	<LI><A HREF="#Heading2">Pointers and Multidimensional Arrays</A>
+	<LI><A HREF="#Heading3">Arrays of Pointers</A>
+	<UL>
+		<LI><A HREF="#Heading4">Strings and Pointers: A Review</A>
+		<LI><A HREF="#Heading5">Array of Pointers to Type char</A>
+		<LI><A HREF="#Heading6">An Example</A>
+	</UL>
+	<LI><A HREF="#Heading7">Pointers to Functions</A>
+	<UL>
+		<LI><A HREF="#Heading8">Declaring a Pointer to a Function</A>
+		<LI><A HREF="#Heading9">Initializing and Using a Pointer to a Function</A>
+	</UL>
+	<LI><A HREF="#Heading10">Linked Lists</A>
+	<UL>
+		<LI><A HREF="#Heading11">Basics of Linked Lists</A>
+		<LI><A HREF="#Heading12">Working with Linked Lists</A>
+		<LI><A HREF="#Heading13">A Simple Linked List Demonstration</A>
+		<LI><A HREF="#Heading14">Implementing a Linked List</A>
+	</UL>
+	<LI><A HREF="#Heading15">Summary</A>
+	<LI><A HREF="#Heading16">Q&amp;A</A>
+	<LI><A HREF="#Heading17">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading18">Quiz</A>
+		<LI><A HREF="#Heading19">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>On Day 9, &quot;Understanding Pointers,&quot; you were introduced to the basics
+of pointers, which are an important part of the C programming language. Today you'll
+go further, exploring some advanced pointer topics that can add flexibility to your
+programming. Today you will learn</P>
+<P>
+
+<UL>
+	<LI>How to declare a pointer to a pointer
+	<P>
+	<LI>How to use pointers with multidimensional arrays
+	<P>
+	<LI>How to declare arrays of pointers
+	<P>
+	<LI>How to declare pointers to functions
+	<P>
+	<LI>How to use pointers to create linked lists for data storage
+</UL>
+
+<H2><A NAME="Heading1"></A>Pointers to Pointers</H2>
+<P>As you learned on Day 9, a <I>pointer</I> is a numeric variable with a value that
+is the address of another variable. You declare a pointer using the indirection operator
+(*). For example, the declaration</P>
+<P>
+<PRE>int *ptr;
+</PRE>
+<P>declares a pointer named ptr that can point to a type int variable. You then use
+the address-of operator (&amp;) to make the pointer point to a specific variable
+of the corresponding type. Assuming that x has been declared as a type int variable,
+the statement</P>
+<P>
+<PRE>ptr = &amp;x;
+</PRE>
+<P>assigns the address of x to ptr and makes ptr point to x. Again, using the indirection
+operator, you can access the pointed-to variable by using its pointer. Both of the
+following statements assign the value 12 to x:</P>
+<P>
+<PRE>x = 12;
+*ptr = 12;
+</PRE>
+<P>Because a pointer is itself a numeric variable, it is stored in your computer's
+memory at a particular address. Therefore, you can create a pointer to a pointer,
+a variable whose value is the address of a pointer. Here's how:</P>
+<P>
+<PRE>int x = 12;                   /* x is a type int variable. */
+int *ptr = &amp;x;                /* ptr is a pointer to x. */
+int **ptr_to_ptr = &amp;ptr;      /* ptr_to_ptr is a pointer to a */
+                              /* pointer to type int. */
+</PRE>
+<P>Note the use of a double indirection operator (**) when declaring a pointer to
+a pointer. You also use the double indirection operator when accessing the pointed-to
+variable with a pointer to a pointer. Thus, the statement</P>
+<P>
+<PRE>**ptr_to_ptr = 12;
+</PRE>
+<P>assigns the value 12 to the variable x, and the statement</P>
+<P>
+<PRE>printf(&quot;%d&quot;, **ptr_to_ptr);
+</PRE>
+<P>displays the value of x on-screen. If you mistakenly use a single indirection
+operator, you get errors. The statement</P>
+<P>
+<PRE>*ptr_to_ptr = 12;
+</PRE>
+<P>assigns the value 12 to ptr, which results in ptr's pointing to whatever happens
+to be stored at address 12. This clearly is a mistake.</P>
+<P>Declaring and using a pointer to a pointer is called <I>multiple indirection</I>.
+Figure 15.1 shows the relationship between a variable, a pointer, and a pointer to
+a pointer. There's really no limit to the level of multiple indirection possible--you
+can have a pointer to a pointer to a pointer <I>ad infinitum,</I> but there's rarely
+any advantage to going beyond two levels; the complexities involved are an invitation
+to mistakes.</P>
+<P><A HREF="javascript:popUp('15tyc01.gif')"><B>Figure 15.1.</B></A><B> </B><I>A
+pointer to a pointer.</I></P>
+
+<P>What can you use pointers to pointers for? The most common use involves arrays
+of pointers, which are covered later in this chapter. Listing 19.5 on Day 19, &quot;Exploring
+the C Function Library,&quot; presents an example of using multiple indirection.</P>
+<P>
+<H2><A NAME="Heading2"></A>Pointers and Multidimensional Arrays</H2>
+<P>Day 8, &quot;Using Numeric Arrays,&quot; covers the special relationship between
+pointers and arrays. Specifically, the name of an array without its following brackets
+is a pointer to the first element of the array. As a result, it's easier to use pointer
+notation when you're accessing certain types of arrays. These earlier examples, however,
+were limited to single-dimensional arrays. What about multidimensional arrays?</P>
+<P>Remember that a multidimensional array is declared with one set of brackets for
+each dimension. For example, the following statement declares a two-dimensional array
+that contains eight type int variables:</P>
+<P>
+<PRE>int multi[2][4];
+</PRE>
+<P>You can visualize an array as having a row and column structure--in this case,
+two rows and four columns. There's another way to visualize a multidimensional array,
+however, and this way is closer to the manner in which C actually handles arrays.
+You can consider multi to be a two-element array, with each of these two elements
+being an array of four integers.</P>
+<P>In case this isn't clear to you, Figure 15.2 dissects the array declaration statement
+into its component parts.</P>
+<P><A HREF="javascript:popUp('15tyc02.gif')"><B>Figure 15.2.</B></A><B> </B><I>The
+components of a multidimensional array declaration.</I></P>
+
+<P>Here's how to interpret the components of the declaration:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Declare an array named multi.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The array multi contains two elements.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Each of these two elements contains four elements.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Each of the four elements is a type int.
+	<P>
+</DL>
+
+<P>You read a multidimensional array declaration starting with the array name and
+moving to the right, one set of brackets at a time. When the last set of brackets
+(the last dimension) has been read, you jump to the beginning of the declaration
+to determine the array's basic data type.</P>
+<P>Under the array-of-arrays scheme, you can visualize a multidimensional array as
+shown in Figure 15.3.</P>
+<P><A HREF="javascript:popUp('15tyc03.gif')"><B>Figure 15.3.</B></A><B> </B><I>A
+multidimensional array can be visualized as an array of arrays.</I></P>
+
+<P>Now, let's get back to the topic of array names as pointers. (This is a chapter
+about pointers, after all!) As with a one-dimensional array, the name of a multidimensional
+array is a pointer to the first array element. Continuing with our example, multi
+is a pointer to the first element of the two-dimensional array that was declared
+as int multi[2][4]. What exactly is the first element of multi? It isn't the type
+int variable multi[0][0], as you might think. Remember that multi is an array of
+arrays, so its first element is multi[0], which is an array of four type int variables
+(one of the two such arrays contained in multi).</P>
+<P>Now, if multi[0] is also an array, does it point to anything? Yes, indeed! multi[0]
+points to its first element, multi[0][0]. You might wonder why multi[0] is a pointer.
+Remember that the name of an array without brackets is a pointer to the first array
+element. The term multi[0] is the name of the array multi[0][0] with the last pair
+of brackets missing, so it qualifies as a pointer.</P>
+<P>If you're a bit confused at this point, don't worry. This material is difficult
+to grasp. It might help if you remember the following rules for any array of <I>n</I>
+dimensions used in code:</P>
+<P>
+
+<UL>
+	<LI>The array name followed by <I>n</I> pairs of brackets (each pair containing an
+	appropriate index, of course) evaluates as array data (that is, the data stored in
+	the specified array element).
+	<P>
+	<LI>The array name followed by fewer than <I>n</I> pairs of brackets evaluates as
+	a pointer to an array element.
+</UL>
+
+<P>In the example, therefore, multi evaluates as a pointer, multi[0] evaluates as
+a pointer, and multi[0][0] evaluates as array data.</P>
+<P>Now look at what all these pointers actually point to. Listing 15.1 declares a
+two-dimensional array--similar to those you've been using in the examples--and then
+prints the values of the associated pointers. It also prints the address of the first
+array element.</P>
+<P>
+<H4>Listing 15.1. The relationship between a multidimensional array and pointers.</H4>
+<PRE>1:    /* Demonstrates pointers and multidimensional arrays. */
+2:
+3:    #include &lt;stdio.h&gt;
+4:
+5:    int multi[2][4];
+6:
+7:    main()
+8:    {
+9:        printf(&quot;\nmulti = %u&quot;, multi);
+10:       printf(&quot;\nmulti[0] = %u&quot;, multi[0]);
+11:       printf(&quot;\n&amp;multi[0][0] = %u\n&quot;, &amp;multi[0][0]);
+13:       return(0);
+12:   }
+multi = 1328
+multi[0] = 1328
+&amp;multi[0][0] = 1328
+</PRE>
+<P><strong>ANALYSIS: </strong> The actual value might not be 1328 on your system, but all
+three values will be the same. The address of the array multi is the same as the
+address of the array multi[0], and both are equal to the address of the first integer
+in the array, multi[0][0].</P>
+<P>If all three of these pointers have the same value, what is the practical difference
+between them in terms of your program? Remember from Day 9 that the C compiler knows
+what a pointer points to. To be more exact, the compiler knows the <I>size</I> of
+the item a pointer is pointing to.</P>
+<P>What are the sizes of the elements you've been using? Listing 15.2 uses the operator
+sizeof() to display the sizes, in bytes, of these elements.</P>
+<P>
+<H4>Listing 15.2. Determining the sizes of elements.</H4>
+<PRE>1: /* Demonstrates the sizes of multidimensional array elements. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: int multi[2][4];
+6:
+7: main()
+8: {
+9:     printf(&quot;\nThe size of multi = %u&quot;, sizeof(multi));
+10:    printf(&quot;\nThe size of multi[0] = %u&quot;, sizeof(multi[0]));
+11:    printf(&quot;\nThe size of multi[0][0] = %u\n&quot;, sizeof(multi[0][0]));
+12:    return(0);
+13: }
+</PRE>
+<P>The output of this program (assuming that your compiler uses two-byte integers)
+is as follows:</P>
+<P>
+<PRE>The size of multi = 16
+The size of multi[0] = 8
+The size of multi[0][0] = 2
+</PRE>
+<P><strong>ANALYSIS: </strong> If you're running a 32-bit operating system, such as IBM's
+OS/2, your output will be 32, 16, and 4. This is because a type int contains four
+bytes on these systems.</P>
+<P>Think about these size values. The array multi contains two arrays, each of which
+contains four integers. Each integer requires two bytes of storage. With a total
+of eight integers, the size of 16 bytes makes sense.</P>
+<P>Next, multi[0] is an array containing four integers. Each integer takes two bytes,
+so the size of eight bytes for multi[0] also makes sense.</P>
+<P>Finally, multi[0][0] is an integer, so its size is, of course, two bytes.</P>
+<P>Now, keeping these sizes in mind, recall the discussion on Day 9 about pointer
+arithmetic. The C compiler knows the size of the object being pointed to, and pointer
+arithmetic takes this size into account. When you increment a pointer, its value
+is increased by the amount needed to make it point to the &quot;next&quot; of whatever
+it's pointing to. In other words, it's incremented by the size of the object to which
+it points.</P>
+<P>When you apply this to the example, multi is a pointer to a four-element integer
+array with a size of 8. If you increment multi, its value should increase by 8 (the
+size of a four-element integer array). If multi points to multi[0], therefore, (multi
++ 1) should point to multi[1]. Listing 15.3 tests this theory.</P>
+<P>
+<H4>Listing 15.3. Pointer arithmetic with multidimensional arrays.</H4>
+<PRE>1: /*  Demonstrates pointer arithmetic with pointers */
+2: /*  to multidimensional arrays. */
+3:
+4: #include &lt;stdio.h&gt;
+5:
+6: int multi[2][4];
+7:
+8: main()
+9: {
+10:     printf(&quot;\nThe value of (multi) = %u&quot;, multi);
+11:     printf(&quot;\nThe value of (multi + 1) = %u&quot;, (multi+1));
+12:     printf(&quot;\nThe address of multi[1] = %u\n&quot;, &amp;multi[1]);
+13:     return(0);
+14: }
+The value of (multi) = 1376
+The value of (multi + 1) = 1384
+The address of multi[1] = 1384
+</PRE>
+<P><strong>ANALYSIS: </strong> The precise values might be different on your system, but
+the relationships are the same. Incrementing multi by 1 increases its value by 8
+(or by 16 on a 32-bit system) and makes it point to the next element of the array,
+multi[1].</P>
+<P>In this example, you've seen that multi is a pointer to multi[0]. You've also
+seen that multi[0] is itself a pointer (to multi[0][0]). Therefore, multi is a pointer
+to a pointer. To use the expression multi to access array data, you must use double
+indirection. To print the value stored in multi[0][0], you could use any of the following
+three statements:</P>
+<P>
+<PRE>printf(&quot;%d&quot;, multi[0][0]);
+printf(&quot;%d&quot;, *multi[0]);
+printf(&quot;%d&quot;, **multi);
+</PRE>
+<P>These concepts apply equally to arrays with three or more dimensions. Thus, a
+three-dimensional array is an array with elements that are each a two-dimensional
+array; each of these elements is itself an array of one-dimensional arrays.</P>
+<P>This material on multidimensional arrays and pointers might seem a bit confusing.
+When you work with multidimensional arrays, keep this point in mind: An array with
+<I>n</I> dimensions has elements that are arrays with <I>n</I>-1 dimensions. When
+<I>n</I> becomes 1, that array's elements are variables of the data type specified
+at the beginning of the array declaration line.</P>
+<P>So far, you've been using array names that are pointer constants and that can't
+be changed. How would you declare a pointer variable that points to an element of
+a multidimensional array? Let's continue with the previous example, which declared
+a two-dimensional array as follows:</P>
+<P>
+<PRE>int multi[2][4];
+</PRE>
+<P>To declare a pointer variable ptr that can point to an element of multi (that
+is, can point to a four-element integer array), you would write</P>
+<P>
+<PRE>int (*ptr)[4];
+</PRE>
+<P>You could then make ptr point to the first element of multi by writing</P>
+<P>
+<PRE>ptr = multi;
+</PRE>
+<P>You might wonder why the parentheses are necessary in the pointer declaration.
+Brackets ([ ]) have a higher precedence than *. If you wrote</P>
+<P>
+<PRE>int *ptr[4];
+</PRE>
+<P>you would be declaring an array of four pointers to type int. Indeed, you can
+declare and use arrays of pointers. This isn't what you want to do now, however.</P>
+<P>How can you use pointers to elements of multidimensional arrays? As with single-dimensional
+arrays, pointers must be used to pass an array to a function. This is illustrated
+for a multidimensional array in Listing 15.4, which uses two methods of passing a
+multidimensional array to a function.</P>
+<P>
+<H4>Listing 15.4. Passing a multidimensional array to a function using a pointer.</H4>
+<PRE>1:  /* Demonstrates passing a pointer to a multidimensional */
+2:  /* array to a function. */
+3:
+4:  #include &lt;stdio.h&gt;
+5:
+6:  void printarray_1(int (*ptr)[4]);
+7:  void printarray_2(int (*ptr)[4], int n);
+8:
+9:  main()
+10: {
+11:    int  multi[3][4] = { { 1, 2, 3, 4 },
+12:                       { 5, 6, 7, 8 },
+13:                       { 9, 10, 11, 12 } };
+14:
+15:    /* ptr is a pointer to an array of 4 ints. */
+16:
+17:    int (*ptr)[4], count;
+18:
+19:    /* Set ptr to point to the first element of multi. */
+20:
+21:    ptr = multi;
+22:
+23:    /* With each loop, ptr is incremented to point to the next */
+24:    /* element (that is, the next 4-element integer array) of multi. */
+25:
+26:    for (count = 0; count &lt; 3; count++)
+27:        printarray_1(ptr++);
+28:
+29:    puts(&quot;\n\nPress Enter...&quot;);
+30:    getchar();
+31:    printarray_2(multi, 3);
+32:    printf(&quot;\n&quot;);
+33:    return(0);
+34: }
+35
+36: void printarray_1(int (*ptr)[4])
+37: {
+38: /* Prints the elements of a single four-element integer array. */
+39: /* p is a pointer to type int. You must use a type cast */
+40: /* to make p equal to the address in ptr. */
+41:
+42:      int *p, count;
+43:      p = (int *)ptr;
+44:
+45:      for (count = 0; count &lt; 4; count++)
+46:          printf(&quot;\n%d&quot;, *p++);
+47: }
+48:
+49: void printarray_2(int (*ptr)[4], int n)
+50: {
+51: /* Prints the elements of an n by four-element integer array. */
+52:
+53:      int *p, count;
+54:      p = (int *)ptr;
+55:
+56:      for (count = 0; count &lt; (4 * n); count++)
+57:          printf(&quot;\n%d&quot;, *p++);
+58: }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+Press Enter...
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</PRE>
+<P><strong>ANALYSIS: </strong> On lines 11 through 13, the program declares and initializes
+an array of integers, multi[3][4]. Lines 6 and 7 are the prototypes for the functions
+printarray_1() and printarray_2(), which print the contents of the array.</P>
+<P>The function printarray_1() (lines 36 through 47) is passed only one argument,
+a pointer to an array of four integers. This function prints all four elements of
+the array. The first time main() calls printarray_1() on line 27, it passes a pointer
+to the first element (the first four-element integer array) in multi. It then calls
+the function two more times, incrementing the pointer each time to point to the second,
+and then to the third, element of multi. After all three calls are made, the 12 integers
+in multi are displayed on-screen.</P>
+<P>The second function, printarray_2(), takes a different approach. It too is passed
+a pointer to an array of four integers, but, in addition, it is passed an integer
+variable that specifies the number of elements (the number of arrays of four integers)
+that the multidimensional array contains. With a single call from line 31, printarray_2()
+displays the entire contents of multi.</P>
+<P>Both functions use pointer notation to step through the individual integers in
+the array. The notation (int *)ptr in both functions (lines 43 and 54) might not
+be clear. The (int *) is a typecast, which temporarily changes the variable's data
+type from its declared data type to a new one. The typecast is required when assigning
+the value of ptr to p because they are pointers to different types (p is a pointer
+to type int, whereas ptr is a pointer to an array of four integers). C doesn't let
+you assign the value of one pointer to a pointer of a different type. The typecast
+tells the compiler, &quot;For this statement only, treat ptr as a pointer to type
+int.&quot; Day 20, &quot;Working with Memory,&quot; covers typecasts in more detail.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> forget to use the double indirection operator (**) when declaring a
+	pointer to a pointer.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> forget that a pointer increments by the size of the pointer's type
+	(usually what is being pointed to).<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> forget to use parentheses when declaring pointers to arrays.<BR>
+	To declare a pointer to an array of characters, use this format:
+	<PRE>char (*letters)[26];</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>To declare an array of pointers to characters, use this format:
+<HR>
+
+
+</BLOCKQUOTE>
+
+<PRE>char *letters[26];
+</PRE>
+<H2><A NAME="Heading3"></A>Arrays of Pointers</H2>
+<P>Recall from Day 8, &quot;Using Numeric Arrays,&quot; that an array is a collection
+of data storage locations that have the same data type and are referred to by the
+same name. Because pointers are one of C's data types, you can declare and use arrays
+of pointers. This type of program construct can be very powerful in certain situations.</P>
+<P>Perhaps the most common use of an array of pointers is with strings. A string,
+as you learned on Day 10, &quot;Characters and Strings,&quot; is a sequence of characters
+stored in memory. The start of the string is indicated by a pointer to the first
+character (a pointer to type char), and the end of the string is marked by a null
+character. By declaring and initializing an array of pointers to type char, you can
+access and manipulate a large number of strings using the pointer array. Each element
+in the array points to a different string, and by looping through the array, you
+can access each of them in turn.</P>
+<P>
+<H3><A NAME="Heading4"></A>Strings and Pointers: A Review</H3>
+<P>This is a good time to review some material from Day 10 regarding string allocation
+and initialization. One way to allocate and initialize a string is to declare an
+array of type char as follows:</P>
+<P>
+<PRE>char message[] = &quot;This is the message.&quot;;
+</PRE>
+<P>You could accomplish the same thing by declaring a pointer to type char:</P>
+<P>
+<PRE>char *message = &quot;This is the message.&quot;;
+</PRE>
+<P>Both declarations are equivalent. In each case, the compiler allocates enough
+space to hold the string along with its terminating null character, and the expression
+message is a pointer to the start of the string. But what about the following two
+declarations?</P>
+<P>
+<PRE>char message1[20];
+char *message2;
+</PRE>
+<P>The first line declares an array of type char that is 20 characters long, with
+message1 being a pointer to the first array position. Although the array space is
+allocated, it isn't initialized, and the array contents are undetermined. The second
+line declares message2, a pointer to type char. No storage space for a string is
+allocated by this statement--only space to hold the pointer. If you want to create
+a string and then have message2 point to it, you must allocate space for the string
+first. On Day 10, you learned how to use the malloc() memory allocation function
+for this purpose. Remember that any string must have space allocated for it, whether
+at compilation in a declaration or at runtime with malloc() or a related memory allocation
+function.</P>
+<P>
+<H3><A NAME="Heading5"></A>Array of Pointers to Type char</H3>
+<P>Now that you're done with the review, how do you declare an array of pointers?
+The following statement declares an array of 10 pointers to type char:</P>
+<P>
+<PRE>char *message[10];
+</PRE>
+<P>Each element of the array message[] is an individual pointer to type char. As
+you might have guessed, you can combine the declaration with initialization and allocation
+of storage space for the strings:</P>
+<P>
+<PRE>char *message[10] = { &quot;one&quot;, &quot;two&quot;, &quot;three&quot; };
+</PRE>
+<P>This declaration does the following:</P>
+<P>
+
+<UL>
+	<LI>It allocates a 10-element array named message; each element of message is a pointer
+	to type char.
+	<P>
+	<LI>It allocates space somewhere in memory (exactly where doesn't concern you) and
+	stores the three initialization strings, each with a terminating null character.
+	<P>
+	<LI>It initializes message[0] to point to the first character of the string &quot;one&quot;,
+	message[1] to point to the first character of the string &quot;two&quot;, and message[2]
+	to point to the first character of the string &quot;three&quot;.
+</UL>
+
+<P>This is illustrated in Figure 15.4, which shows the relationship between the array
+of pointers and the strings. Note that in this example, the array elements message[3]
+through message[9] aren't initialized to point at anything.</P>
+<P><A HREF="javascript:popUp('15tyc04.gif')"><B>Figure 15.4.</B></A><B> </B><I>An
+array of pointers to type char.</I></P>
+
+<P>Now look at Listing 15.5, which is an example of using an array of pointers.</P>
+<P>
+<H4>Listing 15.5. Initializing and using an array of pointers to type char.</H4>
+<PRE>1: /* Initializing an array of pointers to type char. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: main()
+6: {
+7:     char *message[8] = { &quot;Four&quot;, &quot;score&quot;, &quot;and&quot;, &quot;seven&quot;,
+8:                     &quot;years&quot;, &quot;ago,&quot;, &quot;our&quot;, &quot;forefathers&quot; };
+9:   int count;
+10:
+11:     for (count = 0; count &lt; 8; count++)
+12:         printf(&quot;%s &quot;, message[count]);
+13:     printf(&quot;\n&quot;);
+14:     return(0);
+15: }
+</PRE>
+<PRE>Four score and seven years ago, our forefathers
+</PRE>
+<P><strong>ANALYSIS: </strong> This program declares an array of eight pointers to type
+char and initializes them to point to eight strings (lines 7 and 8). It then uses
+a for loop on lines 11 and 12 to display each element of the array on-screen.</P>
+<P>You probably can see how manipulating the array of pointers is easier than manipulating
+the strings themselves. This advantage is obvious in more complicated programs, such
+as the one presented later in this chapter. As you'll see in that program, the advantage
+is greatest when you're using functions. It's much easier to pass an array of pointers
+to a function than to pass several strings. This can be illustrated by rewriting
+the program in Listing 15.5 so that it uses a function to display the strings. The
+modified program is shown in Listing 15.6.</P>
+<P>
+<H4>Listing 15.6. Passing an array of pointers to a function.</H4>
+<PRE>1: /* Passing an array of pointers to a function. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: void print_strings(char *p[], int n);
+6:
+7: main()
+8: {
+9:     char *message[8] = { &quot;Four&quot;, &quot;score&quot;, &quot;and&quot;, &quot;seven&quot;,
+10:                     &quot;years&quot;, &quot;ago,&quot;, &quot;our&quot;, &quot;forefathers&quot; };
+11:
+12:     print_strings(message, 8);
+13:     return(0);
+14: }
+15:
+16: void print_strings(char *p[], int n)
+17: {
+18:     int count;
+19:
+20:     for (count = 0; count &lt; n; count++)
+21:         printf(&quot;%s &quot;, p[count]);
+22:    printf(&quot;\n&quot;);
+23:  }
+</PRE>
+<PRE>Four score and seven years ago, our forefathers
+</PRE>
+<P><strong>ANALYSIS: </strong> Looking at line 16, you see that the function print_strings()
+takes two arguments. One is an array of pointers to type char, and the other is the
+number of elements in the array. Thus, print_strings() could be used to print the
+strings pointed to by any array of pointers.</P>
+<P>You might remember that, in the section on pointers to pointers, you were told
+that you would see a demonstration later. Well, you've just seen it. Listing 15.6
+declared an array of pointers, and the name of the array is a pointer to its first
+element. When you pass that array to a function, you're passing a pointer (the array
+name) to a pointer (the first array element).</P>
+<P>
+<H3><A NAME="Heading6"></A>An Example</H3>
+<P>Now it's time for a more complicated example. Listing 15.7 uses many of the programming
+skills you've learned, including arrays of pointers. This program accepts lines of
+input from the keyboard, allocating space for each line as it is entered and keeping
+track of the lines by means of an array of pointers to type char. When you signal
+the end of an entry by entering a blank line, the program sorts the strings alphabetically
+and displays them on-screen.</P>
+<P>If you were writing this program from scratch, you would approach the design of
+this program from a structured programming perspective. First, make a list of the
+things the program must do:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Accept lines of input from the keyboard one at a time until a blank
+	line is entered.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Sort the lines of text into alphabetical order.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Display the sorted lines on-screen.
+	<P>
+</DL>
+
+<P>This list suggests that the program should have at least three functions: one
+to accept input, one to sort the lines, and one to display the lines. Now you can
+design each function independently. What do you need the input function--called get_lines()--to
+do? Again, make a list:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Keep track of the number of lines entered, and return that value to
+	the calling program after all lines have been entered.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Don't allow input of more than a preset maximum number of lines.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Allocate storage space for each line.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Keep track of all lines by storing pointers to strings in an array.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Return to the calling program when a blank line is entered.
+	<P>
+</DL>
+
+<P>Now think about the second function, the one that sorts the lines. It could be
+called sort(). (Really original, right?) The sort technique used is a simple, brute-force
+method that compares adjacent strings and swaps them if the second string is less
+than the first string. More exactly, the function compares the two strings whose
+pointers are adjacent in the array of pointers and swaps the two pointers if necessary.</P>
+<P>To be sure that the sorting is complete, you must go through the array from start
+to finish, comparing each pair of strings and swapping if necessary. For an array
+of <I>n</I> elements, you must go through the array <I>n</I>-1 times. Why is this
+necessary?</P>
+<P>Each time you go through the array, a given element can be shifted by, at most,
+one position. For example, if the string that should be first is actually in the
+last position, the first pass through the array moves it to the next-to-last position,
+the second pass through the array moves it up one more position, and so on. It requires
+<I>n</I>-1 passes to move it to the first position, where it belongs.</P>
+<P>Note that this is a very inefficient and inelegant sorting method. However, it's
+easy to implement and understand, and it's more than adequate for the short lists
+that the sample program sorts.</P>
+<P>The final function displays the sorted lines on-screen. It is, in effect, already
+written in List- ing 15.6, and it requires only minor modification for use in Listing
+15.7.</P>
+<P>
+<H4>Listing 15.7. A program that reads lines of text from the keyboard, sorts them
+alphabetically, and displays the sorted list.</H4>
+<PRE>1:  /* Inputs a list of strings from the keyboard, sorts them, */
+2:  /* and then displays them on the screen. */
+3:  #include &lt;stdlib.h&gt;
+4:  #include &lt;stdio.h&gt;
+5:  #include &lt;string.h&gt;
+6:
+7:  #define MAXLINES 25
+8:
+9:  int get_lines(char *lines[]);
+10: void sort(char *p[], int n);
+11: void print_strings(char *p[], int n);
+12:
+13: char *lines[MAXLINES];
+14:
+15: main()
+16: {
+17:     int number_of_lines;
+18:
+19:     /* Read in the lines from the keyboard. */
+20:
+21:     number_of_lines = get_lines(lines);
+22:
+23:     if ( number_of_lines &lt; 0 )
+24:     {
+25:         puts(&quot; Memory allocation error&quot;);
+26:         exit(-1);
+27:     }
+28:
+29:     sort(lines, number_of_lines);
+30:     print_strings(lines, number_of_lines);
+31:     return(0);
+32: }
+33:
+34: int get_lines(char *lines[])
+35: {
+36:     int n = 0;
+37:     char buffer[80];  /* Temporary storage for each line. */
+38:
+39:     puts(&quot;Enter one line at time; enter a blank when done.&quot;);
+40:
+41:     while ((n &lt; MAXLINES) &amp;&amp; (gets(buffer) != 0) &amp;&amp;
+42:            (buffer[0] != `\0'))
+43:     {
+44:         if ((lines[n] = (char *)malloc(strlen(buffer)+1)) == NULL)
+45:             return -1;
+46:         strcpy( lines[n++], buffer );
+47:     }
+48:     return n;
+49:
+50: } /* End of get_lines() */
+51:
+52: void sort(char *p[], int n)
+53: {
+54:     int a, b;
+55:     char *x;
+56:
+57:     for (a = 1; a &lt; n; a++)
+58:     {
+59:         for (b = 0; b &lt; n-1; b++)
+60:         {
+61:              if (strcmp(p[b], p[b+1]) &gt; 0)
+62:             {
+63:                  x = p[b];
+64:                  p[b] = p[b+1];
+65:                  p[b+1] = x;
+66:             }
+67:         }
+68:     }
+69: }
+70:
+71: void print_strings(char *p[], int n)
+72: {
+73:     int count;
+74:
+75:     for (count = 0; count &lt; n; count++)
+76:         printf(&quot;%s\n &quot;, p[count]);
+77: }
+Enter one line at time; enter a blank when done.
+<B>dog</B>
+<B>apple</B>
+<B>zoo</B>
+<B>program</B>
+<B>merry</B>
+apple
+dog
+merry
+program
+zoo
+</PRE>
+<P><strong>ANALYSIS: </strong> It will be worthwhile for you to examine some of the details
+of this program. Several new library functions are used for various types of string
+manipulation. They are explained briefly here and in more detail on Day 17, &quot;Manipulating
+Strings.&quot; The header file STRING.H must be included in a program that uses these
+functions.</P>
+<P>In the get_lines() function, input is controlled by the while statement on lines
+41 and 42, which read as follows (condensed here onto one line):</P>
+<P>
+<PRE>while ((n &lt; MAXLINES) &amp;&amp; (gets(buffer) != 0) &amp;&amp; (buffer[0] != `\0'))
+</PRE>
+<P>The condition tested by the while has three parts. The first part, n &lt; MAXLINES,
+ensures that the maximum number of lines has not been input yet. The second part,
+gets(buffer) != 0, calls the gets() library function to read a line from the keyboard
+into buffer and verifies that end-of-file or some other error has not occurred. The
+third part, buffer[0] != `\0', verifies that the first character of the line just
+input is not the null character, which would signal that a blank line had been entered.</P>
+<P>If any of these three conditions isn't satisfied, the while loop terminates, and
+execution returns to the calling program, with the number of lines entered as the
+return value. If all three conditions are satisfied, the following if statement on
+line 44 is executed:</P>
+<P>
+<PRE>if ((lines[n] = (char *)malloc(strlen(buffer)+1)) == NULL)
+</PRE>
+<P>This statement calls malloc() to allocate space for the string that was just input.
+The strlen() function returns the length of the string passed as an argument; the
+value is incremented by 1 so that malloc() allocates space for the string plus its
+terminating null character.</P>
+<P>The library function malloc(), you might remember, returns a pointer. The statement
+assigns the value of the pointer returned by malloc() to the corresponding element
+of the array of pointers. If malloc() returns NULL, the if loop returns execution
+to the calling program with a return value of -1. The code in main() tests the return
+value of get_lines() and checks whether a value less than 0 is returned; lines 23
+through 27 report a memory allocation error and terminate the program.</P>
+<P>If the memory allocation was successful, the program uses the strcpy() function
+on line 46 to copy the string from the temporary storage location buffer to the storage
+space just allocated by malloc(). The while loop then repeats, getting another line
+of input.</P>
+<P>Once execution returns from get_lines() to main(), the following has been accomplished
+(assuming that a memory allocation error didn't occur):</P>
+<P>
+
+<UL>
+	<LI>A number of lines of text have been read from the keyboard and stored in memory
+	as null-terminated strings.
+	<P>
+	<LI>The array lines[] contains pointers to all the strings. The order of pointers
+	in the array is the order in which the strings were input.
+	<P>
+	<LI>The variable number_of_lines holds the number of lines that were input.
+</UL>
+
+<P>Now it's time to sort. Remember, you're not actually going to move the strings
+around, only the order of the pointers in the array lines[]. Look at the code in
+the function sort(). It contains one for loop nested inside another (lines 57 through
+68). The outer loop executes number_of_lines - 1 times. Each time the outer loop
+executes, the inner loop steps through the array of pointers, comparing (string n)
+with (string n+1) for n = 0 to n = number_of_lines - 1. The comparison is performed
+by the library function strcmp() on line 61, which is passed pointers to two strings.
+The function strcmp() returns one of the following:</P>
+<P>
+
+<UL>
+	<LI>A value greater than zero if the first string is greater than the second string.
+	<P>
+	<LI>Zero if the two strings are identical.
+	<P>
+	<LI>A value less than zero if the second string is greater than the first string.
+</UL>
+
+<P>In the program, a return value from strcmp() that is greater than zero means that
+the first string is &quot;greater than&quot; the second string, and they must be
+swapped (that is, their pointers in lines[] must be swapped). This is done using
+a temporary variable x. Lines 63 through 65 perform the swap.</P>
+<P>When program execution returns from sort(), the pointers in lines[] are ordered
+properly: A pointer to the &quot;lowest&quot; string is in lines[0], a pointer to
+the &quot;next-lowest&quot; is in lines[1], and so on. Suppose, for example, that
+you entered the following five lines, in this order:</P>
+<P>
+<PRE>dog
+apple
+zoo
+program
+merry
+</PRE>
+<P>The situation before calling sort() is illustrated in Figure 15.5, and the situation
+after the return from sort() is illustrated in Figure 15.6.</P>
+<P><A HREF="javascript:popUp('15tyc05.gif')"><B>Figure 15.5.</B></A><B> </B><I>Before
+sorting, the pointers are in the same order in which the strings were entered.</I></P>
+
+<P><A HREF="javascript:popUp('15tyc06.gif')"><B>Figure 15.6.</B></A><B> </B><I>After
+sorting, the pointers are ordered according to the alphabetical order of the strings.</I></P>
+
+<P>Finally, the program calls the function print_strings() to display the sorted
+list of strings on-screen. This function should be familiar to you from previous
+examples in this chapter.</P>
+<P>The program in Listing 15.7 is the most complex you have yet encountered in this
+book. It uses many of the C programming techniques that were covered in previous
+chapters. With the aid of the preceding explanation, you should be able to follow
+the program's operation and understand each step. If you find areas that are unclear
+to you, review the related sections of this book until you understand.</P>
+<P>
+<H2><A NAME="Heading7"></A>Pointers to Functions</H2>
+<P>Pointers to functions provide another way of calling functions. &quot;Hold on,&quot;
+you might be thinking. &quot;How can you have a pointer to a function? Doesn't a
+pointer hold the address where a variable is stored?&quot;</P>
+<P>Well, yes and no. It's true that a pointer holds an address, but it doesn't have
+to be the address where a variable is stored. When your program runs, the code for
+each function is loaded into memory starting at a specific address. A pointer to
+a function holds the starting address of a function--its entry point.</P>
+<P>Why use a pointer to a function? As I mentioned earlier, it provides a more flexible
+way of calling a function. It lets the program choose from among several functions,
+selecting the one that is appropriate for the current circumstances.</P>
+<P>
+<H3><A NAME="Heading8"></A>Declaring a Pointer to a Function</H3>
+<P>Like other pointers, you must declare a pointer to a function. The general form
+of the declaration is as follows:</P>
+<P>
+<PRE><I>type</I> (*ptr_to_func)(<I>parameter_list</I>);
+</PRE>
+<P>This statement declares ptr_to_func as a pointer to a function that returns <I>type</I>
+and is passed the parameters in <I>parameter_list</I>. Here are some more concrete
+examples:</P>
+<P>
+<PRE>int (*func1)(int x);
+void (*func2)(double y, double z);
+char (*func3)(char *p[]);
+void (*func4)();
+</PRE>
+<P>The first line declares func1 as a pointer to a function that takes one type int
+argument and returns a type int. The second line declares func2 as a pointer to a
+function that takes two type double arguments and has a void return type (no return
+value). The third line declares func3 as a pointer to a function that takes an array
+of pointers to type char as its argument and returns a type char. The final line
+declares func4 as a pointer to a function that doesn't take any arguments and has
+a void return type.</P>
+<P>Why do you need parentheses around the pointer name? Why can't you write, for
+the first example:</P>
+<P>
+<PRE>int *func1(int x);
+</PRE>
+<P>The reason has to do with the precedence of the indirection operator, *. It has
+a relatively low precedence, lower than the parentheses surrounding the parameter
+list. The declaration just given, without the first set of parentheses, declares
+func1 as a function that returns a pointer to type int. (Functions that return pointers
+are covered on Day 18, &quot;Getting More from Functions.&quot;) When you declare
+a pointer to a function, always remember to include a set of parentheses around the
+pointer name and indirection operator, or you will get into trouble.</P>
+<P>
+<H3><A NAME="Heading9"></A>Initializing and Using a Pointer to a Function</H3>
+<P>A pointer to a function must not only be declared, but also initialized to point
+to something. That &quot;something&quot; is, of course, a function. There's nothing
+special about a function that gets pointed to. The only requirement is that its return
+type and parameter list match the return type and parameter list of the pointer declaration.
+For example, the following code declares and defines a function and a pointer to
+that function:</P>
+<P>
+<PRE>float square(float x);     /* The function prototype.  */
+float (*p)(float x);       /* The pointer declaration. */
+float square(float x)      /* The function definition. */
+{
+return x * x;
+}
+</PRE>
+<P>Because the function square() and the pointer p have the same parameter and return
+types, you can initialize p to point to square as follows:</P>
+<P>
+<PRE>p = square;
+</PRE>
+<P>Then you can call the function using the pointer as follows:</P>
+<P>
+<PRE>answer = p(x);
+</PRE>
+<P>It's that simple. For a real example, compile and run Listing 15.8, which declares
+and initializes a pointer to a function and then calls the function twice, using
+the function name the first time and the pointer the second time. Both calls produce
+the same result.</P>
+<P>
+<H4>Listing 15.8. Using a pointer to a function to call the function.</H4>
+<PRE>1:  /* Demonstration of declaring and using a pointer to a function.*/
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  /* The function prototype. */
+6:
+7:  double square(double x);
+8:
+9:  /* The pointer declaration. */
+10:
+11: double (*p)(double x);
+12:
+13: main()
+14: {
+15:     /* Initialize p to point to square(). */
+16:
+17:     p = square;
+18:
+19:     /* Call square() two ways. */
+20:     printf(&quot;%f  %f\n&quot;, square(6.6), p(6.6));
+21:     return(0);
+22: }
+23:
+24: double square(double x)
+25: {
+26:     return x * x;
+27: }
+</PRE>
+<PRE>43.559999  43.559999
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> Precision of the values might cause some numbers to not display as
+	the exact values entered. For example, the correct answer, 43.56, might appear as
+	43.559999.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>Line 7 declares the function square(), and line 11 declares the pointer p to a
+function containing a double argument and returning a double value, matching the
+declaration of square(). Line 17 sets the pointer p equal to square. Notice that
+parentheses aren't used with square or p. Line 20 prints the return values from calls
+to square() and p().</P>
+<P>A function name without parentheses is a pointer to the function (sounds similar
+to the situation with arrays, doesn't it?). What's the point of declaring and using
+a separate pointer to the function? Well, the function name itself is a pointer constant
+and can't be changed (again, a parallel to arrays). A pointer variable, in contrast,
+<I>can</I> be changed. Specifically, it can be made to point to different functions
+as the need arises.</P>
+<P>Listing 15.9 calls a function, passing it an integer argument. Depending on the
+value of the argument, the function initializes a pointer to point to one of three
+other functions and then uses the pointer to call the corresponding function. Each
+of these three functions displays a specific message on-screen.</P>
+<P>
+<H4>Listing 15.9. Using a pointer to a function to call different functions depending
+on program circumstances.</H4>
+<PRE>1:  /* Using a pointer to call different functions. */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  /* The function prototypes. */
+6:
+7:  void func1(int x);
+8:  void one(void);
+9:  void two(void);
+10: void other(void);
+11:
+12: main()
+13: {
+14:      int a;
+15:
+16:     for (;;)
+17:     {
+18:         puts(&quot;\nEnter an integer between 1 and 10, 0 to exit: &quot;);
+19:          scanf(&quot;%d&quot;, &amp;a);
+20:
+21:          if (a == 0)
+22:             break;
+23:         func1(a);
+24:     }
+25:     return(0);
+26: }
+27:
+28: void func1(int x)
+29: {
+30:     /* The pointer to function. */
+31:
+32:     void (*ptr)(void);
+33:
+34:     if (x == 1)
+35:         ptr = one;
+36:     else if (x == 2)
+37:         ptr = two;
+38:     else
+39:         ptr = other;
+40:
+41:     ptr();
+42: }
+43:
+44: void one(void)
+45: {
+46:     puts(&quot;You entered 1.&quot;);
+47: }
+48:
+49: void two(void)
+50: {
+51:     puts(&quot;You entered 2.&quot;);
+52: }
+53:
+54: void other(void)
+55: {
+56:     puts(&quot;You entered something other than 1 or 2.&quot;);
+57: }
+Enter an integer between 1 and 10, 0 to exit:
+<B>2</B>
+You entered 2.
+Enter an integer between 1 and 10, 0 to exit:
+<B>9</B>
+You entered something other than 1 or 2.
+Enter an integer between 1 and 10, 0 to exit:
+<B>0</B>
+</PRE>
+<P><strong>ANALYSIS: </strong> This program employs an infinite loop starting on line 16
+to continue execution until a value of 0 is entered. When a nonzero value is entered,
+it's passed to func1(). Note that line 32, in func1(), contains a declaration for
+a pointer ptr to a function. Being declared within a function makes ptr local to
+func1(), which is appropriate because no other part of the program needs access to
+it. func1() then uses this value to set ptr equal to the appropriate function (lines
+34 through 39). Line 41 then makes a single call to ptr(), which calls the appropriate
+function.</P>
+<P>Of course, this program is for illustration purposes only. You could have easily
+accomplished the same result without using a pointer to a function.</P>
+<P>Now you can learn another way to use pointers to call different functions: passing
+the pointer as an argument to a function. Listing 15.10 is a revision of Listing
+15.9.</P>
+<P>
+<H4>Listing 15.10. Passing a pointer to a function as an argument.</H4>
+<PRE>1:  /* Passing a pointer to a function as an argument. */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  /* The function prototypes. The function func1() takes as */
+6:  /* its one argument a pointer to a function that takes no */
+7:  /* arguments and has no return value. */
+8:
+9:  void func1(void (*p)(void));
+10: void one(void);
+11: void two(void);
+12: void other(void);
+13:
+14: main()
+15: {
+16:     /* The pointer to a function. */
+18:     void (*ptr)(void);
+19:     int  a;
+20:
+21:     for (;;)
+22:     {
+23:         puts(&quot;\nEnter an integer between 1 and 10, 0 to exit: &quot;);
+24:         scanf(&quot;%d&quot;, &amp;a);
+25:
+26:         if (a == 0)
+27:             break;
+28:         else if (a == 1)
+29:             ptr = one;
+30:         else if (a == 2)
+31:             ptr = two;
+32:         else
+33:             ptr = other;
+34:         func1(ptr);
+35:     }
+36:     return(0);
+37: }
+38:
+39: void func1(void (*p)(void))
+40: {
+41:     p();
+42: }
+43:
+44: void one(void)
+45: {
+46:     puts(&quot;You entered 1.&quot;);
+47: }
+48:
+49: void two(void)
+50: {
+51:     puts(&quot;You entered 2.&quot;);
+52: }
+53:
+54: void other(void)
+55: {
+56:     puts(&quot;You entered something other than 1 or 2.&quot;);
+57: }
+Enter an integer between 1 and 10, 0 to exit:
+<B>2</B>
+You entered 2.
+Enter an integer between 1 and 10, 0 to exit:
+<B>11</B>
+You entered something other than 1 or 2.
+Enter an integer between 1 and 10, 0 to exit:
+<B>0</B>
+</PRE>
+<P><strong>ANALYSIS: </strong> Notice the differences between Listing 15.9 and Listing 15.10.
+The declaration of the pointer to a function has been moved to line 18 in main(),
+where it is needed. Code in main() now initializes the pointer to point to the correct
+function, depending on the value the user entered (lines 26 through 33), and then
+passes the initialized pointer to func1(). func1() really serves no purpose in Listing
+15.10; all it does is call the function pointed to by ptr. Again, this program is
+for illustration purposes. The same principles can be used in real-world programs,
+such as the example in the next section.</P>
+<P>One programming situation in which you might use pointers to functions is when
+sorting is required. Sometimes you might want different sorting rules used. For example,
+you might want to sort in alphabetical order one time and in reverse alphabetical
+order another time. By using pointers to functions, your program can call the correct
+sorting function. More precisely, it's usually a different comparison function that's
+called.</P>
+<P>Look back at Listing 15.7. In the sort() function, the actual sort order is determined
+by the value returned by the strcmp() library function, which tells the program whether
+a given string is &quot;less than&quot; or &quot;greater than&quot; another string.
+What if you wrote two comparison functions--one that sorts alphabetically (where
+A is less than Z), and another that sorts in reverse alphabetical order (where Z
+is less than A)? The program can ask the user what order he wants and, by using pointers,
+the sorting function can call the proper comparison function. Listing 15.11 modifies
+Listing 15.7 to incorporate this feature.</P>
+<P>
+<H4>Listing 15.11. Using pointers to functions to control sort order.</H4>
+<PRE>1:  /* Inputs a list of strings from the keyboard, sorts them */
+2:  /* in ascending or descending order, and then displays them */
+3:  /* on the screen. */
+4:  #include &lt;stdlib.h&gt;
+5:  #include &lt;stdio.h&gt;
+6:  #include &lt;string.h&gt;
+7:
+8:  #define MAXLINES 25
+9:
+10:  int get_lines(char *lines[]);
+11:  void sort(char *p[], int n, int sort_type);
+12:  void print_strings(char *p[], int n);
+13:  int alpha(char *p1, char *p2);
+14:  int reverse(char *p1, char *p2);
+15:
+16:  char *lines[MAXLINES];
+17:
+18:  main()
+19:  {
+20:     int number_of_lines, sort_type;
+21:
+22:     /* Read in the lines from the keyboard. */
+23:
+24:     number_of_lines = get_lines(lines);
+25:
+26:     if ( number_of_lines &lt; 0 )
+27:     {
+28:        puts(&quot;Memory allocation error&quot;);
+29:        exit(-1);
+30:     }
+31:
+32:     puts(&quot;Enter 0 for reverse order sort, 1 for alphabetical:&quot; );
+33:     scanf(&quot;%d&quot;, &amp;sort_type);
+34:
+35:     sort(lines, number_of_lines, sort_type);
+36:     print_strings(lines, number_of_lines);
+37:     return(0);
+38:  }
+39:
+40:  int get_lines(char *lines[])
+41:  {
+42:      int n = 0;
+43:      char buffer[80];  /* Temporary storage for each line. */
+44:
+45:      puts(&quot;Enter one line at time; enter a blank when done.&quot;);
+46:
+47:      while (n &lt; MAXLINES &amp;&amp; gets(buffer) != 0 &amp;&amp; buffer[0] != `\0')
+48:      {
+49:          if ((lines[n] = (char *)malloc(strlen(buffer)+1)) == NULL)
+50:          return -1;
+51:          strcpy( lines[n++], buffer );
+52:      }
+53:      return n;
+54:
+55:  } /* End of get_lines() */
+56:
+57:  void sort(char *p[], int n, int sort_type)
+58:  {
+59:      int a, b;
+60:      char *x;
+61:
+62:      /* The pointer to function.  */
+63:
+64:      int (*compare)(char *s1, char *s2);
+65:
+66:      /* Initialize the pointer to point to the proper comparison */
+67:      /* function depending on the argument sort_type. */
+68:
+69:      compare = (sort_type) ? reverse : alpha;
+70:
+71:      for (a = 1; a &lt; n; a++)
+72:      {
+73:          for (b = 0; b &lt; n-1; b++)
+74:          {
+75:              if (compare(p[b], p[b+1]) &gt; 0)
+76:              {
+77:                  x = p[b];
+78:                  p[b] = p[b+1];
+79:                  p[b+1] = x;
+80:              }
+81:          }
+82:      }
+83:  }  /* end of sort() */
+84:
+85:  void print_strings(char *p[], int n)
+86:  {
+87:      int count;
+88:
+89:      for (count = 0; count &lt; n; count++)
+90:          printf(&quot;%s\n &quot;, p[count]);
+91:  }
+92:
+93:  int alpha(char *p1, char *p2)
+94:  /* Alphabetical comparison. */
+95:  {
+96:      return(strcmp(p2, p1));
+97:  }
+98:
+99:  int reverse(char *p1, char *p2)
+100: /* Reverse alphabetical comparison. */
+101: {
+102:      return(strcmp(p1, p2));
+103: }
+Enter one line at time; enter a blank when done.
+<B>Roses are red</B>
+<B>Violets are blue</B>
+<B>C has been around,</B>
+<B>But it is new to you!</B>
+Enter 0 for reverse order sort, 1 for alphabetical:
+<B>0</B>
+Violets are blue
+Roses are red
+C has been around,
+But it is new to you!
+</PRE>
+<P><strong>ANALYSIS: </strong> Lines 32 and 33 in main() prompt the user for the desired
+sort order. The value entered is placed in sort_type. This value is passed to the
+sort() function along with the other information described for Listing 15.7. The
+sort() function contains a couple of changes. Line 64 declares a pointer to a function
+called compare() that takes two character pointers (strings) as arguments. Line 69
+sets compare() equal to one of the two new functions added to the listing based on
+the value of sort_type. The two new functions are alpha() and reverse(). alpha()
+uses the strcmp() library function just as it was used in Listing 15.7; reverse()
+does not. reverse() switches the parameters passed so that a reverse-order sort is
+done.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use structured programming.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> forget to use parentheses when declaring pointers to functions.<BR>
+	Here's how you declare a pointer to a function that takes no arguments and returns
+	a character:
+	<PRE>char (*func)();</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>Here's how you declare a function that returns a pointer to a character:
+	<PRE>char *func();</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P><B>DO</B> initialize a pointer before using it.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> use a function pointer that has been declared with a different return
+	type or different arguments than what you need.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading10"></A>Linked Lists</H2>
+<P>A <I>linked list</I> is a useful method of data storage that can easily be implemented
+in C. Why are we covering linked lists in a chapter on pointers? Because, as you
+will soon see, pointers are central to linked lists.</P>
+<P>There are several kinds of linked lists, including single-linked lists, double-linked
+lists, and binary trees. Each type is suited for certain types of data storage. The
+one thing that these lists have in common is that the links between data items are
+defined by information that is contained in the items themselves, in the form of
+pointers. This is distinctly different from arrays, in which the links between data
+items result from the layout and storage of the array. This section explains the
+most fundamental kind of linked list: the single-linked list (which I refer to as
+simply a linked list).</P>
+<P>
+<H3><A NAME="Heading11"></A>Basics of Linked Lists</H3>
+<P>Each data item in a linked list is contained in a structure (you learned about
+structures on Day 11, &quot;Structures&quot;). The structure contains the data elements
+needed to hold the data being stored; these depend on the needs of the specific program.
+In addition, there is one more data element--a pointer. This pointer provides the
+links in a linked list. Here's a simple example:</P>
+<P>
+<PRE>struct person {
+char name[20];
+struct person *next;
+};
+</PRE>
+<P>This code defines a structure named person. For the data, person contains only
+a 20-element array of characters. You generally wouldn't use a linked list for such
+simple data, but this will serve for an example. The person structure also contains
+a pointer to type person--in other words, a pointer to another structure of the same
+type. This means that each structure of type person can not only contain a chunk
+of data, but also can point to another person structure. Figure 15.7 shows how this
+lets the structures be linked together in a list.</P>
+<P><A HREF="javascript:popUp('15tyc07.gif')"><B>Figure 15.7.</B></A><B> </B><I>Links
+in a linked list.</I></P>
+
+<P>Notice that in Figure 15.7, each person structure points to the next person structure.
+The last person structure doesn't point to anything. The last element in a linked
+list is identified by the pointer element being assigned the value of NULL.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> The structures that make up a link in a linked list can be referred
+	to as <I>links,</I> <I>nodes,</I> or <I>elements</I> of a linked list.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>You have seen how the last link in a linked list is identified. What about the
+first link? This is identified by a special pointer (not a structure) called the
+<I>head pointer</I>. The head pointer always points to the first element in the linked
+list. The first element contains a pointer to the second element, the second element
+contains a pointer to the third, and so on until you encounter an element whose pointer
+is NULL. If the entire list is empty (contains no links), the head pointer is set
+to NULL. Figure 15.8 illustrates the head pointer before the list is started and
+after the first list element is added.</P>
+<P><A HREF="javascript:popUp('b5tyc03.gif')"><B>Figure 15.8.</B></A><B> </B><I>A
+linked list's head pointer.</I></P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> The <I>head pointer</I> is a pointer to the first element in a linked
+	list. The head pointer is sometimes referred to as the <I>first element pointer</I>
+	or <I>top pointer</I>.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading12"></A>Working with Linked Lists</H3>
+<P>When you're working with a linked list, you can add, delete, or modify elements
+or links. Modifying an element presents no real challenge; however, adding and deleting
+elements can. As I stated earlier, elements in a list are connected with pointers.
+Much of the work of adding and deleting elements consists of manipulating these pointers.
+Elements can be added to the beginning, middle, or end of a linked list; this determines
+how the pointers must be changed.</P>
+<P>Later in this chapter you'll find a simple linked list demonstration, as well
+as a more complex working program. Before getting into the nitty-gritty of code,
+however, it's a good idea to examine some of the actions you need to perform with
+linked lists. For these sections, we will continue using the person structure that
+was introduced earlier.</P>
+<P>
+<H4>Preliminaries</H4>
+<P>Before you can start a linked list, you need to define the data structure that
+will be used for the list, and you also need to declare the head pointer. Since the
+list starts out empty, the head pointer should be initialized to NULL. You will also
+need an additional pointer to your list structure type for use in adding records
+(you might need more than one pointer, as you'll soon see). Here's how you do it:</P>
+<P>
+<PRE>struct person {
+  char name[20];
+  struct person *next;
+};
+struct person *new;
+struct person *head;
+head = NULL;
+</PRE>
+<H4>Adding an Element to the Beginning of a List</H4>
+<P>If the head pointer is NULL, the list is empty, and the new element will be its
+only member. If the head pointer is not NULL, the list already contains one or more
+elements. In either case, however, the procedure for adding a new element to the
+start of the list is the same:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Create an instance of your structure, allocating memory space using
+	malloc().
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Set the next pointer of the new element to the current value of the
+	head pointer. This will be NULL if the list is empty, or the address of the current
+	first element otherwise.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Make the head pointer point to the new element.
+	<P>
+</DL>
+
+<P>Here is the code to perform this task:</P>
+<P>
+<PRE>new = (person*)malloc(sizeof(struct person));
+new-&gt;next = head;
+head = new
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>WARNING:</strong> It's important to switch the pointers in the correct order. If
+	you reassign the head pointer first, you will lose the list!
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>Figure 15.9 illustrates the procedure for adding a new element to an empty list,
+and Figure 15.10 illustrates adding a new first element to an existing list.</P>
+
+<P><A HREF="javascript:popUp('15tyc09.gif')"><B>Figure 15.9.</B></A><B> </B><I>Adding
+a new element to an empty linked list.</I></P>
+
+<P><A HREF="javascript:popUp('b5tyc05.gif')"><B>Figure 15.10.</B></A><B> </B><I>Adding
+a new first element to an existing list.</I></P>
+
+<P>Notice that malloc() is used to allocate the memory for the new element. As each
+new element is added, only the memory needed for it is allocated. The calloc() function
+could also be used. You should be aware of the differences between these two functions.
+The main difference is that calloc() will initialize the new element; malloc() will
+not.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<BR>
+	<strong>WARNING:</strong> The malloc() in the preceding code fragment didn't ensure that
+	the memory was allocated. You should always check the return value of a memory allocation
+	function.
+<HR>
+<BR>
+	<BR>
+	
+<HR>
+<strong>TIP:</strong> When possible, initialize pointers to NULL when you declare them.
+	Never leave a pointer uninitialized.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>Adding an Element to the End of the List</H4>
+<P>To add an element to the end of a linked list, you need to start at the head pointer
+and go through the list until you find the last element. After you've found it, follow
+these steps:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Create an instance of your structure, allocating memory space using
+	malloc().
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Set the next pointer in the last element to point to the new element
+	(whose address is returned by malloc()).
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Set the next pointer in the new element to NULL to signal that it is
+	the last item in the list.
+	<P>
+</DL>
+
+<P>Here is the code:</P>
+<P>
+<PRE>person *current;
+...
+current = head;
+while (current-&gt;next != NULL)
+    current = current-&gt;next;
+new = (person*)malloc(sizeof(struct person));
+current-&gt;next = new;
+new-&gt;next = NULL;
+</PRE>
+<P>Figure 15.11 illustrates the procedure for adding a new element to the end of
+a linked list.</P>
+<P><A HREF="javascript:popUp('b5tyc07.gif')"><B>Figure 15.11.</B></A><B> </B><I>Adding
+a new element to the end of a linked list.</I></P>
+
+<P><I></I>
+<H4><BR>
+Adding an Element to the Middle of the List</H4>
+<P>When you're working with a linked list, most of the time you will be adding elements
+somewhere in the middle of the list. Exactly where the new element is placed depends
+on how you're keeping the list--for example, if it is sorted on one or more data
+elements. This process, then, requires that you first locate the position in the
+list where the new element will go, and then add it. Here are the steps to follow:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>In the list, locate the existing element that the new element will
+	be placed after. Let's call this the <I>marker</I> element.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Create an instance of your structure, allocating memory space using
+	malloc().
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Set the next pointer of the marker element to point to the new element
+	(whose address is returned by malloc()).
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Set the next pointer of the new element to point to the element that
+	the marker element used to point to.
+	<P>
+</DL>
+
+<P>Here's how the code might look:</P>
+<P>
+<PRE>person *marker;
+/* Code here to set marker to point to the desired list location. */
+...
+new = (LINK)malloc(sizeof(PERSON));
+new-&gt;next = marker-&gt;next;
+marker-&gt;next = new;
+</PRE>
+<P>Figure 15.1

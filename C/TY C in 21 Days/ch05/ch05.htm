@@ -1,0 +1,1284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 5 -- Functions: The Basics</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch04/ch04.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch06/ch06.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 5 -</H1>
+
+<H1>Functions: The Basics</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">What Is a Function?</A>
+	<UL>
+		<LI><A HREF="#Heading2">A Function Defined</A>
+		<LI><A HREF="#Heading3">A Function Illustrated</A>
+	</UL>
+	<LI><A HREF="#Heading4">How a Function Works</A>
+	<LI><A HREF="#Heading5">Functions and Structured Programming</A>
+	<UL>
+		<LI><A HREF="#Heading6">The Advantages of Structured Programming</A>
+		<LI><A HREF="#Heading7">Planning a Structured Program</A>
+		<LI><A HREF="#Heading8">The Top-Down Approach</A>
+	</UL>
+	<LI><A HREF="#Heading9">Writing a Function</A>
+	<UL>
+		<LI><A HREF="#Heading10">The Function Header</A>
+		<LI><A HREF="#Heading11">The Function Body</A>
+		<LI><A HREF="#Heading12">The Function Prototype</A>
+	</UL>
+	<LI><A HREF="#Heading13">Passing Arguments to a Function</A>
+	<LI><A HREF="#Heading14">Calling Functions</A>
+	<UL>
+		<LI><A HREF="#Heading15">Recursion</A>
+	</UL>
+	<LI><A HREF="#Heading16">Where the Functions Belong</A>
+	<LI><A HREF="#Heading17">Summary</A>
+	<LI><A HREF="#Heading18">Q&amp;A</A>
+	<LI><A HREF="#Heading19">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading20">Quiz</A>
+		<LI><A HREF="#Heading21">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>Functions are central to C programming and to the philosophy of C program design.
+You've already been introduced to some of C's library functions, which are complete
+functions supplied as part of your compiler. This chapter covers user-defined functions,
+which, as the name implies, are functions that you, the programmer, create. Today
+you will learn</P>
+<P>
+
+<UL>
+	<LI>What a function is and what its parts are
+	<P>
+	<LI>About the advantages of structured programming with functions
+	<P>
+	<LI>How to create a function
+	<P>
+	<LI>How to declare local variables in a function
+	<P>
+	<LI>How to return a value from a function to the program
+	<P>
+	<LI>How to pass arguments to a function
+</UL>
+
+<H2><A NAME="Heading1"></A>What Is a Function?</H2>
+<P>This chapter approaches the question &quot;What is a function?&quot; in two ways.
+First, it tells you what functions are, and then it shows you how they're used.</P>
+<P>
+<H3><A NAME="Heading2"></A>A Function Defined</H3>
+<P>First the definition: A <I>function</I> is a named, independent section of C code
+that performs a specific task and optionally returns a value to the calling program.
+Now let's look at the parts of this definition:</P>
+<P>
+
+<UL>
+	<LI><I>A</I> <I>function is named</I>. Each function has a unique name. By using
+	that name in another part of the program, you can execute the statements contained
+	in the function. This is known as <I>calling</I> the function. A function can be
+	called from within another function.
+	<P>
+	<LI><I>A</I> <I>function is independent</I>. A function can perform its task without
+	interference from or interfering with other parts of the program.
+	<P>
+	<LI><I>A function performs a specific task</I>. This is the easy part of the definition.
+	A task is a discrete job that your program must perform as part of its overall operation,
+	such as sending a line of text to a printer, sorting an array into numerical order,
+	or calculating a cube root.
+	<P>
+	<LI><I>A function can return a value to the calling program</I>. When your program
+	calls a function, the statements it contains are executed. If you want them to, these
+	statements can pass information back to the calling program.
+</UL>
+
+<P>That's all there is to the &quot;telling&quot; part. Keep the previous definition
+in mind as you look at the next section.</P>
+<P>
+<H3><A NAME="Heading3"></A>A Function Illustrated</H3>
+<P>Listing 5.1 contains a user-defined function.</P>
+<P>
+<H4>Listing 5.1. A program that uses a function to calculate the cube of a number.</H4>
+<PRE>1:   /* Demonstrates a simple function */
+2:   #include &lt;stdio.h&gt;
+3:
+4:   long cube(long x);
+5:
+6:   long input, answer;
+7:
+8:   main()
+9:   {
+10:     printf(&quot;Enter an integer value: &quot;);
+11:     scanf(&quot;%d&quot;, &amp;input);
+12:     answer = cube(input);
+13:     /* Note: %ld is the conversion specifier for */
+14:     /* a long integer */
+15:     printf(&quot;\nThe cube of %ld is %ld.\n&quot;, input, answer);
+16:
+17:     return 0;
+18:  }
+19:
+20:  /* Function: cube() - Calculates the cubed value of a variable */
+21:  long cube(long x)
+22:  {
+23:     long x_cubed;
+24:
+25:     x_cubed = x * x * x;
+26:     return x_cubed;
+27:  }
+Enter an integer value: <B>100</B>
+The cube of 100 is 1000000.
+Enter an integer value: <B>9</B>
+The cube of 9 is 729.
+Enter an integer value: <B>3</B>
+The cube of 3 is 27.
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> The following analysis focuses on the components of the program that
+	relate directly to the function rather than explaining the entire program.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P><strong>ANALYSIS: </strong> Line 4 contains the <I>function</I> <I>prototype,</I> a model
+for a function that will appear later in the program. A function's prototype contains
+the name of the function, a list of variables that must be passed to it, and the
+type of variable it returns, if any. Looking at line 4, you can tell that the function
+is named cube, that it requires a variable of the type long, and that it will return
+a value of type long. The variables to be passed to the function are called <I>arguments,</I>
+and they are enclosed in parentheses following the function's name. In this example,
+the function's argument is long x. The keyword before the name of the function indicates
+the type of variable the function returns. In this case, a type long variable is
+returned.</P>
+<P>Line 12 calls the function cube and passes the variable input to it as the function's
+argument. The function's return value is assigned to the variable answer. Notice
+that both input and answer are declared on line 6 as long variables, in keeping with
+the function prototype on line 4.</P>
+<P>The function itself is called the <I>function</I> <I>definition</I>. In this case,
+it's called cube and is contained in lines 21 through 27. Like the prototype, the
+function definition has several parts. The function starts out with a function header
+on line 21. The <I>function</I> <I>header</I> is at the start of a function, and
+it gives the function's name (in this case, the name is cube). The header also gives
+the function's return type and describes its arguments. Note that the function header
+is identical to the function prototype (minus the semicolon).</P>
+<P>The body of the function, lines 22 through 27, is enclosed in braces. The body
+contains statements, such as on line 25, that are executed whenever the function
+is called. Line 23 is a variable declaration that looks like the declarations you
+have seen before, with one difference: it's local. <I>Local</I> variables are declared
+within a function body. (Local declarations are discussed further on Day 12, &quot;Understanding
+Variable Scope.&quot;) Finally, the function concludes with a return statement on
+line 26, which signals the end of the function. A return statement also passes a
+value back to the calling program. In this case, the value of the variable x_cubed
+is returned.</P>
+<P>If you compare the structure of the cube() function with that of the main() function,
+you'll see that they are the same. main() is also a function. Other functions that
+you already have used are printf() and scanf(). Although printf() and scanf() are
+library functions (as opposed to user-defined functions), they are functions that
+can take arguments and return values just like the functions you create.</P>
+<P>
+<H2><A NAME="Heading4"></A>How a Function Works</H2>
+<P>A C program doesn't execute the statements in a function until the function is
+called by another part of the program. When a function is called, the program can
+send the function information in the form of one or more arguments. An <I>argument</I>
+is program data needed by the function to perform its task. The statements in the
+function then execute, performing whatever task each was designed to do. When the
+function's statements have finished, execution passes back to the same location in
+the program that called the function. Functions can send information back to the
+program in the form of a return value.</P>
+<P>Figure 5.1 shows a program with three functions, each of which is called once.
+Each time a function is called, execution passes to that function. When the function
+is finished, execution passes back to the place from which the function was called.
+A function can be called as many times as needed, and functions can be called in
+any order.</P>
+<P><A HREF="javascript:popUp('fig51.gif')"><B>Figure 5.1.</B></A><B> </B><I>When
+a program calls a function, execution passes to the function and then back to the
+calling program.</I></P>
+
+<P>You now know what a function is and the importance of functions. Lessons on how
+to create and use your own functions follow.</P>
+<P>
+<H4>Functions</H4>
+<P><B>Function Prototype</B></P>
+<P>
+<PRE><I>return_type function_name</I>( <I>arg-type name-1</I>,...,<I>arg-type name-n</I>);
+</PRE>
+<P><B>Function Definition</B></P>
+<P>
+<PRE><I>return_type function_name</I>( <I>arg-type name-1</I>,...,<I>arg-type name-n</I>)
+{
+    /* <I>statements</I>; */
+}
+</PRE>
+<P>A <I>function</I> <I>prototype</I> provides the compiler with a description of
+a function that will be defined at a later point in the program. The prototype includes
+a return type indicating the type of variable that the function will return. It also
+includes the function name, which should describe what the function does. The prototype
+also contains the variable types of the arguments (arg type) that will be passed
+to the function. Optionally, it can contain the names of the variables that will
+be passed. A prototype should always end with a semicolon.</P>
+<P>A <I>function</I> <I>definition</I> is the actual function. The definition contains
+the code that will be executed. The first line of a function definition, called the
+<I>function header,</I> should be identical to the function prototype, with the exception
+of the semicolon. A function header shouldn't end with a semicolon. In addition,
+although the argument variable names were optional in the prototype, they must be
+included in the function header. Following the header is the function body, containing
+the statements that the function will perform. The function body should start with
+an opening bracket and end with a closing bracket. If the function return type is
+anything other than void, a return statement should be included, returning a value
+matching the return type.</P>
+<P><B>Function Prototype Examples</B></P>
+<P>
+<PRE>double squared( double number );
+void print_report( int report_number );
+int get_menu_choice( void );
+</PRE>
+<P><B>Function Definition Examples</B></P>
+<P>
+<PRE>double squared( double number )          /* function header */
+{                                        /* opening bracket */
+    return(  number * number );          /* function body   */
+}                                        /* closing bracket */
+void print_report( int report_number )
+{
+    if( report_number == 1 )
+        puts( &quot;Printing Report 1&quot; );
+    else
+        puts( &quot;Not printing Report 1&quot; );
+}
+</PRE>
+<H2><A NAME="Heading5"></A>Functions and Structured Programming</H2>
+<P>By using functions in your C programs, you can practice <I>structured</I> <I>programming,</I>
+in which individual program tasks are performed by independent sections of program
+code. &quot;Independent sections of program code&quot; sounds just like part of the
+definition of functions given earlier, doesn't it? Functions and structured programming
+are closely related.</P>
+<P>
+<H3><A NAME="Heading6"></A>The Advantages of Structured Programming</H3>
+<P>Why is structured programming so great? There are two important reasons:</P>
+<P>
+
+<UL>
+	<LI>It's easier to write a structured program, because complex programming problems
+	are broken into a number of smaller, simpler tasks. Each task is performed by a function
+	in which code and variables are isolated from the rest of the program. You can progress
+	more quickly by dealing with these relatively simple tasks one at a time.
+	<P>
+	<LI>It's easier to debug a structured program. If your program has a <I>bug</I> (something
+	that causes it to work improperly), a structured design makes it easy to isolate
+	the problem to a specific section of code (a specific function).
+</UL>
+
+<P>A related advantage of structured programming is the time you can save. If you
+write a function to perform a certain task in one program, you can quickly and easily
+use it in another program that needs to execute the same task. Even if the new program
+needs to accomplish a slightly different task, you'll often find that modifying a
+function you created earlier is easier than writing a new one from scratch. Consider
+how much you've used the two functions printf() and scanf() even though you probably
+haven't seen the code they contain. If your functions have been created to perform
+a single task, using them in other programs is much easier.</P>
+<P>
+<H3><A NAME="Heading7"></A>Planning a Structured Program</H3>
+<P>If you're going to write a structured program, you need to do some planning first.
+This planning should take place before you write a single line of code, and it usually
+can be done with nothing more than pencil and paper. Your plan should be a list of
+the specific tasks your program performs. Begin with a global idea of the program's
+function. If you were planning a program to manage your name and address list, what
+would you want the program to do? Here are some obvious things:</P>
+<P>
+
+<UL>
+	<LI>Enter new names and addresses.
+	<P>
+	<LI>Modify existing entries.
+	<P>
+	<LI>Sort entries by last name.
+	<P>
+	<LI>Print mailing labels.
+</UL>
+
+<P>With this list, you've divided the program into four main tasks, each of which
+can be assigned to a function. Now you can go a step further, dividing these tasks
+into subtasks. For example, the &quot;Enter new names and addresses&quot; task can
+be subdivided into these subtasks:</P>
+<P>
+
+<UL>
+	<LI>Read the existing address list from disk.
+	<P>
+	<LI>Prompt the user for one or more new entries.
+	<P>
+	<LI>Add the new data to the list.
+	<P>
+	<LI>Save the updated list to disk.
+</UL>
+
+<P>Likewise, the &quot;Modify existing entries&quot; task can be subdivided as follows:</P>
+<P>
+
+<UL>
+	<LI>Read the existing address list from disk.
+	<P>
+	<LI>Modify one or more entries.
+	<P>
+	<LI>Save the updated list to disk.
+</UL>
+
+<P>You might have noticed that these two lists have two subtasks in common--the ones
+dealing with reading from and saving to disk. You can write one function to &quot;Read
+the existing address list from disk,&quot; and that function can be called by both
+the &quot;Enter new names and addresses&quot; function and the &quot;Modify existing
+entries&quot; function. The same is true for &quot;Save the updated list to disk.&quot;</P>
+<P>Already you should see at least one advantage of structured programming. By carefully
+dividing the program into tasks, you can identify parts of the program that share
+common tasks. You can write &quot;double-duty&quot; disk access functions, saving
+yourself time and making your program smaller and more efficient.</P>
+<P>This method of programming results in a <I>hierarchical,</I> or layered, program
+structure. Figure 5.2 illustrates hierarchical programming for the address list program.</P>
+<P><A HREF="javascript:popUp('05tyc02.gif')"><B>Figure 5.2.</B></A><B> </B><I>A structured
+program is organized hierarchically.</I></P>
+
+<P>When you follow this planned approach, you quickly make a list of discrete tasks
+that your program needs to perform. Then you can tackle the tasks one at a time,
+giving all your attention to one relatively simple task. When that function is written
+and working properly, you can move on to the next task. Before you know it, your
+program starts to take shape.</P>
+<P>
+<H3><A NAME="Heading8"></A>The Top-Down Approach</H3>
+<P>By using structured programming, C programmers take the <I>top</I>-<I>down</I>
+<I>approach</I>. You saw this illustrated in Figure 5.2, where the program's structure
+resembles an inverted tree. Many times, most of the real work of the program is performed
+by the functions at the tips of the &quot;branches.&quot; The functions closer to
+the &quot;trunk&quot; primarily direct program execution among these functions.</P>
+<P>As a result, many C programs have a small amount of code in the main body of the
+program--that is, in main(). The bulk of the program's code is found in functions.
+In main(), all you might find are a few dozen lines of code that direct program execution
+among the functions. Often, a menu is presented to the person using the program.
+Program execution is branched according to the user's choices. Each branch of the
+menu uses a different function.</P>
+<P>This is a good approach to program design. Day 13, &quot;Advanced Program Control,&quot;
+shows how you can use the switch statement to create a versatile menu-driven system.</P>
+<P>Now that you know what functions are and why they're so important, the time has
+come for you to learn how to write your own.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> plan before starting to code. By determining your program's structure ahead
+	of time, you can save time writing the code and debugging it.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> try to do everything in one function. A single function should perform
+	a single task, such as reading information from a file.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading9"></A>Writing a Function</H2>
+<P>The first step in writing a function is knowing what you want the function to
+do. Once you know that, the actual mechanics of writing the function aren't particularly
+difficult.</P>
+<P>
+<H3><A NAME="Heading10"></A>The Function Header</H3>
+<P>The first line of every function is the function header, which has three components,
+each serving a specific function. They are shown in Figure 5.3 and explained in the
+following sections.</P>
+<P><A HREF="javascript:popUp('05tyc03.gif')"><B>Figure 5.3.</B></A><B> </B><I>The
+three components of a function header.</I></P>
+
+<P><I></I>
+<H4>The Function Return Type</H4>
+<P>The function return type specifies the data type that the function returns to
+the calling program. The return type can be any of C's data types: char, int, long,
+float, or double. You can also define a function that doesn't return a value by using
+a return type of void. Here are some examples:</P>
+<P>
+<PRE>int <I>func1</I>(...)          /* Returns a type int.   */
+float <I>func2</I>(...)        /* Returns a type float. */
+void <I>func3</I>(...)         /* Returns nothing.      */
+</PRE>
+<H4>The Function Name</H4>
+<P>You can name a function anything you like, as long as you follow the rules for
+C variable names (given in Day 3, &quot;Storing Data: Variables and Constants&quot;).
+A function name must be unique (not assigned to any other function or variable).
+It's a good idea to assign a name that reflects what the function does.</P>
+<P>
+<H4>The Parameter List</H4>
+<P>Many functions use <I>arguments</I>, which are values passed to the function when
+it's called. A function needs to know what kinds of arguments to expect--the data
+type of each argument. You can pass a function any of C's data types. Argument type
+information is provided in the function header by the parameter list.</P>
+<P>For each argument that is passed to the function, the parameter list must contain
+one entry. This entry specifies the data type and the name of the parameter. For
+example, here's the header from the function in Listing 5.1:</P>
+<P>
+<PRE>long cube(long x)
+</PRE>
+<P>The parameter list consists of long x, specifying that this function takes one
+type long argument, represented by the parameter x. If there is more than one parameter,
+each must be separated by a comma. The function header</P>
+<P>
+<PRE>void <I>func1</I>(int x, float y, char z)
+</PRE>
+<P>specifies a function with three arguments: a type int named x, a type float named
+y, and a type char named z. Some functions take no arguments, in which case the parameter
+list should consist of void, like this:</P>
+<P>
+<PRE>void <I>func2</I>(void)
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> You do not place a semicolon at the end of a function header. If
+	you mistakenly include one, the compiler will generate an error message.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>Sometimes confusion arises about the distinction between a parameter and an argument.
+A <I>parameter</I> is an entry in a function header; it serves as a &quot;placeholder&quot;
+for an argument. A function's parameters are fixed; they do not change during program
+execution.</P>
+<P>An <I>argument</I> is an actual value passed to the function by the calling program.
+Each time a function is called, it can be passed different arguments. In C, a function
+must be passed the same number and type of arguments each time it's called, but the
+argument values can be different. In the function, the argument is accessed by using
+the corresponding parameter name.</P>
+<P>An example will make this clearer. Listing 5.2 presents a very simple program
+with one function that is called twice.</P>
+<P>
+<H4>Listing 5.2. The difference between arguments and parameters.</H4>
+<PRE>1:   /* Illustrates the difference between arguments and parameters. */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   float x = 3.5, y = 65.11, z;
+6:
+7:   float half_of(float k);
+8:
+9:   main()
+10:  {
+11:      /* In this call, x is the argument to half_of(). */
+12:      z = half_of(x);
+13:      printf(&quot;The value of z = %f\n&quot;, z);
+14:
+15:      /* In this call, y is the argument to half_of(). */
+16:      z = half_of(y);
+17:      printf(&quot;The value of z = %f\n&quot;, z);
+18:
+19:      return 0;
+20:  }
+21:
+22:  float half_of(float k)
+23:  {
+24:      /* k is the parameter. Each time half_of() is called, */
+25:      /* k has the value that was passed as an argument. */
+26:
+27:      return (k/2);
+28:  }
+The value of z = 1.750000
+The value of z = 32.555000
+</PRE>
+<P>Figure 5.4 shows the relationship between arguments and parameters.</P>
+<P><A HREF="javascript:popUp('05tyc04a.gif')"><B>Figure 5.4.</B></A><B> </B><I>Each
+time a function is called, the arguments are passed to the function's parameters.</I></P>
+
+<P><strong>ANALYSIS: </strong> Looking at Listing 5.2, you can see that the half_of() function
+prototype is declared on line 7. Lines 12 and 16 call half_of(), and lines 22 through
+28 contain the actual function. Lines 12 and 16 each send a different argument to
+half_of(). Line 12 sends x, which contains a value of 3.5, and line 16 sends y, which
+contains a value of 65.11. When the program runs, it prints the correct number for
+each. The values in x and y are passed into the argument k of half_of(). This is
+like copying the values from x to k, and then from y to k. half_of() then returns
+this value after dividing it by 2 (line 27).</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use a function name that describes the purpose of the function.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> pass values to a function that it doesn't need.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> try to pass fewer (or more) arguments to a function than there are
+	parameters. In C programs, the number of arguments passed must match the number of
+	parameters.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading11"></A>The Function Body</H3>
+<P>The <I>function</I> <I>body</I> is enclosed in braces, and it immediately follows
+the function header. It's here that the real work is done. When a function is called,
+execution begins at the start of the function body and terminates (returns to the
+calling program) when a return statement is encountered or when execution reaches
+the closing brace.</P>
+<P>
+<H4>Local Variables</H4>
+<P>You can declare variables within the body of a function. Variables declared in
+a function are called <I>local</I> <I>variables</I>. The term <I>local</I> means
+that the variables are private to that particular function and are distinct from
+other variables of the same name declared elsewhere in the program. This will be
+explained shortly; for now, you should learn how to declare local variables.</P>
+<P>A local variable is declared like any other variable, using the same variable
+types and rules for names that you learned on Day 3. Local variables can also be
+initialized when they are declared. You can declare any of C's variable types in
+a function. Here is an example of four local variables being declared within a function:</P>
+<P>
+<PRE>int func1(int y)
+{
+    int a, b = 10;
+    float rate;
+    double cost = 12.55;
+    /* function code goes here... */
+}
+</PRE>
+<P>The preceding declarations create the local variables a, b, rate, and cost, which
+can be used by the code in the function. Note that the function parameters are considered
+to be variable declarations, so the variables, if any, in the function's parameter
+list also are available.</P>
+<P>When you declare and use a variable in a function, it is totally separate and
+distinct from any other variables that are declared elsewhere in the program. This
+is true even if the variables have the same name. Listing 5.3 demonstrates this independence.</P>
+<P>
+<H4>Listing 5.3. A demonstration of local variables.</H4>
+<PRE>1:   /* Demonstrates local variables. */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int x = 1, y = 2;
+6:
+7:   void demo(void);
+8:
+9:   main()
+10:  {
+11:    printf(&quot;\nBefore calling demo(), x = %d and y = %d.&quot;, x, y);
+12:    demo();
+13:    printf(&quot;\nAfter calling demo(), x = %d and y = %d\n.&quot;, x, y);
+14:
+15:    return 0;
+16:  }
+17:
+18:  void demo(void)
+19:  {
+20:      /* Declare and initialize two local variables. */
+21:
+22:      int x = 88, y = 99;
+23:
+24:      /* Display their values. */
+25:
+26:      printf(&quot;\nWithin demo(), x = %d and y = %d.&quot;, x, y);
+27:  }
+Before calling demo(), x = 1 and y = 2.
+Within demo(), x = 88 and y = 99.
+After calling demo(), x = 1 and y = 2.
+</PRE>
+<P><strong>ANALYSIS: </strong> Listing 5.3 is similar to the previous programs in this chapter.
+Line 5 declares variables x and y. These are declared outside of any functions and
+therefore are considered global. Line 7 contains the prototype for our demonstration
+function, named demo(). It doesn't take any parameters, so it has void in the prototype.
+It also doesn't return any values, giving it a type of void. Line 9 starts our main()
+function, which is very simple. First, printf() is called on line 11 to display the
+values of x and y, and then the demo() function is called. Notice that demo() declares
+its own local versions of x and y on line 22. Line 26 shows that the local variables
+take precedence over any others. After the demo function is called, line 13 again
+prints the values of x and y. Because you are no longer in demo(), the original global
+values are printed.</P>
+<P>As you can see, local variables x and y in the function are totally independent
+from the global variables x and y declared outside the function. Three rules govern
+the use of variables in functions:</P>
+<P>
+
+<UL>
+	<LI>To use a variable in a function, you must declare it in the function header or
+	the function body (except for global variables, which are covered on Day 12.
+	<P>
+	<LI>In order for a function to obtain a value from the calling program, the value
+	must be passed as an argument.
+	<P>
+	<LI>In order for a calling program to obtain a value from a function, the value must
+	be explicitly returned from the function.
+</UL>
+
+<P>To be honest, these &quot;rules&quot; are not strictly applied, because you'll
+learn how to get around them later in this book. However, follow these rules for
+now, and you should stay out of trouble.</P>
+<P>Keeping the function's variables separate from other program variables is one
+way in which functions are independent. A function can perform any sort of data manipulation
+you want, using its own set of local variables. There's no worry that these manipulations
+will have an unintended effect on another part of the program.</P>
+<P>
+<H4>Function Statements</H4>
+<P>There is essentially no limitation on the statements that can be included within
+a function. The only thing you can't do inside a function is define another function.
+You can, however, use all other C statements, including loops (these are covered
+on Day 6, &quot;Basic Program Control&quot;), if statements, and assignment statements.
+You can call library functions and other user-defined functions.</P>
+<P>What about function length? C places no length restriction on functions, but as
+a matter of practicality, you should keep your functions relatively short. Remember
+that in structured programming, each function is supposed to perform a relatively
+simple task. If you find that a function is getting long, perhaps you're trying to
+perform a task too complex for one function alone. It probably can be broken into
+two or more smaller functions.</P>
+<P>How long is too long? There's no definite answer to that question, but in practical
+experience it's rare to find a function longer than 25 or 30 lines of code. You have
+to use your own judgment. Some programming tasks require longer functions, whereas
+many functions are only a few lines long. As you gain programming experience, you
+will become more adept at determining what should and shouldn't be broken into smaller
+functions.</P>
+<P>
+<H4>Returning a Value</H4>
+<P>To return a value from a function, you use the return keyword, followed by a C
+expression. When execution reaches a return statement, the expression is evaluated,
+and execution passes the value back to the calling program. The return value of the
+function is the value of the expression. Consider this function:</P>
+<P>
+<PRE>int <I>func1</I>(int var)
+{
+    int x;
+    /* Function code goes here... */
+    return x;
+}
+</PRE>
+<P>When this function is called, the statements in the function body execute up to
+the return statement. The return terminates the function and returns the value of
+x to the calling program. The expression that follows the return keyword can be any
+valid C expression.</P>
+<P>A function can contain multiple return statements. The first return executed is
+the only one that has any effect. Multiple return statements can be an efficient
+way to return different values from a function, as demonstrated in Listing 5.4.</P>
+<P>
+<H4>Listing 5.4. Using multiple return statements in a function.</H4>
+<PRE>1:   /* Demonstrates using multiple return statements in a function. */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int x, y, z;
+6:
+7:   int larger_of( int , int );
+8:
+9:   main()
+10:  {
+11:      puts(&quot;Enter two different integer values: &quot;);
+12:      scanf(&quot;%d%d&quot;, &amp;x, &amp;y);
+13:
+14:      z = larger_of(x,y);
+15:
+16:      printf(&quot;\nThe larger value is %d.&quot;, z);
+17:
+18:      return 0;
+19:  }
+20:
+21:  int larger_of( int a, int b)
+22:  {
+23:      if (a &gt; b)
+24:          return a;
+25:      else
+26:          return b;
+27:  }
+Enter two different integer values:
+<B>200</B> <B>300</B>
+The larger value is 300.
+Enter two different integer values:
+<B>300</B>
+<B>200</B>
+The larger value is 300.
+</PRE>
+<P><strong>ANALLYSIS: </strong> As in other examples, Listing 5.4 starts with a comment
+to describe what the program does (line 1). The STDIO.H header file is included for
+the standard input/output functions that allow the program to display information
+to the screen and get user input. Line 7 is the function prototype for larger_of().
+Notice that it takes two int variables for parameters and returns an int. Line 14
+calls larger_of() with x and y. The function larger_of() contains the multiple return
+statements. Using an if statement, the function checks to see whether a is bigger
+than b on line 23. If it is, line 24 executes a return statement, and the function
+immediately ends. Lines 25 and 26 are ignored in this case. If a isn't bigger than
+b, line 24 is skipped, the else clause is instigated, and the return on line 26 executes.
+You should be able to see that, depending on the arguments passed to the function
+larger_of(), either the first or the second return statement is executed, and the
+appropriate value is passed back to the calling function.</P>
+<P>One final note on this program. Line 11 is a new function that you haven't seen
+before. puts()--meaning <I>put</I> <I>string</I>--is a simple function that displays
+a string to the standard output, usually the computer screen. (Strings are covered
+on Day 10, &quot;Characters and Strings.&quot; For now, know that they are just quoted
+text.)</P>
+<P>Remember that a function's return value has a type that is specified in the function
+header and function prototype. The value returned by the function must be of the
+same type, or the compiler generates an error message.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> Structured programming suggests that you have only one entry and
+	one exit in a function. This means that you should try to have only one return statement
+	within your function. At times, however, a program might be much easier to read and
+	maintain with more than one return statement. In such cases, maintainability should
+	take precedence.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading12"></A>The Function Prototype</H3>
+<P>A program must include a prototype for each function it uses. You saw an example
+of a function prototype on line 4 of Listing 5.1, and there have been function prototypes
+in the other listings as well. What is a function prototype, and why is it needed?</P>
+<P>You can see from the earlier examples that the prototype for a function is identical
+to the function header, with a semicolon added at the end. Like the function header,
+the function prototype includes information about the function's return type, name,
+and parameters. The prototype's job is to tell the compiler about the function's
+return type, name, and parameters. With this information, the compiler can check
+every time your source code calls the function and verify that you're passing the
+correct number and type of arguments to the function and using the return value correctly.
+If there's a mismatch, the compiler generates an error message.</P>
+<P>Strictly speaking, a function prototype doesn't need to exactly match the function
+header. The parameter names can be different, as long as they are the same type,
+number, and in the same order. There's no reason for the header and prototype not
+to match; having them identical makes source code easier to understand. Matching
+the two also makes writing a program easier. When you complete a function definition,
+use your editor's cut-and-paste feature to copy the function header and create the
+prototype. Be sure to add a semicolon at the end.</P>
+<P>Where should function prototypes be placed in your source code? They should be
+placed before the start of main() or before the first function is defined. For readability,
+it's best to group all prototypes in one location.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> try to return a value that has a type different from the function's
+	type.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use local variables whenever possible.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> let functions get too long. If a function starts getting long, try
+	to break it into separate, smaller tasks.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> limit each function to a single task.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> have multiple return statements if they aren't needed. You should
+	try to have one return when possible; however, sometimes having multiple return statements
+	is easier and clearer.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading13"></A>Passing Arguments to a Function</H2>
+<P>To pass arguments to a function, you list them in parentheses following the function
+name. The number of arguments and the type of each argument must match the parameters
+in the function header and prototype. For example, if a function is defined to take
+two type int arguments, you must pass it exactly two int arguments--no more, no less--and
+no other type. If you try to pass a function an incorrect number and/or type of argument,
+the compiler will detect it, based on the information in the function prototype.</P>
+<P>If the function takes multiple arguments, the arguments listed in the function
+call are assigned to the function parameters in order: the first argument to the
+first parameter, the second argument to the second parameter, and so on, as shown
+in Figure 5.5.</P>
+<P><A HREF="javascript:popUp('05tyc05a.gif')"><B>Figure 5.5.</B></A><B> </B><I>Multiple
+arguments are assigned to function parameters in order.</I></P>
+
+<P>Each argument can be any valid C expression: a constant, a variable, a mathematical
+or logical expression, or even another function (one with a return value). For example,
+if half(), square(), and third() are all functions with return values, you could
+write</P>
+<P>
+<PRE>x = half(third(square(half(y))));
+</PRE>
+<P>The program first calls half(), passing it y as an argument. When execution returns
+from half(), the program calls square(), passing half()'s return value as an argument.
+Next, third() is called with square()'s return value as the argument. Then, half()
+is called again, this time with third()'s return value as an argument. Finally, half()'s
+return value is assigned to the variable x. The following is an equivalent piece
+of code:</P>
+<P>
+<PRE>a = half(y);
+b = square(a);
+c = third(b);
+x = half(c);
+</PRE>
+<H2><A NAME="Heading14"></A>Calling Functions</H2>
+<P>There are two ways to call a function. Any function can be called by simply using
+its name and argument list alone in a statement, as in the following example. If
+the function has a return value, it is discarded.</P>
+<P>
+<PRE>wait(12);
+</PRE>
+<P>The second method can be used only with functions that have a return value. Because
+these functions evaluate to a value (that is, their return value), they are valid
+C expressions and can be used anywhere a C expression can be used. You've already
+seen an expression with a return value used as the right side of an assignment statement.
+Here are some more examples.</P>
+<P>In the following example, half_of() is a parameter of a function:</P>
+<P>
+<PRE>printf(&quot;Half of %d is %d.&quot;, x, half_of(x));
+</PRE>
+<P>First, the function half_of() is called with the value of x, and then printf()
+is called using the values x and half_of(x).</P>
+<P>In this second example, multiple functions are being used in an expression:</P>
+<P>
+<PRE>y = half_of(x) + half_of(z);
+</PRE>
+<P>Although half_of() is used twice, the second call could have been any other function.
+The following code shows the same statement, but not all on one line:</P>
+<P>
+<PRE>a = half_of(x);
+b = half_of(z);
+y = a + b;
+</PRE>
+<P>The final two examples show effective ways to use the return values of functions.
+Here, a function is being used with the if statement:</P>
+<P>
+<PRE>if ( half_of(x) &gt; 10 )
+{
+    /* <I>statements</I>; */          /* these could be any statements! */
+}
+</PRE>
+<P>If the return value of the function meets the criteria (in this case, if half_of()
+returns a value greater than 10), the if statement is true, and its statements are
+executed. If the returned value doesn't meet the criteria, the if's statements are
+not executed.</P>
+<P>The following example is even better:</P>
+<P>
+<PRE>if ( do_a_process() != OKAY )
+{
+    /* <I>statements</I>; */          /* do error routine */
+}
+</PRE>
+<P>Again, I haven't given the actual statements, nor is do_a_process() a real function;
+however, this is an important example that checks the return value of a process to
+see whether it ran all right. If it didn't, the statements take care of any error
+handling or cleanup. This is commonly used with accessing information in files, comparing
+values, and allocating memory.</P>
+<P>If you try to use a function with a void return type as an expression, the compiler
+generates an error message.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> pass parameters to functions in order to make the function generic and
+	thus reusable.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> take advantage of the ability to put functions into expressions.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> make an individual statement confusing by putting a bunch of functions
+	in it. You should put functions into your statements only if they don't make the
+	code more confusing.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading15"></A>Recursion</H3>
+<P>The term <I>recursion</I> refers to a situation in which a function calls itself
+either directly or indirectly. <I>Indirect</I> <I>recursion</I> occurs when one function
+calls another function that then calls the first function. C allows recursive functions,
+and they can be useful in some situations.</P>
+<P>For example, recursion can be used to calculate the factorial of a number. The
+factorial of a number x is written x! and is calculated as follows:</P>
+<P>
+<PRE>x! = x * (x-1) * (x-2) * (x-3) * ... * (2) * 1
+</PRE>
+<P>However, you can also calculate x! like this:</P>
+<P>
+<PRE>x! = x * (x-1)!
+</PRE>
+<P>Going one step further, you can calculate (x-1)! using the same procedure:</P>
+<P>
+<PRE>(x-1)! = (x-1) * (x-2)!
+</PRE>
+<P>You can continue calculating recursively until you're down to a value of 1, in
+which case you're finished. The program in Listing 5.5 uses a recursive function
+to calculate factorials. Because the program uses unsigned integers, it's limited
+to an input value of 8; the factorial of 9 and larger values are outside the allowed
+range for integers.</P>
+<P>
+<H4>Listing 5.5. Using a recursive function to calculate factorials.</H4>
+<PRE>1:   /* Demonstrates function recursion. Calculates the */
+2:   /* factorial of a number. */
+3:
+4:   #include &lt;stdio.h&gt;
+5:
+6:   unsigned int f, x;
+7:   unsigned int factorial(unsigned int a);
+8:
+9:   main()
+10:  {
+11:      puts(&quot;Enter an integer value between 1 and 8: &quot;);
+12:      scanf(&quot;%d&quot;, &amp;x);
+13:
+14:      if( x &gt; 8 || x &lt; 1)
+15:      {
+16:          printf(&quot;Only values from 1 to 8 are acceptable!&quot;);
+17:      }
+18:      else
+19:      {
+20:          f = factorial(x);
+21:          printf(&quot;%u factorial equals %u\n&quot;, x, f);
+22:      }
+23:
+24:      return 0;
+25:  }
+26:
+27:  unsigned int factorial(unsigned int a)
+28:  {
+29:      if (a == 1)
+30:          return 1;
+31:      else
+32:      {
+33:          a *= factorial(a-1);
+34:          return a;
+35:      }
+36:  }
+Enter an integer value between 1 and 8:
+<B>6</B>
+6 factorial equals 720
+</PRE>
+<P><strong>ANALYSIS: </strong> The first half of this program is like many of the other
+programs you have worked with so far. It starts with comments on lines 1 and 2. On
+line 4, the appropriate header file is included for the input/output routines. Line
+6 declares a couple of unsigned integer values. Line 7 is a function prototype for
+the factorial function. Notice that it takes an unsigned int as its parameter and
+returns an unsigned int. Lines 9 through 25 are the main() function. Lines 11 and
+12 print a message asking for a value from 1 to 8 and then accept an entered value.</P>
+<P>Lines 14 through 22 show an interesting if statement. Because a value greater
+than 8 causes a problem, this if statement checks the value. If it's greater than
+8, an error message is printed; otherwise, the program figures the factorial on line
+20 and prints the result on line 21. When you know there could be a problem, such
+as a limit on the size of a number, add code to detect the problem and prevent it.</P>
+<P>Our recursive function, factorial(), is located on lines 27 through 36. The value
+passed is assigned to a. On line 29, the value of a is checked. If it's 1, the program
+returns the value of 1. If the value isn't 1, a is set equal to itself times the
+value of factorial(a-1). The program calls the factorial function again, but this
+time the value of a is (a-1). If (a-1) isn't equal to 1, factorial() is called again
+with ((a-1)-1), which is the same as (a-2). This process continues until the if statement
+on line 29 is true. If the value of the factorial is 3, the factorial is evaluated
+to the following:</P>
+<P>
+<PRE>3 * (3-1) * ((3-1)-1)
+</PRE>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> understand and work with recursion before you use it.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> use recursion if there will be several iterations. (An iteration
+	is the repetition of a program statement.) Recursion uses many resources, because
+	the function has to remember where it is.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading16"></A>Where the Functions Belong</H2>
+<P>You might be wondering where in your source code you should place your function
+definitions. For now, they should go in the same source code file as main() and after
+the end of main(). Figure 5.6 shows the basic structure of a program that uses functions.</P>
+<P>You can keep your user-defined functions in a separate source-code file, apart
+from main(). This technique is useful with large programs and when you want to use
+the same set of functions in more than one program. This technique is discussed on
+Day 21, &quot;Advanced Compiler Use.&quot;</P>
+<P><A HREF="javascript:popUp('05tyc06.gif')"><B>Figure 5.6.</B></A><B> </B><I>Place
+your function prototypes before main() and your function definitions after main().</I></P>
+
+<P><I></I>
+<H2><A NAME="Heading17"></A>Summary</H2>
+<P>This chapter introduced you to functions, an important part of C programming.
+Functions are independent sections of code that perform specific tasks. When your
+program needs a task performed, it calls the function that performs that task. The
+use of functions is essential for structured programming--a method of program design
+that emphasizes a modular, top-down approach. Structured programming creates more
+efficient programs and also is much easier for you, the programmer, to use.</P>
+<P>You also learned that a function consists of a header and a body. The header includes
+information about the function's return type, name, and parameters. The body contains
+local variable declarations and the C statements that are executed when the function
+is called. Finally, you saw that local variables--those declared within a function--are
+totally independent of any other program variables declared elsewhere.</P>
+<P>
+<H2><A NAME="Heading18"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q What if I need to return more than one value from a function?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> Many times you will need to return more than one value from a function,
+	or, more commonly, you will want to change a value you send to the function and keep
+	the change after the function ends. This process is covered on Day 18, &quot;Getting
+	More from Functions.&quot;
+	<P>
+	<DT></DT>
+	<DD><B>Q How do I know what a good function name is?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> A good function name describes as specifically as possible what the
+	function does.
+	<P>
+	<DT></DT>
+	<DD><B>Q When variables are declared at the top of the listing, before main(), they
+	can be used anywhere, but local variables can be used only in the specific function.
+	Why not just declare everything before main()?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A </B>Variable scope is discussed in more detail on Day 12.
+	<P>
+	<DT></DT>
+	<DD><B>Q What other ways are there to use recursion?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> The factorial function is a prime example of using recursion. The factorial
+	number is needed in many statistical calculations. Recursion is just a loop; however,
+	it has one difference from other loops. With recursion, each time a recursive function
+	is called, a new set of variables is created. This is not true of the other loops
+	that you will learn about in the next chapter.
+	<P>
+	<DT></DT>
+	<DD><B>Q Does main() have to be the first function in a program?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> No. It is a standard in C that the main() function is the first function
+	to execute; however, it can be placed anywhere in your source file. Most people place
+	it first so that it's easy to locate.
+	<P>
+	<DT></DT>
+	<DD><B>Q What are member functions?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> Member functions are special functions used in C++ and Java. They are
+	part of a class--which is a special type of structure used in C++ and Java.
+	<P>
+</DL>
+
+<H2><A NAME="Heading19"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered and exercises to provide you with experience in using what you've
+learned.</P>
+<P>
+<H3><A NAME="Heading20"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Will you use structured programming when writing your C programs?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>How does structured programming work?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>How do C functions fit into structured programming?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>What must be the first line of a function definition, and what information
+	does it contain?
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>How many values can a function return?
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>If a function doesn't return a value, what type should it be declared?
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>What's the difference between a function definition and a function
+	prototype?
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>What is a local variable?
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>How are local variables special?
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>Where should the main() function be placed?
+	<P>
+</DL>
+
+<H3><A NAME="Heading21"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Write a header for a function named do_it() that takes three type char
+	arguments and returns a type float to the calling program.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Write a header for a function named print_a_number() that takes a single
+	type int argument and doesn't return anything to the calling program.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>What type value do the following functions return?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>int print_error( float err_nbr);
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>long read_record( int rec_nbr, int size );
+	<P>
+	<DT></DT>
+	<DD><B>4. BUG</B> <B>BUSTER:</B> What's wrong with the following listing?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+void print_msg( void );
+main()
+{
+    print_msg( &quot;This is a message to print&quot; );
+    return 0;
+}
+void print_msg( void )
+{
+    puts( &quot;This is a message to print&quot; );
+    return 0;
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. BUG</B> <B>BUSTER:</B> What's wrong with the following function definition?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int twice(int y);
+{
+    return (2 * y);
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>Rewrite Listing 5.4 so that it needs only one return statement in the
+	larger_of() function.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Write a function that receives two numbers as arguments and returns
+	the value of their product.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Write a function that receives two numbers as arguments. The function
+	should divide the first number by the second. Don't divide by the second number if
+	it's zero. (Hint: Use an if statement.)
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Write a function that calls the functions in exercises 7 and 8.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>Write a program that uses a function to find the average of five type
+	float values entered by the user.
+	<P>
+	<DT></DT>
+	<DD><B>11. </B>Write a recursive function to take the value 3 to the power of another
+	number. For example, if 4 is passed, the function will return 81.
+</DL>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch04/ch04.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch06/ch06.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+<BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

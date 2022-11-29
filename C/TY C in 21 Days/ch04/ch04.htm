@@ -1,0 +1,2011 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 4 -- Statements, Expressions, and Operators</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch03/ch03.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch05/ch05.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 4 -</H1>
+</CENTER>
+<CENTER>
+<H1>Statements, Expressions, and Operators</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Statements</A>
+	<UL>
+		<LI><A HREF="#Heading2">Statements and White Space</A>
+		<LI><A HREF="#Heading3">Null Statements</A>
+		<LI><A HREF="#Heading4">Compound Statements</A>
+	</UL>
+	<LI><A HREF="#Heading5">Expressions</A>
+	<UL>
+		<LI><A HREF="#Heading6">Simple Expressions</A>
+		<LI><A HREF="#Heading7">Complex Expressions</A>
+	</UL>
+	<LI><A HREF="#Heading8">Operators</A>
+	<UL>
+		<LI><A HREF="#Heading9">The Assignment Operator</A>
+		<LI><A HREF="#Heading10">Mathematical Operators</A>
+		<LI><A HREF="#Heading11">Operator Precedence and Parentheses</A>
+		<LI><A HREF="#Heading12">Order of Subexpression Evaluation</A>
+		<LI><A HREF="#Heading13">Relational Operators</A>
+	</UL>
+	<LI><A HREF="#Heading14">The if Statement</A>
+	<UL>
+		<LI><A HREF="#Heading15">The else Clause</A>
+	</UL>
+	<LI><A HREF="#Heading16">Evaluating Relational Expressions</A>
+	<UL>
+		<LI><A HREF="#Heading17">The Precedence of Relational Operators</A>
+	</UL>
+	<LI><A HREF="#Heading18">Logical Operators</A>
+	<LI><A HREF="#Heading19">More on True/False Values</A>
+	<UL>
+		<LI><A HREF="#Heading20">The Precedence of Operators</A>
+		<LI><A HREF="#Heading21">Compound Assignment Operators</A>
+		<LI><A HREF="#Heading22">The Conditional Operator</A>
+		<LI><A HREF="#Heading23">The Comma Operator</A>
+	</UL>
+	<LI><A HREF="#Heading24">Operator Precedence Revisited</A>
+	<LI><A HREF="#Heading25">Summary</A>
+	<LI><A HREF="#Heading26">Q&amp;A</A>
+	<LI><A HREF="#Heading27">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading28">Quiz</A>
+		<LI><A HREF="#Heading29">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>C programs consist of statements, and most statements are composed of expressions
+and operators. You need to understand these three topics in order to be able to write
+C programs. Today you will learn</P>
+
+<UL>
+	<LI>What a statement is
+	<P>
+	<LI>What an expression is
+	<P>
+	<LI>C's mathematical, relational, and logical operators
+	<P>
+	<LI>What operator precedence is
+	<P>
+	<LI>The if statement
+</UL>
+
+<H2><A NAME="Heading1"></A>Statements</H2>
+<P>A <I>statement</I> is a complete direction instructing the computer to carry out
+some task. In C, statements are usually written one per line, although some statements
+span multiple lines. C statements always end with a semicolon (except for preprocessor
+directives such as #define and #include, which are discussed on Day 21, &quot;Advanced
+Compiler Use&quot;). You've already been introduced to some of C's statement types.
+For example:</P>
+<P>
+<PRE>x = 2 + 3;
+</PRE>
+<P>is an assignment statement. It instructs the computer to add 2 and 3 and to assign
+the result to the variable x. Other types of statements will be introduced as needed
+throughout this book.</P>
+<P>
+<H3><A NAME="Heading2"></A>Statements and White Space</H3>
+<P>The term <I>white space</I> refers to spaces, tabs, and blank lines in your source
+code. The C compiler isn't sensitive to white space. When the compiler reads a statement
+in your source code, it looks for the characters in the statement and for the terminating
+semicolon, but it ignores white space. Thus, the statement</P>
+<P>
+<PRE>x=2+3;
+</PRE>
+<P>is equivalent to this statement:</P>
+<P>
+<PRE>x = 2 + 3;
+</PRE>
+<P>It is also equivalent to this:</P>
+<P>
+<PRE>x        =
+2
++
+3;
+</PRE>
+<P>This gives you a great deal of flexibility in formatting your source code. You
+shouldn't use formatting like the previous example, however. Statements should be
+entered one per line with a standardized scheme for spacing around variables and
+operators. If you follow the formatting conventions used in this book, you should
+be in good shape. As you become more experienced, you might discover that you prefer
+slight variations. The point is to keep your source code readable.</P>
+<P>However, the rule that C doesn't care about white space has one exception: Within
+literal string constants, tabs and spaces aren't ignored; they are considered part
+of the string. A <I>string</I> is a series of characters. Literal string constants
+are strings that are enclosed within quotes and interpreted literally by the compiler,
+space for space. Although it's extremely bad form, the following is legal:</P>
+<P>
+<PRE>printf(
+&quot;Hello, world!&quot;
+);
+</PRE>
+<P>This, however, is not legal:</P>
+<P>
+<PRE>printf(&quot;Hello,
+world!&quot;);
+</PRE>
+<P>To break a literal string constant line, you must use the backslash character
+(\) just before the break. Thus, the following is legal:</P>
+<P>
+<PRE>printf(&quot;Hello,\
+world!&quot;);
+</PRE>
+<H3><A NAME="Heading3"></A>Null Statements</H3>
+<P>If you place a semicolon by itself on a line, you create a <I>null statement</I>--a
+statement that doesn't perform any action. This is perfectly legal in C. Later in
+this book, you will learn how the null statement can be useful.</P>
+<P>
+<H3><A NAME="Heading4"></A>Compound Statements</H3>
+<P>A compound statement, also called a <I>block,</I> is a group of two or more C
+statements enclosed in braces. Here's an example of a block:</P>
+<P>
+<PRE>{
+    printf(&quot;Hello, &quot;);
+    printf(&quot;world!&quot;);
+}
+</PRE>
+<P>In C, a block can be used anywhere a single statement can be used. Many examples
+of this appear throughout this book. Note that the enclosing braces can be positioned
+in different ways. The following is equivalent to the preceding example:</P>
+<P>
+<PRE>{printf(&quot;Hello, &quot;);
+printf(&quot;world!&quot;);}
+</PRE>
+<P>It's a good idea to place braces on their own lines, making the beginning and
+end of blocks clearly visible. Placing braces on their own lines also makes it easier
+to see whether you've left one out.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> stay consistent with how you use white space in statements.</P>
+	<P><B>DO</B> put block braces on their own lines. This makes the code easier to read.</P>
+	<P><B>DO</B> line up block braces so that it's easy to find the beginning and end
+	of a block.</P>
+	<P><B>DON'T</B> spread a single statement across multiple lines if there's no need
+	to do so. Limit statements to one line if possible. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading5"></A>Expressions</H2>
+<P>In C, an <I>expression</I> is anything that evaluates to a numeric value. C expressions
+come in all levels of complexity.</P>
+<P>
+<H3><A NAME="Heading6"></A>Simple Expressions</H3>
+<P>The simplest C expression consists of a single item: a simple variable, literal
+constant, or symbolic constant. Here are four expressions:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><I>Expression</I></TD>
+		<TD ALIGN="LEFT"><I>Description</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">PI</TD>
+		<TD ALIGN="LEFT">A symbolic constant (defined in the program)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">20</TD>
+		<TD ALIGN="LEFT">A literal constant</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">rate</TD>
+		<TD ALIGN="LEFT">A variable</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">-1.25</TD>
+		<TD ALIGN="LEFT">Another literal constant</TD>
+	</TR>
+</TABLE>
+</P>
+<P>A <I>literal constant</I> evaluates to its own value. A <I>symbolic constant</I>
+evaluates to the value it was given when you created it using the #define directive.
+A variable evaluates to the current value assigned to it by the program.</P>
+<P>
+<H3><A NAME="Heading7"></A>Complex Expressions</H3>
+<P><I>Complex expressions</I> consist of simpler expressions connected by operators.
+For example:</P>
+<P>
+<PRE>2 + 8
+</PRE>
+<P>is an expression consisting of the subexpressions 2 and 8 and the addition operator
++. The expression 2 + 8 evaluates, as you know, to 10. You can also write C expressions
+of great complexity:</P>
+<P>
+<PRE>1.25 / 8 + 5 * rate + rate * rate / cost
+</PRE>
+<P>When an expression contains multiple operators, the evaluation of the expression
+depends on operator precedence. This concept is covered later in this chapter, as
+are details about all of C's operators.</P>
+<P>C expressions get even more interesting. Look at the following assignment statement:</P>
+<P>
+<PRE>x = a + 10;
+</PRE>
+<P>This statement evaluates the expression a + 10 and assigns the result to x. In
+addition, the entire statement x = a + 10 is itself an expression that evaluates
+to the value of the variable on the left side of the equal sign. This is illustrated
+in Figure 4.1.</P>
+<P>Thus, you can write statements such as the following, which assigns the value
+of the expression a + 10 to both variables, x and y:</P>
+<P>
+<PRE>y = x = a + 10;
+</PRE>
+<P><A HREF="javascript:popUp('04tyc01a.gif')"><B>Figure 4.1.</B></A><B> </B><I>An
+assignment statement is itself an expression.</I></P>
+
+<P>You can also write statements such as this:</P>
+<P>
+<PRE>x = 6 + (y = 4 + 5);
+</PRE>
+<P>The result of this statement is that y has the value 9 and x has the value 15.
+Note the parentheses, which are required in order for the statement to compile. The
+use of parentheses is covered later in this chapter.</P>
+<P>
+<H2><A NAME="Heading8"></A>Operators</H2>
+<P>An <I>operator</I> is a symbol that instructs C to perform some operation, or
+action, on one or more operands. An <I>operand</I> is something that an operator
+acts on. In C, all operands are expressions. C operators fall into several categories:</P>
+
+<UL>
+	<LI>The assignment operator
+	<P>
+	<LI>Mathematical operators
+	<P>
+	<LI>Relational operators
+	<P>
+	<LI>Logical operators
+</UL>
+
+<H3><A NAME="Heading9"></A>The Assignment Operator</H3>
+<P>The <I>assignment operator</I> is the equal sign (=). Its use in programming is
+somewhat different from its use in regular math. If you write</P>
+<P>
+<PRE>x = y;
+</PRE>
+<P>in a C program, it doesn't mean &quot;x is equal to y.&quot; Instead, it means
+&quot;assign the value of y to x.&quot; In a C assignment statement, the right side
+can be any expression, and the left side must be a variable name. Thus, the form
+is as follows:</P>
+<P>
+<PRE><I>variable</I> = <I>expression</I>;
+</PRE>
+<P>When executed, <I>expression</I> is evaluated, and the resulting value is assigned
+to <I>variable</I>.</P>
+<P>
+<H3><A NAME="Heading10"></A>Mathematical Operators</H3>
+<P>C's mathematical operators perform mathematical operations such as addition and
+subtraction. C has two unary mathematical operators and five binary mathematical
+operators.</P>
+<P>
+<H4>Unary Mathematical Operators</H4>
+<P>The <I>unary</I> mathematical operators are so named because they take a single
+operand. C has two unary mathematical operators, listed in Table 4.1.</P>
+<P>
+<H4>Table 4.1. C's unary mathematical operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Operator</B></TD>
+		<TD ALIGN="LEFT"><B>Symbol</B></TD>
+		<TD ALIGN="LEFT"><B>Action</B></TD>
+		<TD ALIGN="LEFT"><B>Examples</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Increment</TD>
+		<TD ALIGN="LEFT">++</TD>
+		<TD ALIGN="LEFT">Increments the operand by one</TD>
+		<TD ALIGN="LEFT">++x, x++</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Decrement</TD>
+		<TD ALIGN="LEFT">--</TD>
+		<TD ALIGN="LEFT">Decrements the operand by one</TD>
+		<TD ALIGN="LEFT">--x, x--</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The increment and decrement operators can be used only with variables, not with
+constants. The operation performed is to add one to or subtract one from the operand.
+In other words, the statements</P>
+<P>
+<PRE>++x;
+--y;
+</PRE>
+<P>are the equivalent of these statements:</P>
+<P>
+<PRE>x = x + 1;
+y = y - 1;
+</PRE>
+<P>You should note from Table 4.1 that either unary operator can be placed before
+its operand (<I>prefix</I> mode) or after its operand (<I>postfix</I> mode). These
+two modes are not equivalent. They differ in terms of when the increment or decrement
+is performed:</P>
+
+<UL>
+	<LI>When used in prefix mode, the increment and decrement operators modify their
+	operand before it's used.
+	<P>
+	<LI>When used in postfix mode, the increment and decrement operators modify their
+	operand after it's used.
+</UL>
+
+<P>An example should make this clearer. Look at these two statements:</P>
+<P>
+<PRE>x = 10;
+y = x++;
+</PRE>
+<P>After these statements are executed, x has the value 11, and y has the value 10.
+The value of x was assigned to y, and then x was incremented. In contrast, the following
+statements result in both y and x having the value 11. x is incremented, and then
+its value is assigned to y.</P>
+<P>
+<PRE>x = 10;
+y = ++x;
+</PRE>
+<P>Remember that = is the assignment operator, not a statement of equality. As an
+analogy, think of = as the &quot;photocopy&quot; operator. The statement y = x means
+to copy x into y. Subsequent changes to x, after the copy has been made, have no
+effect on y.</P>
+<P>Listing 4.1 illustrates the difference between prefix mode and postfix mode.</P>
+<P>
+<H4>Listing 4.1. UNARY.C: Demonstrates prefix and postfix modes.</H4>
+<PRE>1:   /* Demonstrates unary operator prefix and postfix modes */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int a, b;
+6:
+7:   main()
+8:   {
+9:       /* Set a and b both equal to 5 */
+10:
+11:      a = b = 5;
+12:
+13:      /* Print them, decrementing each time. */
+14:      /* Use prefix mode for b, postfix mode for a */
+15:
+16:      printf(&quot;\n%d   %d&quot;, a--, --b);
+17:      printf(&quot;\n%d   %d&quot;, a--, --b);
+18:      printf(&quot;\n%d   %d&quot;, a--, --b);
+19:      printf(&quot;\n%d   %d&quot;, a--, --b);
+20:      printf(&quot;\n%d   %d\n&quot;, a--, --b);
+21:
+22:      return 0;
+23:  }
+5    4
+4    3
+3    2
+2    1
+1    0
+</PRE>
+<P><strong>ANALYSIS: </strong> This program declares two variables, a and b, in line 5.
+In line 11, the variables are set to the value of 5. With the execution of each printf()
+statement (lines 16 through 20), both a and b are decremented by 1. After a is printed,
+it is decremented, whereas b is decremented before it is printed.</P>
+<P>
+<H4>Binary Mathematical Operators</H4>
+<P>C's binary operators take two operands. The binary operators, which include the
+common mathematical operations found on a calculator, are listed in Table 4.2.</P>
+<P>
+<H4>Table 4.2. C's binary mathematical operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Operator</B></TD>
+		<TD ALIGN="LEFT"><B>Symbol</B></TD>
+		<TD ALIGN="LEFT"><B>Action</B></TD>
+		<TD ALIGN="LEFT"><B>Example</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Addition</TD>
+		<TD ALIGN="LEFT">+</TD>
+		<TD ALIGN="LEFT">Adds two operands</TD>
+		<TD ALIGN="LEFT">x + y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Subtraction</TD>
+		<TD ALIGN="LEFT">-</TD>
+		<TD ALIGN="LEFT">Subtracts the second operand from the first operand</TD>
+		<TD ALIGN="LEFT">x - y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Multiplication</TD>
+		<TD ALIGN="LEFT">*</TD>
+		<TD ALIGN="LEFT">Multiplies two operands</TD>
+		<TD ALIGN="LEFT">x * y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Division</TD>
+		<TD ALIGN="LEFT">/</TD>
+		<TD ALIGN="LEFT">Divides the first operand by the second operand</TD>
+		<TD ALIGN="LEFT">x / y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Modulus</TD>
+		<TD ALIGN="LEFT">%</TD>
+		<TD ALIGN="LEFT">Gives the remainder when the first operand is divided by the second operand</TD>
+		<TD ALIGN="LEFT">x % y</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The first four operators listed in Table 4.2 should be familiar to you, and you
+should have little trouble using them. The fifth operator, modulus, might be new.
+Modulus returns the remainder when the first operand is divided by the second operand.
+For example, 11 modulus 4 equals 3 (that is, 4 goes into 11 two times with 3 left
+over). Here are some more examples:</P>
+<P>
+<PRE>100 modulus 9 equals 1
+10 modulus 5 equals 0
+40 modulus 6 equals 4
+</PRE>
+<P>Listing 4.2 illustrates how you can use the modulus operator to convert a large
+number of seconds into hours, minutes, and seconds.</P>
+<P>
+<H4>Listing 4.2. SECONDS.C: Demonstrates the modulus operator.</H4>
+<PRE>1:   /* Illustrates the modulus operator. */
+2:   /* Inputs a number of seconds, and converts to hours, */
+3:   /* minutes, and seconds. */
+4:
+5:   #include &lt;stdio.h&gt;
+6:
+7:   /* Define constants */
+8:
+9:   #define SECS_PER_MIN 60
+10:  #define SECS_PER_HOUR 3600
+11:
+12:  unsigned seconds, minutes, hours, secs_left, mins_left;
+13:
+14:  main()
+15:  {
+16:      /* Input the number of seconds */
+17:
+18:      printf(&quot;Enter number of seconds (&lt; 65000): &quot;);
+19:      scanf(&quot;%d&quot;, &amp;seconds);
+20:
+21:      hours = seconds / SECS_PER_HOUR;
+22:      minutes = seconds / SECS_PER_MIN;
+23:      mins_left = minutes % SECS_PER_MIN;
+24:      secs_left = seconds % SECS_PER_MIN;
+25:
+26:      printf(&quot;%u seconds is equal to &quot;, seconds);
+27:      printf(&quot;%u h, %u m, and %u s\n&quot;, hours, mins_left, secs_left);
+28:
+29:      return 0;
+30:  }
+Enter number of seconds (&lt; 65000): <B>60</B>
+60 seconds is equal to 0 h, 1 m, and 0 s
+Enter number of seconds (&lt; 65000): <B>10000</B>
+10000 seconds is equal to 2 h, 46 m, and 40 s
+</PRE>
+<P><strong>ANALYSIS: </strong> SECONDS.C follows the same format that all the previous programs
+have followed. Lines 1 through 3 provide some comments to state what the program
+does. Line 4 is white space to make the program more readable. Just like the white
+space in statements and expressions, blank lines are ignored by the compiler. Line
+5 includes the necessary header file for this program. Lines 9 and 10 define two
+constants, SECS_PER_MIN and SECS_PER_HOUR, that are used to make the statements in
+the program easier to read. Line 12 declares all the variables that will be used.
+Some people choose to declare each variable on a separate line rather than all on
+one. As with many elements of C, this is a matter of style. Either method is correct.</P>
+<P>Line 14 is the main() function, which contains the bulk of the program. To convert
+seconds to hours and minutes, the program must first get the values it needs to work
+with. To do this, line 18 uses the printf() function to display a statement on-screen,
+followed by line 19, which uses the scanf() function to get the number that the user
+entered. The scanf() statement then stores the number of seconds to be converted
+into the variable seconds. The printf() and scanf() functions are covered in more
+detail on Day 7, &quot;Fundamentals of Input and Output.&quot; Line 21 contains an
+expression to determine the number of hours by dividing the number of seconds by
+the constant SECS_PER_HOUR. Because hours is an integer variable, the remainder value
+is ignored. Line 22 uses the same logic to determine the total number of minutes
+for the seconds entered. Because the total number of minutes figured in line 22 also
+contains minutes for the hours, line 23 uses the modulus operator to divide the hours
+and keep the remaining minutes. Line 24 carries out a similar calculation for determining
+the number of seconds that are left. Lines 26 and 27 are similar to what you have
+seen before. They take the values that have been calculated in the expressions and
+display them. Line 29 finishes the program by returning 0 to the operating system
+before exiting.</P>
+<P>
+<H3><A NAME="Heading11"></A>Operator Precedence and Parentheses</H3>
+<P>In an expression that contains more than one operator, what is the order in which
+operations are performed? The importance of this question is illustrated by the following
+assignment statement:</P>
+<P>
+<PRE>x = 4 + 5 * 3;
+</PRE>
+<P>Performing the addition first results in the following, and x is assigned the
+value 27:</P>
+<P>
+<PRE>x = 9 * 3;
+</PRE>
+<P>In contrast, if the multiplication is performed first, you have the following,
+and x is assigned the value 19:</P>
+<P>
+<PRE>x = 4 + 15;
+</PRE>
+<P>Clearly, some rules are needed about the order in which operations are performed.
+This order, called <I>operator precedence,</I> is strictly spelled out in C. Each
+operator has a specific precedence. When an expression is evaluated, operators with
+higher precedence are performed first. Table 4.3 lists the precedence of C's mathematical
+operators. Number 1 is the highest precedence and thus is evaluated first.</P>
+<P>
+<H4>Table 4.3. The precedence of C's mathematical operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Operators</B></TD>
+		<TD ALIGN="LEFT"><B>Relative Precedence</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">++ --</TD>
+		<TD ALIGN="LEFT">1</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">* / %</TD>
+		<TD ALIGN="LEFT">2</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">+ -</TD>
+		<TD ALIGN="LEFT">3</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Looking at Table 4.3, you can see that in any C expression, operations are performed
+in the following order:</P>
+
+<UL>
+	<LI>Unary increment and decrement
+	<P>
+	<LI>Multiplication, division, and modulus
+	<P>
+	<LI>Addition and subtraction
+</UL>
+
+<P>If an expression contains more than one operator with the same precedence level,
+the operators are performed in left-to-right order as they appear in the expression.
+For example, in the following expression, the % and * have the same precedence level,
+but the % is the leftmost operator, so it is performed first:</P>
+<P>
+<PRE>12 % 5 * 2
+</PRE>
+<P>The expression evaluates to 4 (12 % 5 evaluates to 2; 2 times 2 is 4).</P>
+<P>Returning to the previous example, you see that the statement x = 4 + 5 * 3; assigns
+the value 19 to x because the multiplication is performed before the addition.</P>
+<P>What if the order of precedence doesn't evaluate your expression as needed? Using
+the previous example, what if you wanted to add 4 to 5 and then multiply the sum
+by 3? C uses parentheses to modify the evaluation order. A subexpression enclosed
+in parentheses is evaluated first, without regard to operator precedence. Thus, you
+could write</P>
+<P>
+<PRE>x = (4 + 5) * 3;
+</PRE>
+<P>The expression 4 + 5 inside parentheses is evaluated first, so the value assigned
+to x is 27.</P>
+<P>You can use multiple and nested parentheses in an expression. When parentheses
+are nested, evaluation proceeds from the innermost expression outward. Look at the
+following complex expression:</P>
+<P>
+<PRE>x = 25 - (2 * (10 + (8 / 2)));
+</PRE>
+<P>The evaluation of this expression proceeds as follows:</P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The innermost expression, 8 / 2, is evaluated first, yielding the value
+	4:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>25 - (2 * (10 + 4))</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>Moving outward, the next expression, 10 + 4, is evaluated, yielding
+	the value 14:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>25 - (2 * 14)</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>The last, or outermost, expression, 2 * 14, is evaluated, yielding
+	the value 28:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>25 - 28</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>The final expression, 25 - 28, is evaluated, assigning the value -3
+	to the variable x:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>x = -3</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<P>You might want to use parentheses in some expressions for the sake of clarity,
+even when they aren't needed for modifying operator precedence. Parentheses must
+always be in pairs, or the compiler generates an error message.</P>
+<P>
+<H3><A NAME="Heading12"></A>Order of Subexpression Evaluation</H3>
+<P>As was mentioned in the previous section, if C expressions contain more than one
+operator with the same precedence level, they are evaluated left to right. For example,
+in the expression</P>
+<P>
+<PRE>w * x / y * z
+</PRE>
+<P>w is multiplied by x, the result of the multiplication is then divided by y, and
+the result of the division is then multiplied by z.</P>
+<P>Across precedence levels, however, there is no guarantee of left-to-right order.
+Look at this expression:</P>
+<P>
+<PRE>w * x / y + z / y
+</PRE>
+<P>Because of precedence, the multiplication and division are performed before the
+addition. However, C doesn't specify whether the subexpression w * x / y is to be
+evaluated before or after z / y. It might not be clear to you why this matters. Look
+at another example:</P>
+<P>
+<PRE>w * x / ++y + z / y
+</PRE>
+<P>If the left subexpression is evaluated first, y is incremented when the second
+expression is evaluated. If the right expression is evaluated first, y isn't incremented,
+and the result is different. Therefore, you should avoid this sort of indeterminate
+expression in your programming.</P>
+<P>Near the end of this chapter, the section &quot;Operator Precedence Revisited&quot;
+lists the precedence of all of C's operators.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use parentheses to make the order of expression evaluation clear.</P>
+	<P><B>DON'T</B> overload an expression. It is often more clear to break an expression
+	into two or more statements. This is especially true when you're using the unary
+	operators (--) or (++). 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading13"></A>Relational Operators</H3>
+<P>C's relational operators are used to compare expressions, asking questions such
+as, &quot;Is x greater than 100?&quot; or &quot;Is y equal to 0?&quot; An expression
+containing a relational operator evaluates to either true (1) or false (0). C's six
+relational operators are listed in Table 4.4.</P>
+<P>Table 4.5 shows some examples of how relational operators might be used. These
+examples use literal constants, but the same principles hold with variables.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> &quot;True&quot; is considered the same as &quot;yes,&quot; which
+	is also considered the same as 1. &quot;False&quot; is considered the same as &quot;no,&quot;
+	which is considered the same as 0. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>Table 4.4. C's relational operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Operator</B></TD>
+		<TD ALIGN="LEFT"><B>Symbol</B></TD>
+		<TD ALIGN="LEFT"><B>Question Asked</B></TD>
+		<TD ALIGN="LEFT"><B>Example</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Equal</TD>
+		<TD ALIGN="LEFT">==</TD>
+		<TD ALIGN="LEFT">Is operand 1 equal to operand 2?</TD>
+		<TD ALIGN="LEFT">x == y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Greater than</TD>
+		<TD ALIGN="LEFT">&gt;</TD>
+		<TD ALIGN="LEFT">Is operand 1 greater than operand 2?</TD>
+		<TD ALIGN="LEFT">x &gt; y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Less than</TD>
+		<TD ALIGN="LEFT">&lt;</TD>
+		<TD ALIGN="LEFT">Is operand 1 less than operand 2?</TD>
+		<TD ALIGN="LEFT">x &lt; y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Greater than or equal to</TD>
+		<TD ALIGN="LEFT">&gt;=</TD>
+		<TD ALIGN="LEFT">Is operand 1 greater than or equal to operand 2?</TD>
+		<TD ALIGN="LEFT">x &gt;= y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Less than or equal to</TD>
+		<TD ALIGN="LEFT">&lt;=</TD>
+		<TD ALIGN="LEFT">Is operand 1 less than or equal to operand 2?</TD>
+		<TD ALIGN="LEFT">x &lt;= y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">Not equal</TD>
+		<TD ALIGN="LEFT">!=</TD>
+		<TD ALIGN="LEFT">Is operand 1 not equal to operand 2?</TD>
+		<TD ALIGN="LEFT">x != y</TD>
+	</TR>
+</TABLE>
+
+<H4>Table 4.5. Relational operators in use.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Expression</B></TD>
+		<TD ALIGN="LEFT"><B>How It Reads</B></TD>
+		<TD ALIGN="LEFT"><B>What It</B> <B>Evaluates To</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">5 == 1</TD>
+		<TD ALIGN="LEFT">Is 5 equal to 1?</TD>
+		<TD ALIGN="LEFT">0 (false)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">5 &gt; 1</TD>
+		<TD ALIGN="LEFT">Is 5 greater than 1?</TD>
+		<TD ALIGN="LEFT">1 (true)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">5 != 1</TD>
+		<TD ALIGN="LEFT">Is 5 not equal to 1?</TD>
+		<TD ALIGN="LEFT">1 (true)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">(5 + 10) == (3 * 5)</TD>
+		<TD ALIGN="LEFT">Is (5 + 10) equal to (3 * 5)?</TD>
+		<TD ALIGN="LEFT">1 (true)</TD>
+	</TR>
+</TABLE>
+</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> learn how C interprets true and false. When working with relational operators,
+	true is equal to 1, and false is equal to 0.</P>
+	<P><B>DON'T</B> confuse ==, the relational operator, with =, the assignment operator.
+	This is one of the most common errors that C programmers make. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading14"></A>The if Statement</H2>
+<P>Relational operators are used mainly to construct the relational expressions used
+in if and while statements, covered in detail on Day 6, &quot;Basic Program Control.&quot;
+For now, I'll explain the basics of the if statement to show how relational operators
+are used to make <I>program control statements</I>.</P>
+<P>You might be wondering what a program control statement is. Statements in a C
+program normally execute from top to bottom, in the same order as they appear in
+your source code file. A program control statement modifies the order of statement
+execution. Program control statements can cause other program statements to execute
+multiple times or to not execute at all, depending on the circumstances. The if statement
+is one of C's program control statements. Others, such as do and while, are covered
+on Day 6.</P>
+<P>In its basic form, the if statement evaluates an expression and directs program
+execution depending on the result of that evaluation. The form of an if statement
+is as follows:</P>
+<P>
+<PRE>if (<I>expression</I>)
+    <I>statement</I>;
+</PRE>
+<P>If <I>expression</I> evaluates to true, <I>statement</I> is executed. If <I>expression</I>
+evaluates to false, <I>statement</I> is not executed. In either case, execution then
+passes to whatever code follows the if statement. You could say that execution of
+<I>statement</I> depends on the result of <I>expression</I>. Note that both the line
+if (<I>expression</I>) and the line <I>statement</I>; are considered to comprise
+the complete if statement; they are not separate statements.</P>
+<P>An if statement can control the execution of multiple statements through the use
+of a compound statement, or block. As defined earlier in this chapter, a block is
+a group of two or more statements enclosed in braces. A block can be used anywhere
+a single statement can be used. Therefore, you could write an if statement as follows:</P>
+<P>
+<PRE>if (<I>expression</I>)
+{
+    <I>statement1</I>;
+    <I>statement2</I>;
+    /* additional code goes here */
+    <I>statementn</I>;
+}
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> remember that if you program too much in one day, you'll get C sick.</P>
+	<P><B>DO</B> indent statements within a block to make them easier to read. This includes
+	the statements within a block in an if statement.</P>
+	<P><B>DON'T</B> make the mistake of putting a semicolon at the end of an if statement.
+	An if statement should end with the conditional statement that follows it. In the
+	following, <I>statement1</I> executes whether or not x equals 2, because each line
+	is evaluated as a separate statement, not together as intended: 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<PRE>if( x == 2);          /* semicolon does not belong!  */
+<I>statement1</I>;
+</PRE>
+<P>In your programming, you will find that if statements are used most often with
+relational expressions; in other words, &quot;Execute the following statement(s)
+only if such-and-such a condition is true.&quot; Here's an example:</P>
+<P>
+<PRE>if (x &gt; y)
+    y = x;
+</PRE>
+<P>This code assigns the value of x to y only if x is greater than y. If x is not
+greater than y, no assignment takes place. Listing 4.3 illustrates the use of if
+statements.</P>
+<P>
+<H4>Listing 4.3. LIST0403.C: Demonstrates if statements.</H4>
+<PRE>1:   /* Demonstrates the use of if statements */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int x, y;
+6:
+7:   main()
+8:   {
+9:       /* Input the two values to be tested */
+10:
+11:      printf(&quot;\nInput an integer value for x: &quot;);
+12:      scanf(&quot;%d&quot;, &amp;x);
+13:      printf(&quot;\nInput an integer value for y: &quot;);
+14:      scanf(&quot;%d&quot;, &amp;y);
+15:
+16:      /* Test values and print result */
+17:
+18:      if (x == y)
+19:          printf(&quot;x is equal to y\n&quot;);
+20:
+21:      if (x &gt; y)
+22:          printf(&quot;x is greater than y\n&quot;);
+23:
+24:      if (x &lt; y)
+25:          printf(&quot;x is smaller than y\n&quot;);
+26:
+27:      return 0;
+28:  }
+Input an integer value for x: <B>100</B>
+Input an integer value for y: <B>10</B>
+x is greater than y
+Input an integer value for x: <B>10</B>
+Input an integer value for y: <B>100</B>
+x is smaller than y
+Input an integer value for x: <B>10</B>
+Input an integer value for y: <B>10</B>
+x is equal to y
+</PRE>
+<P>LIST0403.C shows three if statements in action (lines 18 through 25). Many of
+the lines in this program should be familiar. Line 5 declares two variables, x and
+y, and lines 11 through 14 prompt the user for values to be placed into these variables.
+Lines 18 through 25 use if statements to determine whether x is greater than, less
+than, or equal to y. Note that line 18 uses an if statement to see whether x is equal
+to y. Remember that ==, the equal operator, means &quot;is equal to&quot; and should
+not be confused with =, the assignment operator. After the program checks to see
+whether the variables are equal, in line 21 it checks to see whether x is greater
+than y, followed by a check in line 24 to see whether x is less than y. If you think
+this is inefficient, you're right. In the next program, you will see how to avoid
+this inefficiency. For now, run the program with different values for x and y to
+see the results.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> You will notice that the statements within an if clause are indented.
+	This is a common practice to aid readability. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading15"></A>The else Clause</H3>
+<P>An if statement can optionally include an else clause. The else clause is included
+as follows:</P>
+<P>
+<PRE>if (<I>expression</I>)
+    <I>statement1;</I>
+else
+    <I>statement2</I>;
+</PRE>
+<P>If <I>expression</I> evaluates to true, <I>statement1</I> is executed. If <I>expression</I>
+evaluates to false, <I>statement2</I> is executed. Both <I>statement1</I> and <I>statement2</I>
+can be compound statements or blocks.</P>
+<P>Listing 4.4 shows Listing 4.3 rewritten to use an if statement with an else clause.</P>
+<P>
+<H4>Listing 4.4. An if statement with an else clause.</H4>
+<PRE>1:   /* Demonstrates the use of if statement with else clause */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int x, y;
+6:
+7:   main()
+8:   {
+9:       /* Input the two values to be tested */
+10:
+11:      printf(&quot;\nInput an integer value for x: &quot;);
+12:      scanf(&quot;%d&quot;, &amp;x);
+13:      printf(&quot;\nInput an integer value for y: &quot;);
+14:      scanf(&quot;%d&quot;, &amp;y);
+15:
+16:      /* Test values and print result */
+17:
+18:      if (x == y)
+19:          printf(&quot;x is equal to y\n&quot;);
+20:      else
+21:          if (x &gt; y)
+22:              printf(&quot;x is greater than y\n&quot;);
+23:          else
+24:              printf(&quot;x is smaller than y\n&quot;);
+25:
+26:      return 0;
+27:  }
+Input an integer value for x: <B>99</B>
+Input an integer value for y: <B>8</B>
+x is greater than y
+Input an integer value for x: <B>8</B>
+Input an integer value for y: <B>99</B>
+x is smaller than y
+Input an integer value for x: <B>99</B>
+Input an integer value for y: <B>99</B>
+x is equal to y
+</PRE>
+<P><strong>ANALYSIS: </strong> Lines 18 through 24 are slightly different from the previous
+listing. Line 18 still checks to see whether x equals y. If x does equal y, x is
+equal to y appears on-screen, just as in Listing 4.3 (LIST0403.C). However, the program
+then ends, and lines 20 through 24 aren't executed. Line 21 is executed only if x
+is not equal to y , or, to be more accurate, if the expression &quot;x equals y&quot;
+is false. If x does not equal y, line 21 checks to see whether x is greater than
+y. If so, line 22 prints x is greater than y; otherwise (else), line 24 is executed.</P>
+<P>Listing 4.4 uses a nested if statement. Nesting means to place (nest) one or more
+C statements inside another C statement. In the case of Listing 4.4, an if statement
+is part of the first if statement's else clause.</P>
+<P>
+<H4>The if Statement</H4>
+<P><B>Form 1</B></P>
+<P>
+<PRE>if( <I>expression</I> )
+    <I>statement1</I>;
+<I>next_statement</I>;
+</PRE>
+<P>This is the if statement in its simplest form. If <I>expression</I> is true, <I>statement1</I>
+is executed. If <I>expression</I> is not true, <I>statement1</I> is ignored.</P>
+<P><B>Form 2</B></P>
+<P>
+<PRE>if( <I>expression</I> )
+    <I>statement1</I>;
+else
+    <I>statement2</I>;
+<I>next_statement</I>;
+</PRE>
+<P>This is the most common form of the if statement. If <I>expression</I> is true,
+<I>statement1</I> is executed; otherwise, <I>statement2</I> is executed.</P>
+<P><B>Form 3</B></P>
+<P>
+<PRE>if( <I>expression1</I> )
+    <I>statement1</I>;
+else if( <I>expression2</I> )
+    <I>statement2</I>;
+else
+    <I>statement3</I>;
+<I>next_statement</I>;
+</PRE>
+<P>This is a nested if. If the first expression, <I>expression1</I>, is true, <I>statement1</I>
+is executed before the program continues with the <I>next_statement</I>. If the first
+expression is not true, the second expression, <I>expression2</I>, is checked. If
+the first expression is not true, and the second is true, <I>statement2</I> is executed.
+If both expressions are false, <I>statement3</I> is executed. Only one of the three
+statements is executed.</P>
+<P><B>Example 1</B></P>
+<P>
+<PRE>if( salary &gt; 45,0000 )
+    tax = .30;
+else
+    tax = .25;
+</PRE>
+<P><B>Example 2</B></P>
+<P>
+<PRE>if( age &lt; 18 )
+    printf(&quot;Minor&quot;);
+else if( age &lt; 65 )
+    printf(&quot;Adult&quot;);
+else
+    printf( &quot;Senior Citizen&quot;);
+</PRE>
+<H2><A NAME="Heading16"></A>Evaluating Relational Expressions</H2>
+<P>Remember that expressions using relational operators are true C expressions that
+evaluate, by definition, to a value. Relational expressions evaluate to a value of
+either false (0) or true (1). Although the most common use of relational expressions
+is within if statements and other conditional constructions, they can be used as
+purely numeric values. This is illustrated in Listing 4.5.</P>
+<P>
+<H4>Listing 4.5. Evaluating relational expressions.</H4>
+<PRE>1:   /* Demonstrates the evaluation of relational expressions */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int a;
+6:
+7:   main()
+8:   {
+9:       a = (5 == 5);           /* Evaluates to 1 */
+10:      printf(&quot;\na = (5 == 5)\na = %d&quot;, a);
+11:
+12:      a = (5 != 5);           /* Evaluates to 0 */
+13:      printf(&quot;\na = (5 != 5)\na = %d&quot;, a);
+14:
+15:      a = (12 == 12) + (5 != 1); /* Evaluates to 1 + 1 */
+16:      printf(&quot;\na = (12 == 12) + (5 != 1)\na = %d\n&quot;, a);
+17:      return 0;
+18:  }
+a = (5 == 5)
+a = 1
+a = (5 != 5)
+a = 0
+a = (12 == 12) + (5 != 1)
+a = 2
+</PRE>
+<P><strong>ANNALYSIS: </strong> The output from this listing might seem a little confusing
+at first. Remember, the most common mistake people make when using the relational
+operators is to use a single equal sign--the assignment operator--instead of a double
+equal sign. The following expression evaluates to 5 (and also assigns the value 5
+to x):</P>
+<P>
+<PRE>x = 5
+</PRE>
+<P>In contrast, the following expression evaluates to either 0 or 1 (depending on
+whether x is equal to 5) and doesn't change the value of x:</P>
+<P>
+<PRE>x == 5
+</PRE>
+<P>If by mistake you write</P>
+<P>
+<PRE>if (x = 5)
+   printf(&quot;x is equal to 5&quot;);
+</PRE>
+<P>the message always prints because the expression being tested by the if statement
+always evaluates to true, no matter what the original value of x happens to be.</P>
+<P>Looking at Listing 4.5, you can begin to understand why a takes on the values
+that it does. In line 9, the value 5 does equal 5, so true (1) is assigned to a.
+In line 12, the statement &quot;5 does not equal 5&quot; is false, so 0 is assigned
+to a.</P>
+<P>To reiterate, the relational operators are used to create relational expressions
+that ask questions about relationships between expressions. The answer returned by
+a relational expression is a numeric value of either 1 (representing true) or 0 (representing
+false).</P>
+<P>
+<H3><A NAME="Heading17"></A>The Precedence of Relational Operators</H3>
+<P>Like the mathematical operators discussed earlier in this chapter, the relational
+operators each have a precedence that determines the order in which they are performed
+in a multiple-operator expression. Similarly, you can use parentheses to modify precedence
+in expressions that use relational operators. The section &quot;Operator Precedence
+Revisited&quot; near the end of this chapter lists the precedence of all of C's operators.</P>
+<P>First, all the relational operators have a lower precedence than the mathematical
+operators. Thus, if you write the following, 2 is added to x, and the result is compared
+to y:</P>
+<P>
+<PRE>if (x + 2 &gt; y)
+</PRE>
+<P>This is the equivalent of the following line, which is a good example of using
+parentheses for the sake of clarity:</P>
+<P>
+<PRE>if ((x + 2) &gt; y)
+</PRE>
+<P>Although they aren't required by the C compiler, the parentheses surrounding (x
++ 2) make it clear that it is the sum of x and 2 that is to be compared with y.</P>
+<P>There is also a two-level precedence within the relational operators, as shown
+in Table 4.6.</P>
+<P>
+<H4>Table 4.6. The order of precedence of C's relational operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Operators</B></TD>
+		<TD ALIGN="LEFT"><B>Relative Precedence</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">&lt; &lt;= &gt; &gt;=</TD>
+		<TD ALIGN="LEFT">1</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">!= ==</TD>
+		<TD ALIGN="LEFT">2</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Thus, if you write</P>
+<P>
+<PRE>x == y &gt; z
+</PRE>
+<P>it is the same as</P>
+<P>
+<PRE>x == (y &gt; z)
+</PRE>
+<P>because C first evaluates the expression y &gt; z, resulting in a value of 0 or
+1. Next, C determines whether x is equal to the 1 or 0 obtained in the first step.
+You will rarely, if ever, use this sort of construction, but you should know about
+it.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> put assignment statements in if statements. This can be confusing to
+	other people who look at your code. They might think it's a mistake and change your
+	assignment to the logical equal statement.</P>
+	<P><B>DON'T</B> use the &quot;not equal to&quot; operator (!=) in an if statement
+	containing an else. It's almost always clearer to use the &quot;equal to&quot; operator
+	(==) with an else. For instance, the following code:</P>
+	<PRE>if ( x != 5 )
+   <I>statement1</I>;
+else
+   <I>statement2</I>;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>would be better written as this:</P>
+	<PRE>if (x == 5 )
+   <I>statement2</I>;
+else
+   <I>statement1</I>;</PRE>
+	<P>
+<HR>
+
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading18"></A>Logical Operators</H2>
+<P>Sometimes you might need to ask more than one relational question at once. For
+example, &quot;If it's 7:00 a.m. and a weekday and not my vacation, ring the alarm.&quot;
+C's logical operators let you combine two or more relational expressions into a single
+expression that evaluates to either true or false. Table 4.7 lists C's three logical
+operators.</P>
+<P>
+<H4>Table 4.7. C's logical operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Operator</B></TD>
+		<TD ALIGN="LEFT"><B>Symbol</B></TD>
+		<TD ALIGN="LEFT"><B>Example</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">AND</TD>
+		<TD ALIGN="LEFT">&amp;&amp;</TD>
+		<TD ALIGN="LEFT"><I>exp1</I> &amp;&amp; <I>exp2</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">OR</TD>
+		<TD ALIGN="LEFT">||</TD>
+		<TD ALIGN="LEFT"><I>exp1</I> || <I>exp2</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">NOT</TD>
+		<TD ALIGN="LEFT">!</TD>
+		<TD ALIGN="LEFT">!<I>exp1</I></TD>
+	</TR>
+</TABLE>
+</P>
+<P>The way these logical operators work is explained in Table 4.8.</P>
+<P>
+<H4>Table 4.8. C's logical operators in use.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Expression</B></TD>
+		<TD ALIGN="LEFT"><B>What It Evaluates To</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">(<I>exp1</I> &amp;&amp; <I>exp2</I>)</TD>
+		<TD ALIGN="LEFT">True (1) only if both <I>exp1</I> and <I>exp2</I> are true; false (0) otherwise</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">(<I>exp1</I> || <I>exp2</I>)</TD>
+		<TD ALIGN="LEFT">True (1) if either <I>exp1</I> or <I>exp2</I> is true; false (0) only if both are
+			false</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">(!<I>exp1</I>)</TD>
+		<TD ALIGN="LEFT">False (0) if <I>exp1</I> is true; true (1) if <I>exp1</I> is false</TD>
+	</TR>
+</TABLE>
+</P>
+<P>You can see that expressions that use the logical operators evaluate to either
+true or false, depending on the true/false value of their operand(s). Table 4.9 shows
+some actual code examples.</P>
+<P>
+<H4>Table 4.9. Code examples of C's logical operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Expression</B></TD>
+		<TD ALIGN="LEFT"><B>What It Evaluates To</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">(5 == 5) &amp;&amp; (6 != 2)</TD>
+		<TD ALIGN="LEFT">True (1), because both operands are true</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">(5 &gt; 1) || (6 &lt; 1)</TD>
+		<TD ALIGN="LEFT">True (1), because one operand is true</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">(2 == 1) &amp;&amp; (5 == 5)</TD>
+		<TD ALIGN="LEFT">False (0), because one operand is false</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">!(5 == 4)</TD>
+		<TD ALIGN="LEFT">True (1), because the operand is false</TD>
+	</TR>
+</TABLE>
+</P>
+<P>You can create expressions that use multiple logical operators. For example, to
+ask the question &quot;Is x equal to 2, 3, or 4?&quot; you would write</P>
+<P>
+<PRE>(x == 2) || (x == 3) || (x == 4)
+</PRE>
+<P>The logical operators often provide more than one way to ask a question. If x
+is an integer variable, the preceding question also could be written in either of
+the following ways:</P>
+<P>
+<PRE>(x &gt; 1) &amp;&amp; (x &lt; 5)
+(x &gt;= 2) &amp;&amp; (x &lt;= 4)
+</PRE>
+<H2><A NAME="Heading19"></A>More on True/False Values</H2>
+<P>You've seen that C's relational expressions evaluate to 0 to represent false and
+to 1 to represent true. It's important to be aware, however, that any numeric value
+is interpreted as either true or false when it is used in a C expression or statement
+that is expecting a logical value (that is, a true or false value). The rules are
+as follows:</P>
+
+<UL>
+	<LI>A value of zero represents false.
+	<P>
+	<LI>Any nonzero value represents true.
+</UL>
+
+<P>This is illustrated by the following example, in which the value of x is printed:</P>
+<P>
+<PRE>x = 125;
+if (x)
+   printf(&quot;%d&quot;, x);
+</PRE>
+<P>Because x has a nonzero value, the if statement interprets the expression (x)
+as true. You can further generalize this because, for any C expression, writing</P>
+<P>
+<PRE>(<I>expression</I>)
+</PRE>
+<P>is equivalent to writing</P>
+<P>
+<PRE>(<I>expression</I> != 0)
+</PRE>
+<P>Both evaluate to true if <I>expression</I> is nonzero and to false if <I>expression</I>
+is 0. Using the not (!) operator, you can also write</P>
+<P>
+<PRE>(!<I>expression</I>)
+</PRE>
+<P>which is equivalent to</P>
+<P>
+<PRE>(<I>expression</I> == 0)
+</PRE>
+<H3><A NAME="Heading20"></A>The Precedence of Operators</H3>
+<P>As you might have guessed, C's logical operators also have a precedence order,
+both among themselves and in relation to other operators. The ! operator has a precedence
+equal to the unary mathematical operators ++ and --. Thus, ! has a higher precedence
+than all the relational operators and all the binary mathematical operators.</P>
+<P>In contrast, the &amp;&amp; and || operators have much lower precedence, lower
+than all the mathematical and relational operators, although &amp;&amp; has a higher
+precedence than ||. As with all of C's operators, parentheses can be used to modify
+the evaluation order when using the logical operators. Consider the following example:</P>
+<P>You want to write a logical expression that makes three individual comparisons:</P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Is a less than b?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Is a less than c?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Is c less than d?
+	<P>
+</DL>
+
+<P>You want the entire logical expression to evaluate to true if condition 3 is true
+and if either condition 1 or condition 2 is true. You might write</P>
+<P>
+<PRE>a &lt; b || a &lt; c &amp;&amp; c &lt; d
+</PRE>
+<P>However, this won't do what you intended. Because the &amp;&amp; operator has
+higher precedence than ||, the expression is equivalent to</P>
+<P>
+<PRE>a &lt; b || (a &lt; c &amp;&amp; c &lt; d)
+</PRE>
+<P>and evaluates to true if (a &lt; b) is true, whether or not the relationships
+(a &lt; c) and (c &lt; d) are true. You need to write</P>
+<P>
+<PRE>(a &lt; b || a &lt; c) &amp;&amp; c &lt; d
+</PRE>
+<P>which forces the || to be evaluated before the &amp;&amp;. This is shown in Listing
+4.6, which evaluates the expression written both ways. The variables are set so that,
+if written correctly, the expression should evaluate to false (0).</P>
+<P>
+<H4>Listing 4.6. Logical operator precedence.</H4>
+<PRE>1:   #include &lt;stdio.h&gt;
+2:
+3:   /* Initialize variables. Note that c is not less than d, */
+4:   /* which is one of the conditions to test for. */
+5:   /* Therefore, the entire expression should evaluate as false.*/
+6:
+7:   int a = 5, b = 6, c = 5, d = 1;
+8:   int x;
+9:
+10:  main()
+11:  {
+12:      /* Evaluate the expression without parentheses */
+13:
+14:      x = a &lt; b || a &lt; c &amp;&amp; c &lt; d;
+15:      printf(&quot;\nWithout parentheses the expression evaluates as %d&quot;, x);
+16:
+17:      /* Evaluate the expression with parentheses */
+18:
+19:      x = (a &lt; b || a &lt; c) &amp;&amp; c &lt; d;
+20:      printf(&quot;\nWith parentheses the expression evaluates as %d\n&quot;, x);
+21:      return 0;
+22:  }
+Without parentheses the expression evaluates as 1
+With parentheses the expression evaluates as 0
+</PRE>
+<P><strong>ANALYSIS: </strong> Enter and run this listing. Note that the two values printed
+for the expression are different. This program initializes four variables, in line
+7, with values to be used in the comparisons. Line 8 declares x to be used to store
+and print the results. Lines 14 and 19 use the logical operators. Line 14 doesn't
+use parentheses, so the results are determined by operator precedence. In this case,
+the results aren't what you wanted. Line 19 uses parentheses to change the order
+in which the expressions are evaluated.</P>
+<P>
+<H3><A NAME="Heading21"></A>Compound Assignment Operators</H3>
+<P>C's compound assignment operators provide a shorthand method for combining a binary
+mathematical operation with an assignment operation. For example, say you want to
+increase the value of x by 5, or, in other words, add 5 to x and assign the result
+to x. You could write</P>
+<P>
+<PRE>x = x + 5;
+</PRE>
+<P>Using a compound assignment operator, which you can think of as a shorthand method
+of assignment, you would write</P>
+<P>
+<PRE>x += 5;
+</PRE>
+<P>In more general notation, the compound assignment operators have the following
+syntax (where op represents a binary operator):</P>
+<P>
+<PRE><I>exp1</I> op= <I>exp2</I>
+</PRE>
+<P>This is equivalent to writing</P>
+<P>
+<PRE><I>exp1</I> = <I>exp1</I> op <I>exp2</I>;
+</PRE>
+<P>You can create compound assignment operators using the five binary mathematical
+operators discussed earlier in this chapter. Table 4.10 lists some examples.</P>
+<P>
+<H4>Table 4.10. Examples of compound assignment operators.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>When You Write This...</B></TD>
+		<TD ALIGN="LEFT"><B>It Is Equivalent To This</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">x *= y</TD>
+		<TD ALIGN="LEFT">x = x * y</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">y -= z + 1</TD>
+		<TD ALIGN="LEFT">y = y - z + 1</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">a /= b</TD>
+		<TD ALIGN="LEFT">a = a / b</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">x += y / 8</TD>
+		<TD ALIGN="LEFT">x = x + y / 8</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">y %= 3</TD>
+		<TD ALIGN="LEFT">y = y % 3</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The compound operators provide a convenient shorthand, the advantages of which
+are particularly evident when the variable on the left side of the assignment operator
+has a long name. As with all other assignment statements, a compound assignment statement
+is an expression and evaluates to the value assigned to the left side. Thus, executing
+the following statements results in both x and z having the value 14:</P>
+<P>
+<PRE>x = 12;
+z = x += 2;
+</PRE>
+<H3><A NAME="Heading22"></A>The Conditional Operator</H3>
+<P>The conditional operator is C's only <I>ternary</I> operator, meaning that it
+takes three operands. Its syntax is</P>
+<P>
+<PRE><I>exp1</I> ? <I>exp2</I> : <I>exp3</I>;
+</PRE>
+<P>If <I>exp1</I> evaluates to true (that is, nonzero), the entire expression evaluates
+to the value of <I>exp2</I>. If <I>exp1</I> evaluates to false (that is, zero), the
+entire expression evaluates as the value of <I>exp3</I>. For example, the following
+statement assigns the value 1 to x if y is true and assigns 100 to x if y is false:</P>
+<P>
+<PRE>x = y ? 1 : 100;
+</PRE>
+<P>Likewise, to make z equal to the larger of x and y, you could write</P>
+<P>
+<PRE>z = (x &gt; y) ? x : y;
+</PRE>
+<P>Perhaps you've noticed that the conditional operator functions somewhat like an
+if statement. The preceding statement could also be written like this:</P>
+<P>
+<PRE>if (x &gt; y)
+z = x;
+else
+z = y;
+</PRE>
+<P>The conditional operator can't be used in all situations in place of an if...else
+construction, but the conditional operator is more concise. The conditional operator
+can also be used in places you can't use an if statement, such as inside a single
+printf() statement:</P>
+<P>
+<PRE>printf( &quot;The larger value is %d&quot;, ((x &gt; y) ? x : y) );
+</PRE>
+<H3><A NAME="Heading23"></A>The Comma Operator</H3>
+<P>The comma is frequently used in C as a simple punctuation mark, serving to separate
+variable declarations, function arguments, and so on. In certain situations, the
+comma acts as an operator rather than just as a separator. You can form an expression
+by separating two subexpressions with a comma. The result is as follows:</P>
+
+<UL>
+	<LI>Both expressions are evaluated, with the left expression being evaluated first.
+	<P>
+	<LI>The entire expression evaluates to the value of the right expression.
+</UL>
+
+<P>For example, the following statement assigns the value of b to x, then increments
+a, and then increments b:</P>
+<P>
+<PRE>x = (a++ , b++);
+</PRE>
+<P>Because the ++ operator is used in postfix mode, the value of b--before it is
+incremented--is assigned to x. Using parentheses is necessary because the comma operator
+has low precedence, even lower than the assignment operator.</P>
+<P>As you'll learn in the next chapter, the most common use of the comma operator
+is in for statements.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use (expression == 0) instead of (!expression). When compiled, these two
+	expressions evaluate the same; however, the first is more readable.</P>
+	<P><B>DO</B> use the logical operators &amp;&amp; and || instead of nesting if statements.</P>
+	<P><B>DON'T</B> confuse the assignment operator (=) with the equal to (==) operator.
+	
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading24"></A>Operator Precedence Revisited</H2>
+<P>Table 4.11 lists all the C operators in order of decreasing precedence. Operators
+on the same line have the same precedence.</P>
+<P>
+<H4>Table 4.11. C operator precedence.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Level</B></TD>
+		<TD ALIGN="LEFT"><B>Operators</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">() [] -&gt; .</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">! ~ ++ -- * <I>(indirection)</I> &amp; <I>(address-of)</I> (<I>type</I>)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">sizeof + <I>(unary)</I> - <I>(unary)</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">3</TD>
+		<TD ALIGN="LEFT">* <I>(multiplication)</I> / %</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">+ -</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">5</TD>
+		<TD ALIGN="LEFT">&lt;&lt; &gt;&gt;</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">6</TD>
+		<TD ALIGN="LEFT">&lt; &lt;= &gt; &gt;=</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">7</TD>
+		<TD ALIGN="LEFT">== !=</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">8</TD>
+		<TD ALIGN="LEFT">&amp; <I>(bitwise </I>AND<I>)</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">9</TD>
+		<TD ALIGN="LEFT">^</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">10</TD>
+		<TD ALIGN="LEFT">|</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">11</TD>
+		<TD ALIGN="LEFT">&amp;&amp;</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">12</TD>
+		<TD ALIGN="LEFT">||</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">13</TD>
+		<TD ALIGN="LEFT">?:</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">14</TD>
+		<TD ALIGN="LEFT">= += -= *= /= %= &amp;= ^= |= &lt;&lt;= &gt;&gt;=</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">15</TD>
+		<TD ALIGN="LEFT">,</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">() is the function operator; [] is the array operator.</TD>
+		<TD ALIGN="LEFT"></TD>
+	</TR>
+</TABLE>
+
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>TIP:</strong> This is a good table to keep referring to until you become familiar
+	with the order of precedence. You might find that you need it later. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading25"></A>Summary</H2>
+<P>This chapter covered a lot of material. You learned what a C statement is, that
+white space doesn't matter to a C compiler, and that statements always end with a
+semicolon. You also learned that a compound statement (or block), which consists
+of two or more statements enclosed in braces, can be used anywhere a single statement
+can be used.</P>
+<P>Many statements are made up of some combination of expressions and operators.
+Remember that an expression is anything that evaluates to a numeric value. Complex
+expressions can contain many simpler expressions, which are called subexpressions.</P>
+<P>Operators are C symbols that instruct the computer to perform an operation on
+one or more expressions. Some operators are unary, which means that they operate
+on a single operand. Most of C's operators are binary, however, operating on two
+operands. One operator, the conditional operator, is ternary. C's operators have
+a defined hierarchy of precedence that determines the order in which operations are
+performed in an expression that contains multiple operators.</P>
+<P>The C operators covered in this chapter fall into three categories:</P>
+
+<UL>
+	<LI>Mathematical operators perform arithmetic operations on their operands (for example,
+	addition).
+	<P>
+	<LI>Relational operators perform comparisons between their operands (for example,
+	greater than).
+	<P>
+	<LI>Logical operators operate on true/false expressions. Remember that C uses 0 and
+	1 to represent false and true, respectively, and that any nonzero value is interpreted
+	as being true.
+</UL>
+
+<P>You've also been introduced to C's if statement, which lets you control program
+execution based on the evaluation of relational expressions.</P>
+<P>
+<H2><A NAME="Heading26"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q What effect do spaces and blank lines have on how a program runs?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> White space (lines, spaces, tabs) makes the code listing more readable.
+	When the program is compiled, white space is stripped and thus has no effect on the
+	executable program. For this reason, you should use white space to make your program
+	easier to read.
+	<P>
+	<DT></DT>
+	<DD><B>Q Is it better to code a compound if statement or to nest multiple if statements?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> You should make your code easy to understand. If you nest if statements,
+	they are evaluated as shown in this chapter. If you use a single compound statement,
+	the expressions are evaluated only until the entire statement evaluates to false.
+	<P>
+	<DT></DT>
+	<DD><B>Q What is the difference between unary and binary operators?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> As the names imply, unary operators work with one variable, and binary
+	operators work with two.
+	<P>
+	<DT></DT>
+	<DD><B>Q Is the subtraction operator (-) binary or unary?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> It's both! The compiler is smart enough to know which one you're using.
+	It knows which form to use based on the number of variables in the expression that
+	is used. In the following statement, it is unary:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>x = -y;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>versus the following binary use:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>x = a - b;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q Are negative numbers considered true or false?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> Remember that 0 is false, and any other value is true. This includes
+	negative numbers.
+	<P>
+</DL>
+
+<H2><A NAME="Heading27"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered and exercises to provide you with experience in using what you've
+learned.</P>
+<P>
+<H3><A NAME="Heading28"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>What is the following C statement called, and what is its meaning?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>x = 5 + 8;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>What is an expression?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>In an expression that contains multiple operators, what determines
+	the order in which operations are performed?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>If the variable x has the value 10, what are the values of x and a
+	after each of the following statements is executed separately?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>a = x++;
+a = ++x;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>To what value does the expression 10 % 3 evaluate?
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>To what value does the expression 5 + 3 * 8 / 2 + 2 evaluate?
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Rewrite the expression in question 6, adding parentheses so that it
+	evaluates to 16.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>If an expression evaluates to false, what value does the expression
+	have?
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>In the following list, which has higher precedence?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>== or &lt;
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>* or +
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>!= or ==
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>&gt;= or &gt;
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>What are the compound assignment operators, and how are they useful?
+	<P>
+</DL>
+
+<H3><A NAME="Heading29"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The following code is not well-written. Enter and compile it to see
+	whether it works.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+int x,y;main(){ printf(
+&quot;\nEnter two numbers&quot;);scanf(
+&quot;%d %d&quot;,&amp;x,&amp;y);printf(
+&quot;\n\n%d is bigger&quot;,(x&gt;y)?x:y);return 0;}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>Rewrite the code in exercise 1 to be more readable.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Change Listing 4.1 to count upward instead of downward.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Write an if statement that assigns the value of x to the variable y
+	only if x is between 1 and 20. Leave y unchanged if x is not in that range.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Use the conditional operator to perform the same task as in exercise
+	4.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Rewrite the following nested if statements using a single if statement
+	and compound operators.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>if (x &lt; 1)
+   if ( x &gt; 10 )
+      statement;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>To what value do each of the following expressions evaluate?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>(1 + 2 * 3)
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>10 % 3 * 3 - (1 + 2)
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>((1 + 2) * 3)
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>(5 == 5)
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>(x = 5)
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>If x = 4, y = 6, and z = 2, determine whether each of the following
+	evaluates to true or false.
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>if( x == 4)
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>if(x != y - z)
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>if(z = 1)
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>if(y)
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Write an if statement that determines whether someone is legally an
+	adult (age 21), but not a senior citizen (age 65).
+	<P>
+	<DT></DT>
+	<DD><B>10. BUG BUSTER:</B> Fix the following program so that it runs correctly.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* a program with problems... */
+#include &lt;stdio.h&gt;
+int x= 1:
+main()
+{
+   if( x = 1);
+      printf(&quot; x equals 1&quot; );
+   otherwise
+      printf(&quot; x does not equal 1&quot;);
+   return 0;
+}</PRE>
+
+</BLOCKQUOTE>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch03/ch03.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch05/ch05.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> </P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

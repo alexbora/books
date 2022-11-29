@@ -1,0 +1,707 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 2 -- The Components of a C Program</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch01/ch01.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch03/ch03.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 2 -</H1>
+
+<H1>The Components of a C Program</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">A Short C Program</A>
+	<LI><A HREF="#Heading2">The Program's Components</A>
+	<UL>
+		<LI><A HREF="#Heading3">The main() Function (Lines 8 Through 23)</A>
+		<LI><A HREF="#Heading4">The #include Directive (Line 2)</A>
+		<LI><A HREF="#Heading5">The Variable Definition (Line 4)</A>
+		<LI><A HREF="#Heading6">The Function Prototype (Line 6)</A>
+		<LI><A HREF="#Heading7">Program Statements (Lines 11, 12, 15, 16, 19, 20, 22, and
+		28)</A>
+		<LI><A HREF="#Heading8">The Function Definition (Lines 26 Through 29)</A>
+		<LI><A HREF="#Heading9">Program Comments (Lines 1, 10, 14, 18, and 25)</A>
+		<LI><A HREF="#Heading10">Braces (Lines 9, 23, 27, and 29)</A>
+		<LI><A HREF="#Heading11">Running the Program</A>
+		<LI><A HREF="#Heading12">A Note on Accuracy</A>
+	</UL>
+	<LI><A HREF="#Heading13">A Review of the Parts of a Program</A>
+	<LI><A HREF="#Heading14">Summary</A>
+	<LI><A HREF="#Heading15">Q&amp;A</A>
+	<LI><A HREF="#Heading16">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading17">Quiz</A>
+		<LI><A HREF="#Heading18">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>Every C program consists of several components combined in a certain way. Most
+of this book is devoted to explaining these various program components and how you
+use them. To get the overall picture, however, you should begin by seeing a complete
+(though small) C program with all its components identified. Today you will learn</P>
+<P>
+
+<UL>
+	<LI>About a short C program and its components
+	<P>
+	<LI>The purpose of each program component
+	<P>
+	<LI>How to compile and run a sample program
+</UL>
+
+<H2><A NAME="Heading1"></A>A Short C Program</H2>
+<P>Listing 2.1 presents the source code for MULTIPLY.C. This is a very simple program.
+All it does is input two numbers from the keyboard and calculate their product. At
+this stage, don't worry about understanding the details of the program's workings.
+The point is to gain some familiarity with the parts of a C program so that you can
+better understand the listings presented later in this book.</P>
+<P>Before looking at the sample program, you need to know what a function is, because
+functions are central to C programming. A <I>function</I> is an independent section
+of program code that performs a certain task and has been assigned a name. By referencing
+a function's name, your program can execute the code in the function. The program
+also can send information, called <I>arguments,</I> to the function, and the function
+can return information to the main part of the program. The two types of C functions
+are <I>library functions,</I> which are a part of the C compiler package, and <I>user-defined
+functions,</I> which you, the programmer, create. You will learn about both types
+of functions in this book.</P>
+<P>Note that, as with all the listings in this book, the line numbers in Listing
+2.1 are not part of the program. They are included only for identification purposes,
+so don't type them.</P>
+<P>
+<H4>Listing 2.1. MULTIPLY.C.</H4>
+<PRE>1:  /* Program to calculate the product of two numbers. */
+2:  #include &lt;stdio.h&gt;
+3:
+4:  int a,b,c;
+5:
+6:  int product(int x, int y);
+7:
+8:  main()
+9:  {
+10:     /* Input the first number */
+11:     printf(&quot;Enter a number between 1 and 100: &quot;);
+12:     scanf(&quot;%d&quot;, &amp;a);
+13:
+14:     /* Input the second number */
+15:     printf(&quot;Enter another number between 1 and 100: &quot;);
+16:     scanf(&quot;%d&quot;, &amp;b);
+17:
+18:     /* Calculate and display the product */
+19:     c = product(a, b);
+20:     printf (&quot;%d times %d = %d\n&quot;, a, b, c);
+21:
+22:     return 0;
+23: }
+24:
+25: /* Function returns the product of its two arguments */
+26: int product(int x, int y)
+27: {
+28:     return (x * y);
+29: }
+Enter a number between 1 and 100: <B>35</B>
+Enter another number between 1 and 100:<B> 23</B>
+35 times 23 = 805
+</PRE>
+<H2><A NAME="Heading2"></A>The Program's Components</H2>
+<P>The following sections describe the various components of the preceding sample
+program. Line numbers are included so that you can easily identify the program parts
+being discussed.</P>
+<P>
+<H3><A NAME="Heading3"></A>The main() Function (Lines 8 Through 23)</H3>
+<P>The only component that is required in every C program is the main() function.
+In its simplest form, the main() function consists of the name main followed by a
+pair of empty parentheses (()) and a pair of braces ({}). Within the braces are statements
+that make up the main body of the program. Under normal circumstances, program execution
+starts at the first statement in main() and terminates at the last statement in main().</P>
+<P>
+<H3><A NAME="Heading4"></A>The #include Directive (Line 2)</H3>
+<P>The #include directive instructs the C compiler to add the contents of an include
+file into your program during compilation. An <I>include file</I> is a separate disk
+file that contains information needed by your program or the compiler. Several of
+these files (sometimes called <I>header files</I>) are supplied with your compiler.
+You never need to modify the information in these files; that's why they're kept
+separate from your source code. Include files should all have an .H extension (for
+example, STDIO.H).</P>
+<P>You use the #include directive to instruct the compiler to add a specific include
+file to your program during compilation. The #include directive in this sample program
+means &quot;Add the contents of the file STDIO.H.&quot; Most C programs require one
+or more include files. More information about include files is presented on Day 21,
+&quot;Advanced Compiler Use.&quot;</P>
+<P>
+<H3><A NAME="Heading5"></A>The Variable Definition (Line 4)</H3>
+<P>A <I>variable</I> is a name assigned to a data storage location. Your program
+uses variables to store various kinds of data during program execution. In C, a variable
+must be defined before it can be used. A variable definition informs the compiler
+of the variable's name and the type of data it is to hold. In the sample program,
+the definition on line 4, int a,b,c;, defines three variables--named a, b, and c--that
+will each hold an integer value. More information about variables and variable definitions
+is presented on Day 3, &quot;Storing Data: Variables and Constants.&quot;</P>
+<P>
+<H3><A NAME="Heading6"></A>The Function Prototype (Line 6)</H3>
+<P>A <I>function prototype</I> provides the C compiler with the name and arguments
+of the functions contained in the program. It must appear before the function is
+used. A function prototype is distinct from a <I>function definition,</I> which contains
+the actual statements that make up the function. (Function definitions are discussed
+in more detail later in this chapter.)</P>
+<P>
+<H3><A NAME="Heading7"></A>Program Statements (Lines 11, 12, 15, 16, 19, 20, 22,
+and 28)</H3>
+<P>The real work of a C program is done by its statements. C statements display information
+on-screen, read keyboard input, perform mathematical operations, call functions,
+read disk files, and carry out all the other operations that a program needs to perform.
+Most of this book is devoted to teaching you the various C statements. For now, remember
+that in your source code, C statements are generally written one per line and always
+end with a semicolon. The statements in MULTIPLY.C are explained briefly in the following
+sections.</P>
+<P>
+<H4>printf()</H4>
+<P>The printf() statement (lines 11, 15, and 20) is a library function that displays
+information on-screen. The printf() statement can display a simple text message (as
+in lines 11 and 15) or a message and the value of one or more program variables (as
+in line 20).</P>
+<P>
+<H4>scanf()</H4>
+<P>The scanf() statement (lines 12 and 16) is another library function. It reads
+data from the keyboard and assigns that data to one or more program variables.</P>
+<P>The program statement on line 19 calls the function named product(). In other
+words, it executes the program statements contained in the function product(). It
+also sends the arguments a and b to the function. After the statements in product()
+are completed, product() returns a value to the program. This value is stored in
+the variable named c.</P>
+<P>
+<H4>return</H4>
+<P>Lines 22 and 28 contain return statements. The return statement on line 28 is
+part of the function product(). It calculates the product of the variables x and
+y and returns the result to the program statement that called product(). The return
+statement on line 22 returns a value of 0 to the operating system just before the
+program ends.</P>
+<P>
+<H3><A NAME="Heading8"></A>The Function Definition (Lines 26 Through 29)</H3>
+<P>A function is an independent, self-contained section of code that is written to
+perform a certain task. Every function has a name, and the code in each function
+is executed by including that function's name in a program statement. This is known
+as <I>calling</I> the function.</P>
+<P>The function named product(), in lines 26 through 29, is a user-defined function.
+As the name implies, user-defined functions are written by the programmer during
+program development. This function is simple. All it does is multiply two values
+and return the answer to the program that called it. On Day 5, &quot;Functions: The
+Basics,&quot; you will learn that the proper use of functions is an important part
+of good C programming practice.</P>
+<P>Note that in a real C program, you probably wouldn't use a function for a task
+as simple as multiplying two numbers. I've done this here for demonstration purposes
+only.</P>
+<P>C also includes library functions that are a part of the C compiler package. Library
+functions perform most of the common tasks (such as screen, keyboard, and disk input/output)
+your program needs. In the sample program, printf() and scanf() are library functions.</P>
+<P>
+<H3><A NAME="Heading9"></A>Program Comments (Lines 1, 10, 14, 18, and 25)</H3>
+<P>Any part of your program that starts with /* and ends with */ is called a <I>comment</I>.
+The compiler ignores all comments, so they have absolutely no effect on how a program
+works. You can put anything you want into a comment, and it won't modify the way
+your program operates. A comment can span part of a line, an entire line, or multiple
+lines. Here are three examples:</P>
+<P>
+<PRE>/* A single-line comment */
+int a,b,c; /* A partial-line comment */
+</PRE>
+<PRE>/* a comment
+spanning
+multiple lines */
+</PRE>
+<P>However, you shouldn't use <I>nested</I> comments (in other words, you shouldn't
+put one comment within another). Most compilers would not accept the following:</P>
+<P>
+<PRE>/*
+/* Nested comment */
+*/
+</PRE>
+<P>Some compilers do allow nested comments. Although this feature might be tempting
+to use, you should avoid doing so. Because one of the benefits of C is portability,
+using a feature such as nested comments might limit the portability of your code.
+Nested comments also might lead to hard-to-find problems.</P>
+<P>Many beginning programmers view program comments as unnecessary and a waste of
+time. This is a mistake! The operation of your program might be quite clear while
+you're writing it--particularly when you're writing simple programs. However, as
+your programs become larger and more complex, or when you need to modify a program
+you wrote six months ago, you'll find comments invaluable. Now is the time to develop
+the habit of using comments liberally to document all your programming structures
+and operations.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> Many people have started using a newer style of comments in their
+	C programs. Within C++ and Java, you can use double forward slashes to signal a comment.
+	Here are two examples:
+	<PRE>// This entire line is a comment
+int x;  // Comment starts with slashes.</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>The two forward slashes signal that the rest of the line is a comment. Although
+	many C compilers support this form of comment, you should avoid it if you're interested
+	in portability.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> add abundant comments to your program's source code, especially near statements
+	or functions that could be unclear to you or to someone who might have to modify
+	it later.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> add unnecessary comments to statements that are already clear. For
+	example, entering
+	<PRE>/* The following prints Hello World! on the screen */
+printf(&quot;Hello World!&quot;);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>might be going a little too far, at least once you're completely comfortable with
+	the printf() function and how it works.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> learn to develop a style that will be helpful. A style that's too lean
+	or cryptic doesn't help, nor does one that's so verbose that you're spending more
+	time commenting than programming!
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading10"></A>Braces (Lines 9, 23, 27, and 29)</H3>
+<P>You use braces ({}) to enclose the program lines that make up every C function--including
+the main() function. A group of one or more statements enclosed within braces is
+called a <I>block</I>. As you will see in later chapters, C has many uses for blocks.</P>
+<P>
+<H3><A NAME="Heading11"></A>Running the Program</H3>
+<P>Take the time to enter, compile, and run MULTIPLY.C. It provides additional practice
+in using your editor and compiler. Recall these steps from Day 1, &quot;Getting Started
+with C&quot;:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Make your programming directory current.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Start your editor.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Enter the source code for MULTIPLY.C exactly as shown in Listing 2.1,
+	but be sure to omit the line numbers and colons.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Save the program file.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Compile and link the program by entering the appropriate command(s)
+	for your compiler. If no error messages are displayed, you can run the program by
+	entering multiply at the command prompt.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>If one or more error messages are displayed, return to step 2 and correct
+	the errors.
+	<P>
+</DL>
+
+<H3><A NAME="Heading12"></A>A Note on Accuracy</H3>
+<P>A computer is fast and accurate, but it also is completely literal. It doesn't
+know enough to correct your simplest mistake; it takes everything you enter exactly
+as you entered it, not as you meant it!</P>
+<P>This goes for your C source code as well. A simple typographical error in your
+program can cause the C compiler to choke, gag, and collapse. Fortunately, although
+the compiler isn't smart enough to correct your errors (and you'll make errors--everyone
+does!), it <I>is</I> smart enough to recognize them as errors and report them to
+you. (You saw in the preceding chapter how the compiler reports error messages and
+how you interpret them.)</P>
+<P>
+<H2><A NAME="Heading13"></A>A Review of the Parts of a Program</H2>
+<P>Now that all the parts of a program have been described, you should be able to
+look at any program and find some similarities. Look at Listing 2.2 and see whether
+you can identify the different parts.</P>
+<P>
+<H4>Listing 2.2. LIST_IT.C.</H4>
+<PRE>1:  /* LIST_IT.C--This program displays a listing with line numbers! */
+2:  #include &lt;stdio.h&gt;
+3:  #include &lt;stdlib.h&gt;
+4:
+5:  void display_usage(void);
+6:  int line;
+7:
+8:  main( int argc, char *argv[] )
+9:  {
+10:    char buffer[256];
+11:    FILE *fp;
+12:
+13:    if( argc &lt; 2 )
+14:    {
+15:       display_usage();
+16:       exit(1);
+17:    }
+18:
+19:    if (( fp = fopen( argv[1], &quot;r&quot; )) == NULL )
+20:    {
+21:         fprintf( stderr, &quot;Error opening file, %s!&quot;, argv[1] );
+22:         exit(1);
+23:    }
+24:
+25:    line = 1;
+26:
+27:    while( fgets( buffer, 256, fp ) != NULL )
+28:       fprintf( stdout, &quot;%4d:\t%s&quot;, line++, buffer );
+29:
+30:    fclose(fp);
+31:    return 0;
+32: }
+33:
+34: void display_usage(void)
+35: {
+36:       fprintf(stderr, &quot;\nProper Usage is: &quot; );
+37:       fprintf(stderr, &quot;\n\nLIST_IT filename.ext\n&quot; );
+38: }
+C:\&gt;<B>list_it list_it.c</B>
+1: /* LIST_IT.C - This program displays a listing with line numbers! */
+2:   #include &lt;stdio.h&gt;
+3:   #include &lt;stdlib.h&gt;
+4:
+5:   void display_usage(void);
+6:   int line;
+7:
+8:   main( int argc, char *argv[] )
+9:   {
+10:       char buffer[256];
+11:       FILE *fp;
+12:
+13:       if( argc &lt; 2 )
+14:       {
+15:            display_usage();
+16:            exit(1);
+17:       }
+18:
+19:       if (( fp = fopen( argv[1], &quot;r&quot; )) == NULL )
+20:       {
+21:            fprintf( stderr, &quot;Error opening file, %s!&quot;, argv[1] );
+22:            exit(1);
+23:       }
+24:
+25:       line = 1;
+26:
+27:       while( fgets( buffer, 256, fp ) != NULL )
+28:          fprintf( stdout, &quot;%4d:\t%s&quot;, line++, buffer );
+29:
+30:       fclose(fp);
+31:       return 0;
+32:  }
+33:
+34:  void display_usage(void)
+35:  {
+36:       fprintf(stderr, &quot;\nProper Usage is: &quot; );
+37:       fprintf(stderr, &quot;\n\nLIST_IT filename.ext\n&quot; );
+38:  }
+</PRE>
+<P><strong>ANALYSIS: </strong> LIST_IT.C is similar to PRINT_IT.C, which you entered in
+exercise 7 of Day 1. Listing 2.2 displays saved C program listings on-screen instead
+of printing them on the printer.</P>
+<P>Looking at this listing, you can summarize where the different parts are. The
+required main() function is in lines 8 through 32. Lines 2 and 3 have #include directives.
+Lines 6, 10, and 11 have variable definitions. A function prototype, void display_usage(void),
+is in line 5. This program has many statements (lines 13, 15, 16, 19, 21, 22, 25,
+27, 28, 30, 31, 36, and 37). A function definition for display_usage() fills lines
+34 through 38. Braces enclose blocks throughout the program. Finally, only line 1
+has a comment. In most programs, you should probably include more than one comment
+line.</P>
+<P>LIST_IT.C calls many functions. It calls only one user-defined function, display_usage().
+The library functions that it uses are exit() in lines 16 and 22; fopen() in line
+19; fprintf() in lines 21, 28, 36, and 37; fgets() in line 27; and fclose() in line
+30. These library functions are covered in more detail throughout this book.</P>
+<P>
+<H2><A NAME="Heading14"></A>Summary</H2>
+<P>This chapter was short, but it's important, because it introduced you to the major
+components of a C program. You learned that the single required part of every C program
+is the main() function. You also learned that the program's real work is done by
+program statements that instruct the computer to perform your desired actions. This
+chapter also introduced you to variables and variable definitions, and it showed
+you how to use comments in your source code.</P>
+<P>In addition to the main() function, a C program can use two types of subsidiary
+functions: library functions, supplied as part of the compiler package, and user-defined
+functions, created by the programmer.</P>
+<P>
+<H2><A NAME="Heading15"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q What effect do comments have on a program?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> Comments are for the programmer. When the compiler converts the source
+	code to object code, it throws the comments and the white space away. This means
+	that they have no effect on the executable program. Comments do make your source
+	file bigger, but this is usually of little concern. To summarize, you should use
+	comments and white space to make your source code as easy to understand and main-tain
+	as possible.
+	<P>
+	<DT></DT>
+	<DD><B>Q What is the difference between a statement and a block?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> A block is a group of statements enclosed in braces ({}). A block can
+	be used in most places that a statement can be used.
+	<P>
+	<DT></DT>
+	<DD><B>Q How can I find out what library functions are available?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> Many compilers come with a manual dedicated specifically to documenting
+	the library functions. They are usually in alphabetical order. Another way to find
+	out what library functions are available is to buy a book that lists them. Appendix
+	E, &quot;Common C Functions,&quot; lists many of the available functions. After you
+	begin to understand more of C, it would be a good idea to read these appendixes so
+	that you don't rewrite a library function. (There's no use reinventing the wheel!)
+	<P>
+</DL>
+
+<H2><A NAME="Heading16"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered and exercises to provide you with experience in using what you've
+learned.</P>
+<P>
+<H3><A NAME="Heading17"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>What is the term for a group of one or more C statements enclosed in
+	braces?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>What is the one component that must be present in every C program?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>How do you add program comments, and why are they used?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>What is a function?
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>C offers two types of functions. What are they, and how are they different?
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>What is the #include directive used for?
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Can comments be nested?
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Can comments be longer than one line?
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>What is another name for an include file?
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>What is an include file?
+	<P>
+</DL>
+
+<H3><A NAME="Heading18"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Write the smallest program possible.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Consider the following program:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>1:  /* EX2-2.C */
+2:  #include &lt;stdio.h&gt;
+3:
+4:  void display_line(void);
+5:
+6:  main()
+7:  {
+8:      display_line();
+9:      printf(&quot;\n Teach Yourself C In 21 Days!\n&quot;);
+10:     display_line();
+11:
+12:     return 0;
+13: }
+14:
+15: /* print asterisk line */
+16: void display_line(void)
+17: {
+18:     int counter;
+19:
+20:     for( counter = 0; counter &lt; 21; counter++ )
+21:         printf(&quot;*&quot; );
+22: }
+23: /* end of program */</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>a. </B>What line(s) contain statements?
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>What line(s) contain variable definitions?
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>What line(s) contain function prototypes?
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>What line(s) contain function definitions?
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>What line(s) contain comments?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Write an example of a comment.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>What does the following program do? (Enter, compile, and run it.)
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>1: /* EX2-4.C */
+2: #include &lt;stdio.h&gt;
+3:
+4: main()
+5: {
+6:     int ctr;
+7:
+8:     for( ctr = 65; ctr &lt; 91; ctr++ )
+9:         printf(&quot;%c&quot;, ctr );
+10:
+11:    return 0;
+12: }
+13: /* end of program */</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>What does the following program do? (Enter, compile, and run it.)
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>1: /* EX2-5.C */
+2: #include &lt;stdio.h&gt;
+3: #include &lt;string.h&gt;
+4: main()
+5: {
+6:     char buffer[256];
+7:
+8:      printf( &quot;Enter your name and press &lt;Enter&gt;:\n&quot;);
+9:      gets( buffer );
+10:
+11:     printf( &quot;\nYour name has %d characters and spaces!&quot;,
+12                        strlen( buffer ));
+13:
+14:     return 0;
+15: }</PRE>
+
+</BLOCKQUOTE>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch01/ch01.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch03/ch03.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+<BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

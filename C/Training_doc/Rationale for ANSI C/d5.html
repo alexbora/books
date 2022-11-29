@@ -1,0 +1,267 @@
+<html><head>
+<title>4.5 Mathematics</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d4.html" tppabs="http://www.lysator.liu.se/c/rat/d4.html">4.4 Localization</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-5" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-5">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d6.html" tppabs="http://www.lysator.liu.se/c/rat/d6.html">4.6 Nonlocal jumps</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-5">4.5</a>&#160;<tt> </tt>Mathematics&#160;<tt> </tt>&lt;<a name="-60math-46h-62-4-5">math</a>.h&gt;</h1>
+
+<p>
+For historical reasons,
+the math library is only defined for the floating type <code>double</code>.&#160;<tt> </tt>
+All the names formed by appending <code>f</code> or <code>l</code> to a name in <code>&lt;math.h&gt;</code>
+are reserved to allow for the definition of
+<code>float</code> and <code>long double</code> libraries.&#160;<tt> </tt>
+<p>
+The functions <code>ecvt</code>, <code>fcvt</code>, and <code>gcvt</code>
+have been dropped since their capability is available through
+<a name="sprintf-4-5"><code>sprintf</code></a>.&#160;<tt> </tt>
+<p>
+Traditionally, <a name="HUGE-95VAL-4-5"><code>HUGE_VAL</code></a> has been defined as a
+<a name="manifest-constant-4-5">manifest constant</a>
+that approximates the largest representable <code>double</code> value.&#160;<tt> </tt>
+As an approximation to <i>infinity</i> it is problematic.&#160;<tt> </tt>
+As a function return value indicating overflow,
+it can cause trouble if first assigned to a <code>float</code> before testing,
+since a <code>float</code>
+may not necessarily hold all values representable in a <code>double</code>.&#160;<tt> </tt>
+<p>
+After considering several alternatives,
+the Committee decided to generalize <code>HUGE_VAL</code>
+to a positive double expression,
+so that it could be expressed as
+an external identifier naming a location initialized precisely with
+the proper bit pattern.&#160;<tt> </tt>
+It can even be a special encoding for <i>machine infinity</i>,
+on implementations that support such codes.&#160;<tt> </tt>
+It need not be representable as a <code>float</code>, however.&#160;<tt> </tt>
+<p>
+Similarly,
+domain errors in the past were typically indicated by a zero return,
+which is not necessarily distinguishable from a valid result.&#160;<tt> </tt>
+The Committee agreed to make the return value for domain errors
+<a name="impl-defined-behavior-4-5"><i>implementation-defined</i></a>,
+so that special machine codes can be used to advantage.&#160;<tt> </tt>
+This makes possible an implementation of the math library in accordance
+with the <a name="IEEE-P854-4-5">IEEE P854</a> proposal
+on floating point representation and arithmetic.&#160;<tt> </tt>
+<p>
+<h2><a name="4-5-1">4.5.1</a>&#160;<tt> </tt>Treatment of error conditions</h2> 
+<p>
+Whether underflow should be considered a range error, and cause
+<a name="errno-4-5-1"><code>errno</code></a> to be set, is specified as
+<a name="implementation-defined-4-5-1"><i>implementation-defined</i></a>
+since detection of underflow is inefficient on some systems.&#160;<tt> </tt>
+<p>
+The Standard has been crafted to neither require nor preclude
+any popular implementation of floating point.&#160;<tt> </tt>
+This principle affects the definition of <a name="domain-error"><i>domain error</i></a>:
+an implementation may define extra domain errors to deal with
+floating-point arguments such as infinity or ``not-a-number''.&#160;<tt> </tt>
+<p>
+
+The Committee considered the adoption of the <a name="matherr-4-5-1"><code>matherr</code></a> capability
+from <a name="UNIX-4-5-1">UNIX</a> System V.&#160;<tt> </tt>
+In this feature of that system's math library,
+any error (such as overflow or underflow) results in a
+call from the library function to a user-defined exception handler
+named <code>matherr</code>.&#160;<tt> </tt>
+The Committee rejected this approach for several reasons:
+<ul><li>This style is incompatible with popular floating
+	point implementations, such as
+	<a name="IEEE-754-4-5-1">IEEE 754</a> (with its special return codes),
+	or that of <a name="VAX-47VMS-4-5-1">VAX/VMS</a>.&#160;<tt> </tt>
+<li>It conflicts with the error-handling style of <a name="FORTRAN-to-C-translation-4-5-1">FORTRAN,
+	thus making it more difficult to 
+	translate</a>
+	useful bodies of mathematical code from that language to C.&#160;<tt> </tt>
+<li>It requires the math library to be reentrant
+	(since math routines could be called from <code>matherr</code>),
+	which may complicate some implementations.&#160;<tt> </tt>
+<li>It introduces a new style of library interface:
+	a user-defined library function with a library-defined
+	name.&#160;<tt> </tt>
+	Note, by way of comparison, the signal and exit handling
+	mechanisms, which provide a way of ``registering''&#160;<tt> </tt>
+	user-defined functions.&#160;<tt> </tt>
+</ul><h2><a name="4-5-2">4.5.2</a>&#160;<tt> </tt>Trigonometric functions</h2>
+<p>
+Implementation note: trignometric argument reduction should
+be performed by a method that causes no catastrophic discontinuities
+in the error of the computed result.&#160;<tt> </tt>
+In particular, methods based solely on naive application of a calculation
+like
+<pre>        x - (2*pi) * (int)(x/(2*pi))
+</pre>are ill-advised.
+<p>
+<h2><a name="4-5-2-1">4.5.2.1</a>&#160;<tt> </tt>The <code>acos</code> function</h2>
+<p>
+<h2><a name="4-5-2-2">4.5.2.2</a>&#160;<tt> </tt>The <code>asin</code> function</h2>
+<p>
+<h2><a name="4-5-2-3">4.5.2.3</a>&#160;<tt> </tt>The <code>atan</code> function</h2>
+<p>
+<h2><a name="4-5-2-4">4.5.2.4</a>&#160;<tt> </tt>The <code>atan2</code> function</h2>
+<p>
+The <a name="atan2-4-5-2-4"><code>atan2</code></a> function is modelled after FORTRAN's.&#160;<tt> </tt>
+It is described in terms of <i>arctany/x</i> for simplicity;
+the Committee did not wish to complicate the descriptions by
+specifying in detail how the determine the appropriate quadrant,
+since that should be obvious from normal mathematical convention.&#160;<tt> </tt>
+<code>atan2(y,x)</code> is well-defined and finite, even when <code>x</code> is 0;
+the one ambiguity occurs when both arguments are 0, because at
+that point any value in the range of the function could logically
+be selected.  Since valid reasons can be advanced for all the
+different choices that have been in this situation by various
+implements, the Standard preserves the implementor's freedom
+to return an arbitrary well-defined value such as 0, to report
+a domain error, or to return an IEEE <i>NaN</i> code.&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-5-2-5">4.5.2.5</a>&#160;<tt> </tt>The <code>cos</code> function</h2>
+<p>
+<h2><a name="4-5-2-6">4.5.2.6</a>&#160;<tt> </tt>The <code>sin</code> function</h2>
+<p>
+<h2><a name="4-5-2-7">4.5.2.7</a>&#160;<tt> </tt>The <code>tan</code> function</h2>
+<p>
+The tangent function has singularities at odd multiples of
+<i>pi/2</i>,
+approaching <i>+infinity</i> from one side and <i>-infinity</i> from the other.&#160;<tt> </tt>
+Implementations commonly perform argument reduction using the best
+machine representation of <i>pi</i>;  for arguments to <code>tan</code> sufficiently
+close to a singularity, such reduction may yield a value on the
+wrong side of the singularity.&#160;<tt> </tt>
+In view of such problems, the Committee has recognized that <code>tan</code>
+is an exception to the <a name="range-error"><i>range error</i></a> rule (<a href="#4-5-1">&#167;4.5.1</a>)&#160;<tt> </tt>
+that an overflowing result produces <code>HUGE_VAL</code> properly signed.)
+<p>
+<p>
+<h2><a name="4-5-3">4.5.3</a>&#160;<tt> </tt>Hyperbolic functions</h2>
+<p>
+<h2><a name="4-5-3-1">4.5.3.1</a>&#160;<tt> </tt>The <code>cosh</code> function</h2>
+<p>
+<h2><a name="4-5-3-2">4.5.3.2</a>&#160;<tt> </tt>The <code>sinh</code> function</h2>
+<p>
+<h2><a name="4-5-3-3">4.5.3.3</a>&#160;<tt> </tt>The <code>tanh</code> function</h2>
+<p>
+<h2><a name="4-5-4">4.5.4</a>&#160;<tt> </tt>Exponential and logarithmic functions</h2>
+<p>
+<h2><a name="4-5-4-1">4.5.4.1</a>&#160;<tt> </tt>The <code>exp</code> function</h2>
+<p>
+<h2><a name="4-5-4-2">4.5.4.2</a>&#160;<tt> </tt>The <code>frexp</code> function</h2>
+<p>
+The functions
+<a name="frexp-4-5-4-2"><code>frexp</code></a>, <a name="ldexp-4-5-4-2"><code>ldexp</code></a>, and <a name="modf-4-5-4-2"><code>modf</code></a> are primitives used by the
+remainder of the library.&#160;<tt> </tt>
+There was some sentiment for dropping them for the same reasons that
+<code>ecvt</code>, <code>fcvt</code>, and <code>gcvt</code>
+were dropped,
+but their adherents rescued them for general use.&#160;<tt> </tt>
+Their use is problematic: on nonbinary architectures <code>ldexp</code>
+may lose precision, and <code>frexp</code> may be inefficient.
+<p>
+<h2><a name="4-5-4-3">4.5.4.3</a>&#160;<tt> </tt>The <code>ldexp</code> function</h2>
+<p>
+See <a href="#4-5-4-2">&#167;4.5.4.2</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-5-4-4">4.5.4.4</a>&#160;<tt> </tt>The <a name="log-4-5-4-4"><code>log</code></a> function</h2>
+
+<p>
+Whether <code>log(0.)</code> is a domain error or a range error is arguable.&#160;<tt> </tt>
+The choice in the Standard,
+<i>range error</i>,
+is for compatibility with <a name="IEEE-P854-4-5-4-4">IEEE P854</a>.&#160;<tt> </tt>
+Some such implementations would represent the result as <i>-infinity</i>,
+in which case no error is raised.&#160;<tt> </tt>
+<p>
+<h2><a name="4-5-4-5">4.5.4.5</a>&#160;<tt> </tt>The <code>log10</code> function</h2>
+<p>
+See <a href="#4-5-4-4">&#167;4.5.4.4</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-5-4-6">4.5.4.6</a>&#160;<tt> </tt>The <code>modf</code> function</h2>
+<p>
+See <a href="#4-5-4-2">&#167;4.5.4.2</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-5-5">4.5.5</a>&#160;<tt> </tt>Power functions</h2>
+<p>
+<h2><a name="4-5-5-1">4.5.5.1</a>&#160;<tt> </tt>The <code>pow</code> function</h2>
+<p>
+<h2><a name="4-5-5-2">4.5.5.2</a>&#160;<tt> </tt>The <code>sqrt</code> function</h2>
+<p>
+<a name="IEEE-P854-4-5-5-2">IEEE P854</a>, unlike the Standard, requires
+<code>sqrt(-0.)</code> to return a negatively signed magnitude-zero result.&#160;<tt> </tt>
+This is an issue on implementations that support a negative floating zero.&#160;<tt> </tt>
+The Standard specifies that taking the square root of a negative number
+(in the mathematical sense: less than 0)&#160;<tt> </tt>
+is a domain error which requires the
+function to return an
+<a name="implementation-defined-4-5-5-2"><i>implementation-defined</i></a> value.&#160;<tt> </tt>
+This rule permits implementations to support either the IEEE P854
+or vendor-specific floating point representations.&#160;<tt> </tt>
+<p>
+<h2><a name="4-5-6">4.5.6</a>&#160;<tt> </tt>Nearest integer, absolute value, and remainder functions</h2>
+<p>
+<h2><a name="4-5-6-1">4.5.6.1</a>&#160;<tt> </tt>The <code>ceil</code> function</h2>
+<p>
+Implementation note:
+The <code>ceil</code> function returns the smallest integral value in double
+format not less than <code>x</code>, even though that integer might not be
+representable in a C integral type.  <code>ceil(x)</code> equals <code>x</code> for
+all <code>x</code> sufficiently large in magnitude.  An implementation that
+calculates <code>ceil(x)</code> as
+<pre>        (double)(int) x
+</pre>is ill-advised.
+<p>
+<h2><a name="4-5-6-2">4.5.6.2</a>&#160;<tt> </tt>The <code>fabs</code> function</h2>
+<p>
+Adding an absolute value operator was rejected by the Committee.&#160;<tt> </tt>
+An implementation can provide a built-in function for efficiency.&#160;<tt> </tt>
+<p>
+<h2><a name="4-5-6-3">4.5.6.3</a>&#160;<tt> </tt>The <code>floor</code> function</h2>
+<p>
+<h2><a name="4-5-6-4">4.5.6.4</a>&#160;<tt> </tt>The <code>fmod</code> function</h2>
+<p>
+<a name="fmod-4-5-6-4"><code>fmod</code></a> is defined even if the quotient <code>x/y</code> is
+not representable ---
+this function is properly implemented 
+by scaled subtraction rather than by division.&#160;<tt> </tt>
+The Standard defines the result in terms of the formula
+<code>x</code><i>-i*</i><code>y</code>, where <i>i</i> is some integer.  This integer need
+not be representable, and need not even be explicitly computed.&#160;<tt> </tt>
+Thus implementations are advised not to compute the result
+using a formula like
+<pre>        x - y * (int)(x/y)
+</pre>Instead, the result can be computed in principle by subtracting
+<code>ldexp(y,n)</code> from <code>x</code>, for appropriately chosen decreasing
+<code>n</code>, until the remainder is between 0 and <code>x</code> --- efficiency
+considerations may dictate a different actual implementation.
+<p>
+<p>
+The result of <code>fmod(x,0.0)</code> is either a domain error or 0.0;
+the result always lies between 0.0 and <code>y</code>,
+so specifying the non-erroneous result as 0.0
+simply recognizes the limit case.&#160;<tt> </tt>
+<p>
+The Committee considered and rejected a proposal to use the
+remainder operator <code>%</code> for this function;
+ the operators in general correspond to hardware facilities, and
+<code>fmod</code> is not supported in hardware on most machines.&#160;<tt> </tt>
+<hr>
+<a href="d4.html" tppabs="http://www.lysator.liu.se/c/rat/d4.html">4.4 Localization</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-5" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-5">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d6.html" tppabs="http://www.lysator.liu.se/c/rat/d6.html">4.6 Nonlocal jumps</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

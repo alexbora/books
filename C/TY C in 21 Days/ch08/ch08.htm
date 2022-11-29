@@ -1,0 +1,1000 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 8 -- Using Numeric Arrays</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch07/ch07.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch09/ch09.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 8 -</H1>
+</CENTER>
+<CENTER>
+<H1>Using Numeric Arrays</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">What Is an Array?</A>
+	<UL>
+		<LI><A HREF="#Heading2">Single-Dimensional Arrays</A>
+		<LI><A HREF="#Heading3">Multidimensional Arrays</A>
+	</UL>
+	<LI><A HREF="#Heading4">Naming and Declaring Arrays</A>
+	<UL>
+		<LI><A HREF="#Heading5">Initializing Arrays</A>
+		<LI><A HREF="#Heading6">Initializing Multidimensional Arrays</A>
+		<LI><A HREF="#Heading7">Maximum Array Size</A>
+	</UL>
+	<LI><A HREF="#Heading8">Summary</A>
+	<LI><A HREF="#Heading9">Q&amp;A</A>
+	<LI><A HREF="#Heading10">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading11">Quiz</A>
+		<LI><A HREF="#Heading12">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>Arrays are a type of data storage that you often use in C programs. You had a
+brief introduction to arrays on Day 6, &quot;Basic Program Control.&quot; Today you
+will learn</P>
+
+<UL>
+	<LI>What an array is
+	<P>
+	<LI>The definition of single- and multidimensional numeric arrays
+	<P>
+	<LI>How to declare and initialize arrays
+</UL>
+
+<H2><A NAME="Heading1"></A>What Is an Array?</H2>
+<P>An <I>array</I> is a collection of data storage locations, each having the same
+data type and the same name. Each storage location in an array is called an <I>array</I>
+<I>element</I>. Why do you need arrays in your programs? This question can be answered
+with an example. If you're keeping track of your business expenses for 1998 and filing
+your receipts by month, you could have a separate folder for each month's receipts,
+but it would be more convenient to have a single folder with 12 compartments.</P>
+<P>Extend this example to computer programming. Imagine that you're designing a program
+to keep track of your business expenses. The program could declare 12 separate variables,
+one for each month's expense total. This approach is analogous to having 12 separate
+folders for your receipts. Good programming practice, however, would utilize an array
+with 12 elements, storing each month's total in the corresponding array element.
+This approach is comparable to filing your receipts in a single folder with 12 compartments.
+Figure 8.1 illustrates the difference between using individual variables and an array.</P>
+<P><A HREF="javascript:popUp('08tyc01.gif')"><B>Figure 8.1.</B></A><B> </B><I>Variables
+are like individual folders, whereas an array is like a single folder with many compartments.</I></P>
+<P>
+<H3><A NAME="Heading2"></A>Single-Dimensional Arrays</H3>
+<P>A <I>single-dimensional array</I> has only a single subscript. A <I>subscript</I>
+is a number in brackets that follows an array's name. This number can identify the
+number of individual elements in the array. An example should make this clear. For
+the business expenses program, you could use the following line to declare an array
+of type float:</P>
+<P>
+<PRE>float expenses[12];
+</PRE>
+<P>The array is named expenses, and it contains 12 elements. Each of the 12 elements
+is the exact equivalent of a single float variable. All of C's data types can be
+used for arrays. C array elements are always numbered starting at 0, so the 12 elements
+of expenses are numbered 0 through 11. In the preceding example, January's expense
+total would be stored in expenses[0], February's in expenses[1], and so on.</P>
+<P>When you declare an array, the compiler sets aside a block of memory large enough
+to hold the entire array. Individual array elements are stored in sequential memory
+locations, as shown in Figure 8.2.</P>
+<P><A HREF="javascript:popUp('08tyc02.gif')"><B>Figure 8.2.</B></A><B> </B><I>Array
+elements are stored in sequential memory locations.</I></P>
+<P>The location of array declarations in your source code is important. As with nonarray
+variables, the declaration's location affects how your program can use the array.
+The effect of a declaration's location is covered in more detail on Day 12, &quot;Understanding
+Variable Scope.&quot; For now, place your array declarations with other variable
+declarations, just before the start of main().</P>
+<P>An array element can be used in your program anywhere a nonarray variable of the
+same type can be used. Individual elements of the array are accessed by using the
+array name followed by the element subscript enclosed in square brackets. For example,
+the following statement stores the value 89.95 in the second array element (remember,
+the first array element is expenses[0], not expenses[1]):</P>
+<P>
+<PRE>expenses[1] = 89.95;
+</PRE>
+<P>Likewise, the statement</P>
+<P>
+<PRE>expenses[10] = expenses[11];
+</PRE>
+<P>assigns a copy of the value that is stored in array element expenses[11] into
+array element expenses[10]. When you refer to an array element, the array subscript
+can be a literal constant, as in these examples. However, your programs might often
+use a subscript that is a C integer variable or expression, or even another array
+element. Here are some examples:</P>
+<P>
+<PRE>float expenses[100];
+int a[10];
+/* additional statements go here */
+expenses[i] = 100;         /* i is an integer variable */
+expenses[2 + 3] = 100;     /* equivalent to expenses[5] */
+expenses[a[2]] = 100;      /* a[] is an integer array */
+</PRE>
+<P>That last example might need an explanation. If, for instance, you have an integer
+array named a[] and the value 8 is stored in element a[2], writing</P>
+<P>
+<PRE>expenses[a[2]]
+</PRE>
+<P>has the same effect as writing</P>
+<P>
+<PRE>expenses[8];
+</PRE>
+<P>When you use arrays, keep the element numbering scheme in mind: In an array of
+<I>n</I> ele-ments, the allowable subscripts range from 0 to <I>n</I>-1. If you use
+the subscript value <I>n,</I> you might get program errors. The C compiler doesn't
+recognize whether your program uses an array subscript that is out of bounds. Your
+program compiles and links, but out-of-range subscripts generally produce erroneous
+results.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>WARNING:</strong> Remember that array elements start with 0, not 1. Also remember
+	that the last element is one less than the number of elements in the array. For example,
+	an array with 10 elements contains elements 0 through 9. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>Sometimes you might want to treat an array of n elements as if its elements were
+numbered 1 through <I>n</I>. For instance, in the previous example, a more natural
+method might be to store January's expense total in expenses[1], February's in expenses[2],
+and so on. The simplest way to do this is to declare the array with one more element
+than needed, and ignore element 0. In this case, you would declare the array as follows.
+You could also store some related data in element 0 (the yearly expense total, perhaps).</P>
+<P>
+<PRE>float expenses[13];
+</PRE>
+<P>The program EXPENSES.C in Listing 8.1 demonstrates the use of an array. This is
+a simple program with no real practical use; it's for demonstration purposes only.</P>
+<P>
+<H4>Listing 8.1. EXPENSES.C demonstrates the use of an array.</H4>
+<PRE>1:   /* EXPENSES.C - Demonstrates use of an array */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   /* Declare an array to hold expenses, and a counter variable */
+6:
+7:   float expenses[13];
+8:   int count;
+9:
+10:  main()
+11:  {
+12:      /* Input data from keyboard into array */
+13:
+14:      for (count = 1; count &lt; 13; count++)
+15:      {
+16:          printf(&quot;Enter expenses for month %d: &quot;, count);
+17:          scanf(&quot;%f&quot;, &amp;expenses[count]);
+18:      }
+19:
+20:      /* Print array contents */
+21:
+22:      for (count = 1; count &lt; 13; count++)
+23:      {
+24:          printf(&quot;Month %d = $%.2f\n&quot;, count, expenses[count]);
+25:      }
+26:      return 0;
+27:  }
+Enter expenses for month 1: <B>100</B>
+Enter expenses for month 2: <B>200.12</B>
+Enter expenses for month 3: <B>150.50</B>
+Enter expenses for month 4: <B>300</B>
+Enter expenses for month 5: <B>100.50</B>
+Enter expenses for month 6: <B>34.25</B>
+Enter expenses for month 7: <B>45.75</B>
+Enter expenses for month 8: <B>195.00</B>
+Enter expenses for month 9: <B>123.45</B>
+Enter expenses for month 10: <B>111.11</B>
+Enter expenses for month 11: <B>222.20</B>
+Enter expenses for month 12: <B>120.00</B>
+Month 1 = $100.00
+Month 2 = $200.12
+Month 3 = $150.50
+Month 4 = $300.00
+Month 5 = $100.50
+Month 6 = $34.25
+Month 7 = $45.75
+Month 8 = $195.00
+Month 9 = $123.45
+Month 10 = $111.11
+Month 11 = $222.20
+Month 12 = $120.00
+</PRE>
+<P><strong>ANAALYSIS: </strong> When you run EXPENSES.C, the program prompts you to enter
+expenses for months 1 through 12. The values you enter are stored in an array. You
+must enter a value for each month. After the 12th value is entered, the array contents
+are displayed on-screen.</P>
+<P>The flow of the program is similar to listings you've seen before. Line 1 starts
+with a comment that describes what the program does. Notice that the name of the
+program, EXPENSES.C, is included. When the name of the program is included in a comment,
+you know which program you're viewing. This is helpful when you're reviewing printouts
+of a listing.</P>
+<P>Line 5 contains an additional comment explaining the variables that are being
+declared. In line 7, an array of 13 elements is declared. In this program, only 12
+elements are needed, one for each month, but 13 have been declared. The for loop
+in lines 14 through 18 ignores element 0. This lets the program use elements 1 through
+12, which relate directly to the 12 months. Going back to line 8, a variable, count,
+is declared and is used throughout the program as a counter and an array index.</P>
+<P>The program's main() function begins on line 10. As stated earlier, this program
+uses a for loop to print a message and accept a value for each of the 12 months.
+Notice that in line 17, the scanf() function uses an array element. In line 7, the
+expenses array was declared as float, so %f is used. The <I>address</I>-<I>of</I>
+<I>operator</I> (&amp;) also is placed before the array element, just as if it were
+a regular type float variable and not an array element.</P>
+<P>Lines 22 through 25 contain a second for loop that prints the values just entered.
+An additional formatting command has been added to the printf() function so that
+the expenses values print in a more orderly fashion. For now, know that %.2f prints
+a floating number with two digits to the right of the decimal. Additional formatting
+commands are covered in more detail on Day 14, &quot;Working with the Screen, Printer,
+and Keyboard.&quot;</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> forget that array subscripts start at element 0.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use arrays instead of creating several variables that store the same
+	thing. For example, if you want to store total sales for each month of the year,
+	create an array with 12 elements to hold sales rather than creating a sales variable
+	for each month. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading3"></A>Multidimensional Arrays</H3>
+<P>A multidimensional array has more than one subscript. A two-dimensional array
+has two subscripts, a three-dimensional array has three subscripts, and so on. There
+is no limit to the number of dimensions a C array can have. (There <I>is</I> a limit
+on total array size, as discussed later in this chapter.)</P>
+<P>For example, you might write a program that plays checkers. The checkerboard contains
+64 squares arranged in eight rows and eight columns. Your program could represent
+the board as a two-dimensional array, as follows:</P>
+<P>
+<PRE>int checker[8][8];
+</PRE>
+<P>The resulting array has 64 elements: checker[0][0], checker[0][1], checker[0][2]...checker[7][6],
+checker[7][7]. The structure of this two-dimensional array is illustrated in Figure
+8.3.</P>
+<P><A HREF="javascript:popUp('08tyc03.gif')"><B>Figure 8.3.</B></A><B> </B><I>A two-dimensional
+array has a row-and-column structure.</I></P>
+<P>Similarly, a three-dimensional array could be thought of as a cube. Four-dimensional
+arrays (and higher) are probably best left to your imagination. All arrays, no matter
+how many dimensions they have, are stored sequentially in memory. More detail on
+array storage is presented on Day 15, &quot;Pointers: Beyond the Basics.&quot;</P>
+<P>
+<H2><A NAME="Heading4"></A>Naming and Declaring Arrays</H2>
+<P>The rules for assigning names to arrays are the same as for variable names, covered
+on Day 3, &quot;Storing Data: Variables and Constants.&quot; An array name must be
+unique. It can't be used for another array or for any other identifier (variable,
+constant, and so on). As you have probably realized, array declarations follow the
+same form as declarations of nonarray variables, except that the number of elements
+in the array must be enclosed in square brackets immediately following the array
+name.</P>
+<P>When you declare an array, you can specify the number of elements with a literal
+constant (as was done in the earlier examples) or with a symbolic constant created
+with the #define directive. Thus, the following:</P>
+<P>
+<PRE>#define MONTHS 12
+int array[MONTHS];
+</PRE>
+<P>is equivalent to this statement:</P>
+<P>
+<PRE>int array[12];
+</PRE>
+<P>With most compilers, however, you can't declare an array's elements with a symbolic
+con-stant created with the const keyword:</P>
+<P>
+<PRE>const int MONTHS = 12;
+int array[MONTHS];          /* Wrong! */
+</PRE>
+<P>Listing 8.2, GRADES.C, is another program demonstrating the use of a single-dimensional
+array. GRADES.C uses an array to store 10 grades.</P>
+<P>
+<H4>Listing 8.2. GRADES.C stores 10 grades in an array.</H4>
+<PRE>1:   /*GRADES.C - Sample program with array */
+2:   /* Get 10 grades and then average them */
+3:
+4:   #include &lt;stdio.h&gt;
+5:
+6:   #define MAX_GRADE 100
+7:   #define STUDENTS  10
+8:
+9:   int grades[STUDENTS];
+10:
+11:  int idx;
+12:  int total = 0;           /* used for average */
+13:
+14:  main()
+15:  {
+16:      for( idx=0;idx&lt; STUDENTS;idx++)
+17:      {
+18:          printf( &quot;Enter Person %d's grade: &quot;, idx +1);
+19:          scanf( &quot;%d&quot;, &amp;grades[idx] );
+20:
+21:          while ( grades[idx] &gt; MAX_GRADE )
+22:          {
+23:              printf( &quot;\nThe highest grade possible is %d&quot;,
+24                       MAX_GRADE );
+25:              printf( &quot;\nEnter correct grade: &quot; );
+26:              scanf( &quot;%d&quot;, &amp;grades[idx] );
+27:          }
+28:
+29:          total += grades[idx];
+30:      }
+31:
+32:      printf( &quot;\n\nThe average score is %d\n&quot;, ( total / STUDENTS) );
+33:
+34:      return (0);
+35:  }
+Enter Person 1's grade: <B>95</B>
+Enter Person 2's grade: <B>100</B>
+Enter Person 3's grade: <B>60</B>
+Enter Person 4's grade: <B>105</B>
+The highest grade possible is 100
+Enter correct grade: <B>100</B>
+Enter Person 5's grade: <B>25</B>
+Enter Person 6's grade: <B>0</B>
+Enter Person 7's grade: <B>85</B>
+Enter Person 8's grade: <B>85</B>
+Enter Person 9's grade: <B>95</B>
+Enter Person 10's grade: <B>85</B>
+The average score is 73
+</PRE>
+<P><strong>ANALYSIS: </strong> Like EXPENSES.C, this listing prompts the user for input.
+It prompts for 10 people's grades. Instead of printing each grade, it prints the
+average score.</P>
+<P>As you learned earlier, arrays are named like regular variables. On line 9, the
+array for this program is named grades. It should be safe to assume that this array
+holds grades. On lines 6 and 7, two constants, MAX_GRADE and STUDENTS, are defined.
+These constants can be changed easily. Knowing that STUDENTS is defined as 10, you
+then know that the grades array has 10 elements. Two other variables are declared,
+idx and total. An abbreviation of <I>index,</I> idx is used as a counter and array
+subscript. A running total of all grades is kept in total.</P>
+<P>The heart of this program is the for loop in lines 16 through 30. The for statement
+initializes idx to 0, the first subscript for an array. It then loops as long as
+idx is less than the number of students. Each time it loops, it increments idx by
+1. For each loop, the program prompts for a person's grade (lines 18 and 19). Notice
+that in line 18, 1 is added to idx in order to count the people from 1 to 10 instead
+of from 0 to 9. Because arrays start with subscript 0, the first grade is put in
+grade[0]. Instead of confusing users by asking for Person 0's grade, they are asked
+for Person 1's grade.</P>
+<P>Lines 21 through 27 contain a while loop nested within the for loop. This is an
+edit check that ensures that the grade isn't higher than the maximum grade, MAX_GRADE.
+Users are prompted to enter a correct grade if they enter a grade that is too high.
+You should check program data whenever you can.</P>
+<P>Line 29 adds the entered grade to a total counter. In line 32, this total is used
+to print the average score (total/STUDENTS).</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use #define statements to create constants that can be used when declaring
+	arrays. Then you can easily change the number of elements in the array. In GRADES.C,
+	for example, you could change the number of students in the #define, and you wouldn't
+	have to make any other changes in the program.</P>
+	<P><B>DO</B> avoid multidimensional arrays with more than three dimensions. Remember,
+	multidimensional arrays can get very big very quickly. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading5"></A>Initializing Arrays</H3>
+<P>You can initialize all or part of an array when you first declare it. Follow the
+array declaration with an equal sign and a list of values enclosed in braces and
+separated by commas. The listed values are assigned in order to array elements starting
+at number 0. For example, the following code assigns the value 100 to array[0], 200
+to array[1], 300 to array[2], and 400 to array[3]:</P>
+<P>
+<PRE>int array[4] = { 100, 200, 300, 400 };
+</PRE>
+<P>If you omit the array size, the compiler creates an array just large enough to
+hold the initialization values. Thus, the following statement would have exactly
+the same effect as the previous array declaration statement:</P>
+<P>
+<PRE>int array[] = { 100, 200, 300, 400 };
+</PRE>
+<P>You can, however, include too few initialization values, as in this example:</P>
+<P>
+<PRE>int array[10] = { 1, 2, 3 };
+</PRE>
+<P>If you don't explicitly initialize an array element, you can't be sure what value
+it holds when the program runs. If you include too many initializers (more initializers
+than array elements), the compiler detects an error.</P>
+<P>
+<H3><A NAME="Heading6"></A>Initializing Multidimensional Arrays</H3>
+<P>Multidimensional arrays can also be initialized. The list of initialization values
+is assigned to array elements in order, with the last array subscript changing first.
+For example:</P>
+<P>
+<PRE>int array[4][3] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+</PRE>
+<P>results in the following assignments:</P>
+<P>
+<PRE>array[0][0] is equal to 1
+array[0][1] is equal to 2
+array[0][2] is equal to 3
+array[1][0] is equal to 4
+array[1][1] is equal to 5
+array[1][2] is equal to 6
+...
+array[3][1] is equal to 11
+array[3][2] is equal to 12
+</PRE>
+<P>When you initialize multidimensional arrays, you can make your source code clearer
+by using extra braces to group the initialization values and also by spreading them
+over several lines. The following initialization is equivalent to the one just given:</P>
+<P>
+<PRE>int array[4][3] = { { 1, 2, 3 } , { 4, 5, 6 } ,
+{ 7, 8, 9 } , { 10, 11, 12 } };
+</PRE>
+<P>Remember, initialization values must be separated by a comma--even when there
+is a brace between them. Also, be sure to use braces in pairs--a closing brace for
+every opening brace--or the compiler becomes confused.</P>
+<P>Now look at an example that demonstrates the advantages of arrays. Listing 8.3,
+RANDOM.C, creates a 1,000-element, three-dimensional array and fills it with random
+numbers. The program then displays the array elements on-screen. Imagine how many
+lines of source code you would need to perform the same task with nonarray variables.</P>
+<P>You see a new library function, getch(), in this program. The getch() function
+reads a single character from the keyboard. In Listing 8.3, getch() pauses the program
+until the user presses a key. The getch() function is covered in detail on Day 14.</P>
+<P>
+<H4>Listing 8.3. RANDOM.C creates a multidimensional array.</H4>
+<PRE>1:   /* RANDOM.C - Demonstrates using a multidimensional array */
+2:
+3:   #include &lt;stdio.h&gt;
+4:   #include &lt;stdlib.h&gt;
+5:   /* Declare a three-dimensional array with 1000 elements */
+6:
+7:   int random_array[10][10][10];
+8:   int a, b, c;
+9:
+10:  main()
+11:  {
+12:      /* Fill the array with random numbers. The C library */
+13:      /* function rand() returns a random number. Use one */
+14:      /* for loop for each array subscript. */
+15:
+16:      for (a = 0; a &lt; 10; a++)
+17:      {
+18:          for (b = 0; b &lt; 10; b++)
+19:          {
+20:              for (c = 0; c &lt; 10; c++)
+21:              {
+22:                  random_array[a][b][c] = rand();
+23:              }
+24:          }
+25:      }
+26:
+27:      /* Now display the array elements 10 at a time */
+28:
+29:      for (a = 0; a &lt; 10; a++)
+30:      {
+31:          for (b = 0; b &lt; 10; b++)
+32:          {
+33:              for (c = 0; c &lt; 10; c++)
+34:              {
+35:                  printf(&quot;\nrandom_array[%d][%d][%d] = &quot;, a, b, c);
+36:                  printf(&quot;%d&quot;, random_array[a][b][c]);
+37:              }
+38:              printf(&quot;\nPress Enter to continue, CTRL-C to quit.&quot;);
+39:
+40:              getchar();
+41:          }
+42:      }
+43:      return 0;
+44:  }        /* end of main() */
+random_array[0][0][0] = 346
+random_array[0][0][1] = 130
+random_array[0][0][2] = 10982
+random_array[0][0][3] = 1090
+random_array[0][0][4] = 11656
+random_array[0][0][5] = 7117
+random_array[0][0][6] = 17595
+random_array[0][0][7] = 6415
+random_array[0][0][8] = 22948
+random_array[0][0][9] = 31126
+Press Enter to continue, CTRL-C to quit.
+random_array[0][1][0] = 9004
+random_array[0][1][1] = 14558
+random_array[0][1][2] = 3571
+random_array[0][1][3] = 22879
+random_array[0][1][4] = 18492
+random_array[0][1][5] = 1360
+random_array[0][1][6] = 5412
+random_array[0][1][7] = 26721
+random_array[0][1][8] = 22463
+random_array[0][1][9] = 25047
+Press Enter to continue, CTRL-C to quit
+...         ...
+random_array[9][8][0] = 6287
+random_array[9][8][1] = 26957
+random_array[9][8][2] = 1530
+random_array[9][8][3] = 14171
+random_array[9][8][4] = 6951
+random_array[9][8][5] = 213
+random_array[9][8][6] = 14003
+random_array[9][8][7] = 29736
+random_array[9][8][8] = 15028
+random_array[9][8][9] = 18968
+Press Enter to continue, CTRL-C to quit.
+random_array[9][9][0] = 28559
+random_array[9][9][1] = 5268
+random_array[9][9][2] = 20182
+random_array[9][9][3] = 3633
+random_array[9][9][4] = 24779
+random_array[9][9][5] = 3024
+random_array[9][9][6] = 10853
+random_array[9][9][7] = 28205
+random_array[9][9][8] = 8930
+random_array[9][9][9] = 2873
+Press Enter to continue, CTRL-C to quit.
+</PRE>
+<P><strong>ANALYSIS: </strong> On Day 6 you saw a program that used a nested for statement;
+this program has two nested for loops. Before you look at the for statements in detail,
+note that lines 7 and 8 declare four variables. The first is an array named random_array,
+used to hold random numbers. random_array is a three-dimensional type int array that
+is 10-by-10-by-10, giving a total of 1,000 type int elements (10 * 10 * 10). Imagine
+coming up with 1,000 unique variable names if you couldn't use arrays! Line 8 then
+declares three variables, a, b, and c, used to control the for loops.</P>
+<P>This program also includes the header file STDLIB.H (for standard library) on
+line 4. It is included to provide the prototype for the rand() function used on line
+22.</P>
+<P>The bulk of the program is contained in two nests of for statements. The first
+is in lines 16 through 25, and the second is in lines 29 through 42. Both for nests
+have the same structure. They work just like the loops in Listing 6.2, but they go
+one level deeper. In the first set of for statements, line 22 is executed repeatedly.
+Line 22 assigns the return value of a function, rand(), to an element of the random_array
+array, where rand() is a library function that returns a random number.</P>
+<P>Going backward through the listing, you can see that line 20 changes variable
+c from 0 to 9. This loops through the farthest right subscript of the random_array
+array. Line 18 loops through b, the middle subscript of the random array. Each time
+b changes, it loops through all the c elements. Line 16 increments variable a, which
+loops through the farthest left subscript. Each time this subscript changes, it loops
+through all 10 values of subscript b, which in turn loop through all 10 values of
+c. This loop initializes every value in the random array to a random number.</P>
+<P>Lines 29 through 42 contain the second nest of for statements. These work like
+the previous for statements, but this loop prints each of the values assigned previously.
+After 10 are displayed, line 38 prints a message and waits for Enter to be pressed.
+Line 40 takes care of the keypress using getchar(). If Enter hasn't been pressed,
+getchar() waits until it is. Run this program and watch the displayed values.</P>
+<P>
+<H3><A NAME="Heading7"></A>Maximum Array Size</H3>
+<P>Because of the way memory models work, you shouldn't try to create more than 64
+KB of data variables for now. An explanation of this limitation is beyond the scope
+of this book, but there's no need to worry: None of the programs in this book exceed
+this limitation. To understand more, or to get around this limitation, consult your
+compiler manuals. Generally, 64 KB is enough data space for programs, particularly
+the relatively simple programs you will write as you work through this book. A single
+array can take up the entire 64 KB of data storage if your program uses no other
+variables. Otherwise, you need to apportion the available data space as needed.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> Some operating systems don't have a 64 KB limit. DOS does. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>The size of an array in bytes depends on the number of elements it has, as well
+as each element's size. Element size depends on the data type of the array and your
+computer. The sizes for each numeric data type, given in Table 3.2, are repeated
+in Table 8.1 for your convenience. These are the data type sizes for many PCs.</P>
+<P>
+<H4>Table 8.1. Storage space requirements for numeric data types for many PCs.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Element Data Type</B></TD>
+		<TD ALIGN="LEFT"><B>Element Size (Bytes)</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">int</TD>
+		<TD ALIGN="LEFT">2 or 4</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">short</TD>
+		<TD ALIGN="LEFT">2</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">long</TD>
+		<TD ALIGN="LEFT">4</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">float</TD>
+		<TD ALIGN="LEFT">4</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">double</TD>
+		<TD ALIGN="LEFT">8</TD>
+	</TR>
+</TABLE>
+</P>
+<P>To calculate the storage space required for an array, multiply the number of elements
+in the array by the element size. For example, a 500-element array of type float
+requires storage space of 500 * 4 = 2000 bytes.</P>
+<P>You can determine storage space within a program by using C's sizeof() operator;
+sizeof() is a unary operator, not a function. It takes as its argument a variable
+name or the name of a data type and returns the size, in bytes, of its argument.
+The use of sizeof() is illustrated in Listing 8.4.</P>
+<P>
+<H4>Listing 8.4. Using the sizeof() operator to determine storage space requirements
+for an array.</H4>
+<PRE>1:   /* Demonstrates the sizeof() operator */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   /* Declare several 100-element arrays */
+6:
+7:   int intarray[100];
+8:   float floatarray[100];
+9:   double doublearray[100];
+10:
+11:  main()
+12:  {
+13:      /* Display the sizes of numeric data types */
+14:
+15:      printf(&quot;\n\nSize of int = %d bytes&quot;, sizeof(int));
+16:      printf(&quot;\nSize of short = %d bytes&quot;, sizeof(short));
+17:      printf(&quot;\nSize of long = %d bytes&quot;, sizeof(long));
+18:      printf(&quot;\nSize of float = %d bytes&quot;, sizeof(float));
+19:      printf(&quot;\nSize of double = %d bytes&quot;, sizeof(double));
+20:
+21:      /* Display the sizes of the three arrays */
+22:
+23:      printf(&quot;\nSize of intarray = %d bytes&quot;, sizeof(intarray));
+24:      printf(&quot;\nSize of floatarray = %d bytes&quot;,
+25              sizeof(floatarray));
+26:      printf(&quot;\nSize of doublearray = %d bytes\n&quot;,
+27              sizeof(doublearray));
+28:
+29:      return 0;
+30:  }
+</PRE>
+<P>The following output is from a 16-bit Windows 3.1 machine:</P>
+<P>
+<PRE>Size of int = 2 bytes
+Size of short = 2 bytes
+Size of long = 4 bytes
+Size of float = 4 bytes
+Size of double = 8 bytes
+Size of intarray = 200 bytes
+Size of floatarray = 400 bytes
+Size of doublearray = 800 bytes
+</PRE>
+<P>You would see the following output on a 32-bit Windows NT machine, as well as
+a 32-bit UNIX machine:</P>
+<P>
+<PRE>Size of int = 4 bytes
+Size of short = 2 bytes
+Size of long = 4 bytes
+Size of float = 4 bytes
+Size of double = 8 bytes
+Size of intarray = 400 bytes
+Size of floatarray = 400 bytes
+Size of doublearray = 800 bytes
+</PRE>
+<P><strong>ANALYSIS: </strong> Enter and compile the program in this listing by using the
+procedures you learned on Day 1, &quot;Getting Started with C.&quot; When the program
+runs, it displays the sizes--in bytes--of the three arrays and five numeric data
+types.</P>
+<P>On Day 3 you ran a similar program; however, this listing uses sizeof() to determine
+the storage size of arrays. Lines 7, 8, and 9 declare three arrays, each of different
+types. Lines 23 through 27 print the size of each array. The size should equal the
+size of the array's variable type times the number of elements. For example, if an
+int is 2 bytes, intarray should be 2 * 100, or 200 bytes. Run the program and check
+the values. As you can see from the output, different machines or operating systems
+might have different sized data types.</P>
+<P>
+<H2><A NAME="Heading8"></A>Summary</H2>
+<P>This chapter introduced numeric arrays, a powerful data storage method that lets
+you group a number of same-type data items under the same group name. Individual
+items, or elements, in an array are identified using a subscript after the array
+name. Computer programming tasks that involve repetitive data processing lend themselves
+to array storage.</P>
+<P>Like nonarray variables, arrays must be declared before they can be used. Optionally,
+array elements can be initialized when the array is declared.</P>
+<P>
+<H2><A NAME="Heading9"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q What happens if I use a subscript on an array that is larger than the number
+	of elements in the array?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> If you use a subscript that is out of bounds with the array declaration,
+	the program will probably compile and even run. However, the results of such a mistake
+	can be unpredictable. This can be a difficult error to find once it starts causing
+	problems, so make sure you're careful when initializing and accessing array elements.
+	<P>
+	<DT></DT>
+	<DD><B>Q What happens if I use an array without initializing it?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> This mistake doesn't produce a compiler error. If you don't initialize
+	an array, there can be any value in the array elements. You might get unpredictable
+	results. You should always initialize variables and arrays so that you know exactly
+	what's in them. Day 12 introduces you to one exception to the need to initialize.
+	For now, play it safe.
+	<P>
+	<DT></DT>
+	<DD><B>Q How many dimensions can an array have?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> As stated in this chapter, you can have as many dimensions as you want.
+	As you add more dimensions, you use more data storage space. You should declare an
+	array only as large as you need to avoid wasting storage space.
+	<P>
+	<DT></DT>
+	<DD><B>Q Is there an easy way to initialize an entire array at once?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> Each element of an array must be initialized. The safest way for a beginning
+	C programmer to initialize an array is either with a declaration, as shown in this
+	chapter, or with a for statement. There are other ways to initialize an array, but
+	they are beyond the scope of this book.
+	<P>
+	<DT></DT>
+	<DD><B>Q Can I add two arrays together (or multiply, divide, or subtract them)?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> If you declare two arrays, you can't add the two together. Each element
+	must be added individually. Exercise 10 illustrates this point.
+	<P>
+	<DT></DT>
+	<DD><B>Q Why is it better to use an array instead of individual variables?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> With arrays, you can group like values with a single name. In Listing
+	8.3, 1,000 values were stored. Creating 1,000 variable names and initializing each
+	to a random number would have taken a tremendous amount of typing. By using an array,
+	you made the task easy.
+	<P>
+	<DT></DT>
+	<DD><B>Q What do you do if you don't know how big the array needs to be when you're
+	writing the program?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> There are functions within C that let you allocate space for variables
+	and arrays on-the-fly. These functions are covered on Day 15.
+	<P>
+</DL>
+
+<H2><A NAME="Heading10"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered, and exercises to provide you with experience in using what
+you've learned.</P>
+<P>
+<H3><A NAME="Heading11"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Which of C's data types can be used in an array?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>If an array is declared with 10 elements, what is the subscript of
+	the first element?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>In a one-dimensional array declared with <I>n</I> elements, what is
+	the subscript of the last element?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>What happens if your program tries to access an array element with
+	an out-of-range subscript?
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>How do you declare a multidimensional array?
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>An array is declared with the following statement. How many total elements
+	does the array have?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int array[2][3][5][8];</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>What would be the name of the 10th element in the array in question
+	6?
+	<P>
+</DL>
+
+<H3><A NAME="Heading12"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Write a C program line that would declare three one-dimensional integer
+	arrays, named one, two, and three, with 1,000 elements each.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Write the statement that would declare a 10-element integer array and
+	initialize all its elements to 1.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Given the following array, write code to initialize all the array elements
+	to 88:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int eightyeight[88];</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>Given the following array, write code to initialize all the array elements
+	to 0:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int stuff[12][10];</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. BUG</B> <B>BUSTER:</B> What is wrong with the following code fragment?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int x, y;
+int array[10][3];
+main()
+{
+   for ( x = 0; x &lt; 3; x++ )
+      for ( y = 0; y &lt; 10; y++ )
+         array[x][y] = 0;
+   return 0;
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. BUG</B> <B>BUSTER:</B> What is wrong with the following?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int array[10];
+int x = 1;
+main()
+{
+   for ( x = 1; x &lt;= 10; x++ )
+      array[x] = 99;
+   return 0;
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>Write a program that puts random numbers into a two-dimensional array
+	that is 5 by 4. Print the values in columns on-screen. (Hint: Use the rand() function
+	from Listing 8.3.)
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Rewrite Listing 8.3 to use a single-dimensional array. Print the average
+	of the 1,000 variables before printing the individual values. Note: Don't forget
+	to pause after every 10 values are printed.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Write a program that initializes an array of 10 elements. Each element
+	should be equal to its subscript. The program should then print each of the 10 elements.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>Modify the program from exercise 9. After printing the initialized
+	values, the program should copy the values to a new array and add 10 to each value.
+	Then the new array values should be printed.
+</DL>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch07/ch07.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch09/ch09.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,3872 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Appendix G -- Answers</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../apf/apf.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../index.htm"><IMG
+SRC="../button/contents.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Contents"
+BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- G -</H1>
+</CENTER>
+<CENTER>
+<H1>Answers</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Answers for Day 1</A>
+	<LI><A HREF="#Heading4">Answers for Day 2</A>
+	<LI><A HREF="#Heading7">Answers for Day 3</A>
+	<LI><A HREF="#Heading10">Answers for Day 4</A>
+	<LI><A HREF="#Heading13">Answers for Day 5</A>
+	<LI><A HREF="#Heading16">Answers for Day 6</A>
+	<LI><A HREF="#Heading19">Answers for Day 7</A>
+	<LI><A HREF="#Heading22">Answers for Day 8</A>
+	<LI><A HREF="#Heading25">Answers for Day 9</A>
+	<LI><A HREF="#Heading28">Answers for Day 10</A>
+	<LI><A HREF="#Heading31">Answers for Day 11</A>
+	<LI><A HREF="#Heading34">Answers for Day 12</A>
+	<LI><A HREF="#Heading37">Answers for Day 13</A>
+	<LI><A HREF="#Heading40">Answers for Day 14</A>
+	<LI><A HREF="#Heading43">Answers for Day 15</A>
+	<LI><A HREF="#Heading46">Answers for Day 16</A>
+	<LI><A HREF="#Heading49">Answers for Day 17</A>
+	<LI><A HREF="#Heading52">Answers for Day 18</A>
+	<LI><A HREF="#Heading55">Answers for Day 19</A>
+	<LI><A HREF="#Heading58">Answers for Day 20</A>
+	<LI><A HREF="#Heading61">Answers for Day 21</A>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>This appendix lists the answers for the quiz and exercise sections at the end
+of each chapter. Note that for many of the exercises, more than one solution is possible.
+In most cases, only one of many possible answers is listed. In other cases, you'll
+see additional information to help you solve the exercise.</P>
+<P>
+<H2><A NAME="Heading1"></A>Answers for Day 1</H2>
+<H3><A NAME="Heading2"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>C is powerful, popular, and portable.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The compiler translates C source code into machine-language instructions
+	that your computer can understand.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Editing, compiling, linking, and testing.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The answer to this question depends on your compiler. Consult your
+	compiler's manuals.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>The answer to this question depends on your compiler. Consult your
+	compiler's manuals.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>The appropriate extension for C source files is .C (or .c).
+	<P>
+	<DT></DT>
+	<DD>Note: C++ uses the extension .CPP. You can write and compile your C programs
+	with a .CPP extension, but it's more appropriate to use a .C extension.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>FILENAME.TXT would compile. However, it's more appropriate to use a
+	.C extension rather than .TXT.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>You should make changes to the source code to correct the problems.
+	You should then recompile and relink. After relinking, you should run the program
+	again to see whether your corrections fixed the program.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Machine language is digital, or binary, instructions that the computer
+	can understand. Because the computer can't understand C source code, a compiler translates
+	source code to machine code, also called object code.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>The linker combines the object code from your program with the object
+	code from the function library and creates an executable file.
+	<P>
+</DL>
+
+<H3><A NAME="Heading3"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>When you look at the object file, you see many unusual characters and
+	other gibberish. Mixed in with the gibberish, you also see pieces of the source file.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>This program calculates the area of a circle. It prompts the user for
+	the radius and then displays the area.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>This program prints a 10*10 block made of the character X. A similar
+	program is covered on Day 6, &quot;Basic Program Control.&quot;
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>This program generates a compiler error. You should get a message similar
+	to the following:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>Error: ch1ex4.c: Declaration terminated incorrectly</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>This error is caused by the semicolon at the end of line 3. If you remove the
+	semicolon, this program should compile and link correctly.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>This program compiles OK, but it generates a linker error. You should
+	get a message similar to the following:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>Error: Undefined symbol _do_it in module...</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>This error occurs because the linker can't find a function called do_it. To fix
+	this program, change do_it to printf.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Rather than printing a 10*10 block filled with the character X, the
+	program now prints a 10*10 block of smiley faces.
+	<P>
+</DL>
+
+<H2><A NAME="Heading4"></A>Answers for Day 2</H2>
+<H3><A NAME="Heading5"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>A block.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The main() function.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Any text between /* and */ is a program comment and is ignored by the
+	compiler. You use program comments to make notations about the program's structure
+	and operation.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>A function is an independent section of program code that performs
+	a certain task and has been assigned a name. By using a function's name, a program
+	can execute the code in the function.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>A user-defined function is created by the programmer. A library function
+	is supplied with the C compiler.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>An #include directive instructs the compiler to add the code from another
+	file into your source code during the compilation process.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Comments shouldn't be nested. Although some compilers let you to do
+	this, others don't. To keep your code portable, you shouldn't nest comments.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Yes. Comments can be as long as needed. A comment starts with /* and
+	doesn't end until a */ is encountered.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>An include file is also known as a header file.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>An include file is a separate disk file that contains information
+	needed by the compiler to use various functions.
+	<P>
+</DL>
+
+<H3><A NAME="Heading6"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Remember, only the main() function is required in C programs. The following
+	is the smallest possible program, but it doesn't do anything:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>void main()
+{
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>This also could be written
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>void main(){}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>a. Statements are on lines 8, 9, 10, 12, 20, and 21.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>The only variable definition is on line 18.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>The only function prototype (for display_line()) is on line 4.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>The function definition for display_line() is on lines 16 through 22.
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>Comments are on lines 1, 15, and 23.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>A comment is any text included between /* and */. Examples include
+	the following:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* This is a comment */
+/*???*/
+/*
+This is a
+</PRE>
+	<PRE>     third comment */</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>This program prints the alphabet in all capital letters. You should
+	understand this program better after you finish Day 10, &quot;Characters and Strings.&quot;
+	<P>
+	<DT></DT>
+	<DD>The output is
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>ABCDEFGHIJKLMNOPQRSTUVWXYZ</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>This program counts and prints the number of characters and spaces
+	you enter. This program also will be clearer after you finish Day 10.
+	<P>
+</DL>
+
+<H2><A NAME="Heading7"></A>Answers for Day 3</H2>
+<H3><A NAME="Heading8"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>An integer variable can hold a whole number (a number without a fractional
+	part), and a floating-point variable can hold a real number (a number with a fractional
+	part).
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>A type double variable has a greater range than type float (it can
+	hold larger and smaller values). A type double variable also is more precise than
+	type float.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>a. The size of a char is 1 byte.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>The size of a short is less than or equal to the size of an int.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>The size of an int is less than or equal to the size of a long.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>The size of an unsigned is equal to the size of an int.
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>The size of a float is less than or equal to the size of a double.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The names of symbolic constants make your source code easier to read.
+	They also make it much easier to change the constant's value.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>a. #define MAXIMUM 100
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>const int MAXIMUM = 100;
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Letters, numerals, and underscores.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Names of variables and constants should describe the data being stored.
+	Variable names should be in lowercase, and constant names should be in uppercase.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Symbolic constants are symbols that represent literal constants.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>If it's an unsigned int that is two bytes long, the minimum value it
+	can hold is 0. If it is signed, -32,768 is the minimum.
+	<P>
+</DL>
+
+<H3><A NAME="Heading9"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>a. Because a person's age can be considered a whole number, and a person
+	can't be a negative age, an unsigned int is suggested.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>unsigned int
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>float
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>If your expectations for yearly salary aren't very high, a simple unsigned
+	int variable would work. If you feel you have the potential to go above $65,535,
+	you probably should use a long. (Have faith in yourself; use a long.)
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>float. (Don't forget the decimal places for the cents.)
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>Because the highest grade will always be 100, it is a constant. Use
+	either const int or a #define statement.
+	<P>
+	<DT></DT>
+	<DD><B>g. </B>float. (If you're going to use only whole numbers, use either int or
+	long.)
+	<P>
+	<DT></DT>
+	<DD><B>h. </B>Definitely a signed field. Either int, long, or float. See answer 1.d.
+	<P>
+	<DT></DT>
+	<DD><B>i. </B>double
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Answers for exercises 2 and 3 are combined here.
+	<P>
+	<DT></DT>
+	<DD>Remember, a variable name should be representative of the value it holds. A variable
+	declaration is the statement that initially creates the variable. The declaration
+	might or might not initialize the variable to a value. You can use any name for a
+	variable, except the C keywords.
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>unsigned int age;
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>unsigned int weight;
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>float radius = 3;
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>long annual_salary;
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>float cost = 29.95;
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>const int max_grade = 100; or #define MAX_GRADE 100
+	<P>
+	<DT></DT>
+	<DD><B>g. </B>float temperature;
+	<P>
+	<DT></DT>
+	<DD><B>h. </B>long net_worth = -30000;
+	<P>
+	<DT></DT>
+	<DD><B>i. </B>double star_distance;
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>See answer 2.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The valid variable names are b, c, e, g, h, i, and j.
+	<P>
+	<DT></DT>
+	<DD>Notice that j is correct; however, it isn't wise to use variable names that are
+	this long. (Besides, who would want to type them?) Most compilers wouldn't look at
+	this entire name. Instead, they would look only at the first 31 characters or so.
+	<P>
+	<DT></DT>
+	<DD>The following are invalid:
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>You can't start a variable name with a number.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>You can't use a pound sign (#) in a variable name.
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>You can't use a hyphen (-) in a variable name.
+	<P>
+</DL>
+
+<H2><A NAME="Heading10"></A>Answers for Day 4</H2>
+<H3><A NAME="Heading11"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>It is an assignment statement that instructs the computer to add 5
+	and 8, assigning the result to the variable x.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>An expression is anything that evaluates to a numerical value.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>The relative precedence of the operators.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>After the first statement, the value of a is 10, and the value of x
+	is 11. After the second statement, both a and x have the value 11. (The statements
+	must be executed separately.)
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>1
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>19
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>(5 + 3) * 8 / (2 + 2)
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>0
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>See the section &quot;Operator Precedence Revisited&quot; near the
+	end of this chapter. It shows the C operators and their precedence.
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>&lt; has higher precedence than ==
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>* has higher precedence than +
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>!= and == have the same precedence, so they are evaluated from left
+	to right.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>&gt;= has the same precedence as &gt;. Use parentheses if you need
+	to use more than one relational operator in a single statement or expression.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>The compound assignment operators let you combine a binary mathematical
+	operation with an assignment operation, thus providing a shorthand notation. The
+	compound operators presented in this chapter are +=, -=, /=, *=, and %=.
+	<P>
+</DL>
+
+<H3><A NAME="Heading12"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>This listing should have worked even though it is poorly structured.
+	The purpose of this listing is to demonstrate that white space is irrelevant to how
+	the program runs. You should use white space to make your programs readable.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The following is a better way to structure the listing from exercise
+	1:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+int x, y;
+main()
+{
+    printf(&quot;\nEnter two numbers &quot;);
+    scanf( &quot;%d %d&quot;,&amp;x,&amp;y);
+    printf(&quot;\n\n%d is bigger\n&quot;,(x&gt;y)?x:y);
+    return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>This listing asks for two numbers, x and y, and then prints whichever one is
+	bigger.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>The only changes needed in Listing 4.1 are the following:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>16:     printf(&quot;\n%d   %d&quot;, a++, ++b);
+17:     printf(&quot;\n%d   %d&quot;, a++, ++b);
+18:     printf(&quot;\n%d   %d&quot;, a++, ++b);
+19:     printf(&quot;\n%d   %d&quot;, a++, ++b);
+</PRE>
+	<PRE>20:     printf(&quot;\n%d   %d&quot;, a++, ++b);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>The following code fragment is just one of many possible answers. It
+	checks to see if x is greater than or equal to 1 and less than or equal to 20. If
+	these two conditions are met, x is assigned to y. If these conditions are not met,
+	x is not assigned to y; therefore, y remains the same.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>if ((x &gt;= 1) &amp;&amp; (x &lt;= 20))
+</PRE>
+	<PRE>    y = x;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>y = ((x &gt;= 1) &amp;&amp; (x &lt;= 20)) ? x : y;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>Again, if the statement is TRUE, x is assigned to y; otherwise, y is assigned
+	to itself, thus having no effect.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>if (x &lt; 1 &amp;&amp; x &gt; 10 )</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<PRE>    statement;
+</PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>a. 7
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>0
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>9
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>1 (true)
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>5
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>a. TRUE
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>FALSE
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>TRUE. Notice that there is a single equals sign, making the if an assignment
+	instead of a relation.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>TRUE
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>The following is one possible answer:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>if( age &lt; 21 )
+    printf( &quot;You are not an adult&quot; );
+else if( age &gt;= 65 )
+        printf( &quot;You are a senior citizen!&quot;);
+     else
+</PRE>
+	<PRE>        printf( &quot;You are an adult&quot; );</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>This program had four problems. The first is on line 3. The assignment
+	statement should end with a semicolon, not a colon. The second problem is the semicolon
+	at the end of the if statement on line 6. The third problem is a common one: The
+	assignment operator (=) is used rather than the relational operator (==) in the if
+	statement. The final problem is the word otherwise on line 8. This should be else.
+	Here is the corrected code:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* a program with problems... */
+#include &lt;stdio.h&gt;
+int x = 1;
+main()
+{
+    if( x == 1)
+       printf(&quot; x equals 1&quot; );
+    else
+       printf(&quot; x does not equal 1&quot;);
+    return 0;
+</PRE>
+	<PRE> }</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading13"></A>Answers for Day 5</H2>
+<H3><A NAME="Heading14"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Yes! (Well, OK, this is a trick question, but you better answer &quot;yes&quot;
+	if you want to become a good C programmer.)
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Structured programming takes a complex programming problem and breaks
+	it into a number of simpler tasks that are easier to handle one at a time.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>After you've broken your program into a number of simpler tasks, you
+	can write a function to perform each task.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The first line of a function definition must be the function header.
+	It contains the function's name, its return type, and its parameter list.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>A function can return either one value or no values. The value can
+	be any of the C variable types. On Day 18, &quot;Getting More from Functions,&quot;
+	you'll see how to get more values back from a function.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>A function that returns nothing should be type void.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>A function definition is the complete function, including the header
+	and all the function's statements. The definition determines what actions take place
+	when the function executes. The prototype is a single line, identical to the function
+	header, but it ends with a semicolon. The prototype informs the compiler of the function's
+	name, return type, and parameter list.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>A local variable is declared within a function.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Local variables are independent from other variables in the program.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>main() should be the first function in your listing.
+	<P>
+</DL>
+
+<H3><A NAME="Heading15"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>float do_it(char a, char b, char c)
+	<P>
+	<DT></DT>
+	<DD>Add a semicolon to the end, and you have the function prototype. As a function
+	header, it should be followed by the function's statements enclosed in braces.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>void print_a_number( int a_number )
+	<P>
+	<DT></DT>
+	<DD>This is a void function. As in exercise 1, to create the prototype, add a semicolon
+	to the end. In an actual program, the header is followed by the function's statements.
+	<P>
+	<DT></DT>
+	<DD><B>3. a. </B>int
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>long
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>There are two problems. First, the print_msg() function is declared
+	as a void; however, it returns a value. The return statement should be removed. The
+	second problem is on the fifth line. The call to print_msg() passes a parameter (a
+	string). The prototype states that this function has a void parameter list and therefore
+	shouldn't be passed anything. The following is the corrected listing:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+void print_msg (void);
+main()
+{
+    print_msg();
+    return 0;
+}
+void print_msg(void)
+{
+    puts( &quot;This is a message to print&quot; );
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>There should not be a semicolon at the end of the function header.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Only the larger_of() function needs to be changed:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>21: int larger_of( int a, int b)
+22: {
+23:     int save;
+24:
+25:     if (a &gt; b)
+26:         save = a;
+27:     else
+28:         save = b;
+29:
+30:     return save;
+</PRE>
+	<PRE>31: }</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>The following assumes that the two values are integers and an integer
+	is returned:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int product( int x, int y )
+{
+    return (x * y);
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>8. </B>The following listing checks the second value passed to verify that
+	it is not 0. Division by zero causes an error. You should never assume that the values
+	passed are correct.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int divide_em( int a, int b )
+{
+    int answer = 0;
+    if( b == 0 )
+        answer = 0;
+    else
+        answer = a/b;
+    return answer;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>9. </B>Although the following code uses main(), it could use any function.
+	Lines 9, 10, and 11 show the calls to the two functions. Lines 13 through 16 print
+	the values. To run this listing, you need to include the code from exercises 7 and
+	8 after line 19.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>1:  #include &lt;stdio.h&gt;
+2:
+3:  main()
+4:  {
+5:     int number1 = 10,
+6:         number2 = 5;
+7:     int x, y, z;
+8:
+9:     x = product( number1, number2 );
+10:    y = divide_em( number1, number2 );
+11:    z = divide_em( number1, 0 );
+12:
+13:     printf( &quot;\nnumber1 is %d and number2 is %d&quot;, number1, number2 );
+14:     printf( &quot;\nnumber1 * number2 is %d&quot;, x );
+15:     printf( &quot;\nnumber1 / number2 is %d&quot;, y );
+16:     printf( &quot;\nnumber1 / 0 is %d&quot;, z );
+17:
+18:     return 0;
+</PRE>
+	<PRE>19: }</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Averages five float values entered by the user. */
+#include &lt;stdio.h&gt;
+float v, w, x, y, z, answer;
+float average(float a, float b, float c, float d, float e);
+main()
+{
+    puts(&quot;Enter five numbers:&quot;);
+    scanf(&quot;%f%f%f%f%f&quot;, &amp;v, &amp;w, &amp;x, &amp;y, &amp;z);
+    answer = average(v, w, x, y, z);
+    printf(&quot;The average is %f.\n&quot;, answer);
+    return 0;
+}
+float average( float a, float b, float c, float d, float e)
+{
+    return ((a+b+c+d+e)/5);
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>11. </B>The following is the answer using type int variables. It can run only
+	with values less than or equal to 9. To use values larger than 9, you need to change
+	the values to type long.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* this is a program with a recursive function */
+#include &lt;stdio.h&gt;
+int three_powered( int power );
+main()
+{
+    int a = 4;
+    int b = 9;
+    printf( &quot;\n3 to the power of %d is %d&quot;, a,
+    three_powered(a) );
+    printf( &quot;\n3 to the power of %d is %d\n&quot;, b,
+    three_powered(b) );
+    return 0;
+}
+int three_powered( int power )
+{
+    if ( power &lt; 1 )
+        return( 1 );
+    else
+        return( 3 * three_powered( power - 1 ));
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading16"></A>Answers for Day 6</H2>
+<H3><A NAME="Heading17"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The first index value of an array in C is 0.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>A for statement contains initializing and increment expressions as
+	parts of the command.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>A do...while contains the while statement at the end and always executes
+	the loop at least once.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Yes, a while statement can accomplish the same task as a for statement,
+	but you need to do two additional things. You must initialize any variables before
+	starting the while command, and you need to increment any variables as a part of
+	the while loop.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>You can't overlap the loops. The nested loop must be entirely inside
+	the outer loop.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Yes, a while statement can be nested in a do...while loop. You can
+	nest any command within any other command.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>The four parts of a for statement are the initializer, the condition,
+	the increment, and the statement(s).
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>The two parts of a while statement are the condition and the statement(s).
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>The two parts of a do...while statement are the condition and the statement(s).
+	<P>
+</DL>
+
+<H3><A NAME="Heading18"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>long array[50];
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Notice that in the following answer, the 50th element is indexed to
+	49. Remember that arrays start at 0.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>array[49] = 123.456;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>When the statement is complete, x equals 100.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>When the statement is complete, ctr equals 11. (ctr starts at 2 and
+	is incremented by 3 while it is less than 10.)
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>The inner loop prints five Xs. The outer loop prints the inner loop
+	10 times. This totals 50 Xs.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int x;
+</PRE>
+	<PRE>for( x = 1; x &lt;= 100; x += 3) ;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int x = 1;
+while( x &lt;= 100 )
+</PRE>
+	<PRE>    x += 3;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>8. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int ctr = 1;
+do
+{
+    ctr += 3;
+</PRE>
+	<PRE>} while( ctr &lt; 100 );</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>9. </B>This program never ends. record is initialized to 0. The while loop
+	then checks to see whether record is less than 100. 0 is less than 100, so the loop
+	executes, thus printing the two statements. The loop then checks the condition again.
+	0 is still, and always will be, less than 100, so the loop continues. Within the
+	brackets, record needs to be incremented. You should add the following line after
+	the second printf() function call:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>record++;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>Using a defined constant is common in looping; you'll see examples
+	similar to this code fragment in Weeks 2 and 3. The problem with this fragment is
+	simple. The semicolon doesn't belong at the end of the for statement. This is a common
+	bug.
+	<P>
+</DL>
+
+<H2><A NAME="Heading19"></A>Answers for Day 7</H2>
+<H3><A NAME="Heading20"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>There are two differences between puts() and printf():
+	<P>
+	<UL>
+		<LI>printf() can print variable parameters.
+		<P>
+		<LI>puts() automatically adds a newline character to the end of the string it prints.
+	</UL>
+	<DT></DT>
+	<DD><B>2. </B>You should include the STDIO.H header file when using printf().
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>a. \\ prints a backslash.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>\b prints a backspace.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>\n prints a newline.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>\t prints a tab.
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>\a (for &quot;alert&quot;) sounds the beep.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>a. %s is used for a character string.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>%d is used for a signed decimal integer.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>%f is used for a decimal floating-point number.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>a. b prints the literal character b.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>\b prints a backspace character.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>\ looks at the next character to determine an escape character (see
+	Table 7.1).
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>\\ prints a single backslash.
+	<P>
+</DL>
+
+<H3><A NAME="Heading21"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>puts() automatically adds the newline; printf() does not. The code
+	is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>printf( &quot;\n&quot; );
+puts( &quot; &quot; );</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>char c1, c2;
+int d1;
+</PRE>
+	<PRE>scanf( &quot;%c %ud %c&quot;, &amp;c1, &amp;d1, &amp;c2 );</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>Your answer might vary:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+int x;
+main()
+{
+    puts( &quot;Enter an integer value&quot; );
+    scanf( &quot;%d&quot;, &amp;x );
+    printf( &quot;\nThe value entered is %d\n&quot;, x );
+    return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>It's typical to edit a program to allow only specific values to be
+	accepted. The following is one way to accomplish this exercise:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+int x;
+main()
+{
+    puts( &quot;Enter an even integer value&quot; );
+    scanf( &quot;%d&quot;, &amp;x );
+    while( x % 2 != 0)
+    {
+        printf( &quot;\n%d is not even, Please enter an even \
+        number: &quot;, x );
+        scanf( &quot;%d&quot;, &amp;x );
+    }
+    printf( &quot;\nThe value entered is %d\n&quot;, x );
+    return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+int array[6], x, number;
+main()
+{
+    /* loop 6 times or until the last entered element is 99 */
+    for( x = 0; x &lt; 6 &amp;&amp; number != 99; x++ )
+    {
+        puts( &quot;Enter an even integer value, or 99 to quit&quot; );
+        scanf( &quot;%d&quot;, &amp;number );
+        while( number % 2 == 1 &amp;&amp; number != 99)
+       {
+            printf( &quot;\n%d is not even, Please enter an even \
+                     number: &quot;, number);
+            scanf( &quot;%d&quot;, &amp;number );
+       }
+       array[x] = number;
+    }
+    /* now print them out... */
+    for( x = 0; x &lt; 6 &amp;&amp; array[x] != 99; x++ )
+    {
+        printf( &quot;\nThe value entered is %d&quot;, array[x] );
+    }
+    return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>The previous answers already are executable programs. The only change
+	that needs to be made is in the final printf(). To print each value separated by
+	a tab, change the printf() statement to the following:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>printf( &quot;%d\t&quot;, array[x]);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>You can't have quotes within quotes. To print quotes within quotes,
+	you must use the escape character \&quot;. Additionally, you must include a single
+	slash at the end of the first line in order to have the text continued to the second
+	line. The following is the corrected version:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>printf( &quot;Jack said, \&quot;Peter Piper picked a peck of pickled \
+</PRE>
+	<PRE>peppers.\&quot;&quot;);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>8. </B>This listing has three errors. The first is the lack of quotes in the
+	printf() statement. The second is the missing address-of operator in the answer variable
+	in the scanf(). The final error is also in the scanf() statement. Instead of &quot;%f&quot;,
+	it should have &quot;%d&quot;, because answer is a type int variable, not a type
+	float. The following is corrected:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int get_1_or_2( void )
+{
+    int answer = 0;
+    while( answer &lt; 1 || answer &gt; 2 )
+    {
+        printf(&quot;Enter 1 for Yes, 2 for No &quot;);     /* corrected */
+        scanf( &quot;%d&quot;, &amp;answer );                  /* corrected */
+    }
+    return answer;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>9. </B>Here is the completed print_report() function for Listing 7.1:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>void print_report( void )
+{
+    printf( &quot;\nSAMPLE REPORT&quot; );
+    printf( &quot;\n\nSequence\tMeaning&quot; );
+    printf( &quot;\n=========\t=======&quot; );
+    printf( &quot;\n\\a\t\tbell (alert)&quot; );
+    printf( &quot;\n\\b\t\tbackspace&quot; );
+    printf( &quot;\n\\n\t\tnew line&quot; );
+    printf( &quot;\n\\t\t\thorizontal tab&quot; );
+    printf( &quot;\n\\\\\t\tbackslash&quot; );
+    printf( &quot;\n\\\?\t\tquestion mark&quot; );
+    printf( &quot;\n\\\'\t\tsingle quote&quot; );
+    printf( &quot;\n\\\&quot;\t\tdouble quote&quot; );
+    printf( &quot;\n...\t\t...&quot;);
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Inputs two floating-point values and */
+/* displays their product. */
+#include &lt;stdio.h&gt;
+float x, y;
+main()
+{
+    puts(&quot;Enter two values: &quot;);
+    scanf(&quot;%f %f&quot;, &amp;x, &amp;y);
+    printf(&quot;\nThe product is %f\n&quot;, x * y);
+    return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>11. </B>The following program prompts for 10 integers and displays their sum:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Input 10 integers and display their sum. */
+#include &lt;stdio.h&gt;
+int count, temp;
+long total = 0;     /* Use type long to ensure we don't */
+/* exceed the maximum for type int. */
+main()
+{
+    for (count = 1; count &lt;=10; count++)
+    {
+        printf(&quot;Enter integer # %d: &quot;, count);
+        scanf(&quot;%d&quot;, &amp;temp);
+        total += temp;
+    }
+    printf(&quot;\n\nThe total is %d\n&quot;, total);
+    return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>12. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Inputs integers and stores them in an array, stopping */
+/* when a zero is entered. Finds and displays the array's */
+/* largest and smallest values */
+#include &lt;stdio.h&gt;
+#define MAX 100
+int array[MAX];
+int count = -1, maximum, minimum, num_entered, temp;
+main()
+{
+    puts(&quot;Enter integer values one per line.&quot;);
+    puts(&quot;Enter 0 when finished.&quot;);
+    /* Input the values */
+    do
+    {
+        scanf(&quot;%d&quot;, &amp;temp);
+        array[++count] = temp;
+    } while ( count &lt; (MAX-1) &amp;&amp; temp != 0 );
+    num_entered = count;
+    /* Find the largest and smallest. */
+    /* First set maximum to a very small value, */
+    /* and minimum to a very large value. */
+    maximum = -32000;
+    minimum = 32000;
+    for (count = 0; count &lt;= num_entered &amp;&amp; array[count] != 0; count++)
+    {
+        if (array[count] &gt; maximum)
+        maximum = array[count];
+        if (array[count] &lt; minimum )
+            minimum = array[count];
+    }
+    printf(&quot;\nThe maximum value is %d&quot;, maximum);
+    printf(&quot;\nThe minimum value is %d\n&quot;, minimum);
+    return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading22"></A>Answers for Day 8</H2>
+<H3><A NAME="Heading23"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>All of them, but one at a time. A given array can contain only a single
+	data type.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>0. Regardless of the size of an array, all C arrays start with subscript
+	0.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B><I>n</I>-1
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The program compiles and runs but produces unpredictable results.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>In the declaration statement, follow the array name with one set of
+	brackets for each dimension. Each set of brackets contains the number of elements
+	in the corresponding dimension.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>240. This is determined by multiplying 2 * 3 * 5 * 8.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>array[0][0][1][1]
+	<P>
+</DL>
+
+<H3><A NAME="Heading24"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>int one[1000], two[1000], three[1000];
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>int array[10] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>This exercise can be solved in numerous ways. The first way is to initialize
+	the array when it's declared:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int eightyeight[88] = {88,88,88,88,88,88,88,...,88};</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>However, this approach would require you to place 88 88s between the braces (instead
+	of using ..., as I did). I don't recommend this method for initializing such a large
+	array. The following is a better method:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int eightyeight[88];
+int x;
+for ( x = 0; x &lt; 88; x++ )
+</PRE>
+	<PRE>    eightyeight[x] = 88;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int stuff[12][10];
+int sub1, sub2;
+for( sub1 = 0; sub1 &lt; 12; sub1++ )
+    for( sub2 = 0; sub2 &lt; 10; sub2++ )
+</PRE>
+	<PRE>        stuff[sub1][sub2] = 0;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>Be careful with this fragment. The bug presented here is easy to create.
+	Notice that the array is 10 * 3 but is initialized as a 3 * 10 array.
+	<P>
+	<DT></DT>
+	<DD>To describe this differently, the left subscript is declared as 10, but the for
+	loop uses x as the left subscript. x is incremented with three values. The right
+	subscript is declared as 3, but the second for loop uses y as the right subscript.
+	y is incremented with 10 values. This can cause unpredictable results. You can fix
+	this program in one of two ways. The first way is to switch x and y in the line that
+	does the initialization:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int x, y;
+int array[10][3];
+main()
+{
+   for ( x = 0; x &lt; 3; x++ )
+      for ( y = 0; y &lt; 10; y++ )
+         array[y][x] = 0;         /* changed */
+   return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>The second way (which is recommended) is to switch the values in the for loops:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int x, y;
+int array[10][3];
+main()
+{
+   for ( x = 0; x &lt; 10; x++ )      /* changed */
+      for ( y = 0; y &lt; 3; y++ )   /* changed */
+         array[x][y] = 0;
+   return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>This, I hope, was an easy bug to bust. This program initializes an
+	element in the array that is out of bounds. If you have an array with 10 elements,
+	their subscripts are 0 to 9. This program initializes elements with subscripts 1
+	through 10. You can't initialize array[10], because it doesn't exist. The for statement
+	should be changed to one of the following examples:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>for( x = 1; x &lt;=9; x++ )  /* initializes 9 of the 10 elements */
+for( x = 0; x &lt;= 9; x++ )</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>Note that x &lt;= 9 is the same as x &lt; 10. Either is appropriate; x &lt; 10
+	is more common.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>The following is one of many possible answers:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Using two-dimensional arrays and rand() */
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+/* Declare the array */
+int array[5][4];
+int a, b;
+main()
+{
+   for ( a = 0; a &lt; 5; a++ )
+   {
+      for ( b = 0; b &lt; 4; b++ )
+      {
+         array[a][b] = rand();
+      }
+   }
+   /* Now print the array elements */
+   for ( a = 0; a &lt; 5; a++ )
+   {
+      for ( b = 0; b &lt; 4; b++ )
+      {
+         printf( &quot;%d\t&quot;, array[a][b] );
+      }
+      printf( &quot;\n&quot; );    /* go to a new line */
+   }
+   return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>8. </B>The following is one of many possible answers:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* RANDOM.C: using a single-dimensional array */
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+/* Declare a single-dimensional array with 1000 elements */
+int random[1000];
+int a, b, c;
+long total = 0;
+main()
+{
+   /* Fill the array with random numbers. The C library */
+   /* function rand() returns a random number. Use one */
+   /* for loop for each array subscript. */
+   for (a = 0; a &lt; 1000; a++)
+   {
+      random[a] = rand();
+      total += random[a];
+   }
+   printf(&quot;\n\nAverage is: %ld\n&quot;,total/1000);
+   /* Now display the array elements 10 at a time */
+   for (a = 0; a &lt; 1000; a++)
+   {
+      printf(&quot;\nrandom[%d] = &quot;, a);
+      printf(&quot;%d&quot;, random[a]);
+      if ( a % 10 == 0 &amp;&amp; a &gt; 0 )
+     {
+         printf(&quot;\nPress Enter to continue, CTRL-C to quit.&quot;);
+         getchar();
+      }
+   }
+   return 0;
+</PRE>
+	<PRE>}        /* end of main() */</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>9. </B>The following are two solutions. The first initializes the array at
+	the time it is declared, and the second initializes it in a for loop.
+	<P>
+	<DT></DT>
+	<DD><B>Answer 1:</B>
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+/* Declare a single-dimensional array */
+int elements[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int idx;
+main()
+{
+   for (idx = 0; idx &lt; 10; idx++)
+   {
+      printf( &quot;\nelements[%d] = %d &quot;, idx, elements[idx] );
+   }
+   return 0;
+</PRE>
+	<PRE>}        /* end of main() */</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>Answer 2:</B>
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+/* Declare a single-dimensional array */
+int elements[10];
+int idx;
+main()
+{
+   for (idx = 0; idx &lt; 10; idx++)
+      elements[idx] = idx ;
+   for (idx = 0; idx &lt; 10; idx++)
+      printf( &quot;\nelements[%d] = %d &quot;, idx, elements[idx] );
+   return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>The following is one of many possible answers:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+/* Declare a single-dimensional array */
+int elements[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int new_array[10];
+int idx;
+main()
+{
+   for (idx = 0; idx &lt; 10; idx++)
+   {
+      new_array[idx] = elements[idx] + 10 ;
+   }
+   for (idx = 0; idx &lt; 10; idx++)
+   {
+      printf( &quot;\nelements[%d] = %d \tnew_array[%d] = %d&quot;,
+      idx, elements[idx], idx, new_array[idx] );
+   }
+   return 0;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading25"></A>Answers for Day 9</H2>
+<H3><A NAME="Heading26"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The address-of operator is the &amp; sign.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The indirection operator * is used. When you precede the name of a
+	pointer by *, it refers to the variable pointed to.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>A pointer is a variable that contains the address of another variable.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Indirection is the act of accessing the contents of a variable by using
+	a pointer to the variable.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>They are stored in sequential memory locations, with lower array elements
+	at lower addresses.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>&amp;data[0]
+	<P>
+	<DT></DT>
+	<DD>data
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>One way is to pass the length of the array as a parameter to the function.
+	The second way is to have a special value in the array, such as NULL, signify the
+	array's end.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Assignment, indirection, address-of, incrementing, differencing, and
+	comparison.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Differencing two pointers returns the number of elements in between.
+	In this case, the answer is 1. The actual size of the elements in the array is irrelevant.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>The answer is still 1.
+	<P>
+</DL>
+
+<H3><A NAME="Heading27"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>char *char_ptr;
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The following declares a pointer to cost and then assigns the address
+	of cost (&amp;cost) to it:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int *p_cost;
+</PRE>
+	<PRE>p_cost = &amp;cost;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>Direct access: cost = 100;
+	<P>
+	<DT></DT>
+	<DD>Indirect access: *p_cost = 100;
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>printf( &quot;Pointer value: %d, points at value: %d&quot;, p_cost,
+	*p_cost);
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>float *variable = &amp;radius;
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>data[2] = 100;
+</PRE>
+	<PRE>*(data + 2) = 100;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>This code also includes the answer for exercise 8:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+#define MAX1 5
+#define MAX2 8
+int array1[MAX1] = { 1, 2, 3, 4, 5 };
+int array2[MAX2] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+int total;
+int sumarrays(int x1[], int len_x1, int x2[], int len_x2);
+main()
+{
+   total = sumarrays(array1, MAX1, array2, MAX2);
+   printf(&quot;The total is %d\n&quot;, total);
+   return 0;
+}
+int sumarrays(int x1[], int len_x1, int x2[], int len_x2)
+{
+   int total = 0, count = 0;
+   for (count = 0; count &lt; len_x1; count++)
+      total += x1[count];
+   for (count = 0; count &lt; len_x2; count++)
+      total += x2[count];
+   return total;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>8. </B>See the answer for exercise 7.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>The following is just one possible answer:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+#define SIZE 10
+/* function prototypes */
+void addarrays( int [], int []);
+main()
+{
+   int a[SIZE] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+   int b[SIZE] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+   addarrays(a, b);
+   return 0;
+}
+void addarrays( int first[], int second[])
+{
+    int total[SIZE];
+    int ctr = 0;
+    for (ctr = 0; ctr &lt; SIZE; ctr ++ )
+    {
+       total[ctr] = first[ctr] + second[ctr];
+       printf(&quot;%d + %d = %d\n&quot;, first[ctr], second[ctr], total[ctr]);
+   }
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading28"></A>Answers for Day 10</H2>
+<H3><A NAME="Heading29"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The values in the ASCII character set range from 0 to 255. From 0 to
+	127 is the standard ASCII character set, and 128 to 255 is the extended ASCII character
+	set.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>As the character's ASCII code.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>A string is a sequence of characters terminated by the null character.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>A sequence of one or more characters enclosed in double quotation marks.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>To hold the string's terminating null character.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>As a sequence of ASCII values corresponding to the quoted characters,
+	followed by 0 (the ASCII code for the null character).
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>a. 97
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>65
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>57
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>32
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>206
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>6
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>a. I
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>a space
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>c
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>a
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>n
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>NUL
+	<P>
+	<DT></DT>
+	<DD><B>g. </B>B
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>a. 9 bytes. (Actually, the variable is a pointer to a string, and the
+	string requires 9 bytes of memory--8 for the string and 1 for the null terminator.)
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>9 bytes
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>1 byte
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>20 bytes
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>20 bytes
+	<P>
+	<DT></DT>
+	<DD><B>10. a. </B>A
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>A
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>0 (NUL)
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>This is beyond the end of the string, so it could have any value.
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>!
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>This contains the address of the first element of the string.
+	<P>
+</DL>
+
+<H3><A NAME="Heading30"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>char letter = `$';
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>char array[18] = &quot;Pointers are fun!&quot;;
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>char *array = &quot;Pointers are fun!&quot;;
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>char *ptr;
+ptr = malloc(81);
+</PRE>
+	<PRE>gets(ptr);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>The following is just one possible answer. A complete program is provided:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+#define SIZE 10
+/* function prototypes */
+void copyarrays( int [], int []);
+main()
+{
+    int ctr=0;
+    int a[SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int b[SIZE];
+    /* values before copy */
+    for (ctr = 0; ctr &lt; SIZE; ctr ++ )
+    {
+       printf( &quot;a[%d] = %d, b[%d] = %d\n&quot;,
+               ctr, a[ctr], ctr, b[ctr]);
+    }
+    copyarrays(a, b);
+    /* values after copy */
+    for (ctr = 0; ctr &lt; SIZE; ctr ++ )
+    {
+       printf( &quot;a[%d] = %d, b[%d] = %d\n&quot;,
+               ctr, a[ctr], ctr, b[ctr]);
+    }
+    return 0;
+}
+void copyarrays( int orig[], int newone[])
+{
+    int ctr = 0;
+    for (ctr = 0; ctr &lt; SIZE; ctr ++ )
+    {
+        newone[ctr] = orig[ctr];
+    }
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>The following is one of many possible answers:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+/* function prototypes */
+char * compare_strings( char *, char *);
+main()
+{
+    char *a = &quot;Hello&quot;;
+    char *b = &quot;World!&quot;;
+    char *longer;
+    longer = compare_strings(a, b);
+    printf( &quot;The longer string is: %s\n&quot;, longer );
+    return 0;
+}
+char * compare_strings( char * first, char * second)
+{
+    int x, y;
+    x = strlen(first);
+    y = strlen(second);
+    if( x &gt; y)
+       return(first);
+    else
+       return(second);
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>This exercise was on your own!
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>a_string is declared as an array of 10 characters, but it's initialized
+	with a string larger than 10 characters. a_string needs to be bigger.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>If the intent of this line of code is to initialize a string, it is
+	wrong. You should use either char *quote or char quote[100].
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>No.
+	<P>
+	<DT></DT>
+	<DD><B>11. </B>Yes. Although you can assign one pointer to another, you can't assign
+	one array to another. You should change the assignment to a string-copying command
+	such as strcpy().
+	<P>
+</DL>
+
+<H2><A NAME="Heading31"></A>Answers for Day 11</H2>
+<H3><A NAME="Heading32"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The data items in an array must all be of the same type. A structure
+	can contain data items of different types.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The structure member operator is a period. It is used to access members
+	of a structure.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>struct
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>A structure tag is tied to a template of a structure and is not an
+	actual variable. A structure instance is an allocated structure that can hold data.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>These statements define a structure and declare an instance called
+	myaddress. This instance is then initialized. The structure member myaddress.name
+	is initialized to the string &quot;Bradley Jones&quot;, yaddress.add1 is initialized
+	to &quot;RTSoftware&quot;, myaddress.add2 is initialized to &quot;P.O. Box 1213&quot;,
+	myaddress.city is initialized to &quot;Carmel&quot;, myaddress.state is initialized
+	to &quot;IN&quot;, and myaddress.zip is initialized to &quot;46032-1213&quot;.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>The following statement changes ptr to point to the second array element:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>ptr++;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H3><A NAME="Heading33"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct time {
+    int hours;
+    int minutes;
+    int seconds;
+</PRE>
+	<PRE>} ;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct data {
+    int value1;
+    float value2;
+    float value3;
+</PRE>
+	<PRE>} info ;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>info.value1 = 100;
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct data *ptr;
+</PRE>
+	<PRE>ptr = &amp;info;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>ptr-&gt;value2 = 5.5;
+</PRE>
+	<PRE>(*ptr).value2 = 5.5;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct data {
+    char name[21];
+    struct data *ptr;
+</PRE>
+	<PRE>};</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>typedef struct {
+    char address1[31];
+    char address2[31];
+    char city[11];
+    char state[3];
+    char zip[11];
+</PRE>
+	<PRE>} RECORD;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>8. </B>The following uses the values from quiz question 5 for the initialization:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>RECORD myaddress = {&quot;RTSoftware&quot;,
+                    &quot;P.O. Box 1213&quot;,
+</PRE>
+	<PRE>                    &quot;Carmel&quot;, &quot;IN&quot;, &quot;46032-1213&quot; };</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>9. </B>This code fragment has two problems. The first is that the structure
+	should contain a tag. The second is the way sign is initialized. The initialization
+	values should be in braces. Here is the corrected code:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct zodiac {
+    char zodiac_sign[21];
+    int month;
+</PRE>
+	<PRE>} sign = {&quot;Leo&quot;, 8};</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>The union declaration has only one problem. Only one variable in a
+	union can be used at a time. This is also true of initializing the union. Only the
+	first member of the union can be initialized. Here is the correct initialization:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* setting up a union */
+union data{
+    char a_word[4];
+    long a_number;
+</PRE>
+	<PRE>}generic_variable = { &quot;WOW&quot; };</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading34"></A>Answers for Day 12</H2>
+<H3><A NAME="Heading35"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The scope of a variable refers to the extent to which different parts
+	of a program have access to the variable, or where the variable is visible.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>A variable with local storage class is visible only in the function
+	where it is defined. A variable with external storage class is visible throughout
+	the program.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Defining a variable in a function makes it local; defining a variable
+	outside of any function makes it external.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Automatic (the default) or static. An automatic variable is created
+	each time the function is called and is destroyed when the function ends. A static
+	local variable persists and retains its value between calls to the function.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>An automatic variable is initialized every time the function is called.
+	A static variable is initialized only the first time the function is called.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>False. When declaring register variables, you're making a request.
+	There is no guarantee that the compiler will honor the request.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>An uninitialized global variable is automatically initialized to 0;
+	however, it's best to initialize variables explicitly.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>An uninitialized local variable isn't automatically initialized; it
+	could contain anything. You should never use an uninitialized local variable.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Because the variable count is now local to the block, the printf()
+	no longer has access to a variable called count. The compiler gives you an error.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>If the value needs to be remembered, it should be declared as static.
+	For example, if the variable were called vari, the declaration would be
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>static int vari;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>11. </B>The extern keyword is used as a storage-class modifier. It indicates
+	that the variable has been declared somewhere else in the program.
+	<P>
+	<DT></DT>
+	<DD><B>12. </B>The static keyword is used as a storage-class modifier. It tells the
+	compiler to retain the value of a variable or function for the duration of a program.
+	Within a function, the variable keeps its value between function calls.
+	<P>
+</DL>
+
+<H3><A NAME="Heading36"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>register int x = 0;
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Illustrates variable scope. */
+#include &lt;stdio.h&gt;
+void print_value(int x);
+main()
+{
+    int x = 999;
+    printf(&quot;%d&quot;, x);
+    print_value( x );
+    return 0;
+}
+void print_value( int x)
+{
+    printf(&quot;%d&quot;, x);
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>Because you're declaring var as a global, you don't need to pass it
+	as a parameter.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Using a global variable */
+#include &lt;stdio.h&gt;
+int var = 99;
+void print_value(void);
+main()
+{
+    print_value();
+    return 0;
+}
+void print_value(void)
+{
+    printf( &quot;The value is %d\n&quot;, var );
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>Yes, you need to pass the variable var in order to print it in a different
+	function.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Using a local variable*/
+#include &lt;stdio.h&gt;
+void print_value(int var);
+main( )
+{
+    int var = 99;
+    print_value(  var );
+    return 0;
+}
+void print_value(int var)
+{
+    printf( &quot;The value is %d\n&quot;, var );
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>Yes, a program can have a local and global variable with the same name.
+	In such cases, active local variables take precedence.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>/* Using a global */
+#include &lt;stdio.h&gt;
+int var = 99;
+void print_func(void);
+main( )
+{
+    int var = 77;
+    printf( &quot;Printing in function with local and global:&quot;);
+    printf( &quot;\nThe Value of var is %d&quot;, var );
+    print_func( );
+    return 0;
+}
+void print_func( void )
+{
+    printf( &quot;\nPrinting in function  only global:&quot;);
+    printf( &quot;\nThe value of var is %d\n&quot;, var );
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>There is only one problem with a_sample_function(). Variables can be
+	declared at the beginning of any block, so the declarations of crtl and star are
+	fine. The other variable, ctr2, is not declared at the beginning of a block; it needs
+	to be. The following is the corrected function within a complete program.
+	<P>
+	<DT></DT>
+	<DD>Note: If you're using a C++ compiler instead of a C compiler, the listing with
+	a bug might run and compile. C++ has different rules concerning where variables can
+	be declared. However, you should still follow the rules for C, even if your compiler
+	lets you get away with something different.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+void a_sample_function( );
+main()
+{
+    a_sample_function();
+    return 0;
+}
+void a_sample_function( void )
+{
+    int ctr1;
+    for ( ctr1 = 0; ctr1 &lt; 25; ctr1++ )
+        printf( &quot;*&quot; );
+    puts( &quot;\nThis is a sample function&quot; );
+    {
+        char star = `*';
+        int ctr2;     /* fix */
+        puts( &quot;\nIt has a problem\n&quot; );
+        for ( ctr2 = 0; ctr2 &lt; 25; ctr2++ )
+        {
+            printf( &quot;%c&quot;, star);
+        }
+     }
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>This program actually works properly, but it could be better. First
+	of all, there is no need to initialize the variable x to 1, because it's initialized
+	to 0 in the for statement. Also, declaring the variable tally to be static is pointless,
+	because within the main() function, static keywords have no effect.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>What is the value of star? What is the value of dash? These two variables
+	are never initialized. Because they are both local variables, each could contain
+	any value. Note that although this program compiles with no errors or warnings, there
+	is still a problem.
+	<P>
+	<DT></DT>
+	<DD>There is a second issue that should be brought up about this program. The variable
+	ctr is declared as global, but it's only used in print_function(). This isn't a good
+	assignment. The program would be better if ctr were a local variable in print_function().
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>This program prints the following pattern forever. See exercise 10.
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>X==X==X==X==X==X==X==X==X==X==X==X==X==X==X==X==X==...</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>This program poses a problem because of the global scope of ctr. Both
+	main() and print_letter2() use ctr in loops at the same time. Because print_letter2()
+	changes the value, the for loop in main() never completes. This could be fixed in
+	a number of ways. One way is to use two different counter variables. A second way
+	is to change the scope of the counter variable ctr. It could be declared in both
+	main() and print_letter2() as a local variable.
+	<P>
+	<DT></DT>
+	<DD>An additional comment on letter1 and letter2. Because each of these is used in
+	only one function, they should be declared as local. Here is the corrected listing:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+void print_letter2(void);           /* function prototype */
+main()
+{
+    char letter1 = `X';
+    int ctr;
+    for( ctr = 0; ctr &lt; 10; ctr++ )
+    {
+       printf( &quot;%c&quot;, letter1 );
+       print_letter2();
+    }
+    return 0;
+}
+void print_letter2(void)
+{
+    char letter2 = `=';
+    int ctr;            /* this is a local variable */
+                        /* it is different from ctr in main() */
+    for( ctr = 0; ctr &lt; 2; ctr++ )
+        printf( &quot;%c&quot;, letter2 );
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading37"></A>Answers for Day 13</H2>
+<H3><A NAME="Heading38"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Never. (Unless you are very careful)
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>When a break statement is encountered, execution immediately exits
+	the for, do...while, or while loop that contains the break. When a continue statement
+	is encountered, the next iteration of the enclosing loop begins immediately.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>An infinite loop executes forever. You create one by writing a for,
+	do...while, or while loop with a test condition that is always true.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Execution terminates when the program reaches the end of main() or
+	the exit() function is called.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>The expression in a switch statement can evaluate to a long, int, or
+	char value.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>The default statement is a case in a switch statement. When the expression
+	in the switch statement evaluates to a value that doesn't have a matching case, control
+	goes to the default case.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>The exit() function causes the program to end. A value can be passed
+	to the exit() function. This value is returned to the operating system.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>The system() function executes a command at the operating system level.
+	<P>
+</DL>
+
+<H3><A NAME="Heading39"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>continue;
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>break;
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>For a DOS system, the answer would be
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>system(&quot;dir&quot;);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>This code fragment is correct. You don't need a break statement after
+	the printf() for `N', because the switch statement ends anyway.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>You might think that the default needs to go at the bottom of the switch
+	statement, but this isn't true. The default can go anywhere. There is a problem,
+	however. There should be a break statement at the end of the default case.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>if( choice == 1 )
+    printf(&quot;You answered 1&quot;);
+else if( choice == 2 )
+          printf( &quot;You answered 2&quot;);
+     else
+</PRE>
+	<PRE>          printf( &quot;You did not choose 1 or 2&quot;);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>do {
+    /* any C statements */
+</PRE>
+	<PRE>} while ( 1 );</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading40"></A>Answers for Day 14</H2>
+<H3><A NAME="Heading41"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>A stream is a sequence of bytes. A C program uses streams for all input
+	and output.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>a. A printer is an output device.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>A keyboard is an input device.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>A modem is both an input and an output device.
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>A monitor is an output device. (Although a touch screen would be an
+	input device and an output device.)
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>A disk drive can be both an input and an output device.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>All C compilers support three predefined streams: stdin (the keyboard),
+	stdout (the screen), and stderr (the screen). Some compilers, including DOS, also
+	support stdprn (the printer), and stdaux (the serial port COM1). Note that the Macintosh
+	doesn't support the stdprn function.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>a. stdout
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>stdout
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>stdin
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>stdin
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>fprintf() can use any output stream. Of the five standard streams,
+	it can use stdout, stderr, stdprn, and stdaux.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Buffered input is sent to the program only when the user presses Enter.
+	Unbuffered input is sent one character at a time, as soon as each key is pressed.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Echoed input automatically sends each character to stdout as it is
+	received; unechoed input does not.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>You can &quot;unget&quot; only one character between reads. The EOF
+	character can't be put back into the input stream with unget().
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>With the newline character, which corresponds to the user's pressing
+	Enter.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>a. Valid
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>Valid
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>Valid
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>Not valid. There is not an identifier of q.
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>Valid
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>Valid
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>stderr can't be redirected; it always prints to the screen. stdout
+	can be redirected to somewhere other than the screen.
+	<P>
+</DL>
+
+<H3><A NAME="Heading42"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>printf( &quot;Hello World&quot; );
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>fprintf( stdout, &quot;Hello World&quot; );
+	<P>
+	<DT></DT>
+	<DD>puts( &quot;Hello World&quot;);
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>fprintf( stdaux, &quot;Hello Auxiliary Port&quot; );
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>char buffer[31];
+</PRE>
+	<PRE>scanf( &quot;%30[^*]&quot;, buffer );</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>printf( &quot;Jack asked, \&quot;What is a backslash\?\&quot;\nJill said, \
+</PRE>
+	<PRE>\&quot;It is \'\\\'\&quot;&quot;);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>7. </B>Hint: Use an array of 26 integers. To count each character, increment
+	the appropriate array element for each character read.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Hint: Get a string at a time, and then print a formatted line number
+	followed by a tab and the string. Second hint: Check out the Print_It program in
+	Type &amp; Run 1!
+	<P>
+</DL>
+
+<H2><A NAME="Heading43"></A>Answers for Day 15</H2>
+<H3><A NAME="Heading44"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>float x;
+float *px = &amp;x;
+</PRE>
+	<PRE>float **ppx = &amp;px;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>The error is that the statement uses a single indirection operator
+	and, as a result, assigns the value 100 to px instead of to x. The statement should
+	be written with a double indirection operator:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>**ppx = 100;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>array is an array with two elements. Each of these elements is itself
+	an array that contains three elements. Each of these elements is an array that contains
+	four type int variables.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>array[0][0] is a pointer to the first four-element array of type int.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>The first and third comparisons are true; the second is not true.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>void func1(char *p[]);
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>It has no way of knowing. This value must be passed to the function
+	as another argument.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>A pointer to a function is a variable that holds the address where
+	the function is stored in memory.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>char (*ptr)(char *x[]);
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>If you omit the parentheses surrounding *ptr, the line is a prototype
+	of a function that returns a pointer to type char.
+	<P>
+	<DT></DT>
+	<DD><B>11. </B>The structure must contain a pointer to the same type of structure.
+	<P>
+	<DT></DT>
+	<DD><B>12. </B>It means that the linked list is empty.
+	<P>
+	<DT></DT>
+	<DD><B>13. </B>Each element in the list contains a pointer that identifies the next
+	element in the list. The first element in the list is identified by the head pointer.
+	<P>
+	<DT></DT>
+	<DD><B>14. a. </B>var1 is a pointer to an integer.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>var2 is an integer.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>var3 is a pointer to a pointer to an integer.
+	<P>
+	<DT></DT>
+	<DD><B>15. a. </B>a is an array of 36 (3 * 12) integers.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>b is a pointer to an array of 12 integers.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>c is an array of 12 pointers to integers.
+	<P>
+	<DT></DT>
+	<DD><B>16. a. </B>z is an array of 10 pointers to characters.
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>y is a function that takes an integer (field) as an argument and returns
+	a pointer to a character.
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>x is a pointer to a function that takes an integer (field) as an argument
+	and returns a character.
+	<P>
+</DL>
+
+<H3><A NAME="Heading45"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>float (*func)(int field);
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>int (*menu_option[10])(char *title);
+	<P>
+	<DT></DT>
+	<DD>An array of function pointers can be used in conjunction with a menuing system.
+	The number selected from a menu could correspond to the array index for the function
+	pointer. For example, the function pointed to by the fifth element of the array would
+	be executed if item 5 were selected from the menu.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>char *ptrs[10];
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>ptr is declared as an array of 12 pointers to integers, not a pointer
+	to an array of 12 integers. The correct code is
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int x[3][12];
+int (*ptr)[12];
+</PRE>
+	<PRE>ptr = x;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>The following is one of many possible solutions:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct friend {
+   char name[35+1];
+   char street1[30+1];
+   char street2[30+1];
+   char city[15+1];
+   char state[2+1];
+   char zipcode[9+1];
+</PRE>
+	<PRE>   struct friend *next;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading46"></A>Answers for Day 16</H2>
+<H3><A NAME="Heading47"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>A text-mode stream automatically performs translation between the newline
+	character (\n), which C uses to mark the end of a line, and the carriage-return linefeed
+	character pair that DOS uses to mark the end of a line. In contrast, a binary-mode
+	stream performs no translations. All bytes are input and output without modification.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Open the file using the fopen() library function.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>When using fopen(), you must specify the name of the disk file to open
+	and the mode to open it in. The function fopen() returns a pointer to type FILE;
+	this pointer is used in subsequent file access functions to refer to the specific
+	file.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Formatted, character, and direct.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Sequential and random.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>EOF is the end-of-file flag. It is a symbolic constant equal to -1.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>EOF is used with text files to determine when the end of the file has
+	been reached.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>In binary mode, you must use the feof() function. In text mode, you
+	can look for the EOF character or use feof().
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>The file position indicator indicates the position in a given file
+	where the next read or write operation will occur. You can modify the file position
+	indicator with rewind() and fseek().
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>The file position indicator points to the first character of the file,
+	or offset 0. The one exception is if you open an existing file in append mode, in
+	which case the position indicator points to the end of the file.
+	<P>
+</DL>
+
+<H3><A NAME="Heading48"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>fcloseall();
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>rewind(fp); and fseek(fp, 0, SEEK_SET);
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>You can't use the EOF check with a binary file. You should use the
+	feof() function instead.
+	<P>
+</DL>
+
+<H2><A NAME="Heading49"></A>Answers for Day 17</H2>
+<H3><A NAME="Heading50"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The length of a string is the number of characters between the start
+	of the string and the terminating null character (not counting the null character).
+	You can determine the length of a string using the strlen() function.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>You must be sure to allocate sufficient storage space for the new string.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B><I>Concatenate</I> means to join two strings, appending one string
+	to the end of another.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>When you compare strings, &quot;greater than&quot; means that one string's
+	ASCII values are larger than the other string's ASCII values.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>strcmp() compares two entire strings. strncmp() compares only a specified
+	number of characters within the string.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>strcmp() compares two strings, considering the case of the letters.
+	(For example, `A' and `a' are different.) strcmpi() ignores case. (For example, `A'
+	and `a' are the same.)
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>isascii() checks the value passed to see whether it's a standard ASCII
+	character between 0 and 127. It doesn't check for extended ASCII characters.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>isascii() and iscntrl() both return TRUE; all others return FALSE.
+	Remember, these macros look at the character value.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>65 is equivalent to the ASCII character A. The following macros return
+	TRUE: isalnum(), isalpha(), isascii(), isgraph(), isprint(), and isupper().
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>The character-test functions determine whether a particular character
+	meets a certain condition, such as whether it is a letter, punctuation mark, or something
+	else.
+	<P>
+</DL>
+
+<H3><A NAME="Heading51"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>TRUE (1) or FALSE (0)
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>a. 65
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>81
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>-34
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>0
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>12
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>0
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>a. 65.000000
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>81.230000
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>-34.200000
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>0.000000
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>12.000000
+	<P>
+	<DT></DT>
+	<DD><B>f. </B>1000.000000
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>string2 wasn't allocated space before it was used. There is no way
+	to know where strcpy() copies the value of string1.
+	<P>
+</DL>
+
+<H2><A NAME="Heading52"></A>Answers for Day 18</H2>
+<H3><A NAME="Heading53"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Passing by value means that the function receives a copy of the value
+	of the argument variable. Passing by reference means that the function receives the
+	address of the argument variable. The difference is that passing by reference allows
+	the function to modify the original variable, whereas passing by value does not.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>A type void pointer can point to any type of C data object (in other
+	words, it's a generic pointer).
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>By using a void pointer, you can create a generic pointer that can
+	point to any object. The most common use of a void pointer is to declare function
+	parameters. You can create a function that can handle different types of arguments.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>A typecast provides information about the type of the data object that
+	the void pointer is pointing to at the moment. You must cast a void pointer before
+	dereferencing it.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>A function that takes a variable argument list must be passed at least
+	one fixed argument. This is done to inform the function of the number of arguments
+	being passed each time it is called.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>va_start() should be used to initialize the argument list. va_arg()
+	should be used to retrieve the arguments. va_end() should be used to clean up after
+	all the arguments have been retrieved.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Trick question! void pointers can't be incremented, because the compiler
+	wouldn't know what value to add.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>A function can return a pointer to any of the C variable types. A function
+	can also return a pointer to such storage areas as arrays, structures, and unions.
+	<P>
+</DL>
+
+<H3><A NAME="Heading54"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>int function( char array[] );
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>int numbers( int *nbr1, int *nbr2, int *nbr3);
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int number1 = 1, number2 = 2, number3 = 3;
+</PRE>
+	<PRE>numbers( &amp;number1, &amp;number2, &amp;number3);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>Although the code might look confusing, it is correct. This function
+	takes the value being pointed to by nbr and multiplies it by itself.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>When using variable parameter lists, you should use all the macro tools.
+	This includes va_list, va_start(), va_arg(), and va_end(). See Listing 18.3 for the
+	correct way to use variable parameter lists.
+	<P>
+</DL>
+
+<H2><A NAME="Heading55"></A>Answers for Day 19</H2>
+<H3><A NAME="Heading56"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Type double.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>On most compilers, it's equivalent to a long; however, this isn't guaranteed.
+	Check the TIME.H file with your compiler or your reference manual to find out what
+	variable type your compiler uses.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>The time() function returns the number of seconds that have elapsed
+	since midnight, January 1, 1970. The clock() function returns the number of <SUP>1</SUP>/<SUB>100</SUB>
+	seconds that have elapsed since the program began execution.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Nothing. It simply displays a message that describes the error.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Sort the array into ascending order.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>14
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>4
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>21
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>0 if the values are equal, &gt;0 if the value of element 1 is greater
+	than element 2, and &lt;0 if the value of element 1 is less than element 2.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>NULL
+	<P>
+</DL>
+
+<H3><A NAME="Heading57"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>bsearch( myname, names, (sizeof(names)/sizeof(names[0])),
+</PRE>
+	<PRE>sizeof(names[0]), comp_names);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>There are three problems. First, the field width isn't provided in
+	the call to qsort(). Second, the parentheses shouldn't be added to the end of the
+	function name in the call to qsort(). Third, the program is missing its comparison
+	function. qsort() uses compare_function(), which isn't defined in the program.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>The compare function returns the wrong values. It should return a positive
+	number if element1 is greater than element2 and a negative number if element1 is
+	less than element2.
+	<P>
+</DL>
+
+<H2><A NAME="Heading58"></A>Answers for Day 20</H2>
+<H3><A NAME="Heading59"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>malloc() allocates a specified number of bytes of memory, whereas calloc()
+	allocates sufficient memory for a specified number of data objects of a certain size.
+	calloc() also sets the bytes of memory to 0, whereas malloc() doesn't initialize
+	them to any specific value.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>To preserve the fractional part of the answer when dividing one integer
+	by another and assigning the result to a floating-point variable.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>a. long
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>int
+	<P>
+	<DT></DT>
+	<DD>c. char
+	<P>
+	<DT></DT>
+	<DD>d. float
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>float
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Dynamically allocated memory is allocated at runtime--while the program
+	is executing. Dynamic memory allocation lets you allocate exactly as much memory
+	as is needed, only when it is needed.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>memmove() works properly when the source and destination memory regions
+	overlap, whereas memcpy() does not. If the source and destination regions don't overlap,
+	the two functions are identical.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>By defining a bit field member with a size of 3 bits. Since 2<SUP>3</SUP>
+	equals 8, such a field is sufficient to hold values 1 through 7.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>2 bytes. Using bit fields, you could declare a structure as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct date{
+unsigned month : 4;
+unsigned day   : 5;
+unsigned year  : 7;
+</PRE>
+	<PRE>}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>This structure stores the date in 2 bytes (16 bits). The 4-bit month field can
+	hold values from 0 to 15, sufficient for holding 12 months. Likewise, the 5-bit day
+	field can hold values from 0 to 31, and the 7-bit year field can hold values from
+	0 to 127. We assume that the year value will be added to 1900 to allow year values
+	from 1900 to 2027.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>00100000
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>00001001
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>These two expressions evaluate to the same result. Using exclusive
+	OR with 11111111 is the same as using the complement operator: Each bit in the original
+	value is reversed.
+	<P>
+</DL>
+
+<H3><A NAME="Heading60"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>long *ptr;
+</PRE>
+	<PRE>ptr = malloc( 1000 * sizeof(long));</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2. </B>The code is as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>long *ptr;
+</PRE>
+	<PRE>ptr = calloc( 1000, sizeof(long));</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>Using a loop and assignment statement:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int count;
+for (count = 0; count &lt; 1000; count++)
+</PRE>
+	<PRE>data[count] = 0;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>Using the memset() function:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>memset(data, 0, 1000 * sizeof(float));</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>This code will compile and run without error; however, the results
+	will be incorrect. Because number1 and number2 are both integers, the result of their
+	division will be an integer, thus losing any fractional part of the answer. In order
+	to get the correct answer, you need to cast the expression to type float:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>answer = (float) number1/number2;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>Because p is a type void pointer, it must be cast to the proper type
+	before being used in an assignment statement. The third line should be as follows:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>*(float*)p = 1.23;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>No. When using bit fields, you must place them within a structure first.
+	The following is correct:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>struct quiz_answers {
+unsigned answer1   : 1;
+unsigned answer2   : 1;
+unsigned answer3   : 1;
+unsigned answer4   : 1;
+unsigned answer5   : 1;
+</PRE>
+	<PRE>char student_name[15];</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading61"></A>Answers for Day 21</H2>
+<H3><A NAME="Heading62"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B><I>Modular programming</I> refers to the program development method
+	that breaks a program into multiple source-code files.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The main module contains the main() function.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>To avoid unwanted side effects by ensuring that complex expressions
+	passed as arguments to the macro are fully evaluated first.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Compared to a function, a macro results in faster program execution
+	but larger program size.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>The defined() operator tests to see whether a particular name is defined,
+	returning TRUE if the name is defined and FALSE if it isn't.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>You must use #endif.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Compiled source files become object files with an .OBJ extension.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>#include copies the contents of another file into the current file.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>An #include statement with double quotes looks in the current directory
+	for the include file. An include statement with &lt;&gt; searches the standard directory
+	for the include file.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>__DATE__ is used to place into the program the date that the program
+	was compiled.
+	<P>
+	<DT></DT>
+	<DD><B>11. </B>A string containing the name of the current program, including path
+	information.
+</DL>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../apf/apf.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../index.htm"><IMG
+SRC="../button/contents.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Contents"
+BORDER="0"></A> <BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

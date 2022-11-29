@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ figDoc.write(zhtm);
+ figDoc.close();
+ popUpWin.focus();
+ }
+
+//-->
+
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Introduction</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"></H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch01/ch01.htm"><IMG SRC="../button/next.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Next chapter" BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif"
+WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1></H1>
+</CENTER>
+<CENTER>
+<H1>Teach Yourself C in 21 Days</H1>
+</CENTER>
+<H1></H1>
+
+<UL>
+	<LI><A HREF="#Heading1">This Book's Special Features</A>
+	<LI><A HREF="#Heading2">Making a Better Book</A>
+	<LI><A HREF="#Heading3">Where You Can Obtain This Book's Code</A>
+	<LI><A HREF="#Heading4">Conventions Used in This Book</A>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1>Acknowledgments</H1>
+</CENTER>
+<P>First and foremost, my thanks go to my coauthor, Brad Jones, for his hard work
+and dedication. I am also greatly indebted to all the people at Sams Publishing,
+unfortunately too many to mention by name, who helped bring this book from concept
+to completion. The text and programs in this book have been thoroughly edited and
+tested, and we believe this book to be largely, if not completely, error-free. Should
+you encounter an error, we would like to know about it. You can contact me through
+the publisher, at the address on the CD-ROM order form at the back of the book, via
+CompuServe (76367,136), or via the Internet (76367.136@compuserve.com).</P>
+<P>--Peter Aitken</P>
+<P>I would like to acknowledge all the people--readers, editors, and others--who
+have taken the time to provide comments and feedback on this book. By incorporating
+their feedback, I hope that we have made this an even better book.</P>
+<P>--Bradley L. Jones 104607.1515@compuserve.com</P>
+<P>
+<CENTER>
+<H1>About the Authors</H1>
+</CENTER>
+<P><B>Peter Aitken</B> is an associate professor at Duke University Medical Center,
+where he uses PCs extensively in his research on the nervous system. He is an experienced
+author on microcomputer subjects, with some 70 magazine articles and 25 books to
+his credit. Aitken's writing covers both applications and programming topics. His
+books include <I>QuickBasic Advanced Techniques</I> (Que), <I>Learning C</I> (Sams
+Publishing), and <I>The 10 Minute Guide to Word 97</I> (Que). He is a Contributing
+Editor at <I>Visual Developer</I> magazine, where he writes the pop-ular Basically
+Visual column. Visit Aitken's Web page at http://ourworld.compuserve.com/homepages/peter_aitken/.</P>
+<P><B>Bradley L. Jones</B> is a professional programmer/analyst. He has developed
+systems using such tools as C, C++, SQL Server, Windows NT, PowerBuilder, Visual
+Basic, and more. Jones' other authoring credits include <I>Even You Can Soup Up and
+Fix PCs</I> (Sams Publishing), <I>Sams' Teach Yourself Advanced C in 21 Days</I>
+(Sams Publishing), and <I>Programming PowerBuilder</I> (Que E&amp;T). In addition
+to writing articles for the <I>Visual C++ Developer,</I> he is also a regular writer
+for the <I>Indy PC News</I> magazine.</P>
+<P>
+<CENTER>
+<H1>Introduction</H1>
+</CENTER>
+<P>As you can guess from the title, this book is set up so that you can teach yourself
+the C programming language in 21 days. Despite stiff competition from newer languages
+such as C++ and Java, C remains the language of choice for people who are just learning
+programming. For reasons we detail on Day 1, you can't go wrong in selecting C as
+your pro-gramming language.</P>
+<P>We think you've made a wise decision selecting this book as your means of learning
+C. Although there are many books on C, we believe this book presents C in the most
+logical and easy-to-learn sequence. The fact that previous editions have constantly
+been on the best-seller lists indicates that readers agree with us! We designed this
+book for you to work through the chapters in order on a daily basis. We don't assume
+any previous programming experience on your part, although experience with another
+language, such as BASIC, might help you learn faster. We also make no assumptions
+about your computer or compiler; this book concentrates on teaching the C language,
+regardless of whether you're using a PC, a Mac, or a UNIX system.</P>
+<P>
+<H2><A NAME="Heading1"></A>This Book's Special Features</H2>
+<P>This book contains some special features to aid you on your path to C enlightenment.
+Syntax boxes show you how to use specific C concepts. Each box provides concrete
+examples and a full explanation of the C command or concept. To get a feel for the
+style of the syntax boxes, look at the following example. (Don't try to understand
+the material; you haven't even reached Day 1!)</P>
+<P>
+<PRE>#include &lt;stdio.h&gt;
+printf( <I>format-string</I>[,<I>arguments</I>,...]);
+</PRE>
+<P>printf() is a function that accepts a series of <I>arguments,</I> each applying
+to a conversion specifier in the given format string. It prints the formatted information
+to the standard output device, usually the display screen. When using printf(), you
+need to include the standard input/output header file, STDIO.H.</P>
+<P>The <I>format</I>-<I>string</I> is required; however, <I>arguments</I> are optional.
+For each argument, there must be a conversion specifier. The format string can also
+contain escape sequences. The following are examples of calls to printf() and their
+output:</P>
+<P><B>Example 1</B></P>
+<P>
+<PRE>#include &lt;stdio.h&gt;
+main()
+{
+    printf( &quot;This is an example of something printed!&quot;);
+}
+</PRE>
+<P><B>Example 1 Output</B></P>
+<P>
+<PRE>This is an example of something printed!
+</PRE>
+<P><B>Example 2</B></P>
+<P>
+<PRE>printf( &quot;This prints a character, %c\na number, %d\na floating point,
+%f&quot;, `z', 123, 456.789 );
+</PRE>
+<P><B>Example 2 Output</B></P>
+<P>
+<PRE>This prints a character, z
+a number, 123
+a floating point, 456.789
+</PRE>
+<P>Another feature of this book is Do/Don't boxes, which give you pointers on what
+to do and what not to do.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> read the rest of this section. It explains the Workshop sections that appear
+	at the end of each day.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> skip any of the quiz questions or exercises. If you can finish the
+	day's workshop, you're ready to move on to new material.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>You'll encounter Tip, Note, and Warning boxes as well. Tips provide useful shortcuts
+and techniques for working with C. Notes provide special details that enhance the
+explanations of C concepts. Warnings help you avoid potential problems.</P>
+<P>Numerous sample programs illustrate C's features and concepts so that you can
+apply them in your own programs. Each program's discussion is divided into three
+components: the program itself, the input required and the output generated by it,
+and a line-by-line analysis of how the program works. These components are indicated
+by special icons.</P>
+<P>Each day ends with a Q&amp;A section containing answers to common questions relating
+to that day's material. There is also a Workshop at the end of each day. It contains
+quiz questions and exercises. The quiz tests your knowledge of the concepts presented
+on that day. If you want to check your answers, or if you're stumped, the answers
+are provided in Appendix G.</P>
+<P>You won't learn C just by reading this book, however. If you want to be a programmer,
+you've got to write programs. Following each set of quiz questions is a set of exercises.
+We recommend that you attempt each exercise. Writing C code is the best way to learn
+C.</P>
+<P>We consider the BUG BUSTER exercises most beneficial. A bug is a program error
+in C. BUG BUSTER exercises are code listings that contain common problems (bugs).
+It's your job to locate and fix these errors. If you have trouble busting the bugs,
+these answers also are given in Appendix G.</P>
+<P>As you progress through this book, some of the exercise answers tend to get long.
+Other exercises have a multitude of answers. As a result, later chapters don't always
+provide answers for all the exercises.</P>
+<P>
+<H2><A NAME="Heading2"></A>Making a Better Book</H2>
+<P>Nothing is perfect, but we do believe in striving for perfection. This is the
+fourth edition of <I>Sams' Teach Yourself C in 21 Days</I>. In preparing this edition,
+we have gone to even greater lengths to make the code 100 percent compatible with
+a wider variety of C compilers. This book has been checked several times to ensure
+an extremely high level of technical accuracy. We have also incorporated the numerous
+corrections that have been pointed out by the alert readers of the previous three
+editions.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> The source code in this book was compiled and tested on the following
+	platforms: DOS, Windows, System 7.x (Macintosh), UNIX, and OS/2. In addition, readers
+	of previous editions of this book have used the code on virtually every platform
+	that supports C!
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>A new feature of this edition is the Type &amp; Run sections. You'll find six
+of these throughout the book. Each Type &amp; Run contains a short C program that
+does something fun or useful while it illustrates C programming techniques. You can
+type these listings in and run them. After you've entered them, you can also play
+with the code to see what else you can make it do. The Type &amp; Runs are for you
+to experiment with. We hope you have fun playing with these additional code listings!</P>
+<P>
+<H2><A NAME="Heading3"></A>Where You Can Obtain This Book's Code</H2>
+<P>For your convenience, the code listings in this book are available on the Internet
+and CompuServe. Alternatively, you can purchase a CD-ROM that contains all the source
+code. As a bonus, the CD-ROM includes the GNU C compiler and other useful utilities.
+The order form for the CD-ROM is at the back of this book.</P>
+<P>Here's how you access the source code from the Internet:</P>
+<P><I>Internet: World Wide Web</I></P>
+<P><A target="_new" HREF="http://www.mcp.com/info/0-672/0-672-31069-4/">http://www.mcp.com/info/0-672/0-672-31069-4/</A></P>
+<P>Remember that directory and filenames on the Internet are case-sensitive on some
+servers.</P>
+<P>
+<H2><A NAME="Heading4"></A>Conventions Used in This Book</H2>
+<P>This book uses different typefaces to help you differentiate between C code and
+regular English, and also to help you identify important concepts. Actual C code
+appears in a special monospace font. In the examples of a program's input and output,
+what the user types appears in <B>bold</B> <B>monospace</B>. Placeholders--terms
+that represent what you actually type within the code--appear in <I>italic monospace</I>.
+New or important terms appear in <I>italic</I>.</P>
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch01/ch01.htm"><IMG SRC="../button/next.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Next chapter" BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif"
+WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+<BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,1184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 6 -- Basic Program Control</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch05/ch05.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch07/ch07.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 6 -</H1>
+
+<H1>Basic Program Control</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Arrays: The Basics</A>
+	<LI><A HREF="#Heading2">Controlling Program Execution</A>
+	<UL>
+		<LI><A HREF="#Heading3">The for Statement</A>
+		<LI><A HREF="#Heading4">Nesting for Statements</A>
+		<LI><A HREF="#Heading5">The while Statement</A>
+		<LI><A HREF="#Heading6">Nesting while Statements</A>
+		<LI><A HREF="#Heading7">The do...while Loop</A>
+	</UL>
+	<LI><A HREF="#Heading8">Nested Loops</A>
+	<LI><A HREF="#Heading9">Summary</A>
+	<LI><A HREF="#Heading10">Q&amp;A</A>
+	<LI><A HREF="#Heading11">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading12">Quiz</A>
+		<LI><A HREF="#Heading13">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>Day 4, &quot;Statements, Expressions, and Operators,&quot; covered the if statement,
+which gives you some control over the flow of your programs. Many times, though,
+you need more than just the ability to make true and false decisions. This chapter
+introduces three new ways to control the flow of the program. Today you will learn</P>
+<P>
+
+<UL>
+	<LI>How to use simple arrays
+	<P>
+	<LI>How to use for, while, and do...while loops to execute statements multiple times
+	<P>
+	<LI>How you can nest program control statements
+</UL>
+
+<P>This chapter is not intended to be a complete treatment of these topics, but I
+hope to provide enough information for you to be able to start writing real programs.
+These topics are covered in greater detail on Day 13, &quot;Advanced Program Control.&quot;</P>
+<P>
+<H2><A NAME="Heading1"></A>Arrays: The Basics</H2>
+<P>Before we cover the for statement, let's take a short detour and learn the basics
+of arrays. (See Day 8, &quot;Using Numeric Arrays,&quot; for a complete treatment
+of arrays.) The for statement and arrays are closely linked in C, so it's difficult
+to define one without explaining the other. To help you understand the arrays used
+in the for statement examples to come, a quick treatment of arrays follows.</P>
+<P>An <I>array</I> is an indexed group of data storage locations that have the same
+name and are distinguished from each other by a <I>subscript,</I> or <I>index</I>--a
+number following the variable name, enclosed in brackets. (This will become clearer
+as you continue.) Like other C variables, arrays must be declared. An array declaration
+includes both the data type and the size of the array (the number of elements in
+the array). For example, the following statement declares an array named data that
+is type int and has 1,000 elements:</P>
+<P>
+<PRE>int data[1000];
+</PRE>
+<P>The individual elements are referred to by subscript as data[0] through data[999].
+The first element is data[0], not data[1]. In other languages, such as BASIC, the
+first element of an array is 1; this is not true in C.</P>
+<P>Each element of this array is equivalent to a normal integer variable and can
+be used the same way. The subscript of an array can be another C variable, as in
+this example:</P>
+<P>
+<PRE>int data[1000];
+int count;
+count = 100;
+data[count] = 12;     /* The same as data[100] = 12 */
+</PRE>
+<P>This has been a quick introduction to arrays. However, you should now be able
+to understand how arrays are used in the program examples later in this chapter.
+If every detail of arrays isn't clear to you, don't worry. You will learn more about
+arrays on Day 8.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> declare arrays with subscripts larger than you will need; it wastes
+	memory.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> forget that in C, arrays are referenced starting with subscript 0,
+	not 1.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading2"></A>Controlling Program Execution</H2>
+<P>The default order of execution in a C program is top-down. Execution starts at
+the beginning of the main() function and progresses, statement by statement, until
+the end of main() is reached. However, this order is rarely encountered in real C
+programs. The C language includes a variety of program control statements that let
+you control the order of program execution. You have already learned how to use C's
+fundamental decision operator, the if statement, so let's explore three additional
+control statements you will find useful.</P>
+<P>
+<H3><A NAME="Heading3"></A>The for Statement</H3>
+<P>The for statement is a C programming construct that executes a block of one or
+more statements a certain number of times. It is sometimes called the for <I>loop</I>
+because program execution typically loops through the statement more than once. You've
+seen a few for statements used in programming examples earlier in this book. Now
+you're ready to see how the for statement works.</P>
+<P>A for statement has the following structure:</P>
+<P>
+<PRE>for ( <I>initial</I>; <I>condition</I>; <I>increment</I> )
+    <I>statement</I>;
+</PRE>
+<P><I>initial</I>, <I>condition</I>, and <I>increment</I> are all C expressions,
+and <I>statement</I> is a single or compound C statement. When a for statement is
+encountered during program execution, the following events occur:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The expression <I>initial</I> is evaluated. <I>initial</I> is usually
+	an assignment statement that sets a variable to a particular value.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>The expression <I>condition</I> is evaluated. <I>condition</I> is typically
+	a relational expression.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>If <I>condition</I> evaluates to false (that is, as zero), the for
+	statement terminates, and execution passes to the first statement following <I>statement</I>.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>If <I>condition</I> evaluates to true (that is, as nonzero), the C
+	statement(s) in <I>statement</I> are executed.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>The expression <I>increment</I> is evaluated, and execution returns
+	to step 2.
+	<P>
+</DL>
+
+<P>Figure 6.1 shows the operation of a for statement. Note that <I>statement</I>
+never executes if <I>condition</I> is false the first time it's evaluated.</P>
+<P><A HREF="javascript:popUp('06tyc01.gif')"><B>Figure 6.1.</B></A><B> </B><I>A schematic
+representation of a for statement.</I></P>
+
+<P>Here is a simple example. Listing 6.1 uses a for statement to print the numbers
+1 through 20. You can see that the resulting code is much more compact than it would
+be if a separate printf() statement were used for each of the 20 values.</P>
+<P>
+<H4>Listing 6.1. A simple for statement.</H4>
+<PRE>1:   /* Demonstrates a simple for statement */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int count;
+6:
+7:   main()
+8:   {
+9:       /* Print the numbers 1 through 20 */
+10:
+11:      for (count = 1; count &lt;= 20; count++)
+12:          printf(&quot;%d\n&quot;, count);
+13:
+14:      return 0;
+15:  }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</PRE>
+<P>Figure 6.2 illustrates the operation of the for loop in Listing 6.1.</P>
+<P><A HREF="javascript:popUp('06tyc02.gif')"><B>Figure 6.2.</B></A><B> </B><I>How
+the for loop in Listing 6.1 operates.</I></P>
+
+<P><strong>ANALYSIS: </strong> Line 3 includes the standard input/output header file. Line
+5 declares a type int variable, named count, that will be used in the for loop. Lines
+11 and 12 are the for loop. When the for statement is reached, the initial statement
+is executed first. In this listing, the initial statement is count = 1. This initializes
+count so that it can be used by the rest of the loop. The second step in executing
+this for statement is the evaluation of the condition count &lt;= 20. Because count
+was just initialized to 1, you know that it is less than 20, so the statement in
+the for command, the printf(), is executed. After executing the printing function,
+the increment expression, count++, is evaluated. This adds 1 to count, making it
+2. Now the program loops back and checks the condition again. If it is true, the
+printf() reexecutes, the increment adds to count (making it 3), and the condition
+is checked. This loop continues until the condition evaluates to false, at which
+point the program exits the loop and continues to the next line (line 14), which
+returns 0 before ending the program.</P>
+<P>The for statement is frequently used, as in the previous example, to &quot;count
+up,&quot; incrementing a counter from one value to another. You also can use it to
+&quot;count down,&quot; decrementing (rather than incrementing) the counter variable.</P>
+<P>
+<PRE>for (count = 100; count &gt; 0; count--)
+</PRE>
+<P>You can also &quot;count by&quot; a value other than 1, as in this example:</P>
+<P>
+<PRE>for (count = 0; count &lt; 1000; count += 5)
+</PRE>
+<P>The for statement is quite flexible. For example, you can omit the initialization
+expression if the test variable has been initialized previously in your program.
+(You still must use the semicolon separator as shown, however.)</P>
+<P>
+<PRE>count = 1;
+for ( ; count &lt; 1000; count++)
+</PRE>
+<P>The initialization expression doesn't need to be an actual initialization; it
+can be any valid C expression. Whatever it is, it is executed once when the for statement
+is first reached. For example, the following prints the statement Now sorting the
+array...:</P>
+<P>
+<PRE>count = 1;
+for (printf(&quot;Now sorting the array...&quot;) ; count &lt; 1000; count++)
+    /* Sorting statements here */
+</PRE>
+<P>You can also omit the increment expression, performing the updating in the body
+of the for statement. Again, the semicolon must be included. To print the numbers
+from 0 to 99, for example, you could write</P>
+<P>
+<PRE>for (count = 0; count &lt; 100; )
+    printf(&quot;%d&quot;, count++);
+</PRE>
+<P>The test expression that terminates the loop can be any C expression. As long
+as it evaluates to true (nonzero), the for statement continues to execute. You can
+use C's logical operators to construct complex test expressions. For example, the
+following for statement prints the elements of an array named array[], stopping when
+all elements have been printed or an element with a value of 0 is encountered:</P>
+<P>
+<PRE>for (count = 0; count &lt; 1000 &amp;&amp; array[count] != 0; count++)
+    printf(&quot;%d&quot;, array[count]);
+</PRE>
+<P>You could simplify this for loop even further by writing it as follows. (If you
+don't understand the change made to the test expression, you need to review Day 4.)</P>
+<P>
+<PRE>for (count = 0; count &lt; 1000 &amp;&amp; array[count]; )
+    printf(&quot;%d&quot;, array[count++]);
+</PRE>
+<P>You can follow the for statement with a null statement, allowing all the work
+to be done in the for statement itself. Remember, the null statement is a semicolon
+alone on a line. For example, to initialize all elements of a 1,000-element array
+to the value 50, you could write</P>
+<P>
+<PRE>for (count = 0; count &lt; 1000; array[count++] = 50)
+    ;
+</PRE>
+<P>In this for statement, 50 is assigned to each member of the array by the increment
+part of the statement.</P>
+<P>Day 4 mentioned that C's comma operator is most often used in for statements.
+You can create an expression by separating two subexpressions with the comma operator.
+The two subexpressions are evaluated (in left-to-right order), and the entire expression
+evaluates to the value of the right subexpression. By using the comma operator, you
+can make each part of a for statement perform multiple duties.</P>
+<P>Imagine that you have two 1,000-element arrays, a[] and b[]. You want to copy
+the contents of a[] to b[] in reverse order so that after the copy operation, b[0]
+= a[999], b[1] = a[998], and so on. The following for statement does the trick:</P>
+<P>
+<PRE>for (i = 0, j = 999; i &lt; 1000; i++, j--)
+    b[j] = a[i];
+</PRE>
+<P>The comma operator is used to initialize two variables, i and j. It is also used
+to increment part of these two variables with each loop.</P>
+<P>
+<H4>The for Statement</H4>
+<PRE>for (<I>initial</I>; <I>condition</I>; <I>increment</I>)
+    <I>statement(s)</I>
+</PRE>
+<P><I>initial</I> is any valid C expression. It is usually an assignment statement
+that sets a variable to a particular value.</P>
+<P><I>condition</I> is any valid C expression. It is usually a relational expression.
+When <I>condition</I> evaluates to false (zero), the for statement terminates, and
+execution passes to the first statement following <I>statement(s)</I>; otherwise,
+the C <I>statement(s)</I> in <I>statement(s)</I> are executed.</P>
+<P><I>increment</I> is any valid C expression. It is usually an expression that increments
+a variable initialized by the initial expression.</P>
+<P><I>statement(s)</I> are the C statements that are executed as long as the condition
+remains true.</P>
+<P>A for statement is a looping statement. It can have an initialization, test condition,
+and increment as parts of its command. The for statement executes the initial expression
+first. It then checks the condition. If the condition is true, the statements execute.
+Once the statements are completed, the increment expression is evaluated. The for
+statement then rechecks the condition and continues to loop until the condition is
+false.</P>
+<P><B>Example 1</B></P>
+<P>
+<PRE>/* Prints the value of x as it counts from 0 to 9 */
+int x;
+for (x = 0; x &lt;10; x++)
+    printf( &quot;\nThe value of x is %d&quot;, x );
+</PRE>
+<P><B>Example 2</B></P>
+<P>
+<PRE>/*Obtains values from the user until 99 is entered */
+int nbr = 0;
+for ( ; nbr != 99; )
+   scanf( &quot;%d&quot;, &amp;nbr );
+</PRE>
+<P><B>Example 3</B></P>
+<P>
+<PRE>/* Lets user enter up to 10 integer values       */
+/* Values are stored in an array named value. If 99 is */
+/* entered, the loop stops                             */
+int value[10];
+int ctr,nbr=0;
+for (ctr = 0; ctr &lt; 10 &amp;&amp; nbr != 99; ctr++)
+{
+    puts(&quot;Enter a number, 99 to quit &quot;);
+    scanf(&quot;%d&quot;, &amp;nbr);
+    value[ctr] = nbr;
+}
+</PRE>
+<H3><A NAME="Heading4"></A>Nesting for Statements</H3>
+<P>A for statement can be executed within another for statement. This is called <I>nesting</I>.
+(You saw this on Day 4 with the if statement.) By nesting for statements, you can
+do some complex programming. Listing 6.2 is not a complex program, but it illustrates
+the nesting of two for statements.</P>
+<P>
+<H4>Listing 6.2. Nested for statements.</H4>
+<PRE>1:   /* Demonstrates nesting two for statements */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   void draw_box( int, int);
+6:
+7:   main()
+8:   {
+9:       draw_box( 8, 35 );
+10:
+11:      return 0;
+12:  }
+13:
+14:  void draw_box( int row, int column )
+15:  {
+16:      int col;
+17:      for ( ; row &gt; 0; row--)
+18:      {
+19:          for (col = column; col &gt; 0; col--)
+20:              printf(&quot;X&quot;);
+21:
+22:          printf(&quot;\n&quot;);
+23:      }
+24:  }
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+</PRE>
+<P><strong>ANALYSIS: </strong> The main work of this program is accomplished on line 20.
+When you run this program, 280 Xs are printed on-screen, forming an 8*35 square.
+The program has only one command to print an X, but it is nested in two loops.</P>
+<P>In this listing, a function prototype for draw_box() is declared on line 5. This
+function takes two type int variables, row and column, which contain the dimensions
+of the box of Xs to be drawn. In line 9, main() calls draw_box() and passes the value
+8 as the row and the value 35 as the column.</P>
+<P>Looking closely at the draw_box() function, you might see a couple things you
+don't readily understand. The first is why the local variable col was declared. The
+second is why the second printf() in line 22 was used. Both of these will become
+clearer after you look at the two for loops.</P>
+<P>Line 17 starts the first for loop. The initialization is skipped because the initial
+value of row was passed to the function. Looking at the condition, you see that this
+for loop is executed until the row is 0. On first executing line 17, row is 8; therefore,
+the program continues to line 19.</P>
+<P>Line 19 contains the second for statement. Here the passed parameter, column,
+is copied to a local variable, col, of type int. The value of col is 35 initially
+(the value passed via column), and column retains its original value. Because col
+is greater than 0, line 20 is executed, printing an X. col is then decremented, and
+the loop continues. When col is 0, the for loop ends, and control goes to line 22.
+Line 22 causes the on-screen printing to start on a new line. (Printing is covered
+in detail on Day 7, &quot;Fundamentals of Input and Output.&quot;) After moving to
+a new line on the screen, control reaches the end of the first for loop's statements,
+thus executing the increment expression, which subtracts 1 from row, making it 7.
+This puts control back at line 19. Notice that the value of col was 0 when it was
+last used. If column had been used instead of col, it would fail the condition test,
+because it will never be greater than 0. Only the first line would be printed. Take
+the initializer out of line 19 and change the two col variables to column to see
+what actually happens.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> put too much processing in the for statement. Although you can use the
+	comma separator, it is often clearer to put some of the functionality into the body
+	of the loop.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> remember the semicolon if you use a for with a null statement. Put the
+	semi-colon placeholder on a separate line, or place a space between it and the end
+	of the for statement. It's clearer to put it on a separate line.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<PRE>for (count = 0; count &lt; 1000; array[count] = 50) ;
+    /* note space! */
+</PRE>
+<H3><A NAME="Heading5"></A>The while Statement</H3>
+<P>The while statement, also called the while <I>loop,</I> executes a block of statements
+as long as a specified condition is true. The while statement has the following form:</P>
+<P>
+<PRE>while (<I>condition</I>)
+    <I>statement</I>
+</PRE>
+<P><I>condition</I> is any C expression, and <I>statement</I> is a single or compound
+C statement. When program execution reaches a while statement, the following events
+occur:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The expression <I>condition</I> is evaluated.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>If <I>condition</I> evaluates to false (that is, zero), the while statement
+	terminates, and execution passes to the first statement following <I>statement</I>.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>If <I>condition</I> evaluates to true (that is, nonzero), the C statement(s)
+	in <I>statement</I> are executed.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Execution returns to step 1.
+	<P>
+</DL>
+
+<P>The operation of a while statement is shown in Figure 6.3.</P>
+<P><A HREF="javascript:popUp('06tyc03.gif')"><B>Figure 6.3.</B></A><B> </B><I>The
+operation of a while statement.</I></P>
+
+<P>Listing 6.3 is a simple program that uses a while statement to print the numbers
+1 through 20. (This is the same task that is performed by a for statement in Listing
+6.1.)</P>
+<P>
+<H4>Listing 6.3. A simple while statement.</H4>
+<PRE>1:   /* Demonstrates a simple while statement */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int count;
+6:
+7:   int main()
+8:   {
+9:       /* Print the numbers 1 through 20 */
+10:
+11:      count = 1;
+12:
+13:      while (count &lt;= 20)
+14:      {
+15:          printf(&quot;%d\n&quot;, count);
+16:          count++;
+17:      }
+18:      return 0;
+19:  }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</PRE>
+<P><strong>ANALYSIS: </strong> Examine Listing 6.3 and compare it with Listing 6.1, which
+uses a for statement to perform the same task. In line 11, count is initialized to
+1. Because the while statement doesn't contain an initialization section, you must
+take care of initializing any variables before starting the while. Line 13 is the
+actual while statement, and it contains the same condition statement from Listing
+6.1, count &lt;= 20. In the while loop, line 16 takes care of incrementing count.
+What do you think would happen if you forgot to put line 16 in this program? Your
+program wouldn't know when to stop, because count would always be 1, which is always
+less than 20.</P>
+<P>You might have noticed that a while statement is essentially a for statement without
+the initialization and increment components. Thus,</P>
+<P>
+<PRE>for ( ; <I>condition</I> ; )
+</PRE>
+<P>is equivalent to</P>
+<P>
+<PRE>while (<I>condition</I>)
+</PRE>
+<P>Because of this equality, anything that can be done with a for statement can also
+be done with a while statement. When you use a while statement, any necessary initialization
+must first be performed in a separate statement, and the updating must be performed
+by a statement that is part of the while loop.</P>
+<P>When initialization and updating are required, most experienced C programmers
+prefer to use a for statement rather than a while statement. This preference is based
+primarily on source code readability. When you use a for statement, the initialization,
+test, and increment expressions are located together and are easy to find and modify.
+With a while statement, the initialization and update expressions are located separately
+and might be less obvious.</P>
+<P>
+<H4>The while Statement</H4>
+<PRE>while (<I>condition</I>)
+    <I>statement(s)</I>
+</PRE>
+<P><I>condition</I> is any valid C expression, usually a relational expression. When
+<I>condition</I> evaluates to false (zero), the while statement terminates, and execution
+passes to the first statement following <I>statement(s)</I>; otherwise, the first
+C statement in <I>statement(s)</I> is executed.</P>
+<P><I>statement(s)</I> is the C statement(s) that is executed as long as <I>condition</I>
+remains true.</P>
+<P>A while statement is a C looping statement. It allows repeated execution of a
+statement or block of statements as long as the condition remains true (nonzero).
+If the condition is not true when the while command is first executed, the <I>statement(s)</I>
+is never executed.</P>
+<P><B>Example 1</B></P>
+<P>
+<PRE>int x = 0;
+while (x &lt; 10)
+{
+    printf(&quot;\nThe value of x is %d&quot;, x );
+    x++;
+}
+</PRE>
+<P><B>Example 2</B></P>
+<P>
+<PRE>/* get numbers until you get one greater than 99 */
+int nbr=0;
+while (nbr &lt;= 99)
+    scanf(&quot;%d&quot;, &amp;nbr );
+</PRE>
+<P><B>Example 3</B></P>
+<P>
+<PRE>/* Lets user enter up to 10 integer values       */
+/* Values are stored in an array named value. If 99 is */
+/* entered, the loop stops                             */
+int value[10];
+int ctr = 0;
+int nbr;
+while (ctr &lt; 10 &amp;&amp; nbr != 99)
+{
+    puts(&quot;Enter a number, 99 to quit &quot;);
+    scanf(&quot;%d&quot;, &amp;nbr);
+    value[ctr] = nbr;
+    ctr++;
+}
+</PRE>
+<H3><A NAME="Heading6"></A>Nesting while Statements</H3>
+<P>Just like the for and if statements, while statements can also be nested. Listing
+6.4 shows an example of nested while statements. Although this isn't the best use
+of a while statement, the example does present some new ideas.</P>
+<P>
+<H4>Listing 6.4. Nested while statements.</H4>
+<PRE>1:   /* Demonstrates nested while statements */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int array[5];
+6:
+7:   main()
+8:   {
+9:      int ctr = 0,
+10:         nbr = 0;
+11:
+12:      printf(&quot;This program prompts you to enter 5 numbers\n&quot;);
+13:      printf(&quot;Each number should be from 1 to 10\n&quot;);
+14:
+15:      while ( ctr &lt; 5 )
+16:      {
+17:          nbr = 0;
+18:          while (nbr &lt; 1 || nbr &gt; 10)
+19:          {
+20:              printf(&quot;\nEnter number %d of 5: &quot;, ctr + 1 );
+21:              scanf(&quot;%d&quot;, &amp;nbr );
+22:          }
+23:
+24:          array[ctr] = nbr;
+25:          ctr++;
+26:      }
+27:
+28:      for (ctr = 0; ctr &lt; 5; ctr++)
+29:          printf(&quot;Value %d is %d\n&quot;, ctr + 1, array[ctr] );
+30:
+31:      return 0;
+32:  }
+This program prompts you to enter 5 numbers
+Each number should be from 1 to 10
+Enter number 1 of 5: <B>3</B>
+Enter number 2 of 5: <B>6</B>
+Enter number 3 of 5: <B>3</B>
+Enter number 4 of 5: <B>9</B>
+Enter number 5 of 5: <B>2</B>
+Value 1 is 3
+Value 2 is 6
+Value 3 is 3
+Value 4 is 9
+Value 5 is 2
+</PRE>
+<P><strong>ANALYSIS: </strong> As in previous listings, line 1 contains a comment with a
+description of the program, and line 3 contains an #include statement for the standard
+input/output header file. Line 5 contains a declaration for an array (named array)
+that can hold five integer values. The function main() contains two additional local
+variables, ctr and nbr (lines 9 and 10). Notice that these variables are initialized
+to zero at the same time they are declared. Also notice that the comma operator is
+used as a separator at the end of line 9, allowing nbr to be declared as an int without
+restating the int type command. Stating declarations in this manner is a common practice
+for many C programmers. Lines 12 and 13 print messages stating what the program does
+and what is expected of the user. Lines 15 through 26 contain the first while command
+and its statements. Lines 18 through 22 also contain a nested while loop with its
+own statements that are all part of the outer while.</P>
+<P>This outer loop continues to execute while ctr is less than 5 (line 15). As long
+as ctr is less than 5, line 17 sets nbr to 0, lines 18 through 22 (the nested while
+statement) gather a number in variable nbr, line 24 places the number in array, and
+line 25 increments ctr. Then the loop starts again. Therefore, the outer loop gathers
+five numbers and places each into array, indexed by ctr.</P>
+<P>The inner loop is a good use of a while statement. Only the numbers from 1 to
+10 are valid, so until the user enters a valid number, there is no point continuing
+the program. Lines 18 through 22 prevent continuation. This while statement states
+that while the number is less than 1 or greater than 10, the program should print
+a message to enter a number, and then get the number.</P>
+<P>Lines 28 and 29 print the values that are stored in array. Notice that because
+the while statements are done with the variable ctr, the for command can reuse it.
+Starting at zero and incrementing by one, the for loops five times, printing the
+value of ctr plus one (because the count started at zero) and printing the corresponding
+value in array.</P>
+<P>For additional practice, there are two things you can change in this program.
+The first is the values that the program accepts. Instead of 1 to 10, try making
+it accept from 1 to 100. You can also change the number of values that it accepts.
+Currently, it allows for five numbers. Try making it accept 10.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> use the following convention if it isn't necessary:
+	<PRE>while (x)</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>Instead, use this convention:
+	<PRE>while (x != 0)</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>Although both work, the second is clearer when you're debugging (trying to find
+	problems in) the code. When compiled, these produce virtually the same code.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use the for statement instead of the while statement if you need to
+	initialize and increment within your loop. The for statement keeps the initialization,
+	condition, and increment statements all together. The while statement does not.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading7"></A>The do...while Loop</H3>
+<P>C's third loop construct is the do...while loop, which executes a block of statements
+as long as a specified condition is true. The do...while loop tests the condition
+at the end of the loop rather than at the beginning, as is done by the for loop and
+the while loop.</P>
+<P>The structure of the do...while loop is as follows:</P>
+<P>
+<PRE>do
+    <I>statement</I>
+while (<I>condition</I>);
+</PRE>
+<P><I>condition</I> is any C expression, and <I>statement</I> is a single or compound
+C statement. When program execution reaches a do...while statement, the following
+events occur:</P>
+<P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The statements in <I>statement</I> are executed.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B><I>condition</I> is evaluated. If it's true, execution returns to step
+	1. If it's false, the loop terminates.
+	<P>
+</DL>
+
+<P>The operation of a do...while loop is shown in Figure 6.4.</P>
+<P><A HREF="javascript:popUp('06tyc04.gif')"><B>Figure 6.4.</B></A><B> </B><I>The
+operation of a do...while loop.</I></P>
+
+<P>The statements associated with a do...while loop are always executed at least
+once. This is because the test condition is evaluated at the end, instead of the
+beginning, of the loop. In contrast, for loops and while loops evaluate the test
+condition at the start of the loop, so the associated statements are not executed
+at all if the test condition is initially false.</P>
+<P>The do...while loop is used less frequently than while and for loops. It is most
+appropriate when the statement(s) associated with the loop must be executed at least
+once. You could, of course, accomplish the same thing with a while loop by making
+sure that the test condition is true when execution first reaches the loop. A do...while
+loop probably would be more straightforward, however.</P>
+<P>Listing 6.5 shows an example of a do...while loop.</P>
+<P>
+<H4>Listing 6.5. A simple do...while loop.</H4>
+<PRE>1:   /* Demonstrates a simple do...while statement */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int get_menu_choice( void );
+6:
+7:   main()
+8:   {
+9:       int choice;
+10:
+11:      choice = get_menu_choice();
+12:
+13:      printf(&quot;You chose Menu Option %d\n&quot;, choice );
+14:
+15:      return 0;
+16:  }
+17:
+18:  int get_menu_choice( void )
+19:  {
+20:      int selection = 0;
+21:
+22:      do
+23:      {
+24:          printf(&quot;\n&quot; );
+25:          printf(&quot;\n1 - Add a Record&quot; );
+26:          printf(&quot;\n2 - Change a record&quot;);
+27:          printf(&quot;\n3 - Delete a record&quot;);
+28:          printf(&quot;\n4 - Quit&quot;);
+29:          printf(&quot;\n&quot; );
+30:          printf(&quot;\nEnter a selection: &quot; );
+31:
+32:          scanf(&quot;%d&quot;, &amp;selection );
+33:
+34:       }while ( selection &lt; 1 || selection &gt; 4 );
+35:
+36:       return selection;
+37:  }
+1 - Add a Record
+2 - Change a record
+3 - Delete a record
+4 - Quit
+Enter a selection: <B>8</B>
+1 - Add a Record
+2 - Change a record
+3 - Delete a record
+4 - Quit
+Enter a selection: <B>4</B>
+You chose Menu Option 4
+</PRE>
+<P><strong>ANALYSIS: </strong> This program provides a menu with four choices. The user
+selects one of the four choices, and then the program prints the number selected.
+Programs later in this book use and expand on this concept. For now, you should be
+able to follow most of the listing. The main() function (lines 7 through 16) adds
+nothing to what you already know.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> The body of main() could have been written into one line, like this:
+	<PRE>printf( &quot;You chose Menu Option %d&quot;, get_menu_option() );</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>If you were to expand this program and act on the selection, you would need the
+	value returned by get_menu_choice(), so it is wise to assign the value to a variable
+	(such as choice).
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>Lines 18 through 37 contain get_menu_choice(). This function displays a menu on-screen
+(lines 24 through 30) and then gets a selection. Because you have to display a menu
+at least once to get an answer, it is appropriate to use a do...while loop. In the
+case of this program, the menu is displayed until a valid choice is entered. Line
+34 contains the while part of the do...while statement and validates the value of
+the selection, appropriately named selection. If the value entered is not between
+1 and 4, the menu is redisplayed, and the user is prompted for a new value. When
+a valid selection is entered, the program continues to line 36, which returns the
+value in the variable selection.</P>
+<P>
+<H4>The do...while Statement</H4>
+<PRE>do
+{
+    <I>statement(s)</I>
+}while (<I>condition</I>);
+</PRE>
+<P><I>condition</I> is any valid C expression, usually a relational expression. When
+<I>condition</I> evaluates to false (zero), the while statement terminates, and execution
+passes to the first statement following the while statement; otherwise, the program
+loops back to the do, and the C statement(s) in <I>statement(s)</I> is executed.</P>
+<P><I>statement(s)</I> is either a single C statement or a block of statements that
+are executed the first time through the loop and then as long as <I>condition</I>
+remains true.</P>
+<P>A do...while statement is a C looping statement. It allows repeated execution
+of a statement or block of statements as long as the condition remains true (nonzero).
+Unlike the while statement, a do...while loop executes its statements at least once.</P>
+<P><B>Example 1</B></P>
+<P>
+<PRE>/* prints even though condition fails! */
+int x = 10;
+do
+{
+    printf(&quot;\nThe value of x is %d&quot;, x );
+}while (x != 10);
+</PRE>
+<P><B>Example 2</B></P>
+<P>
+<PRE>/* gets numbers until the number is greater than 99 */
+int nbr;
+do
+{
+    scanf(&quot;%d&quot;, &amp;nbr );
+}while (nbr &lt;= 99);
+</PRE>
+<P><B>Example 3</B></P>
+<P>
+<PRE>/* Enables user to enter up to 10 integer values       */
+/* Values are stored in an array named value. If 99 is */
+/* entered, the loop stops                             */
+int value[10];
+int ctr = 0;
+int nbr;
+do
+{
+    puts(&quot;Enter a number, 99 to quit &quot;);
+    scanf( &quot;%d&quot;, &amp;nbr);
+    value[ctr] = nbr;
+    ctr++;
+}while (ctr &lt; 10 &amp;&amp; nbr != 99);
+</PRE>
+<H2><A NAME="Heading8"></A>Nested Loops</H2>
+<P>The term <I>nested</I> <I>loop</I> refers to a loop that is contained within another
+loop. You have seen examples of some nested statements. C places no limitations on
+the nesting of loops, except that each inner loop must be enclosed completely in
+the outer loop; you can't have overlapping loops. Thus, the following is not allowed:</P>
+<P>
+<PRE>for ( count = 1; count &lt; 100; count++)
+{
+    do
+    {
+        /* the do...while loop */
+} /* end of for loop */
+    }while (x != 0);
+</PRE>
+<P>If the do...while loop is placed entirely in the for loop, there is no problem:</P>
+<P>
+<PRE>for (count = 1; count &lt; 100; count++)
+{
+    do
+    {
+        /* the do...while loop */
+    }while (x != 0);
+} /* end of for loop */
+</PRE>
+<P>When you use nested loops, remember that changes made in the inner loop might
+affect the outer loop as well. Note, however, that the inner loop might be independent
+from any variables in the outer loop; in this example, they are not. In the previous
+example, if the inner do...while loop modifies the value of count, the number of
+times the outer for loop executes is affected.</P>
+<P>Good indenting style makes code with nested loops easier to read. Each level of
+loop should be indented one step further than the last level. This clearly labels
+the code associated with each loop.</P>
+<P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> try to overlap loops. You can nest them, but they must be entirely within
+	each other.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use the do...while loop when you know that a loop should be executed
+	at least once.
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading9"></A>Summary</H2>
+<P>Now you are almost ready to start writing real C programs on your own.</P>
+<P>C has three loop statements that control program execution: for, while, and do...while.
+Each of these constructs lets your program execute a block of statements zero times,
+one time, or more than one time, based on the condition of certain program variables.
+Many programming tasks are well-served by the repetitive execution allowed by these
+loop statements.</P>
+<P>Although all three can be used to accomplish the same task, each is different.
+The for statement lets you initialize, evaluate, and increment all in one command.
+The while statement operates as long as a condition is true. The do...while statement
+always executes its statements at least once and continues to execute them until
+a condition is false.</P>
+<P>Nesting is the placing of one command within another. C allows for the nesting
+of any of its commands. Nesting the if statement was demonstrated on Day 4. In this
+chapter, the for, while, and do...while statements were nested.</P>
+<P>
+<H2><A NAME="Heading10"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q How do I know which programming control statement to use--the for, the while,
+	or the do...while?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> If you look at the syntax boxes provided, you can see that any of the
+	three can be used to solve a looping problem. Each has a small twist to what it can
+	do, however. The for statement is best when you know that you need to initialize
+	and increment in your loop. If you only have a condition that you want to meet, and
+	you aren't dealing with a specific number of loops, while is a good choice. If you
+	know that a set of statements needs to be executed at least once, a do...while might
+	be best. Because all three can be used for most problems, the best course is to learn
+	them all and then evaluate each programming situation to determine which is best.
+	<P>
+	<DT></DT>
+	<DD><B>Q How deep can I nest my loops?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> You can nest as many loops as you want. If your program requires you
+	to nest more than two loops deep, consider using a function instead. You might find
+	sorting through all those braces difficult, so perhaps a function would be easier
+	to follow in code.
+	<P>
+	<DT></DT>
+	<DD><B>Q Can I nest different loop commands?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> You can nest if, for, while, do...while, or any other command. You will
+	find that many of the programs you try to write will require that you nest at least
+	a few of these.
+	<P>
+</DL>
+
+<H2><A NAME="Heading11"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered, and exercises to provide you with experience in using what
+you've learned.</P>
+<P>
+<H3><A NAME="Heading12"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>What is the index value of the first element in an array?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>What is the difference between a for statement and a while statement?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>What is the difference between a while statement and a do...while statement?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Is it true that a while statement can be used and still get the same
+	results as coding a for statement?
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>What must you remember when nesting statements?
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Can a while statement be nested in a do...while statement?
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>What are the four parts of a for statement?
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>What are the two parts of a while statement?
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>What are the two parts of a do...while statement?
+	<P>
+</DL>
+
+<H3><A NAME="Heading13"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Write a declaration for an array that will hold 50 type long values.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Show a statement that assigns the value of 123.456 to the 50th element
+	in the array from exercise 1.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>What is the value of x when the following statement is complete?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>for (x = 0; x &lt; 100, x++) ;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>4. </B>What is the value of ctr when the following statement is complete?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>for (ctr = 2; ctr &lt; 10; ctr += 3) ;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>5. </B>How many Xs does the following print?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>for (x = 0; x &lt; 10; x++)
+    for (y = 5; y &gt; 0; y--)
+        puts(&quot;X&quot;);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6. </B>Write a for statement to count from 1 to 100 by 3s.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Write a while statement to count from 1 to 100 by 3s.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Write a do...while statement to count from 1 to 100 by 3s.
+	<P>
+	<DT></DT>
+	<DD><B>9. BUG</B> <B>BUSTER:</B> What is wrong with the following code fragment?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>record = 0;
+while (record &lt; 100)
+{
+    printf( &quot;\nRecord %d &quot;, record );
+    printf( &quot;\nGetting next number...&quot; );
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. BUG</B> <B>BUSTER:</B> What is wrong with the following code fragment?
+	(MAXVALUES is not the problem!)
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>for (counter = 1; counter &lt; MAXVALUES; counter++);
+    printf(&quot;\nCounter = %d&quot;, counter );</PRE>
+
+</BLOCKQUOTE>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch05/ch05.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch07/ch07.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+<BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

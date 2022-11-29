@@ -1,0 +1,1488 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 16 -- Using Disk Files</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch15/ch15.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch17/ch17.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 16 -</H1>
+</CENTER>
+<CENTER>
+<H1>Using Disk Files</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Streams and Disk Files</A>
+	<LI><A HREF="#Heading2">Types of Disk Files</A>
+	<LI><A HREF="#Heading3">Filenames</A>
+	<LI><A HREF="#Heading4">Opening a File</A>
+	<LI><A HREF="#Heading5">Writing and Reading File Data</A>
+	<UL>
+		<LI><A HREF="#Heading6">Formatted File Input and Output</A>
+		<LI><A HREF="#Heading7">Character Input and Output</A>
+		<LI><A HREF="#Heading8">Direct File Input and Output</A>
+	</UL>
+	<LI><A HREF="#Heading9">File Buffering: Closing and Flushing Files</A>
+	<LI><A HREF="#Heading10">Sequential Versus Random File Access</A>
+	<UL>
+		<LI><A HREF="#Heading11">The ftell() and rewind() Functions</A>
+		<LI><A HREF="#Heading12">The fseek() Function</A>
+	</UL>
+	<LI><A HREF="#Heading13">Detecting the End of a File</A>
+	<LI><A HREF="#Heading14">File Management Functions</A>
+	<UL>
+		<LI><A HREF="#Heading15">Deleting a File</A>
+		<LI><A HREF="#Heading16">Renaming a File</A>
+		<LI><A HREF="#Heading17">Copying a File</A>
+	</UL>
+	<LI><A HREF="#Heading18">Using Temporary Files</A>
+	<LI><A HREF="#Heading19">Summary</A>
+	<LI><A HREF="#Heading20">Q&amp;A</A>
+	<LI><A HREF="#Heading21">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading22">Quiz</A>
+		<LI><A HREF="#Heading23">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>Most of the programs you write will use disk files for one purpose or another:
+data storage, configuration information, and so on. Today you will learn about</P>
+
+<UL>
+	<LI>Relating streams to disk files
+	<P>
+	<LI>C's two disk file types
+	<P>
+	<LI>Opening a file
+	<P>
+	<LI>Writing data to a file
+	<P>
+	<LI>Reading data from a file
+	<P>
+	<LI>Closing a file
+	<P>
+	<LI>Disk file management
+	<P>
+	<LI>Using temporary files
+</UL>
+
+<H2><A NAME="Heading1"></A>Streams and Disk Files</H2>
+<P>As you learned on Day 14, &quot;Working with the Screen, Printer, and Keyboard,&quot;
+C performs all input and output, including disk files, by means of streams. You saw
+how to use C's predefined streams that are connected to specific devices such as
+the keyboard, screen, and (on DOS systems) the printer. Disk file streams work essentially
+the same way. This is one of the advantages of stream input/output--techniques for
+using one stream can be used with little or no change for other streams. The major
+difference with disk file streams is that your program must explicitly create a stream
+associated with a specific disk file.</P>
+<P>
+<H2><A NAME="Heading2"></A>Types of Disk Files</H2>
+<P>On Day 14, you saw that C streams come in two flavors: text and binary. You can
+associate either type of stream with a file, and it's important that you understand
+the distinction in order to use the proper mode for your files.</P>
+<P>Text streams are associated with text-mode files. Text-mode files consist of a
+sequence of lines. Each line contains zero or more characters and ends with one or
+more characters that signal end-of-line. The maximum line length is 255 characters.
+It's important to remember that a &quot;line&quot; isn't a C string; there is no
+terminating NULL character (\0). When you use a text-mode stream, translation occurs
+between C's newline character (\n) and whatever character(s) the operating system
+uses to mark end-of-line on disk files. On DOS systems, it's a carriage-return linefeed
+(CR-LF) combination. When data is written to a text-mode file, each \n is translated
+to a CR-LF; when data is read from a disk file, each CR-LF is translated to a \n.
+On UNIX systems, no translation is done--newline characters remain unchanged.</P>
+<P>Binary streams are associated with binary-mode files. Any and all data is written
+and read unchanged, with no separation into lines and no use of end-of-line characters.
+The NULL and end-of-line characters have no special significance and are treated
+like any other byte of data.</P>
+<P>Some file input/output functions are restricted to one file mode, whereas other
+functions can use either mode. This chapter teaches you which mode to use with which
+functions.</P>
+<P>
+<H2><A NAME="Heading3"></A>Filenames</H2>
+<P>Every disk file has a name, and you must use filenames when dealing with disk
+files. Filenames are stored as strings, just like other text data. The rules as to
+what is acceptable for filenames and what is not differ from one operating system
+to another. In DOS and Windows 3.x, a complete filename consists of a name that has
+from one to eight characters, optionally followed by a period and an extension that
+has from one to three characters. In contrast, the Windows 95 and Windows NT operating
+systems, as well as most UNIX systems, permit filenames up to 256 characters long.</P>
+<P>Operating systems also differ in the characters that are permitted in filenames.
+In Windows 95, for example, the following characters are not permitted:</P>
+<P>/ \ : * ? &quot; &lt; &gt; |</P>
+<P>You must be aware of the filename rules of whichever operating system you're writing
+for.</P>
+<P>A filename in a C program also can contain path information. The <I>path</I> specifies
+the drive and/or directory (or folder) where the file is located. If you specify
+a filename without a path, it will be assumed that the file is located at whatever
+location the operating system currently designates as the default. It's good programming
+practice to always specify path information as part of your filenames.</P>
+<P>On PCs, the backslash character is used to separate directory names in a path.
+For example, to DOS and Windows, the name</P>
+<P>
+<PRE>c:\data\list.txt
+</PRE>
+<P>refers to a file named LIST.TXT in the directory \DATA on drive C. Remember that
+the backslash character has a special meaning to C when it's in a string. To represent
+the backslash character itself, you must precede it with another backslash. Thus,
+in a C program, you would represent the filename as follows:</P>
+<P>
+<PRE>char *filename = &quot;c:\\data\\list.txt&quot;;
+</PRE>
+<P>If you're entering a filename using the keyboard, however, enter only a single
+backslash.</P>
+<P>Not all systems use the backslash as the directory separator. For example, UNIX
+uses the forward slash (/).</P>
+<P>
+<H2><A NAME="Heading4"></A>Opening a File</H2>
+<P>The process of creating a stream linked to a disk file is called <I>opening</I>
+the file. When you open a file, it becomes available for reading (meaning that data
+is input from the file to the program), writing (meaning that data from the program
+is saved in the file), or both. When you're done using the file, you must close it.
+Closing a file is covered later in this chapter.</P>
+<P>To open a file, you use the fopen() library function. The prototype of fopen()
+is located in STDIO.H and reads as follows:</P>
+<P>
+<PRE>FILE *fopen(const char *<I>filename</I>, const char *<I>mode</I>);
+</PRE>
+<P>This prototype tells you that fopen() returns a pointer to type FILE, which is
+a structure declared in STDIO.H. The members of the FILE structure are used by the
+program in the various file access operations, but you don't need to be concerned
+about them. However, for each file that you want to open, you must declare a pointer
+to type FILE. When you call fopen(), that function creates an instance of the FILE
+structure and returns a pointer to that structure. You use this pointer in all subsequent
+operations on the file. If fopen() fails, it returns NULL. Such a failure could be
+caused, for example, by a hardware error or by trying to open a file on a diskette
+that hasn't been formatted.</P>
+<P>The argument <I>filename</I> is the name of the file to be opened. As noted earlier,
+<I>filename</I> can--and should--contain a path specification. The <I>filename</I>
+argument can be a literal string enclosed in double quotation marks or a pointer
+to a string variable.</P>
+<P>The argument <I>mode</I> specifies the mode in which to open the file. In this
+context, <I>mode</I> controls whether the file is binary or text and whether it is
+for reading, writing, or both. The permitted values for <I>mode</I> are listed in
+Table 16.1.</P>
+<P>
+<H4>Table 16.1. Values of mode for the fopen() function.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B><I>mode</I></B></TD>
+		<TD ALIGN="LEFT"><B>Meaning</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">r</TD>
+		<TD ALIGN="LEFT">Opens the file for reading. If the file doesn't exist, fopen() returns NULL.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">w</TD>
+		<TD ALIGN="LEFT">Opens the file for writing. If a file of the specified name doesn't exist, it is
+			created. If a file of the specified name does exist, it is deleted without warning,
+			and a new, empty file is created.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">a</TD>
+		<TD ALIGN="LEFT">Opens the file for appending. If a file of the specified name doesn't exist, it is
+			created. If the file does exist, new data is appended to the end of the file.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">r+</TD>
+		<TD ALIGN="LEFT">Opens the file for reading and writing. If a file of the specified name doesn't exist,
+			it is created. If the file does exist, new data is added to the beginning of the
+			file, overwriting existing data.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">w+</TD>
+		<TD ALIGN="LEFT">Opens the file for reading and writing. If a file of the specified name doesn't exist,
+			it is created. If the file does exist, it is overwritten.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">a+</TD>
+		<TD ALIGN="LEFT">Opens a file for reading and appending. If a file of the specified name doesn't exist,
+			it is created. If the file does exist, new data is appended to the end of the file.</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The default file mode is text. To open a file in binary mode, you append a b to
+the <I>mode</I> argument. Thus, a <I>mode</I> argument of a would open a text-mode
+file for appending, whereas ab would open a binary-mode file for appending.</P>
+<P>Remember that fopen() returns NULL if an error occurs. Error conditions that can
+cause a return value of NULL include the following:</P>
+
+<UL>
+	<LI>Using an invalid filename.
+	<P>
+	<LI>Trying to open a file on a disk that isn't ready (the drive door isn't closed
+	or the disk isn't formatted, for example).
+	<P>
+	<LI>Trying to open a file in a nonexistent directory or on a nonexistent disk drive.
+	<P>
+	<LI>Trying to open a nonexistent file in mode r.
+</UL>
+
+<P>Whenever you use fopen(), you need to test for the occurrence of an error. There's
+no way to tell exactly which error occurred, but you can display a message to the
+user and try to open the file again, or you can end the program. Most C compilers
+include non-ANSI extensions that let you obtain information about the nature of the
+error; refer to your compiler documentation for information.</P>
+<P>Listing 16.1 demonstrates fopen().</P>
+<P>
+<H4>Listing 16.1. Using fopen() to open disk files in various modes.</H4>
+<PRE>1:  /* Demonstrates the fopen() function. */
+2:  #include &lt;stdlib.h&gt;
+3:  #include &lt;stdio.h&gt;
+4:
+5:  main()
+6:  {
+7:      FILE *fp;
+8:      char filename[40], mode[4];
+9:
+10:     while (1)
+11:     {
+12:
+13:         /* Input filename and mode. */
+14:
+15:         printf(&quot;\nEnter a filename: &quot;);
+16:         gets(filename);
+17:         printf(&quot;\nEnter a mode (max 3 characters): &quot;);
+18:         gets(mode);
+19:
+20:         /* Try to open the file. */
+21:
+22:         if ( (fp = fopen( filename, mode )) != NULL )
+23:         {
+24:             printf(&quot;\nSuccessful opening %s in mode %s.\n&quot;,
+25:                     filename, mode);
+26:             fclose(fp);
+27:             puts(&quot;Enter x to exit, any other to continue.&quot;);
+28:             if ( (getc(stdin)) == `x')
+29:                 break;
+30:             else
+31:                 continue;
+32:         }
+33:         else
+34:         {
+35:             fprintf(stderr, &quot;\nError opening file %s in mode %s.\n&quot;,
+36:                     filename, mode);
+37:             puts(&quot;Enter x to exit, any other to try again.&quot;);
+38:             if ( (getc(stdin)) == `x')
+39:                 break;
+40:             else
+41:                 continue;
+42:         }
+43:     }
+44: }
+Enter a filename: <B>junk.txt</B>
+Enter a mode (max 3 characters): <B>w</B>
+Successful opening junk.txt in mode w.
+Enter x to exit, any other to continue.
+<B>j</B>
+Enter a filename: <B>morejunk.txt</B>
+Enter a mode (max 3 characters): <B>r</B>
+Error opening morejunk.txt in mode r.
+Enter x to exit, any other to try again.
+<B>x</B>
+</PRE>
+<P><strong>]ANALYSIS: </strong> This program prompts you for both the filename and the mode
+specifier on lines 15 through 18. After getting the names, line 22 attempts to open
+the file and assign its file pointer to fp. As an example of good programming practice,
+the if statement on line 22 checks to see that the opened file's pointer isn't equal
+to NULL. If fp isn't equal to NULL, a message stating that the open was successful
+and that the user can continue is printed. If the file pointer is NULL, the else
+condition of the if loop executes. The else condition on lines 33 through 42 prints
+a message stating that there was a problem. It then prompts the user to determine
+whether the program should continue.</P>
+<P>You can experiment with different names and modes to see which ones give you an
+error. In the output just shown, you can see that trying to open MOREJUNK.TXT in
+mode r resulted in an error because the file didn't exist on the disk. If an error
+occurs, you're given the choice of entering the information again or quitting the
+program. To force an error, you could enter an invalid filename such as [].</P>
+<P>
+<H2><A NAME="Heading5"></A>Writing and Reading File Data</H2>
+<P>A program that uses a disk file can write data to a file, read data from a file,
+or a combination of the two. You can write data to a disk file in three ways:</P>
+
+<UL>
+	<LI>You can use formatted output to save formatted data to a file. You should use
+	formatted output only with text-mode files. The primary use of formatted output is
+	to create files containing text and numeric data to be read by other programs such
+	as spreadsheets or databases. You rarely, if ever, use formatted output to create
+	a file to be read again by a C program.
+	<P>
+	<LI>You can use character output to save single characters or lines of characters
+	to a file. Although technically it's possible to use character output with binary-mode
+	files, it can be tricky. You should restrict character-mode output to text files.
+	The main use of character output is to save text (but not numeric) data in a form
+	that can be read by C, as well as other programs such as word processors.
+	<P>
+	<LI>You can use direct output to save the contents of a section of memory directly
+	to a disk file. This method is for binary files only. Direct output is the best way
+	to save data for later use by a C program.
+</UL>
+
+<P>When you want to read data from a file, you have the same three options: formatted
+input, character input, or direct input. The type of input you use in a particular
+case depends almost entirely on the nature of the file being read. Generally, you
+will read data in the same mode that it was saved in, but this is not a requirement.
+However, reading a file in a mode different from the one it was written in requires
+a thorough knowledge of C and file formats.</P>
+<P>The previous descriptions of the three types of file input and output suggest
+tasks best suited for each type of output. This is by no means a set of strict rules.
+The C language is very flexible (this is one of its advantages!), so a clever programmer
+can make any type of file output suit almost any need. As a beginning programmer,
+it might make things easier if you follow these guidelines, at least initially.</P>
+<P>
+<H3><A NAME="Heading6"></A>Formatted File Input and Output</H3>
+<P>Formatted file input/output deals with text and numeric data that is formatted
+in a specific way. It is directly analogous to formatted keyboard input and screen
+output done with the printf() and scanf() functions, as described on Day 14. I'll
+discuss formatted output first, followed by input.</P>
+<P>
+<H4>Formatted File Output</H4>
+<P>Formatted file output is done with the library function fprintf(). The prototype
+of fprintf() is in the header file STDIO.H, and it reads as follows:</P>
+<P>
+<PRE>int fprintf(FILE *fp, char *fmt, ...);
+</PRE>
+<P>The first argument is a pointer to type FILE. To write data to a particular disk
+file, you pass the pointer that was returned when you opened the file with fopen().</P>
+<P>The second argument is the format string. You learned about format strings in
+the discussion of printf() on Day 14. The format string used by fprintf() follows
+exactly the same rules as printf(). Refer to Day 14 for details.</P>
+<P>The final argument is .... What does that mean? In a function prototype, ellipses
+represent a variable number of arguments. In other words, in addition to the file
+pointer and the format string arguments, fprintf() takes zero, one, or more additional
+arguments. This is just like printf(). These arguments are the names of the variables
+to be output to the specified stream.</P>
+<P>Remember, fprintf() works just like printf(), except that it sends its output
+to the stream specified in the argument list. In fact, if you specify a stream argument
+of stdout, fprintf() is identical to printf().</P>
+<P>Listing 16.2 demonstrates the use of fprintf().</P>
+<P>
+<H4>Listing 16.2. The equivalence of fprintf() formatted output to both a file and
+to stdout.</H4>
+<PRE>1:  /* Demonstrates the fprintf() function. */
+2:  #include &lt;stdlib.h&gt;
+3:  #include &lt;stdio.h&gt;
+4:
+5:  void clear_kb(void);
+6:
+7:  main()
+8:  {
+9:      FILE *fp;
+10:     float data[5];
+11:     int count;
+12:     char filename[20];
+13:
+14:     puts(&quot;Enter 5 floating-point numerical values.&quot;);
+15:
+16:     for (count = 0; count &lt; 5; count++)
+17:         scanf(&quot;%f&quot;, &amp;data[count]);
+18:
+19:     /* Get the filename and open the file. First clear stdin */
+20:     /* of any extra characters. */
+21:
+22:     clear_kb();
+23:
+24:     puts(&quot;Enter a name for the file.&quot;);
+25:     gets(filename);
+26:
+27:     if ( (fp = fopen(filename, &quot;w&quot;)) == NULL)
+28:     {
+29:         fprintf(stderr, &quot;Error opening file %s.&quot;, filename);
+30:         exit(1);
+31:     }
+32:
+33:     /* Write the numerical data to the file and to stdout. */
+34:
+35:     for (count = 0; count &lt; 5; count++)
+36:     {
+37:         fprintf(fp, &quot;\ndata[%d] = %f&quot;, count, data[count]);
+38:         fprintf(stdout, &quot;\ndata[%d] = %f&quot;, count, data[count]);
+39:     }
+40:     fclose(fp);
+41:     printf(&quot;\n&quot;);
+42:     return(0);
+43: }
+44:
+45: void clear_kb(void)
+46: /* Clears stdin of any waiting characters. */
+47: {
+48:     char junk[80];
+49:     gets(junk);
+50: }
+Enter 5 floating-point numerical values.
+<B>3.14159</B>
+<B>9.99</B>
+<B>1.50</B>
+<B>3.</B>
+<B>1000.0001</B>
+Enter a name for the file.
+<B>numbers.txt</B>
+data[0] = 3.141590
+data[1] = 9.990000
+data[2] = 1.500000
+data[3] = 3.000000
+data[4] = 1000.000122
+</PRE>
+<P><strong>ANALYSIS: </strong> You might wonder why the program displays 1000.000122 when
+the value you entered was 1000.0001. This isn't an error in the program. It's a normal
+consequence of the way C stores numbers internally. Some floating-point values can't
+be stored exactly, so minor inaccuracies such as this one sometimes result.</P>
+<P>This program uses fprintf() on lines 37 and 38 to send some formatted text and
+numeric data to stdout and to the disk file whose name you specified. The only difference
+between the two lines is the first argument--that is, the stream to which the data
+is sent. After running the program, use your editor to look at the contents of the
+file NUMBERS.TXT (or whatever name you assigned to it), which will be in the same
+directory as the program files. You'll see that the text in the file is an exact
+copy of the text that was displayed on-screen.</P>
+<P>Note that Listing 16.2 uses the clear_kb() function discussed on Day 14. This
+is necessary to remove from stdin any extra characters that might be left over from
+the call to scanf(). If you don't clear stdin, these extra characters (specifically,
+the newline) are read by the gets() that inputs the filename, and the result is a
+file creation error.</P>
+<P>
+<H4>Formatted File Input</H4>
+<P>For formatted file input, use the fscanf() library function, which is used like
+scanf() (see Day 14), except that input comes from a specified stream instead of
+from stdin. The prototype for fscanf() is</P>
+<P>
+<PRE>int fscanf(FILE *fp, const char *fmt, ...);
+</PRE>
+<P>The argument fp is the pointer to type FILE returned by fopen(), and fmt is a
+pointer to the format string that specifies how fscanf() is to read the input. The
+components of the format string are the same as for scanf(). Finally, the ellipses
+(...) indicate one or more additional arguments, the addresses of the variables where
+fscanf() is to assign the input.</P>
+<P>Before getting started with fscanf(), you might want to review the section on
+scanf() on Day 14. The function fscanf() works exactly the same as scanf(), except
+that characters are taken from the specified stream rather than from stdin.</P>
+<P>To demonstrate fscanf(), you need a text file containing some numbers or strings
+in a format that can be read by the function. Use your editor to create a file named
+INPUT.TXT, and enter five floating-point numbers with some space between them (spaces
+or newlines). For example, your file might look like this:</P>
+<P>
+<PRE>123.45     87.001
+100.02
+0.00456    1.0005
+</PRE>
+<P>Now, compile and run Listing 16.3.</P>
+<P>
+<H4>Listing 16.3. Using fscanf() to read formatted data from a disk file.</H4>
+<PRE>1:  /* Reading formatted file data with fscanf(). */
+2:  #include &lt;stdlib.h&gt;
+3:  #include &lt;stdio.h&gt;
+4:
+5:  main()
+6:  {
+7:      float f1, f2, f3, f4, f5;
+8:      FILE *fp;
+9:
+10:     if ( (fp = fopen(&quot;INPUT.TXT&quot;, &quot;r&quot;)) == NULL)
+11:     {
+12:         fprintf(stderr, &quot;Error opening file.\n&quot;);
+13:         exit(1);
+14:     }
+15:
+16:     fscanf(fp, &quot;%f %f %f %f %f&quot;, &amp;f1, &amp;f2, &amp;f3, &amp;f4, &amp;f5);
+17:     printf(&quot;The values are %f, %f, %f, %f, and %f\n.&quot;,
+18:             f1, f2, f3, f4, f5);
+19:
+20:     fclose(fp);
+21:      return(0);
+22: }
+</PRE>
+<PRE>The values are 123.45, 87.0001, 100.02, 0.00456, and 1.0005.
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> The precision of the values might cause some numbers to not display
+	as the exact values you entered. For example, 100.02 might appear as 100.01999. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P><strong>ANALYSIS: </strong> This program reads the five values from the file you created
+and then displays them on-screen. The fopen() call on line 10 opens the file for
+read mode. It also checks to see that the file opened correctly. If the file wasn't
+opened, an error message is displayed on line 12, and the program exits (line 13).
+Line 16 demonstrates the use of the fscanf() function. With the exception of the
+first parameter, fscanf() is identical to scanf(), which you have been using throughout
+this book. The first parameter points to the file that you want the program to read.
+You can do further experiments with fscanf(), creating input files with your programming
+editor and seeing how fscanf() reads the data.</P>
+<P>
+<H3><A NAME="Heading7"></A>Character Input and Output</H3>
+<P>When used with disk files, the term <I>character I/O</I> refers to single characters
+as well as lines of characters. Remember, a line is a sequence of zero or more characters
+terminated by the newline character. Use character I/O with text-mode files. The
+following sections describe character input/output functions, and then you'll see
+a demonstration program.</P>
+<P>
+<H4>Character Input</H4>
+<P>There are three character input functions: getc() and fgetc() for single characters,
+and fgets() for lines.</P>
+<P><B>The getc() and fgetc() Functions</B></P>
+<P>The functions getc() and fgetc() are identical and can be used interchangeably.
+They input a single character from the specified stream. Here is the prototype of
+getc(), which is in STDIO.H:</P>
+<P>
+<PRE>int getc(FILE *fp);
+</PRE>
+<P>The argument fp is the pointer returned by fopen() when the file is opened. The
+function returns the character that was input or EOF on error.</P>
+<P>You've seen getc() used in earlier programs to input a character from the keyboard.
+This is another example of the flexibility of C's streams--the same function can
+be used for keyboard or file input.</P>
+<P>If getc() and fgetc() return a single character, why are they prototyped to return
+a type int? The reason is that, when reading files, you need to be able to read in
+the end-of-file marker, which on some systems isn't a type char but a type int. You'll
+see getc() in action later, in Listing 16.10.</P>
+<P><B>The fgets() Function</B></P>
+<P>To read a line of characters from a file, use the fgets() library function. The
+prototype is</P>
+<P>
+<PRE>char *fgets(char *str, int n, FILE *fp);
+</PRE>
+<P>The argument str is a pointer to a buffer in which the input is to be stored,
+n is the maximum number of characters to be input, and fp is the pointer to type
+FILE that was returned by fopen() when the file was opened.</P>
+<P>When called, fgets() reads characters from fp into memory, starting at the location
+pointed to by str. Characters are read until a newline is encountered or until <I>n</I>-1
+characters have been read, whichever occurs first. By setting n equal to the number
+of bytes allocated for the buffer str, you prevent input from overwriting memory
+beyond allocated space. (The <I>n</I>-1 is to allow space for the terminating \0
+that fgets() adds to the end of the string.) If successful, fgets() returns str.
+Two types of errors can occur, as indicated by the return value of NULL:</P>
+
+<UL>
+	<LI>If a read error or EOF is encountered before any characters have been assigned
+	to str, NULL is returned, and the memory pointed to by str is unchanged.
+	<P>
+	<LI>If a read error or EOF is encountered after one or more characters have been
+	assigned to str, NULL is returned, and the memory pointed to by str contains garbage.
+</UL>
+
+<P>You can see that fgets() doesn't necessarily input an entire line (that is, everything
+up to the next newline character). If <I>n</I>-1 characters are read before a newline
+is encountered, fgets() stops. The next read operation from the file starts where
+the last one leaves off. To be sure that fgets() reads in entire strings, stopping
+only at newlines, be sure that the size of your input buffer and the corresponding
+value of n passed to fgets() are large enough.</P>
+<P>
+<H4>Character Output</H4>
+<P>You need to know about two character output functions: putc() and fputs().</P>
+<P><B>The putc() Function</B></P>
+<P>The library function putc() writes a single character to a specified stream. Its
+prototype in STDIO.H reads</P>
+<P>
+<PRE>int putc(int ch, FILE *fp);
+</PRE>
+<P>The argument ch is the character to output. As with other character functions,
+it is formally called a type int, but only the lower-order byte is used. The argument
+fp is the pointer associated with the file (the pointer returned by fopen() when
+the file was opened). The function putc() returns the character just written if successful
+or EOF if an error occurs. The symbolic constant EOF is defined in STDIO.H, and it
+has the value -1. Because no &quot;real&quot; character has that numeric value, EOF
+can be used as an error indicator (with text-mode files only).</P>
+<P><B>The fputs() Function</B></P>
+<P>To write a line of characters to a stream, use the library function fputs(). This
+function works just like puts(), covered on Day 14. The only difference is that with
+fputs() you can specify the output stream. Also, fputs() doesn't add a newline to
+the end of the string; if you want it, you must explicitly include it. Its prototype
+in STDIO.H is</P>
+<P>
+<PRE>char fputs(char *str, FILE *fp);
+</PRE>
+<P>The argument str is a pointer to the null-terminated string to be written, and
+fp is the pointer to type FILE returned by fopen() when the file was opened. The
+string pointed to by str is written to the file, minus its terminating \0. The function
+fputs() returns a nonnegative value if successful or EOF on error.</P>
+<P>
+<H3><A NAME="Heading8"></A>Direct File Input and Output</H3>
+<P>You use direct file I/O most often when you save data to be read later by the
+same or a different C program. Direct I/O is used only with binary-mode files. With
+direct output, blocks of data are written from memory to disk. Direct input reverses
+the process: A block of data is read from a disk file into memory. For example, a
+single direct-output function call can write an entire array of type double to disk,
+and a single direct-input function call can read the entire array from disk back
+into memory. The direct I/O functions are fread() and fwrite().</P>
+<P>
+<H4>The fwrite() Function</H4>
+<P>The fwrite() library function writes a block of data from memory to a binary-mode
+file. Its prototype in STDIO.H is</P>
+<P>
+<PRE>int fwrite(void *<I>buf</I>, int <I>size</I>, int <I>count</I>, FILE *fp);
+</PRE>
+<P>The argument <I>buf</I> is a pointer to the region of memory holding the data
+to be written to the file. The pointer type is void; it can be a pointer to anything.</P>
+<P>The argument <I>size</I> specifies the size, in bytes, of the individual data
+items, and <I>count</I> specifies the number of items to be written. For example,
+if you wanted to save a 100-element integer array, <I>size</I> would be 2 (because
+each int occupies 2 bytes) and <I>count</I> would be 100 (because the array contains
+100 elements). To obtain the <I>size</I> argument, you can use the sizeof() operator.</P>
+<P>The argument fp is, of course, the pointer to type FILE, returned by fopen() when
+the file was opened. The fwrite() function returns the number of items written on
+success; if the value returned is less than count, it means that an error has occurred.
+To check for errors, you usually program fwrite() as follows:</P>
+<P>
+<PRE>if( (fwrite(<I>buf</I>, <I>size</I>, <I>count</I>, fp)) != count)
+fprintf(stderr, &quot;Error writing to file.&quot;);
+</PRE>
+<P>Here are some examples of using fwrite(). To write a single type double variable
+x to a file, use the following:</P>
+<P>
+<PRE>fwrite(&amp;x, sizeof(double), 1, fp);
+</PRE>
+<P>To write an array data[] of 50 structures of type address to a file, you have
+two choices:</P>
+<P>
+<PRE>fwrite(data, sizeof(address), 50, fp);
+fwrite(data, sizeof(data), 1, fp);
+</PRE>
+<P>The first method writes the array as 50 elements, with each element having the
+size of a single type address structure. The second method treats the array as a
+single element. The two methods accomplish exactly the same thing.</P>
+<P>The following section explains fread() and then presents a program demonstrating
+fread() and fwrite().</P>
+<P>
+<H4>The fread() Function</H4>
+<P>The fread() library function reads a block of data from a binary-mode file into
+memory. Its prototype in STDIO.H is</P>
+<P>
+<PRE>int fread(void *<I>buf</I>, int <I>size</I>, int <I>count</I>, FILE *fp);
+</PRE>
+<P>The argument <I>buf</I> is a pointer to the region of memory that receives the
+data read from the file. As with fwrite(), the pointer type is void.</P>
+<P>The argument <I>size</I> specifies the size, in bytes, of the individual data
+items being read, and <I>count</I> specifies the number of items to read. Note how
+these arguments parallel the arguments used by fwrite(). Again, the sizeof() operator
+is typically used to provide the <I>size</I> argu-ment. The argument fp is (as always)
+the pointer to type FILE that was returned by fopen() when the file was opened. The
+fread() function returns the number of items read; this can be less than <I>count</I>
+if end-of-file was reached or an error occurred.</P>
+<P>Listing 16.4 demonstrates the use of fwrite() and fread().</P>
+<P>
+<H4>Listing 16.4. Using fwrite() and fread() for direct file access.</H4>
+<PRE>1:  /* Direct file I/O with fwrite() and fread(). */
+2:  #include &lt;stdlib.h&gt;
+3:  #include &lt;stdio.h&gt;
+4:
+5:  #define SIZE 20
+6:
+7:  main()
+8:  {
+9:      int count, array1[SIZE], array2[SIZE];
+10:     FILE *fp;
+11:
+12:     /* Initialize array1[]. */
+13:
+14:     for (count = 0; count &lt; SIZE; count++)
+15:         array1[count] = 2 * count;
+16:
+17:     /* Open a binary mode file. */
+18:
+19:     if ( (fp = fopen(&quot;direct.txt&quot;, &quot;wb&quot;)) == NULL)
+20:     {
+21:         fprintf(stderr, &quot;Error opening file.&quot;);
+22:         exit(1);
+23:     }
+24:     /* Save array1[] to the file. */
+25:
+26:     if (fwrite(array1, sizeof(int), SIZE, fp) != SIZE)
+27:     {
+28:         fprintf(stderr, &quot;Error writing to file.&quot;);
+29:         exit(1);
+30:     }
+31:
+32:     fclose(fp);
+33:
+34:     /* Now open the same file for reading in binary mode. */
+35:
+36:     if ( (fp = fopen(&quot;direct.txt&quot;, &quot;rb&quot;)) == NULL)
+37:     {
+38:         fprintf(stderr, &quot;Error opening file.&quot;);
+39:         exit(1);
+40:     }
+41:
+42:     /* Read the data into array2[]. */
+43:
+44:     if (fread(array2, sizeof(int), SIZE, fp) != SIZE)
+45:     {
+46:         fprintf(stderr, &quot;Error reading file.&quot;);
+47:         exit(1);
+48:     }
+49:
+50:     fclose(fp);
+51:
+52:     /* Now display both arrays to show they're the same. */
+53:
+54:     for (count = 0; count &lt; SIZE; count++)
+55:         printf(&quot;%d\t%d\n&quot;, array1[count], array2[count]);
+56:     return(0);
+57: }
+0       0
+2       2
+4       4
+6       6
+8       8
+10      10
+12      12
+14      14
+16      16
+18      18
+20      20
+22      22
+24      24
+26      26
+28      28
+30      30
+32      32
+34      34
+36      36
+38      38
+</PRE>
+<P><strong>ANALYSIS: </strong> Listing 16.4 demonstrates the use of the fwrite() and fread()
+functions. This program initializes an array on lines 14 and 15. It then uses fwrite()
+on line 26 to save the array to disk. The program uses fread() on line 44 to read
+the data into a different array. Finally, it displays both arrays on-screen to show
+that they now hold the same data (lines 54 and 55).</P>
+<P>When you save data with fwrite(), not much can go wrong besides some type of disk
+error. With fread(), you need to be careful, however. As far as fread() is concerned,
+the data on the disk is just a sequence of bytes. The function has no way of knowing
+what it represents. For example, on a 16-bit system, a block of 100 bytes could be
+100 char variables, 50 int variables, 25 long variables, or 25 float variables. If
+you ask fread() to read that block into memory, it obediently does so. However, if
+the block was saved from an array of type int and you retrieve it into an array of
+type float, no error occurs, but you get strange results. When writing programs,
+you must be sure that fread() is used properly, reading data into the appropriate
+types of variables and arrays. Notice that in Listing 16.4, all calls to fopen(),
+fwrite(), and fread() are checked to ensure that they worked correctly.</P>
+<P>
+<H2><A NAME="Heading9"></A>File Buffering: Closing and Flushing Files</H2>
+<P>When you're done using a file, you should close it using the fclose() function.
+You saw fclose() used in programs presented earlier in this chapter. Its prototype
+is</P>
+<P>
+<PRE>int fclose(FILE *fp);
+</PRE>
+<P>The argument fp is the FILE pointer associated with the stream; fclose() returns
+0 on success or -1 on error. When you close a file, the file's buffer is flushed
+(written to the file). You can also close all open streams except the standard ones
+(stdin, stdout, stdprn, stderr, and stdaux) by using the fcloseall() function. Its
+prototype is</P>
+<P>
+<PRE>int fcloseall(void);
+</PRE>
+<P>This function also flushes any stream buffers and returns the number of streams
+closed.</P>
+<P>When a program terminates (either by reaching the end of main() or by executing
+the exit() function), all streams are automatically flushed and closed. However,
+it's a good idea to close streams explicitly--particularly those linked to disk files--as
+soon as you're finished with them. The reason has to do with stream buffers.</P>
+<P>When you create a stream linked to a disk file, a buffer is automatically created
+and associated with the stream. A buffer is a block of memory used for temporary
+storage of data being written to and read from the file. Buffers are needed because
+disk drives are block-oriented devices, which means that they operate most efficiently
+when data is read and written in blocks of a certain size. The size of the ideal
+block differs, depending on the specific hardware in use. It's typically on the order
+of a few hundred to a thousand bytes. You don't need to be concerned about the exact
+block size, however.</P>
+<P>The buffer associated with a file stream serves as an interface between the stream
+(which is character-oriented) and the disk hardware (which is block-oriented). As
+your program writes data to the stream, the data is saved in the buffer until the
+buffer is full, and then the entire contents of the buffer are written, as a block,
+to the disk. An analogous process occurs when reading data from a disk file. The
+creation and operation of the buffer are handled by the operating system and are
+entirely automatic; you don't have to be concerned with them. (C does offer some
+functions for buffer manipulation, but they are beyond the scope of this book.)</P>
+<P>In practical terms, this buffer operation means that, during program execution,
+data that your program wrote to the disk might still be in the buffer, not on the
+disk. If your program hangs up, if there's a power failure, or if some other problem
+occurs, the data that's still in the buffer might be lost, and you won't know what's
+contained in the disk file.</P>
+<P>You can flush a stream's buffers without closing it by using the fflush() or flushall()
+library functions. Use fflush() when you want a file's buffer to be written to disk
+while still using the file. Use flushall() to flush the buffers of all open streams.
+The prototypes of these two functions are as follows:</P>
+<P>
+<PRE>int fflush(FILE *fp);
+int flushall(void);
+</PRE>
+<P>The argument fp is the FILE pointer returned by fopen() when the file was opened.
+If a file was opened for writing, fflush() writes its buffer to disk. If the file
+was opened for reading, the buffer is cleared. The function fflush() returns 0 on
+success or EOF if an error occurred. The function flushall() returns the number of
+open streams.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> open a file before trying to read or write to it.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> assume that a file access is okay. Always check after doing a read,
+	write, or open to ensure that the function worked.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use the sizeof() operator with the fwrite() and fread() functions.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> close all files that you've opened.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> use fcloseall() unless you have a reason to close all the streams.
+	
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading10"></A>Sequential Versus Random File Access</H2>
+<P>Every open file has a file position indicator associated with it. The position
+indicator specifies where read and write operations take place in the file. The position
+is always given in terms of bytes from the beginning of the file. When a new file
+is opened, the position indicator is always at the beginning of the file, position
+0. (Because the file is new and has a length of 0, there's no other location to indicate.)
+When an existing file is opened, the position indicator is at the end of the file
+if the file was opened in append mode, or at the beginning of the file if the file
+was opened in any other mode.</P>
+<P>The file input/output functions covered earlier in this chapter make use of the
+position indicator, although the manipulations go on behind the scenes. Writing and
+reading operations occur at the location of the position indicator and update the
+position indicator as well. For example, if you open a file for reading, and 10 bytes
+are read, you input the first 10 bytes in the file (the bytes at positions 0 through
+9). After the read operation, the position indicator is at position 10, and the next
+read operation begins there. Thus, if you want to read all the data in a file sequentially
+or write data to a file sequentially, you don't need to be concerned about the position
+indicator, because the stream I/O functions take care of it automatically.</P>
+<P>When you need more control, use the C library functions that let you determine
+and change the value of the file position indicator. By controlling the position
+indicator, you can per-form random file access. Here, <I>random</I> means that you
+can read data from, or write data to, any position in a file without reading or writing
+all the preceding data.</P>
+<P>
+<H3><A NAME="Heading11"></A>The ftell() and rewind() Functions</H3>
+<P>To set the position indicator to the beginning of the file, use the library function
+rewind(). Its prototype, in STDIO.H, is</P>
+<P>
+<PRE>void rewind(FILE *fp);
+</PRE>
+<P>The argument fp is the FILE pointer associated with the stream. After rewind()
+is called, the file's position indicator is set to the beginning of the file (byte
+0). Use rewind() if you've read some data from a file and you want to start reading
+from the beginning of the file again without closing and reopening the file.</P>
+<P>To determine the value of a file's position indicator, use ftell(). This function's
+prototype, located in STDIO.H, reads</P>
+<P>
+<PRE>long ftell(FILE *fp);
+</PRE>
+<P>The argument fp is the FILE pointer returned by fopen() when the file was opened.
+The function ftell() returns a type long that gives the current file position in
+bytes from the start of the file (the first byte is at position 0). If an error occurs,
+ftell() returns -1L (a type long -1).</P>
+<P>To get a feel for the operation of rewind() and ftell(), look at Listing 16.5.</P>
+<P>
+<H4>Listing 16.5. Using ftell() and rewind().</H4>
+<PRE>1:  /* Demonstrates ftell() and rewind(). */
+2:  #include &lt;stdlib.h&gt;
+3:  #include &lt;stdio.h&gt;
+4:
+5:  #define BUFLEN 6
+6:
+7:  char msg[] = &quot;abcdefghijklmnopqrstuvwxyz&quot;;
+8:
+9:  main()
+10: {
+11:     FILE *fp;
+12:     char buf[BUFLEN];
+13:
+14:     if ( (fp = fopen(&quot;TEXT.TXT&quot;, &quot;w&quot;)) == NULL)
+15:     {
+16:         fprintf(stderr, &quot;Error opening file.&quot;);
+17:         exit(1);
+18:     }
+19:
+20:     if (fputs(msg, fp) == EOF)
+21:     {
+22:         fprintf(stderr, &quot;Error writing to file.&quot;);
+23:         exit(1);
+24:     }
+25:
+26:     fclose(fp);
+27:
+28:     /* Now open the file for reading. */
+29:
+30:     if ( (fp = fopen(&quot;TEXT.TXT&quot;, &quot;r&quot;)) == NULL)
+31:     {
+32:         fprintf(stderr, &quot;Error opening file.&quot;);
+33:         exit(1);
+34:     }
+35:     printf(&quot;\nImmediately after opening, position = %ld&quot;, ftell(fp));
+36:
+37:     /* Read in 5 characters. */
+38:
+39:     fgets(buf, BUFLEN, fp);
+40:     printf(&quot;\nAfter reading in %s, position = %ld&quot;, buf, ftell(fp));
+41:
+42:     /* Read in the next 5 characters. */
+43:
+44:     fgets(buf, BUFLEN, fp);
+45:     printf(&quot;\n\nThe next 5 characters are %s, and position now = %ld&quot;,
+46:             buf, ftell(fp));
+47:
+48:     /* Rewind the stream. */
+49:
+50:     rewind(fp);
+51:
+52:     printf(&quot;\n\nAfter rewinding, the position is back at %ld&quot;,
+53:             ftell(fp));
+54:
+55:     /* Read in 5 characters. */
+56:
+57:     fgets(buf, BUFLEN, fp);
+58:     printf(&quot;\nand reading starts at the beginning again: %s\n&quot;, buf);
+59:     fclose(fp);
+60:     return(0);
+61: }
+Immediately after opening, position = 0
+After reading in abcde, position = 5
+The next 5 characters are fghij, and position now = 10
+After rewinding, the position is back at 0
+and reading starts at the beginning again: abcde
+</PRE>
+<P><strong>ANALYSIS: </strong> This program writes a string, msg, to a file called TEXT.TXT.
+The message consists of the 26 letters of the alphabet, in order. Lines 14 through
+18 open TEXT.TXT for writing and test to ensure that the file was opened successfully.
+Lines 20 through 24 write msg to the file using fputs() and check to ensure that
+the write was successful. Line 26 closes the file with fclose(), completing the process
+of creating a file for the rest of the program to use.</P>
+<P>Lines 30 through 34 open the file again, only this time for reading. Line 35 prints
+the return value of ftell(). Notice that this position is at the beginning of the
+file. Line 39 performs a gets() to read five characters. The five characters and
+the new file position are printed on line 40. Notice that ftell() returns the correct
+offset. Line 50 calls rewind() to put the pointer back at the beginning of the file,
+before line 52 prints the file position again. This should confirm for you that rewind()
+resets the position. An additional read on line 57 further confirms that the program
+is indeed back at the beginning of the file. Line 59 closes the file before ending
+the program.</P>
+<P>
+<H3><A NAME="Heading12"></A>The fseek() Function</H3>
+<P>More precise control over a stream's position indicator is possible with the fseek()
+library function. By using fseek(), you can set the position indicator anywhere in
+the file. The function prototype, in STDIO.H, is</P>
+<P>
+<PRE>int fseek(FILE *fp, long <I>offset</I>, int <I>origin</I>);
+</PRE>
+<P>The argument fp is the FILE pointer associated with the file. The distance that
+the position indicator is to be moved is given by <I>offset</I> in bytes. The argument
+<I>origin</I> specifies the move's relative starting point. There can be three values
+for <I>origin</I>, with symbolic constants defined in IO.H, as shown in Table 16.2.</P>
+<P>
+<H4>Table 16.2. Possible origin values for fseek().</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Constant</B></TD>
+		<TD ALIGN="LEFT"><B>Value</B></TD>
+		<TD ALIGN="LEFT"><B>Description</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">SEEK_SET</TD>
+		<TD ALIGN="LEFT">0</TD>
+		<TD ALIGN="LEFT">Moves the indicator <I>offset</I> bytes from the beginning of the file.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">SEEK_CUR</TD>
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">Moves the indicator <I>offset</I> bytes from its current position.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">SEEK_END</TD>
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">Moves the indicator <I>offset</I> bytes from the end of the file.</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The function fseek() returns 0 if the indicator was successfully moved or nonzero
+if an error occurred. Listing 16.6 uses fseek() for random file access.</P>
+<P>
+<H4>Listing 16.6. Random file access with fseek().</H4>
+<PRE>1:  /* Random access with fseek(). */
+2:
+3:  #include &lt;stdlib.h&gt;
+4:  #include &lt;stdio.h&gt;
+5:
+6:  #define MAX 50
+7:
+8:  main()
+9:  {
+10:     FILE *fp;
+11:     int data, count, array[MAX];
+12:     long offset;
+13:
+14:     /* Initialize the array. */
+15:
+16:     for (count = 0; count &lt; MAX; count++)
+17:         array[count] = count * 10;
+18:
+19:     /* Open a binary file for writing. */
+20:
+21:     if ( (fp = fopen(&quot;RANDOM.DAT&quot;, &quot;wb&quot;)) == NULL)
+22:     {
+23:         fprintf(stderr, &quot;\nError opening file.&quot;);
+24:         exit(1);
+25:     }
+26:
+27:     /* Write the array to the file, then close it. */
+28:
+29:     if ( (fwrite(array, sizeof(int), MAX, fp)) != MAX)
+30:     {
+31:         fprintf(stderr, &quot;\nError writing data to file.&quot;);
+32:         exit(1);
+33:     }
+34:
+35:     fclose(fp);
+36:
+37:     /* Open the file for reading. */
+38:
+39:     if ( (fp = fopen(&quot;RANDOM.DAT&quot;, &quot;rb&quot;)) == NULL)
+40:     {
+41:         fprintf(stderr, &quot;\nError opening file.&quot;);
+42:         exit(1);
+43:     }
+44:
+45:     /* Ask user which element to read. Input the element */
+46:     /* and display it, quitting when -1 is entered. */
+47:
+48:     while (1)
+49:     {
+50:         printf(&quot;\nEnter element to read, 0-%d, -1 to quit: &quot;,MAX-1);
+51:         scanf(&quot;%ld&quot;, &amp;offset);
+52:
+53:         if (offset &lt; 0)
+54:             break;
+55:         else if (offset &gt; MAX-1)
+56:             continue;
+57:
+58:         /* Move the position indicator to the specified element. */
+59:
+60:         if ( (fseek(fp, (offset*sizeof(int)), SEEK_SET)) != 0)
+61:         {
+62:             fprintf(stderr, &quot;\nError using fseek().&quot;);
+63:             exit(1);
+64:         }
+65:
+66:         /* Read in a single integer. */
+67:
+68:         fread(&amp;data, sizeof(int), 1, fp);
+69:
+70:         printf(&quot;\nElement %ld has value %d.&quot;, offset, data);
+71:     }
+72:
+73:     fclose(fp);
+74:     return(0);
+75: }
+Enter element to read, 0-49, -1 to quit: <B>5</B>
+Element 5 has value 50.
+Enter element to read, 0-49, -1 to quit: <B>6</B>
+Element 6 has value 60.
+Enter element to read, 0-49, -1 to quit: <B>49</B>
+Element 49 has value 490.
+Enter element to read, 0-49, -1 to quit: <B>1</B>
+Element 1 has value 10.
+Enter element to read, 0-49, -1 to quit: <B>0</B>
+Element 0 has value 0.
+Enter element to read, 0-49, -1 to quit: <B>-1</B>
+</PRE>
+<P><strong>ANALYSIS: </strong> Lines 14 through 35 are similar to Listing 16.5. Lines 16
+and 17 initialize an array called data with 50 type int values. The value stored
+in each array element is equal to 10 times the index. Then the array is written to
+a binary file called RANDOM.DAT. You know it is binary because the file was opened
+with mode &quot;wb&quot; on line 21.</P>
+<P>Line 39 reopens the file in binary read mode before going into an infinite while
+loop. The while loop prompts users to enter the number of the array element that
+they want to read. Notice that lines 53 through 56 check to see that the entered
+element is within the range of the file. Does C let you read an element that is beyond
+the end of the file? Yes. Like going beyond the end of an array with values, C also
+lets you read beyond the end of a file. If you do read beyond the end (or before
+the beginning), your results are unpredictable. It's always best to check what you're
+doing (as lines 53 through 56 do in this listing).</P>
+<P>After you have input the element to find, line 60 jumps to the appropriate offset
+with a call to fseek(). Because SEEK_SET is being used, the seek is done from the
+beginning of the file. Notice that the distance into the file is not just <I>offset</I>,
+but <I>offset</I> multiplied by the size of the elements being read. Line 68 then
+reads the value, and line 70 prints it.</P>
+<P>
+<H2><A NAME="Heading13"></A>Detecting the End of a File</H2>
+<P>Sometimes you know exactly how long a file is, so there's no need to be able to
+detect the file's end. For example, if you used fwrite() to save a 100-element integer
+array, you know the file is 200 bytes long (assuming 2-byte integers). At other times,
+however, you don't know how long the file is, but you still want to read data from
+the file, starting at the beginning and proceeding to the end. There are two ways
+to detect end-of-file.</P>
+<P>When reading from a text-mode file character-by-character, you can look for the
+end-of-file character. The symbolic constant EOF is defined in STDIO.H as -1, a value
+never used by a &quot;real&quot; character. When a character input function reads
+EOF from a text-mode stream, you can be sure that you've reached the end of the file.
+For example, you could write the following:</P>
+<P>
+<PRE>while ( (c = fgetc( fp )) != EOF )
+</PRE>
+<P>With a binary-mode stream, you can't detect the end-of-file by looking for -1,
+because a byte of data from a binary stream could have that value, which would result
+in premature end of input. Instead, you can use the library function feof(), which
+can be used for both binary- and text-mode files:</P>
+<P>
+<PRE>int feof(FILE *fp);
+</PRE>
+<P>The argument fp is the FILE pointer returned by fopen() when the file was opened.
+The function feof() returns 0 if the end of file fp hasn't been reached, or a nonzero
+value if end-of-file has been reached. If a call to feof() detects end-of-file, no
+further read operations are permitted until a rewind() has been done, fseek() is
+called, or the file is closed and reopened.</P>
+<P>Listing 16.7 demonstrates the use of feof(). When you're prompted for a filename,
+enter the name of any text file--one of your C source files, for example, or a header
+file such as STDIO.H. Just be sure that the file is in the current directory, or
+else enter a path as part of the filename. The program reads the file one line at
+a time, displaying each line on stdout, until feof() detects end-of-file.</P>
+<P>
+<H4>Listing 16.7. Using feof() to detect the end of a file.</H4>
+<PRE>1:  /* Detecting end-of-file. */
+2:  #include &lt;stdlib.h&gt;
+3:  #include &lt;stdio.h&gt;
+4:
+5:  #define BUFSIZE 100
+6:
+7:  main()
+8:  {
+9:      char buf[BUFSIZE];
+10:     char filename[60];
+11:     FILE *fp;
+12:
+13:     puts(&quot;Enter name of text file to display: &quot;);
+14:     gets(filename);
+15:
+16:     /* Open the file for reading. */
+17:     if ( (fp = fopen(filename, &quot;r&quot;)) == NULL)
+18:     {
+19:         fprintf(stderr, &quot;Error opening file.&quot;);
+20:         exit(1);
+21:     }
+22:
+23:     /* If end of file not reached, read a line and display it. */
+24:
+25:     while ( !feof(fp) )
+26:     {
+27:         fgets(buf, BUFSIZE, fp);
+28:         printf(&quot;%s&quot;,buf);
+29:     }
+30:
+31:     fclose(fp);
+32:     return(0);
+33: }
+Enter name of text file to display:
+<B>hello.c</B>
+#include &lt;stdio.h&gt;
+main()
+{
+    printf(&quot;Hello, world.&quot;);
+    return(0);
+}
+</PRE>
+<P><strong>ANALYSIS: </strong> The while loop in this program (lines 25 through 29) is typical
+of a while used in more complex programs that do sequential processing. As long as
+the end of the file hasn't been reached, the code within the while statement (lines
+27 and 28) continues to execute repeatedly. When the call to feof() returns a nonzero
+value, the loop ends, the file is closed, and the program ends.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> check your position within a file so that you don't read beyond the end
+	or before the beginning of a file.<BR>
+	<B>DO</B> use either rewind() or fseek( fp, SEEK_SET, 0 ) to reset the file position
+	to the beginning of the file.<BR>
+	<B>DO</B> use feof() to check for the end of the file when working with binary files.<BR>
+	<B>DON'T</B> use EOF with binary files. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading14"></A>File Management Functions</H2>
+<P>The term <I>file management </I>refers to dealing with existing files--not reading
+from or writing to them, but deleting, renaming, and copying them. The C standard
+library contains functions for deleting and renaming files, and you can also write
+your own file-copying program.</P>
+<P>
+<H3><A NAME="Heading15"></A>Deleting a File</H3>
+<P>To delete a file, you use the library function remove(). Its prototype is in STDIO.H,
+as follows:</P>
+<P>
+<PRE>int remove( const char *<I>filename </I>);
+</PRE>
+<P>The variable *<I>filename</I> is a pointer to the name of the file to be deleted.
+(See the section on filenames earlier in this chapter.) The specified file must not
+be open. If the file exists, it is deleted (just as if you used the DEL command from
+the DOS prompt or the rm command in UNIX), and remove() returns 0. If the file doesn't
+exist, if it's read-only, if you don't have sufficient access rights, or if some
+other error occurs, remove() returns -1.</P>
+<P>Listing 16.8 demonstrates the use of remove(). Be careful: If you remove() a file,
+it's gone forever.</P>
+<P>
+<H4>Listing 16.8. Using the remove() function to delete a disk file.</H4>
+<PRE>1:  /* Demonstrates the remove() function. */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  main()
+6:  {
+7:      char filename[80];
+8:
+9:      printf(&quot;Enter the filename to delete: &quot;);
+10:     gets(filename);
+11:
+12:     if ( remove(filename) == 0)
+13:         printf(&quot;The file %s has been deleted.\n&quot;, filename);
+14:     else
+15:         fprintf(stderr, &quot;Error deleting the file %s.\n&quot;, filename);
+16:     return(0);
+17: }
+Enter the filename to delete: <B>*.bak</B>
+Error deleting the file *.bak.
+Enter the filename to delete: <B>list1414.bak</B>
+The file list1414.bak has been deleted.
+</PRE>
+<P><strong>ANALYSIS: </strong> This program prompts the user on line 9 for the name of the
+file to be deleted. Line 12 then calls remove() to delete the entered file. If the
+return value is 0, the file was removed, and a message is displayed stating this
+fact. If the return value is not zero, an error occurred, and the file was not removed.</P>
+<P>
+<H3><A NAME="Heading16"></A>Renaming a File</H3>
+<P>The rename() function changes the name of an existing disk file. The function
+prototype, in STDIO.H, is as follows:</P>
+<P>
+<PRE>int rename( const char *<I>oldname</I>, const char *<I>newname</I> );
+</PRE>
+<P>The filenames pointed to by <I>oldname</I> and <I>newname</I> follow the rules
+given earlier in this chapter. The only restriction is that both names must refer
+to the same disk drive; you can't rename a file to a different disk drive. The function
+rename() returns 0 on success, or -1 if an error occurs. Errors can be caused by
+the following conditions (among others):</P>
+
+<UL>
+	<LI>The file <I>oldname</I> does not exist.
+	<P>
+	<LI>A file with the name <I>newname</I> already exists.
+	<P>
+	<LI>You try to rename to another disk.
+</UL>
+
+<P>Listing 16.9 demonstrates the use of rename().</P>
+<P>
+<H4>Listing 16.9. Using rename() to change the name of a disk file.</H4>
+<PRE>1:  /* Using rename() to change a filename. */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  main()
+6:  {
+7:      char oldname[80], newname[80];
+8:
+9:      printf(&quot;Enter current filename: &quot;);
+10:     gets(oldname);
+11:     printf(&quot;Enter new name for file: &quot;);
+12:     gets(newname);
+13:
+14:     if ( rename( oldname, newname ) == 0 )
+15:         printf(&quot;%s has been renamed %s.\n&quot;, oldname, newname);
+16:     else
+17:         fprintf(stderr, &quot;An error has occurred renaming %s.\n&quot;, oldname);
+18:     return(0);
+19: }
+Enter current filename: <B>list1609.c</B>
+Enter new name for file: <B>rename.c</B>
+list1609.c has been renamed rename.c.
+</PRE>
+<P><strong>ANALYSIS: </strong> Listing 16.9 shows how powerful C can be. With only 18 lines
+of code, this program replaces an operating system command, and it's a much friendlier
+function. Line 9 prompts for the name of the file to be renamed. Line 11 prompts
+for the new filename. The call to the rename() function is wrapped in an if statement
+on line 14. The if statement checks to ensure that the renaming of the file was carried
+out correctly. If so, line 15 prints an affirmative message; otherwise, line 17 prints
+a message stating that there was an error.</P>
+<P>
+<H3><A NAME="Heading17"></A>Copying a File</H3>
+<P>It's frequently necessary to make a copy of a file--an exact duplicate with a
+different name (or with the same name but in a different drive or directory). In
+DOS, you do this with the COPY command, and other operating systems have equivalents.
+How do you copy a file in C? There's no library function, so you need to write your
+own.</P>
+<P>This might sound a bit complicated, but it's really quite simple thanks to C's
+use of streams for input and output. Here are the steps you follow:</P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Open the source file for reading in binary mode. (Using binary mode
+	ensures that the function can copy all sorts of files, not just text files.)
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Open the destination file for writing in binary mode.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Read a character from the source file. Remember, when a file is first
+	opened, the pointer is at the start of the file, so there's no need to position the
+	file pointer explicitly.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>If the function feof() indicates that you've reached the end of the
+	source file, you're done and can close both files and return to the calling program.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>If you haven't reached end-of-file, write the character to the destination
+	file, and then loop back to step 3.
+	<P>
+</DL>
+
+<P>Listing 16.10 contains a function, copy_file(), that is passed the names of the
+source and destination files and then performs the copy operation just as the preceding
+steps outlined. If there's an error opening either file, the function doesn't attempt
+the copy operation and returns -1 to the calling program. When the copy operation
+is complete, the program closes both files and returns 0.</P>
+<P>
+<H4>Listing 16.10. A function that copies a file.</H4>
+<PRE>1:  /* Copying a file. */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  int file_copy( char *oldname, char *newname );
+6:
+7:  main()
+8:  {
+9:      char source[80], destination[80];
+10:
+11:     /* Get the source and destination names. */
+12:
+13:     printf(&quot;\nEnter source file: &quot;);
+14:     gets(source);
+15:     printf(&quot;\nEnter destination file: &quot;);
+16:     gets(destination);
+17:
+18:     if ( file_copy( source, destination ) == 0 )
+19:         puts(&quot;Copy operation successful&quot;);
+20:     else
+21:         fprintf(stderr, &quot;Error during copy operation&quot;);
+22:     return(0);
+23: }
+24: int file_copy( char *oldname, char *newname )
+25: {
+26:     FILE *fold, *fnew;
+27:     int c;
+28:
+29:     /* Open the source file for reading in binary mode. */
+30:
+31:     if ( ( fold = fopen( oldname, &quot;rb&quot; ) ) == NULL )
+32:         return -1;
+33:
+34:     /* Open the destination file for writing in binary mode. */
+35:
+36:     if ( ( fnew = fopen( newname, &quot;wb&quot; ) ) == NULL  )
+37:     {
+38:         fclose ( fold );
+39:         return -1;
+40:     }
+41:
+42:     /* Read one byte at a time from the source; if end of file */
+43:     /* has not been reached, write the byte to the */
+44:     /* destination. */
+45:
+46:     while (1)
+47:     {
+48:         c = fgetc( fold );
+49:
+50:         if ( !feof( fold ) )
+51:             fputc( c, fnew );
+52:         else
+53:             break;
+54:     }
+55:
+56:     fclose ( fnew );
+57:     fclose ( fold );
+58:
+59:     return 0;
+60: }
+Enter source file: <B>list1610.c</B>
+Enter destination file: <B>tmpfile.c</B>
+Copy operation successful
+</PRE>
+<P><strong>ANALYSIS: </strong> The function copy_file() works perfectly well, letting you
+copy anything from a small text file to a huge program file. It does have limitations,
+however. If the destination file already exists, the function deletes it without
+asking. A good programming exercise for you would be to modify copy_file() to check
+whether the destination file already exists, and then query the user as to whether
+the old file should be overwritten.</P>
+<P>main() in Listing 16.10 should look very familiar. It's nearly identical to the
+main() in Listing 16.9, with the exception of line 14. Instead of rename(), this
+function uses copy(). Because C doesn't have a copy function, lines 24 through 60
+create a copy function. Lines 31 and 32 open the source file, fold, in binary read
+mode. Lines 36 through 40 open the destination file, fnew, in binary write mode.
+Notice that line 38 closes the source file if there is an error opening the destination
+file. The while loop in lines 46 through 54 does the actual copy

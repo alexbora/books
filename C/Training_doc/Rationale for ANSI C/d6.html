@@ -1,0 +1,117 @@
+<html><head>
+<title>4.6 Nonlocal jumps</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d5.html" tppabs="http://www.lysator.liu.se/c/rat/d5.html">4.5 Mathematics</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-6" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-6">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d7.html" tppabs="http://www.lysator.liu.se/c/rat/d7.html">4.7 Signal Handling</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-6">4.6</a>&#160;<tt> </tt>Nonlocal jumps&#160;<tt> </tt>&lt;<a name="-60setjmp-46h-62-4-6">setjmp</a>.h&gt;</h1>
+
+<p>
+<a name="jmp-95buf-4-6"><code>jmp_buf</code></a>
+must be an array type for compatibility with existing practice:
+programs typically omit the address operator before a <code>jmp_buf</code> argument,
+even though a pointer to the argument is desired,
+not the value of the argument itself.&#160;<tt> </tt>
+Thus, a scalar or struct type is unsuitable.&#160;<tt> </tt>
+Note that a one-element array of the appropriate type is a valid definition.&#160;<tt> </tt>
+<p>
+<code>setjmp</code> is constrained to be a macro only:
+in some implementations the information necessary to restore context
+is only available while executing the function making the call to
+<code>setjmp</code>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-6-1">4.6.1</a>&#160;<tt> </tt>Save calling environment</h2>
+<p>
+<h2><a name="4-6-1-1">4.6.1.1</a>&#160;<tt> </tt>The <code>setjmp</code> macro</h2>
+<p>
+One proposed requirement on <a name="setjmp-4-6-1-1"><code>setjmp</code></a>
+is that it be usable like any other function ---
+that it be callable in any expression context,
+and that the expression evaluate correctly whether the
+return from <code>setjmp</code>
+is direct or via a call to <a name="longjmp-4-6-1-1"><code>longjmp</code></a>.&#160;<tt> </tt>
+Unfortunately, any implementation of
+<code>setjmp</code> as a conventional called
+function cannot know enough about the calling environment to save any
+temporary registers or dynamic stack locations
+used part way through an expression evaluation.&#160;<tt> </tt>
+(A <code>setjmp</code> <i>macro</i> seems to help only if it expands
+to inline assembly code or a call to a special built-in
+function.)&#160;<tt> </tt>
+The temporaries may be correct on the initial call to <code>setjmp</code>,
+but are not likely to be
+on any return initiated by a corresponding call to <code>longjmp</code>.&#160;<tt> </tt>
+These considerations dictated the constraint that <code>setjmp</code>
+be called only from within fairly simple expressions,
+ones not likely to need temporary storage.&#160;<tt> </tt>
+<p>
+An alternative proposal considered by the Committee
+is to require that implementations recognize that calling
+<code>setjmp</code> is a special case,&#160;<tt> </tt>[Footnote: 	This proposal was considered prior to the
+	adoption of the stricture that <code>setjmp</code> be a
+	macro.  It can be considered as equivalent to
+	proposing that the <code>setjmp</code> macro expand to a
+	call to a special built-in compiler function.]&#160;<tt> </tt>
+and hence that they take whatever precautions are necessary to restore the
+<code>setjmp</code> environment properly upon a <code>longjmp</code> call.&#160;<tt> </tt>
+This proposal was rejected on grounds of consistency:
+implementations are currently
+<i>allowed</i> to implement library functions specially,
+but no other situations <i>require</i> special treatment.&#160;<tt> </tt>
+<p>
+<h2><a name="4-6-2">4.6.2</a>&#160;<tt> </tt>Restore calling environment</h2>
+<p>
+<h2><a name="4-6-2-1">4.6.2.1</a>&#160;<tt> </tt>The <code>longjmp</code> function</h2>
+<p>
+The Committee also considered requiring that a call to <code>longjmp</code>
+restore the (<code>setjmp</code>) calling environment fully ---
+that upon execution of a <code>longjmp</code>,
+all local variables in the environment of <code>setjmp</code>
+have the values they did at the time of the <code>longjmp</code> call.&#160;<tt> </tt>
+Register variables create problems with this idea.&#160;<tt> </tt>
+Unfortunately, the best that many implementations attempt
+with register variables is to save them (in <code>jmp_buf</code>)&#160;<tt> </tt>
+at the time of the initial <code>setjmp</code> call,
+then restore them to that state on each return initiated by a <code>longjmp</code> call.&#160;<tt> </tt>
+Since compilers are certainly at liberty to change register variables
+to automatic, it is not obvious that a register declaration will indeed
+be rolled back.&#160;<tt> </tt>
+And since compilers are at liberty to change automatic variables
+to register (if their addresses are never taken),
+it is not obvious that an automatic declaration will <i>not</i> be rolled back.&#160;<tt> </tt>
+Hence the vague wording.&#160;<tt> </tt>
+In fact, the only reliable way to ensure that a
+local variable retain the value it had at the time of the call to
+<code>longjmp</code> is to define it with the <code>volatile</code> attribute.&#160;<tt> </tt>
+<p>
+Some implementations leave a process in a special state while a <a name="signal-4-6-2-1">signal</a>
+is being handled.&#160;<tt> </tt>
+An explicit reassurance must be given to the environment when the signal
+handler is done.&#160;<tt> </tt>
+To keep this job manageable, the Committee agreed to restrict
+<code>longjmp</code> to only one level of signal handling.&#160;<tt> </tt>
+<p>
+The <code>longjmp</code> function should not be called in an exit handler
+(i.e., a function registered with the
+<a name="atexit-4-6-2-1"><code>atexit</code></a> function (see <a href="d10.html#4-10-4-2" tppabs="http://www.lysator.liu.se/c/rat/d10.html#4-10-4-2">&#167;4.10.4.2</a>)),
+since it might jump to some code which is no longer in scope.&#160;<tt> </tt>
+<hr>
+<a href="d5.html" tppabs="http://www.lysator.liu.se/c/rat/d5.html">4.5 Mathematics</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-6" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-6">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d7.html" tppabs="http://www.lysator.liu.se/c/rat/d7.html">4.7 Signal Handling</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

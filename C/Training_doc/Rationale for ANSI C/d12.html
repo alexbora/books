@@ -1,0 +1,181 @@
+<html><head>
+<title>Date and Time</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d11.html" tppabs="http://www.lysator.liu.se/c/rat/d11.html">4.11 String Handling</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-12" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-12">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d13.html" tppabs="http://www.lysator.liu.se/c/rat/d13.html">4.13 Future library directions</a>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-12">4.12</a>&#160;<tt> </tt>Date and Time&#160;<tt> </tt>&lt;<a name="-60time-46h-62-4-12">time</a>.h&gt;</h1>
+
+<p>
+<h2><a name="4-12-1">4.12.1</a>&#160;<tt> </tt>Components of time</h2>
+<p>
+The types <a name="clock-95t-4-12-1"><code>clock_t</code></a> and <a name="time-95t-4-12-1"><code>time_t</code></a>
+are arithmetic because values of these types must,
+in accordance with existing practice,
+on occasion be compared with <i>-1</i>&#160;<tt> </tt>(a ``don't-know'' indication)
+suitably cast.&#160;<tt> </tt>
+No arithmetic properties of these types are defined by the Standard, however,
+in order to allow implementations the maximum flexibility in
+choosing ranges, precisions, and representations most appropriate to
+their intended application.&#160;<tt> </tt>
+The representation need not be a count of some basic unit;
+an implementation might conceivably represent different components of
+a temporal value as subfields of an integral type.&#160;<tt> </tt>
+<p>
+Many C environments do not support the
+Base Document library concepts
+of daylight savings or time zones.&#160;<tt> </tt>
+Both notions are defined geographically and politically,
+and thus may require more knowledge about the real world than
+an implementation can support.&#160;<tt> </tt>
+Hence the Standard specifies the date and time functions
+such that information about DST and time zones is not required.&#160;<tt> </tt>
+The Base Document function <code>tzset</code>,
+which would require dealing with time zones, has been
+excluded altogether.&#160;<tt> </tt>
+An implementation reports that information about DST is not
+available by setting the <a name="tm-95isdst-4-12-1"><code>tm_isdst</code></a>
+field in a broken-down time to a negative value.&#160;<tt> </tt>
+An implementation may return a null pointer from a call to
+<a href="#gmtime-4-12-3-3" name="gmtime-4-12-1"><code>gmtime</code></a>
+if information about the displacement
+between Universal Time (<i>n&eacute;e</i> GMT) and local time is
+not available.&#160;<tt> </tt>
+<p>
+<h2><a name="4-12-2">4.12.2</a>&#160;<tt> </tt>Time manipulation functions</h2>
+<p>
+<h2><a name="4-12-2-1">4.12.2.1</a>&#160;<tt> </tt>The <a name="clock-4-12-2-1"><code>clock</code></a> function</h2>
+
+<p>
+The function is intended for measuring intervals of execution time,
+in whatever units an implementation desires.&#160;<tt> </tt>
+The conflicting goals of high resolution, long interval capacity, and
+low timer overhead must be balanced carefully in the light of this
+intended use.&#160;<tt> </tt>
+<p>
+<h2><a name="4-12-2-2">4.12.2.2</a>&#160;<tt> </tt>The <code>difftime</code> function</h2>
+<p>
+<a name="difftime-4-12-2-2"><code>difftime</code></a>
+is an invention of the Committee.&#160;<tt> </tt>
+It is provided so that an implementation can store an indication
+of the date/time value in the most efficient format possible and still provide
+a method of calculating the difference between two times.&#160;<tt> </tt>
+<p>
+<h2><a name="4-12-2-3">4.12.2.3</a>&#160;<tt> </tt>The <code>mktime</code> function</h2>
+<p>
+<a name="mktime-4-12-2-3"><code>mktime</code></a> was invented by the Committee
+to complete the set of time functions.&#160;<tt> </tt>
+With this function it becomes possible to perform portable calculations
+involving clock times and broken-down times.&#160;<tt> </tt>
+<p>
+The rules on the ranges of the fields within the <code>*timeptr</code> record
+are crafted to permit useful arithmetic to be done.&#160;<tt> </tt>
+For instance, here is a paradigm for continuing some loop for an
+hour:
+<pre>        #include &lt;time.h&gt;
+        struct tm    when;
+        time_t       now;
+        time_t       deadline;
+
+        /* ... */
+        now = time(0);
+        when = *localtime(&amp;now);
+        when.tm_hour += 1;   /* result is in the range [1,24] */
+        deadline = mktime(&amp;when);
+
+        printf(&quot;Loop will finish: %s\n&quot;, asctime(&amp;when)); 
+        while ( difftime(deadline,time(0)) &gt; 0 ) whatever();
+</pre>The specification of <code>mktime</code> guarantees that the addition to
+the <code>tm_hour</code> field produces the correct result even when
+the new value of <code>tm_hour</code> is 24, i.e., a value outside the
+range ever returned by a library function in a <code>struct</code> <code>tm</code> object.&#160;<tt> </tt>
+<p>
+One of the reasons for adding this function is to replace the
+capability to do such arithmetic which is lost when a programmer
+cannot depend on <code>time_t</code> being an integral multiple of some
+known time unit.&#160;<tt> </tt>
+<p>
+Several readers of earlier versions of this Rationale
+have pointed out apparent problems in this example if <code>now</code>
+is just before a transition into or out of daylight savings time.&#160;<tt> </tt>
+However, <code>when.tm_isdst</code> indicates what sort of time was the basis of the
+calculation.  
+Implementors, take heed.&#160;<tt> </tt>
+If this field is set to <i>-1</i> on input, one truly ambiguous case
+involves the transition out of daylight savings time.&#160;<tt> </tt>
+As DST is currently legislated in the USA, the hour 0100--0159 occurs
+twice, first as DST and then as standard time.  Hence an unlabeled
+0130 on this date is problematic.  An implementation may choose to
+take this as DST or standard time, marking its decision in the <code>tm_isdst</code>
+field.  It may also legitimately take this as invalid input (and
+return <code>(time_t)(-1)</code>).
+<p>
+<h2><a name="4-12-2-4">4.12.2.4</a>&#160;<tt> </tt>The <a name="time-4-12-2-4"><code>time</code></a> function</h2>
+
+<p>
+Since no measure is given for how precise an implementation's
+<i>best approximation</i>
+to the current time must be, an implementation
+could always return the same date, instead of a more honest <i>-</i>1.&#160;<tt> </tt>
+This is, of course, not the intent.&#160;<tt> </tt>
+<p>
+<h2><a name="4-12-3">4.12.3</a>&#160;<tt> </tt>Time conversion functions</h2>
+<p>
+<h2><a name="4-12-3-1">4.12.3.1</a>&#160;<tt> </tt>The <a name="asctime-4-12-3-1"><code>asctime</code></a> function</h2>
+
+Although the name of this function
+suggests a conflict with the principle of
+removing <a name="ASCII-4-12-3-1">ASCII</a> dependencies from the Standard,
+the name has been retained due to prior art.&#160;<tt> </tt>
+For the same reason of existing practice,
+a proposal to remove the newline character from the string format
+was not adopted.&#160;<tt> </tt>
+Proposals to allow for the use of languages other than English
+in naming weekdays and months met with objections on grounds of prior art,
+and on grounds that a truly <a name="internationalization-4-12-3-1">international</a>
+version of this function was difficult to specify:
+three-letter abbreviation of weekday
+and month names is not universally conventional, for instance.&#160;<tt> </tt>
+The <code>strftime</code> function (<a href="#4-12-3-5">&#167;4.12.3.5</a>) provides appropriate
+facilities for locale-specific date and time strings.&#160;<tt> </tt>
+<p>
+<h2><a name="4-12-3-2">4.12.3.2</a>&#160;<tt> </tt>The <code>ctime</code> function</h2>
+<p>
+<h2><a name="4-12-3-3">4.12.3.3</a>&#160;<tt> </tt>The <a name="gmtime-4-12-3-3"><code>gmtime</code></a> function</h2>
+
+<p>
+This function has been retained,
+despite objections that <a name="GMT-4-12-3-3">GMT</a>
+--- that is, Coordinated Universal Time (UTC) ---
+is not available in some implementations,
+since UTC is a useful and widespread standard representation of time.&#160;<tt> </tt>
+If UTC is not available, a null pointer may be returned.&#160;<tt> </tt>
+<p>
+<h2><a name="4-12-3-4">4.12.3.4</a>&#160;<tt> </tt>The <code>localtime</code> function</h2>
+<p>
+<h2><a name="4-12-3-5">4.12.3.5</a>&#160;<tt> </tt>The <code>strftime</code> function</h2>
+<p>
+<a name="strftime-4-12-3-5"><code>strftime</code></a> provides a way of formatting the date and time in
+the appropriate locale-specific fashion, using the <code>%c</code>, <code>%x</code>,
+and <code>%X</code> format specifiers.&#160;<tt> </tt>
+More generally, it allows the programmer to tailor whatever date and
+time format is appropriate for a given application.&#160;<tt> </tt>
+The facility is based on the UNIX system <code>date</code> command.&#160;<tt> </tt>
+See <a href="d4.html#4-4" tppabs="http://www.lysator.liu.se/c/rat/d4.html#4-4">&#167;4.4</a> for further discussion of locale specification.&#160;<tt> </tt>
+<p>
+For the field controlled by <code>%P</code>, an implementation may
+wish to provide special symbols to mark noon and midnight.
+<hr>
+<a href="d11.html" tppabs="http://www.lysator.liu.se/c/rat/d11.html">4.11 String Handling</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-12" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-12">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d13.html" tppabs="http://www.lysator.liu.se/c/rat/d13.html">4.13 Future library directions</a>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

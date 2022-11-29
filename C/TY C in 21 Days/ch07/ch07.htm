@@ -1,0 +1,1034 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 7 -- Fundamentals of Input and Output</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch06/ch06.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch08/ch08.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 7 -</H1>
+</CENTER>
+<CENTER>
+<H1>Fundamentals of Input and Output</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Displaying Information On-Screen</A>
+	<UL>
+		<LI><A HREF="#Heading2">The printf() Function</A>
+		<LI><A HREF="#Heading3">The printf() Format Strings</A>
+		<LI><A HREF="#Heading4">Displaying Messages with puts()</A>
+	</UL>
+	<LI><A HREF="#Heading5">Inputting Numeric Data with scanf()</A>
+	<LI><A HREF="#Heading6">Summary</A>
+	<LI><A HREF="#Heading7">Q&amp;A</A>
+	<LI><A HREF="#Heading8">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading9">Quiz</A>
+		<LI><A HREF="#Heading10">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>In most programs you create, you will need to display information on the screen
+or read information from the keyboard. Many of the programs presented in earlier
+chapters performed these tasks, but you might not have understood exactly how. Today
+you will learn</P>
+
+<UL>
+	<LI>The basics of C's input and output statements
+	<P>
+	<LI>How to display information on-screen with the printf() and puts() library functions
+	<P>
+	<LI>How to format the information that is displayed on-screen
+	<P>
+	<LI>How to read data from the keyboard with the scanf() library function
+</UL>
+
+<P>This chapter isn't intended to be a complete treatment of these topics, but it
+provides enough information so that you can start writing real programs. These topics
+are covered in greater detail later in this book.</P>
+<P>
+<H2><A NAME="Heading1"></A>Displaying Information On-Screen</H2>
+<P>You will want most of your programs to display information on-screen. The two
+most frequently used ways to do this are with C's library functions printf() and
+puts().</P>
+<P>
+<H3><A NAME="Heading2"></A>The printf() Function</H3>
+<P>The printf() function, part of the standard C library, is perhaps the most versatile
+way for a program to display data on-screen. You've already seen printf() used in
+many of the examples in this book. Now you will to see how printf() works.</P>
+<P>Printing a text message on-screen is simple. Call the printf() function, passing
+the desired message enclosed in double quotation marks. For example, to display An
+error has occurred! on-screen, you write</P>
+<P>
+<PRE>printf(&quot;An error has occurred!&quot;);
+</PRE>
+<P>In addition to text messages, however, you frequently need to display the value
+of program variables. This is a little more complicated than displaying only a message.
+For example, suppose you want to display the value of the numeric variable x on-screen,
+along with some identifying text. Furthermore, you want the information to start
+at the beginning of a new line. You could use the printf() function as follows:</P>
+<P>
+<PRE>printf(&quot;\nThe value of x is %d&quot;, x);
+</PRE>
+<P>The resulting screen display, assuming that the value of x is 12, would be</P>
+<P>
+<PRE>The value of x is 12
+</PRE>
+<P>In this example, two arguments are passed to printf(). The first argument is enclosed
+in double quotation marks and is called the <I>format</I> <I>string</I>. The second
+argument is the name of the variable (x) containing the value to be printed.</P>
+<P>
+<H3><A NAME="Heading3"></A>The printf() Format Strings</H3>
+<P>A printf() format string specifies how the output is formatted. Here are the three
+possible components of a format string:</P>
+
+<UL>
+	<LI><I>Literal text</I> is displayed exactly as entered in the format string. In
+	the preceding example, the characters starting with the T (in The) and up to, but
+	not including, the % comprise a literal string.
+	<P>
+	<LI>An <I>escape</I> <I>sequence</I> provides special formatting control. An escape
+	sequence consists of a backslash (\) followed by a single character. In the preceding
+	example, \n is an escape sequence. It is called the <I>newline character,</I> and
+	it means &quot;move to the start of the next line.&quot; Escape sequences are also
+	used to print certain characters. Escape sequences are listed in Table 7.1.
+	<P>
+	<LI>A <I>conversion</I> <I>specifier</I> consists of the percent sign (%) followed
+	by a single character. In the example, the conversion specifier is %d. A conversion
+	specifier tells printf() how to interpret the variable(s) being printed. The %d tells
+	printf() to interpret the variable x as a signed decimal integer.
+</UL>
+
+<H4>Table 7.1. The most frequently used escape sequences.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Sequence</B></TD>
+		<TD ALIGN="LEFT"><B>Meaning</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\a</TD>
+		<TD ALIGN="LEFT">Bell (alert)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\b</TD>
+		<TD ALIGN="LEFT">Backspace</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\n</TD>
+		<TD ALIGN="LEFT">Newline</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\t</TD>
+		<TD ALIGN="LEFT">Horizontal tab</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\\</TD>
+		<TD ALIGN="LEFT">Backslash</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\?</TD>
+		<TD ALIGN="LEFT">Question mark</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\'</TD>
+		<TD ALIGN="LEFT">Single quotation</TD>
+	</TR>
+</TABLE>
+
+<H4>The printf() Escape Sequences</H4>
+<P>Now let's look at the format string components in more detail. Escape sequences
+are used to control the location of output by moving the screen cursor. They are
+also used to print characters that would otherwise have a special meaning to printf().
+For example, to print a single backslash character, include a double backslash (\\)
+in the format string. The first backslash tells printf() that the second backslash
+is to be interpreted as a literal character, not as the start of an escape sequence.
+In general, the backslash tells printf() to interpret the next character in a special
+manner. Here are some examples:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><I>Sequence</I></TD>
+		<TD ALIGN="LEFT"><I>Meaning</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">n</TD>
+		<TD ALIGN="LEFT">The character n</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\n</TD>
+		<TD ALIGN="LEFT">Newline</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\&quot;</TD>
+		<TD ALIGN="LEFT">The double quotation character</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">&quot;</TD>
+		<TD ALIGN="LEFT">The start or end of a string</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Table 7.1 lists C's most commonly used escape sequences. A full list can be found
+on Day 15, &quot;Pointers: Beyond the Basics.&quot;</P>
+<P>Listing 7.1 demonstrates some of the frequently used escape sequences.</P>
+<P>
+<H4>Listing 7.1. Using printf() escape sequences.</H4>
+<PRE>1:   /* Demonstration of frequently used escape sequences */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   #define QUIT  3
+6:
+7:   int  get_menu_choice( void );
+8:   void print_report( void );
+9:
+10:  main()
+11:  {
+12:      int choice = 0;
+13:
+14:      while (choice != QUIT)
+15:      {
+16:         choice = get_menu_choice();
+17:
+18:         if (choice == 1)
+19:             printf(&quot;\nBeeping the computer\a\a\a&quot; );
+20:         else
+21:         {
+22:             if (choice == 2)
+23:                 print_report();
+24:         }
+25:      }
+26:      printf(&quot;You chose to quit!\n&quot;);
+27:
+28:      return 0;
+29:  }
+30:
+31:  int get_menu_choice( void )
+32:  {
+33:      int selection = 0;
+34:
+35:      do
+36:      {
+37:          printf( &quot;\n&quot; );
+38:          printf( &quot;\n1 - Beep Computer&quot; );
+39:          printf( &quot;\n2 - Display Report&quot;);
+40:          printf( &quot;\n3 - Quit&quot;);
+41:          printf( &quot;\n&quot; );
+42:          printf( &quot;\nEnter a selection:&quot; );
+43:
+44:          scanf( &quot;%d&quot;, &amp;selection );
+45:
+46:       }while ( selection &lt; 1 || selection &gt; 3 );
+47:
+48:       return selection;
+49:  }
+50:
+51:  void print_report( void )
+52:  {
+53:       printf( &quot;\nSAMPLE REPORT&quot; );
+54:       printf( &quot;\n\nSequence\tMeaning&quot; );
+55:       printf( &quot;\n=========\t=======&quot; );
+56:       printf( &quot;\n\\a\t\tbell (alert)&quot; );
+57:       printf( &quot;\n\\b\t\tbackspace&quot; );
+58:       printf( &quot;\n...\t\t...&quot;);
+59:  }
+1 - Beep Computer
+2 - Display Report
+3 - Quit
+Enter a selection:<B>1</B>
+Beeping the computer
+1 - Beep Computer
+2 - Display Report
+3 - Quit
+Enter a selection:<B>2</B>
+SAMPLE REPORT
+Sequence        Meaning
+=========       =======
+\a              bell (alert)
+\b              backspace
+...             ...
+1 - Beep Computer
+2 - Display Report
+3 - Quit
+Enter a selection:<B>3</B>
+You chose to quit!
+</PRE>
+<P><strong>ANALYSIS: </strong> Listing 7.1 seems long compared with previous examples, but
+it offers some additions that are worth noting. The STDIO.H header was included in
+line 3 because printf() is used in this listing. In line 5, a constant named QUIT
+is defined. From Day 3, &quot;Storing Data: Variables and Constants,&quot; you know
+that #define makes using the constant QUIT equivalent to using the value 3. Lines
+7 and 8 are function prototypes. This program has two functions: get_menu_choice()
+and print_report(). get_menu_choice() is defined in lines 31 through 49. This is
+similar to the menu function in Listing 6.5. Lines 37 and 41 contain calls to printf()
+that print the newline escape sequence. Lines 38, 39, 40, and 42 also use the newline
+escape character, and they print text. Line 37 could have been eliminated by changing
+line 38 to the following:</P>
+<P>
+<PRE>printf( &quot;\n\n1 - Beep Computer&quot; );
+</PRE>
+<P>However, leaving line 37 makes the program easier to read.</P>
+<P>Looking at the main() function, you see the start of a while loop on line 14.
+The while loop's statements will keep looping as long as choice is not equal to QUIT.
+Because QUIT is a constant, you could have replaced it with 3; however, the program
+wouldn't be as clear. Line 16 gets the variable choice, which is then analyzed in
+lines 18 through 25 in an if statement. If the user chooses 1, line 19 prints the
+newline character, a message, and then three beeps. If the user selects 2, line 23
+calls the function print_report().</P>
+<P>print_report() is defined on lines 51 through 59. This simple function shows the
+ease of using printf() and the escape sequences to print formatted information to
+the screen. You've already seen the newline character. Lines 54 through 58 also use
+the tab escape character, \t. It aligns the columns of the report vertically. Lines
+56 and 57 might seem confusing at first, but if you start at the left and work to
+the right, they make sense. Line 56 prints a newline (\n), then a backslash (\),
+then the letter a, and then two tabs (\t\t). The line ends with some descriptive
+text, (bell (alert)). Line 57 follows the same format.</P>
+<P>This program prints the first two lines of Table 7.1, along with a report title
+and column headings. In exercise 9 at the end of this chapter, you will complete
+this program by making it print the rest of the table.</P>
+<P>
+<H4>The printf() Conversion Specifiers</H4>
+<P>The format string must contain one conversion specifier for each printed variable.
+printf() then displays each variable as directed by its corresponding conversion
+specifier. You'll learn more about this process on Day 15. For now, be sure to use
+the conversion specifier that corresponds to the type of variable being printed.</P>
+<P>Exactly what does this mean? If you're printing a variable that is a signed decimal
+integer (types int and long), use the %d conversion specifier. For an unsigned decimal
+integer (types unsigned int and unsigned long), use %u. For a floating-point variable
+(types float and double), use the %f specifier. The conversion specifiers you need
+most often are listed in Table 7.2.</P>
+<P>
+<H4>Table 7.2. The most commonly needed conversion specifiers.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Specifier</B></TD>
+		<TD ALIGN="LEFT"><B>Meaning</B></TD>
+		<TD ALIGN="LEFT"><B>Types Converted</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%c</TD>
+		<TD ALIGN="LEFT">Single character</TD>
+		<TD ALIGN="LEFT">char</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%d</TD>
+		<TD ALIGN="LEFT">Signed decimal integer</TD>
+		<TD ALIGN="LEFT">int, short</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%ld</TD>
+		<TD ALIGN="LEFT">Signed long decimal integer</TD>
+		<TD ALIGN="LEFT">long</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%f</TD>
+		<TD ALIGN="LEFT">Decimal floating-point number</TD>
+		<TD ALIGN="LEFT">float, double</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%s</TD>
+		<TD ALIGN="LEFT">Character string</TD>
+		<TD ALIGN="LEFT">char arrays</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%u</TD>
+		<TD ALIGN="LEFT">Unsigned decimal integer</TD>
+		<TD ALIGN="LEFT">unsigned int, unsigned short</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%lu</TD>
+		<TD ALIGN="LEFT">Unsigned long decimal integer</TD>
+		<TD ALIGN="LEFT">unsigned long</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The literal text of a format specifier is anything that doesn't qualify as either
+an escape sequence or a conversion specifier. Literal text is simply printed as is,
+including all spaces.</P>
+<P>What about printing the values of more than one variable? A single printf() statement
+can print an unlimited number of variables, but the format string must contain one
+conversion specifier for each variable. The conversion specifiers are paired with
+variables in left-to-right order. If you write</P>
+<P>
+<PRE>printf(&quot;Rate = %f, amount = %d&quot;, rate, amount);
+</PRE>
+<P>the variable rate is paired with the %f specifier, and the variable amount is
+paired with the %d specifier. The positions of the conversion specifiers in the format
+string determine the position of the output. If there are more variables passed to
+printf() than there are conversion specifiers, the unmatched variables aren't printed.
+If there are more specifiers than variables, the unmatched specifiers print &quot;garbage.&quot;</P>
+<P>You aren't limited to printing the value of variables with printf(). The arguments
+can be any valid C expression. For example, to print the sum of x and y, you could
+write</P>
+<P>
+<PRE>z = x + y;
+printf(&quot;%d&quot;, z);
+</PRE>
+<P>You also could write</P>
+<P>
+<PRE>printf(&quot;%d&quot;, x + y);
+</PRE>
+<P>Any program that uses printf() should include the header file STDIO.H. Listing
+7.2 demonstrates the use of printf(). Day 15 gives more details on printf().</P>
+<P>
+<H4>Listing 7.2. Using printf() to display numerical values.</H4>
+<PRE>1:   /* Demonstration using printf() to display numerical values. */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   int a = 2, b = 10, c = 50;
+6:   float f = 1.05, g = 25.5, h = -0.1;
+7:
+8:   main()
+9:   {
+10:      printf(&quot;\nDecimal values without tabs: %d %d %d&quot;, a, b, c);
+11:      printf(&quot;\nDecimal values with tabs: \t%d \t%d \t%d&quot;, a, b, c);
+12:
+13:      printf(&quot;\nThree floats on 1 line: \t%f\t%f\t%f&quot;, f, g, h);
+14:      printf(&quot;\nThree floats on 3 lines: \n\t%f\n\t%f\n\t%f&quot;, f, g, h);
+15:
+16:      printf(&quot;\nThe rate is %f%%&quot;, f);
+17:      printf(&quot;\nThe result of %f/%f = %f\n&quot;, g, f, g / f);
+18:
+19:      return 0;
+20:  }
+Decimal values without tabs: 2 10 50
+Decimal values with tabs:       2       10      50
+Three floats on 1 line:         1.050000        25.500000        -0.100000
+Three floats on 3 lines:
+        1.050000
+        25.500000
+        -0.100000
+The rate is 1.050000%
+The result of 25.500000/1.050000 = 24.285715
+</PRE>
+<P><strong>ANALYSIS: </strong> Listing 7.2 prints six lines of information. Lines 10 and
+11 each print three decimals: a, b, and c. Line 10 prints them without tabs, and
+line 11 prints them with tabs. Lines 13 and 14 each print three float variables:
+f, g, and h. Line 13 prints them on one line, and line 14 prints them on three lines.
+Line 16 prints a float variable, f, followed by a percent sign. Because a percent
+sign is normally a message to print a variable, you must place two in a row to print
+a single percent sign. This is exactly like the backslash escape character. Line
+17 shows one final concept. When printing values in conversion specifiers, you don't
+have to use variables. You can also use expressions such as g / f, or even constants.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> try to put multiple lines of text into one printf() statement. In most
+	instances, it's clearer to print multiple lines with multiple print statements than
+	to use just one with several newline (\n) escape characters.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> forget to use the newline escape character when printing multiple
+	lines of information in separate printf() statements.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> misspell stdio.h. Many C programmers accidentally type studio.h;
+	however, there is no u. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>The printf() Function</H4>
+<PRE>#include &lt;stdio.h&gt;
+printf( <I>format-string</I>[,<I>arguments</I>,...]);
+</PRE>
+<P>printf() is a function that accepts a series of <I>arguments</I>, each applying
+to a conversion specifier in the given format string. printf() prints the formatted
+information to the standard output device, usually the display screen. When using
+printf(), you need to include the standard input/output header file, STDIO.H.</P>
+<P>The <I>format-string</I> is required; however, arguments are optional. For each
+argument, there must be a conversion specifier. Table 7.2 lists the most commonly
+used conversion specifiers.</P>
+<P>The <I>format-string</I> can also contain escape sequences. Table 7.1 lists the
+most frequently used escape sequences.</P>
+<P>The following are examples of calls to printf() and their output:</P>
+<P><B>Example 1 Input</B></P>
+<P>
+<PRE>#include &lt;stdio.h&gt;
+main()
+{
+    printf(&quot;This is an example of something printed!&quot;);
+    return 0;
+}
+</PRE>
+<P><B>Example 1 Output</B></P>
+<P>
+<PRE>This is an example of something printed!
+</PRE>
+<P><B>Example 2 Input</B></P>
+<P>
+<PRE>printf(&quot;This prints a character, %c\na number, %d\na floating \
+point, %f&quot;, `z', 123, 456.789 );
+</PRE>
+<P><B>Example 2 Output</B></P>
+<P>
+<PRE>This prints a character, z
+a number, 123
+a floating point, 456.789
+</PRE>
+<H3><A NAME="Heading4"></A>Displaying Messages with puts()</H3>
+<P>The puts() function can also be used to display text messages on-screen, but it
+can't display numeric variables. puts() takes a single string as its argument and
+displays it, automatically adding a newline at the end. For example, the statement</P>
+<P>
+<PRE>puts(&quot;Hello, world.&quot;);
+</PRE>
+<P>performs the same action as</P>
+<P>
+<PRE>printf(&quot;Hello, world.\n&quot;);
+</PRE>
+<P>You can include escape sequences (including \n) in a string passed to puts().
+They have the same effect as when they are used with printf() (see Table 7.1).</P>
+<P>Any program that uses puts() should include the header file STDIO.H. Note that
+STDIO.H should be included only once in a program.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use the puts() function instead of the printf() function whenever you want
+	to print text but don't need to print any variables.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> try to use conversion specifiers with the puts() statement. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>The puts() Function</H4>
+<PRE>#include &lt;stdio.h&gt;
+puts( string );
+</PRE>
+<P>puts() is a function that copies a string to the standard output device, usually
+the display screen. When you use puts(), include the standard input/output header
+file (STDIO.H). puts() also appends a newline character to the end of the string
+that is printed. The for- mat string can contain escape sequences. Table 7.1 lists
+the most frequently used escape sequences.</P>
+<P>The following are examples of calls to puts() and their output:</P>
+<P><B>Example 1 Input</B></P>
+<P>
+<PRE>puts(&quot;This is printed with the puts() function!&quot;);
+</PRE>
+<P><B>Example 1 Output</B></P>
+<P>
+<PRE>This is printed with the puts() function!
+</PRE>
+<P><B>Example 2 Input</B></P>
+<P>
+<PRE>puts(&quot;This prints on the first line. \nThis prints on the second line.&quot;);
+puts(&quot;This prints on the third line.&quot;);
+puts(&quot;If these were printf()s, all four lines would be on two lines!&quot;);
+</PRE>
+<P><B>Example 2 Output</B></P>
+<P>
+<PRE>This prints on the first line.
+This prints on the second line.
+This prints on the third line.
+If these were printf()s, all four lines would be on two lines!
+</PRE>
+<H2><A NAME="Heading5"></A>Inputting Numeric Data with scanf()</H2>
+<P>Just as most programs need to output data to the screen, they also need to input
+data from the keyboard. The most flexible way your program can read numeric data
+from the keyboard is by using the scanf() library function.</P>
+<P>The scanf() function reads data from the keyboard according to a specified format
+and assigns the input data to one or more program variables. Like printf(), scanf()
+uses a format string to describe the format of the input. The format string utilizes
+the same conversion specifiers as the printf() function. For example, the statement</P>
+<P>
+<PRE>scanf(&quot;%d&quot;, &amp;x);
+</PRE>
+<P>reads a decimal integer from the keyboard and assigns it to the integer variable
+x. Likewise, the following statement reads a floating-point value from the keyboard
+and assigns it to the variable rate:</P>
+<P>
+<PRE>scanf(&quot;%f&quot;, &amp;rate);
+</PRE>
+<P>What is that ampersand (&amp;) before the variable's name? The &amp; symbol is
+C's <I>address-of</I> operator, which is fully explained on Day 9, &quot;Understanding
+Pointers.&quot; For now, all you need to remember is that scanf() requires the &amp;
+symbol before each numeric variable name in its argument list (unless the variable
+is a pointer, which is also explained on Day 9).</P>
+<P>A single scanf() can input more than one value if you include multiple conversion
+specifiers in the format string and variable names (again, each preceded by &amp;
+in the argument list). The following statement inputs an integer value and a floating-point
+value and assigns them to the variables x and rate, respectively:</P>
+<P>
+<PRE>scanf(&quot;%d %f&quot;, &amp;x, &amp;rate);
+</PRE>
+<P>When multiple variables are entered, scanf() uses white space to separate input
+into fields. White space can be spaces, tabs, or new lines. Each conversion specifier
+in the scanf() format string is matched with an input field; the end of each input
+field is identified by white space.</P>
+<P>This gives you considerable flexibility. In response to the preceding scanf(),
+you could enter</P>
+<P>
+<PRE>10 12.45
+</PRE>
+<P>You also could enter this:</P>
+<P>
+<PRE>10                   12.45
+</PRE>
+<P>or this:</P>
+<P>
+<PRE>10
+12.45
+</PRE>
+<P>As long as there's some white space between values, scanf() can assign each value
+to its variable.</P>
+<P>As with the other functions discussed in this chapter, programs that use scanf()
+must include the STDIO.H header file. Although Listing 7.3 gives an example of using
+scanf(), a more complete description is presented on Day 15.</P>
+<P>
+<H4>Listing 7.3. Using scanf() to obtain numerical values.</H4>
+<PRE>1:   /* Demonstration of using scanf() */
+2:
+3:   #include &lt;stdio.h&gt;
+4:
+5:   #define QUIT 4
+6:
+7:   int get_menu_choice( void );
+8:
+9:   main()
+10:  {
+11:      int   choice    = 0;
+12:      int   int_var   = 0;
+13:      float float_var = 0.0;
+14:      unsigned unsigned_var = 0;
+15:
+16:      while (choice != QUIT)
+17:      {
+18:          choice = get_menu_choice();
+19:
+20:          if (choice == 1)
+21:          {
+22:              puts(&quot;\nEnter a signed decimal integer (i.e. -123)&quot;);
+23:              scanf(&quot;%d&quot;, &amp;int_var);
+24:          }
+25:          if (choice == 2)
+26:          {
+27:              puts(&quot;\nEnter a decimal floating-point number\
+28                    (i.e. 1.23)&quot;);
+29:              scanf(&quot;%f&quot;, &amp;float_var);
+30:          }
+31:          if (choice == 3)
+32:          {
+33:               puts(&quot;\nEnter an unsigned decimal integer \
+34                    (i.e. 123)&quot; );
+35:               scanf( &quot;%u&quot;, &amp;unsigned_var );
+36:          }
+37:      }
+38:      printf(&quot;\nYour values are: int: %d  float: %f  unsigned: %u \n&quot;,
+39:                                 int_var, float_var, unsigned_var );
+40:
+41:     return 0;
+42:  }
+43:
+44:  int get_menu_choice( void )
+45:  {
+46:      int selection = 0;
+47:
+48:      do
+49:      {
+50:          puts( &quot;\n1 - Get a signed decimal integer&quot; );
+51:          puts( &quot;2 - Get a decimal floating-point number&quot; );
+52:          puts( &quot;3 - Get an unsigned decimal integer&quot; );
+53:          puts( &quot;4 - Quit&quot; );
+54:          puts( &quot;\nEnter a selection:&quot; );
+55:
+56:          scanf( &quot;%d&quot;, &amp;selection );
+57:
+58:       }while ( selection &lt; 1 || selection &gt; 4 );
+59:
+60:       return selection;
+61:  }
+1 - Get a signed decimal integer
+2 - Get a decimal floating-point number
+3 - Get an unsigned decimal integer
+4 - Quit
+Enter a selection:
+<B>1</B>
+Enter a signed decimal integer (i.e. -123)
+<B>-123</B>
+1 - Get a signed decimal integer
+2 - Get a decimal floating-point number
+3 - Get an unsigned decimal integer
+4 - Quit
+Enter a selection:
+<B>3</B>
+Enter an unsigned decimal integer (i.e. 123)
+<B>321</B>
+1 - Get a signed decimal integer
+2 - Get a decimal floating-point number
+3 - Get an unsigned decimal integer
+4 - Quit
+Enter a selection:
+<B>2</B>
+Enter a decimal floating point number (i.e. 1.23)
+<B>1231.123</B>
+1 - Get a signed decimal integer
+2 - Get a decimal floating-point number
+3 - Get an unsigned decimal integer
+4 - Quit
+Enter a selection:
+<B>4</B>
+Your values are: int: -123  float: 1231.123047 unsigned: 321
+</PRE>
+<P><strong>ANALYSIS: </strong> Listing 7.3 uses the same menu concepts that were used in
+Listing 7.1. The differences in get_menu_choice() (lines 44 through 61) are minor
+but should be noted. First, puts() is used instead of printf(). Because no variables
+are printed, there is no need to use printf(). Because puts() is being used, the
+newline escape characters have been removed from lines 51 through 53. Line 58 was
+also changed to allow values from 1 to 4 because there are now four menu options.
+Notice that line 56 has not changed; however, now it should make a little more sense.
+scanf() gets a decimal value and places it in the variable selection. The function
+returns selection to the calling program in line 60.</P>
+<P>Listings 7.1 and 7.3 use the same main() structure. An if statement evaluates
+choice, the return value of get_menu_choice(). Based on choice's value, the program
+prints a message, asks for a number to be entered, and reads the value using scanf().
+Notice the difference between lines 23, 29, and 35. Each is set up to get a different
+type of variable. Lines 12 through 14 declare variables of the appropriate types.</P>
+<P>When the user selects Quit, the program prints the last-entered number for all
+three types. If the user didn't enter a value, 0 is printed, because lines 12, 13,
+and 14 initialized all three types. One final note on lines 20 through 36: The if
+statements used here are not structured well. If you're thinking that an if...else
+structure would have been better, you're correct. Day 14, &quot;Working with the
+Screen, Printer, and Keyboard,&quot; introduces a new control statement, switch.
+This statement offers an even better option.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> forget to include the address-of operator (&amp;) when using scanf()
+	variables.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use printf() or puts() in conjunction with scanf(). Use the printing
+	functions to display a prompting message for the data you want scanf() to get. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>The scanf() Function</H4>
+<PRE>#include &lt;stdio.h&gt;
+scanf( <I>format-string</I>[,<I>arguments</I>,...]);
+</PRE>
+<P>scanf() is a function that uses a conversion specifier in a given format-string
+to place values into variable arguments. The arguments should be the addresses of
+the variables rather than the actual variables themselves. For numeric variables,
+you can pass the address by putting the address-of operator (&amp;) at the beginning
+of the variable name. When using scanf(), you should include the STDIO.H header file.</P>
+<P>scanf() reads input fields from the standard input stream, usually the keyboard.
+It places each of these read fields into an argument. When it places the information,
+it converts it to the format of the corresponding specifier in the format string.
+For each argument, there must be a conversion specifier. Table 7.2 lists the most
+commonly needed conversion specifiers.</P>
+<P><B>Example 1</B></P>
+<P>
+<PRE>int x, y, z;
+scanf( &quot;%d %d %d&quot;, &amp;x, &amp;y, &amp;z);
+</PRE>
+<P><B>Example 2</B></P>
+<P>
+<PRE>#include &lt;stdio.h&gt;
+main()
+{
+    float y;
+    int x;
+    puts( &quot;Enter a float, then an int&quot; );
+    scanf( &quot;%f %d&quot;, &amp;y, &amp;x);
+    printf( &quot;\nYou entered %f and %d &quot;, y, x );
+    return 0;
+}
+</PRE>
+<H2><A NAME="Heading6"></A>Summary</H2>
+<P>With the completion of this chapter, you are ready to write your own C programs.
+By combining the printf(), puts(), and scanf() functions and the programming control
+statements you learned about in earlier chapters, you have the tools needed to write
+simple programs.</P>
+<P>Screen display is performed with the printf() and puts() functions. The puts()
+function can display text messages only, whereas printf() can display text messages
+and variables. Both functions use escape sequences for special characters and printing
+controls.</P>
+<P>The scanf() function reads one or more numeric values from the keyboard and interprets
+each one according to a conversion specifier. Each value is assigned to a program
+variable.</P>
+<P>
+<H2><A NAME="Heading7"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q Why should I use puts() if printf() does everything puts() does and more?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> Because printf() does more, it has additional overhead. When you're
+	trying to write a small, efficient program, or when your programs get big and resources
+	are valuable, you will want to take advantage of the smaller overhead of puts().
+	In general, you should use the simplest available resource.
+	<P>
+	<DT></DT>
+	<DD><B>Q Why do I need to include STDIO.H when I use printf(), puts(), or scanf()?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> STDIO.H contains the prototypes for the standard input/output functions.
+	printf(), puts(), and scanf() are three of these standard functions. Try running
+	a program without the STDIO.H header and see the errors and warnings you get.
+	<P>
+	<DT></DT>
+	<DD><B>Q What happens if I leave the address-of operator (&amp;) off a scanf() variable?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> This is an easy mistake to make. Unpredictable results can occur if
+	you forget the address-of operator. When you read about pointers on Days 9 and 13,
+	you will understand this better. For now, know that if you omit the address-of operator,
+	scanf() doesn't place the entered information in your variable, but in some other
+	place in memory. This could do anything from apparently having no effect to locking
+	up your computer so that you must reboot.
+	<P>
+</DL>
+
+<H2><A NAME="Heading8"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered, and exercises to provide you with experience in using what
+you've learned.</P>
+<P>
+<H3><A NAME="Heading9"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>What is the difference between puts() and printf()?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>What header file should you include when you use printf()?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>What do the following escape sequences do?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>\\
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>\b
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>\n
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>\t
+	<P>
+	<DT></DT>
+	<DD><B>e. </B>\a
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>What conversion specifiers should be used to print the following?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>A character string
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>A signed decimal integer
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>A decimal floating-point number
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>What is the difference between using each of the following in the literal
+	text of puts()?
+	<P>
+	<DT></DT>
+	<DD><B>a. </B>b
+	<P>
+	<DT></DT>
+	<DD><B>b. </B>\b
+	<P>
+	<DT></DT>
+	<DD><B>c. </B>\
+	<P>
+	<DT></DT>
+	<DD><B>d. </B>\\
+	<P>
+</DL>
+
+<H3><A NAME="Heading10"></A>Exercises</H3>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> Starting with this chapter, some of the exercises ask you to write
+	complete programs that perform a particular task. Because there is always more than
+	one way to do things in C, the answers provided at the back of the book shouldn't
+	be interpreted as the only correct ones. If you can write your own code that performs
+	what's required, great! If you have trouble, refer to the answer for help. The answers
+	are presented with minimal comments because it's good practice for you to figure
+	out how they operate. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Write both a printf() and a puts() statement to start a new line.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Write a scanf() statement that could be used to get a character, an
+	unsigned decimal integer, and another single character.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Write the statements to get an integer value and print it.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Modify exercise 3 so that it accepts only even values (2, 4, 6, and
+	so on).
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Modify exercise 4 so that it returns values until the number 99 is
+	entered, or until six even values have been entered. Store the numbers in an array.
+	(Hint: You need a loop.)
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Turn exercise 5 into an executable program. Add a function that prints
+	the values, separated by tabs, in the array on a single line. (Print only the values
+	that were entered into the array.)
+	<P>
+	<DT></DT>
+	<DD><B>7. BUG</B> <B>BUSTER:</B> Find the error(s) in the following code fragment:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>printf( &quot;Jack said, &quot;Peter Piper picked a peck of pickled peppers.&quot;&quot;);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>8. BUG</B> <B>BUSTER:</B> Find the error(s) in the following program:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int get_1_or_2( void )
+{
+    int answer = 0;
+    while (answer &lt; 1 || answer &gt; 2)
+    {
+        printf(Enter 1 for Yes, 2 for No);
+        scanf( &quot;%f&quot;, answer );
+    }
+    return answer;
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>9. </B>Using Listing 7.1, complete the print_report() function so that it
+	prints the rest of Table 7.1.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>Write a program that inputs two floating-point values from the keyboard
+	and then displays their product.
+	<P>
+	<DT></DT>
+	<DD><B>11. </B>Write a program that inputs 10 integer values from the keyboard and
+	then displays their sum.
+	<P>
+	<DT></DT>
+	<DD><B>12. </B>Write a program that inputs integers from the keyboard, storing them
+	in an array. Input should stop when a zero is entered or when the end of the array
+	is reached. Then, find and display the array's largest and smallest values. (Note:
+	This is a tough problem, because arrays haven't been completely covered in this book
+	yet. If you have difficulty, try solving this problem again after reading Day 8,
+	&quot;Using Numeric Arrays.&quot;)
+</DL>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch06/ch06.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch08/ch08.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

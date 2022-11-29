@@ -1,0 +1,1509 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Appendix D -- Portability Issues</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../apc/apc.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ape/ape.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- D -</H1>
+</CENTER>
+<CENTER>
+<H1>Portability Issues</H1>
+</CENTER>
+<H1></H1>
+
+<UL>
+	<LI><A HREF="#Heading1">The ANSI Standard</A>
+	<UL>
+		<LI><A HREF="#Heading2">The ANSI Keywords</A>
+		<LI><A HREF="#Heading3">Case Sensitivity</A>
+		<LI><A HREF="#Heading4">Portable Characters</A>
+	</UL>
+	<LI><A HREF="#Heading5">Guaranteeing ANSI Compatibility</A>
+	<LI><A HREF="#Heading6">Avoiding the ANSI Standard</A>
+	<LI><A HREF="#Heading7">Using Portable Numeric Variables</A>
+	<UL>
+		<LI><A HREF="#Heading8">Maximum and Minimum Values</A>
+		<LI><A HREF="#Heading9">Classifying Numbers</A>
+		<LI><A HREF="#Heading10">Converting a Character's Case: A Portability Example</A>
+	</UL>
+	<LI><A HREF="#Heading11">Portable Structures and Unions</A>
+	<UL>
+		<LI><A HREF="#Heading12">Word Alignment</A>
+		<LI><A HREF="#Heading13">Reading and Writing Structures</A>
+		<LI><A HREF="#Heading14">Using Non-ANSI Features in Portable Programs</A>
+		<LI><A HREF="#Heading15">ANSI Standard Header Files</A>
+	</UL>
+	<LI><A HREF="#Heading16">Summary</A>
+	<LI><A HREF="#Heading17">Q&amp;A</A>
+	<LI><A HREF="#Heading18">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading19">Quiz</A>
+		<LI><A HREF="#Heading20">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>The term <I>portability</I> refers to the ease with which a program's source code
+can be moved from one platform to another. Can the program you wrote for your PC
+be compiled on a UNIX workstation? How about a Macintosh? One of the major reasons
+people choose C as their programming language is its portability. C is potentially
+one of the most portable programming languages.</P>
+<P>Why <I>potentially</I>? Most C compilers provide <I>extensions,</I> which are
+extra features that can be very useful but that aren't part of the C standard. If
+you try to port to another platform a program that uses compiler extensions, you
+will almost surely run into problems and have to recode parts of the program. If
+you're sure that your program will never be moved to another platform, you can use
+your compiler's extensions freely. However, if portability could be an issue, you
+need to tread more carefully. This appendix outlines the issues you need to consider.</P>
+<P>
+<H3><A NAME="Heading1"></A>The ANSI Standard</H3>
+<P>Portability doesn't happen by accident. It occurs when you adhere to a set of
+standards followed by other programmers and other compilers. For this reason, it's
+wise to choose a compiler that follows the standards for C programming set by the
+American National Standards Institute (ANSI). The ANSI committee sets standards for
+many areas, including other programming languages. Almost all C compilers provide
+the option of adhering to the ANSI standard.</P>
+<P>
+<H3><A NAME="Heading2"></A>The ANSI Keywords</H3>
+<P>The C language contains relatively few keywords. A <I>keyword</I> is a word that
+is reserved for a program command. The ANSI C keywords are listed in Table D.1.</P>
+<P>
+<H4>Table D.1. The ANSI C keywords.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">asm</TD>
+		<TD ALIGN="LEFT">auto</TD>
+		<TD ALIGN="LEFT">break</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">case</TD>
+		<TD ALIGN="LEFT">char</TD>
+		<TD ALIGN="LEFT">const</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">continue</TD>
+		<TD ALIGN="LEFT">default</TD>
+		<TD ALIGN="LEFT">do</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">double</TD>
+		<TD ALIGN="LEFT">else</TD>
+		<TD ALIGN="LEFT">enum</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">extern</TD>
+		<TD ALIGN="LEFT">float</TD>
+		<TD ALIGN="LEFT">for</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">goto</TD>
+		<TD ALIGN="LEFT">if</TD>
+		<TD ALIGN="LEFT">int</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">long</TD>
+		<TD ALIGN="LEFT">register</TD>
+		<TD ALIGN="LEFT">return</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">short</TD>
+		<TD ALIGN="LEFT">signed</TD>
+		<TD ALIGN="LEFT">sizeof</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">static</TD>
+		<TD ALIGN="LEFT">struct</TD>
+		<TD ALIGN="LEFT">switch</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">typedef</TD>
+		<TD ALIGN="LEFT">union</TD>
+		<TD ALIGN="LEFT">unsigned</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">void</TD>
+		<TD ALIGN="LEFT">volatile</TD>
+		<TD ALIGN="LEFT">while</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Most compilers provide other keywords as well. Examples of compiler-specific keywords
+are near and huge. Although several compilers might use the same compiler-specific
+keywords, there is no guarantee that those keywords will be portable to every ANSI-standard
+compiler.</P>
+<P>
+<H3><A NAME="Heading3"></A>Case Sensitivity</H3>
+<P>Case sensitivity is an important issue in programming languages. Unlike some languages
+that ignore case, C is case-sensitive. This means that a variable named a is different
+from a variable named A. Listing D.1 illustrates the difference.</P>
+<P>
+<H4>Listing D.1. Case sensitivity.</H4>
+<PRE>1:   /*=======================================================*
+2:    * Program: listD01.c                                    *
+3:    * Book:    Teach Yourself C in 21 Days                  *
+4:    * Purpose: This program demonstrates case sensitivity   *
+5:    *=======================================================*/
+6:   #include &lt;stdio.h&gt;
+7:   int main(void)
+8:   {
+9:     int   var1 = 1,
+10:          var2 = 2;
+11:    char  VAR1 = `A',
+12:          VAR2 = `B';
+13:    float Var1 = 3.3,
+14:          Var2 = 4.4;
+15:    int   xyz  = 100,
+16:          XYZ  = 500;
+17:
+18:    printf( &quot;\n\nPrint the values of the variables...\n&quot; );
+19:
+20:    printf( &quot;\nThe integer values:   var1 = %d, var2 = %d&quot;,
+21:             var1, var2 );
+22:    printf( &quot;\nThe character values: VAR1 = %c, VAR2 = %c&quot;,
+23:             VAR1, VAR2 );
+24:    printf( &quot;\nThe float values:     Var1 = %f, Var2 = %f&quot;,
+25:             Var1, Var2 );
+26:    printf( &quot;\nThe other integers:   xyz = %d, XYZ = %d&quot;,
+27:             xyz, XYZ );
+28:
+29:    printf( &quot;\n\nDone printing the values!\n&quot; );
+30:
+31:    return 0;
+32:  }
+Print the values of the variables...
+The integer values:     var1 = 1, var2 = 2
+The character values:   VAR1 = A, VAR2 = B
+The float values:       Var1 = 3.300000, Var2 = 4.400000
+The other integers:     xyz = 100, XYZ = 500
+Done printing the values!
+</PRE>
+<P><strong>ANALYSIS: </strong> This program uses several variables with the same names.
+In lines 9 and 10, var1 and var2 are defined as integer values. In lines 11 and 12,
+the same variable names are used with different cases. This time, VAR1 and VAR2 are
+all-uppercase. In lines 13 and 14, a third set of declarations is made with the same
+names, but with another different case. This time, Var1 and Var2 are declared as
+float values. In each of these three sets of declarations, values are placed in the
+variables so that they can be printed later. The printing for these three sets of
+declarations occurs in lines 20 through 25. As you can see, the values placed in
+the variables are retained, and each value is printed.</P>
+<P>Lines 15 and 16 declare two variables of the same type--integers--and the same
+name. The only difference between these two variables is that one is uppercase and
+the other is not. Each of these variables has its own value, which is printed on
+lines 26 and 27.</P>
+<P>Although it's possible to use only case to differentiate variables, this isn't
+a practice to enter into lightly. Not all computer systems that have C compilers
+available are case-sensitive. Because of this, code might not be portable if only
+case is used to differentiate variables. For portable code, you should always ensure
+that variables are differentiated by something other than the case of the variable
+name.</P>
+<P>Case sensitivity can cause problems in more than just the compiler. It can also
+cause problems with the linker. The compiler might be able to differentiate between
+variables with only case differences, but the linker might not.</P>
+<P>Most compilers and linkers let you set a flag to cause case to be ignored. You
+should check your compiler to determine the flag that needs to be set. When you recompile
+a listing with variables differentiated by case only, you should get an error similar
+to the following. Of course, var1 would be whatever variable you're using:</P>
+<P>
+<PRE>listD01.c:
+Error listD01.c 16: Multiple declaration for `var1' in function main
+*** 1 errors in Compile ***
+</PRE>
+<H3><A NAME="Heading4"></A>Portable Characters</H3>
+<P>Characters within the computer are represented as numbers. On an IBM PC or compatible,
+the letter A is represented by the number 65, and the letter a is represented by
+the number 97. These numbers come from an ASCII table (which can be found in Appendix
+A).</P>
+<P>If you're writing portable programs, you can't assume that the ASCII table is
+the character translation table being used. A different table might be used on a
+different computer system. In other words, on a mainframe, character 65 might not
+be A.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>WARNING:</strong> You must be careful when using character numerics. Character numerics
+	might not be portable. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>Two general rules apply to how a character set is to be defined. The first rule
+restricting the character set is that the size of a character's value can't be larger
+than the size of the char type. In an 8-bit system, 255 is the maximum value that
+can be stored in a single char variable. Because of this, you wouldn't have a character
+with a value greater than 255. If you're working on a machine with a 16-bit character,
+65,535 is the maximum value for a character.</P>
+<P>The second rule restricting the character set is that each character must be represented
+by a positive number. The portable characters within the ASCII character set are
+those from 1 to 127. The values from 128 to 255 aren't guaranteed to be portable.
+These extended characters can't be guaranteed because a signed character has only
+127 positive values.</P>
+<P>
+<H2><A NAME="Heading5"></A>Guaranteeing ANSI Compatibility</H2>
+<P>The predefined constant __STDC__ is used to help guarantee ANSI compatibility.
+When the listing is compiled with ANSI compatibility set on, this constant is defined--generally
+as 1. It is undefined when ANSI compatibility isn't on.</P>
+<P>Virtually every compiler gives you the option to compile with ANSI enforced. This
+is usually done either by setting a switch within the IDE (Integrated Development
+Environment) or by passing an additional parameter on the command line when compiling.
+By setting the ANSI on, you help ensure that the program will be portable to other
+compilers and platforms.</P>
+<P>To compile a program using Borland's Turbo C command line, you would enter the
+following on the command line:</P>
+<P>
+<PRE>TCC -A program.c
+</PRE>
+<P>If you're compiling with a Microsoft compiler, you would enter</P>
+<P>
+<PRE>CL /Ze program.c
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> Most compilers with Integrated Development Environments (IDEs) provide
+	an ANSI option. By selecting the ANSI option, you are virtually guaranteed ANSI compatibility.
+	
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>The compiler then provides additional error checking to ensure that ANSI rules
+are met. In some cases, there are errors and warnings that are no longer checked.
+An example is prototype checking. Most compilers display warnings if a function isn't
+prototyped before it is used; however, the ANSI standards don't require this. Because
+ANSI doesn't require the prototypes, you might not receive the required prototype
+warnings.</P>
+<P>
+<H2><A NAME="Heading6"></A>Avoiding the ANSI Standard</H2>
+<P>There are several reasons why you wouldn't want to compile your program with ANSI
+compatibility on. The most common reason involves taking advantage of your compiler's
+added features. Many features, such as special screen-handling functions, either
+aren't covered within the ANSI standard or might be compiler-specific. If you decide
+to use these compiler-specific features, you won't want the ANSI flag set. In addition,
+if you use these features, you might eliminate the portability of your program. Later
+in this chapter, you'll see a way around this limitation.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO </B>use more than just case to differentiate variable names.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> assume numeric values for characters. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading7"></A>Using Portable Numeric Variables</H2>
+<P>The numeric values that can be stored in a specific variable type might not be
+consistent across compilers. Only a few rules are defined within the ANSI standard
+regarding the numeric values that can be stored in each variable type. On Day 3,
+&quot;Storing Data: Variables and Constants,&quot; Table 3.2 presented the values
+typically stored in IBM-compatible PCs. However, these values aren't guaranteed.</P>
+<P>The following rules apply to variable types:</P>
+
+<UL>
+	<LI>A character (char) is the smallest data type. A character variable (type char)
+	will be one byte.
+	<P>
+	<LI>A short variable (type short) will be smaller than or equal to an integer variable
+	(type int).
+	<P>
+	<LI>An integer variable (type int) will be smaller than or equal to the size of a
+	long variable (type long).
+	<P>
+	<LI>An unsigned integer variable (type unsigned) is equal to the size of a signed
+	integer variable (type int).
+	<P>
+	<LI>A float variable (type float) will be less than or equal to the size of a double
+	variable (type double).
+</UL>
+
+<P>Listing D.2 presents a commonly used way to print the size of the variables based
+on the machine on which the program is compiled.</P>
+<P>
+<H4>Listing D.2. Printing the size of the data types.</H4>
+<PRE>1:   /*==========================================================*
+2:    * Program: listD02.c                                       *
+3:    * Book:    Teach Yourself C in 21 Days                     *
+4:    * Purpose: This program prints the sizes of the variable   *
+5:    *          types of the machine the program is compiled on *
+6:    *==========================================================*/
+7:   #include &lt;stdio.h&gt;
+8:   int main(void)
+9:   {
+10:    printf( &quot;\nVariable Type Sizes&quot; );
+11:    printf( &quot;\n=========================&quot; );
+12:    printf( &quot;\nchar             %d&quot;, sizeof(char) );
+13:    printf( &quot;\nshort            %d&quot;, sizeof(short) );
+14:    printf( &quot;\nint              %d&quot;, sizeof(int) );
+15:    printf( &quot;\nfloat            %d&quot;, sizeof(float) );
+16:    printf( &quot;\ndouble           %d&quot;, sizeof(double) );
+17:
+18:    printf( &quot;\n\nunsigned char    %d&quot;, sizeof(unsigned char) );
+19:    printf( &quot;\nunsigned short   %d&quot;, sizeof(unsigned short) );
+20:    printf( &quot;\nunsigned int     %d\n&quot;, sizeof(unsigned int) );
+21:
+22:    return 0;
+23:  }
+Variable Type Sizes
+=========================
+char             1
+short            2
+int              2
+float            4
+double           8
+unsigned char    1
+unsigned short   2
+unsigned int     2
+</PRE>
+<P><strong>ANALYSIS: </strong> As you can see, the sizeof() operator is used to print the
+size in bytes of each variable type. The output shown is based on the program's being
+compiled on a 16-bit IBM-compatible PC with a 16-bit compiler. If compiled on a different
+machine or with a different compiler, the sizes might be different. For example,
+a 32-bit compiler on a 32-bit machine might yield four bytes rather than two for
+the size of an integer.</P>
+<P>
+<H3><A NAME="Heading8"></A>Maximum and Minimum Values</H3>
+<P>If different machines have variable types that are different sizes, how do you
+know what values can be stored? It depends on the number of bytes that make up the
+data type and whether the variable is signed or unsigned. On Day 3, Table 3.2 shows
+the different values you can store based on the number of bytes. The maximum and
+minimum values that can be stored for integral types, such as integers, are based
+on the bits. For floating values, such as floats and doubles, larger values can be
+stored at the cost of precision. Table D.2 shows both integral-variable and floating-decimal
+values.</P>
+<P>
+<H4>Table D.2. Possible values based on byte size.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Number</B></TD>
+		<TD ALIGN="LEFT"><B>Unsigned</B></TD>
+		<TD ALIGN="LEFT"><B>Signed</B></TD>
+		<TD ALIGN="LEFT"><B>Signed</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>of Bytes</B></TD>
+		<TD ALIGN="LEFT"><B>Maximum</B></TD>
+		<TD ALIGN="LEFT"><B>Minimum</B></TD>
+		<TD ALIGN="LEFT"><B>Maximum</B></TD>
+	</TR>
+	<TR ALIGN="CENTER" VALIGN="TOP">
+		<TD ALIGN="CENTER">
+			<P ALIGN="CENTER"><B>Integral Types</B>
+		</TD>
+		<TD ALIGN="CENTER"></TD>
+		<TD ALIGN="CENTER"></TD>
+		<TD ALIGN="CENTER"></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">1</TD>
+		<TD ALIGN="LEFT">255</TD>
+		<TD ALIGN="LEFT">-128</TD>
+		<TD ALIGN="LEFT">127</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">65,535</TD>
+		<TD ALIGN="LEFT">-32,768</TD>
+		<TD ALIGN="LEFT">32,767</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">4,294,967,295</TD>
+		<TD ALIGN="LEFT">-2,147,483,648</TD>
+		<TD ALIGN="LEFT">2,147,438,647</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">8</TD>
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">1.844674 * E19</TD>
+		<TD ALIGN="LEFT"></TD>
+	</TR>
+</TABLE>
+</P>
+<CENTER>
+<P><B>Floating Decimal Sizes</B>
+</CENTER>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">4<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">3.4 E-38</TD>
+		<TD ALIGN="LEFT">3.4 E38</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">8<SUP>**</SUP></TD>
+		<TD ALIGN="LEFT">1.7 E-308</TD>
+		<TD ALIGN="LEFT">1.7 E308</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">10<SUP>***</SUP></TD>
+		<TD ALIGN="LEFT">3.4 E-4932</TD>
+		<TD ALIGN="LEFT">1.1 E4932</TD>
+	</TR>
+</TABLE>
+<SUP>*</SUP>Precision taken to 7 digits.<BR>
+<SUP>**</SUP>Precision taken to 15 digits.<BR>
+<SUP>***</SUP>Precision taken to 19 digits.</P>
+
+<P>Knowing the maximum value based on the number of bytes and variable type is good;
+however, as you saw earlier, you don't always know the number of bytes in a portable
+program. In addition, you can't be completely sure of the level of precision used
+in floating-point numbers. Because of this, you must be careful about what numbers
+you assign to variables. For example, assigning the value of 3,000 to an integer
+variable is a safe assignment, but what about assigning 100,000? If it's an unsigned
+integer on a 16-bit machine, you'll get unusual results because the maximum value
+is 65,535. If a 4-byte integer is being used, assigning 100,000 would be okay.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>WARNING:</strong> You aren't guaranteed that the values in Table D.2 are the same
+	for every compiler. Each compiler might choose a slightly different number. This
+	is especially true with the floating-point numbers, which can have different levels
+	of precision. Tables D.3 and D.4 provide a compatible way of using these numbers.
+	
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P>ANSI has standardized a set of defined constants that are to be included in the
+header files LIMITS.H and FLOAT.H. These constants define the number of bits within
+a variable type. In addition, they define the minimum and maximum values. Table D.3
+lists the values defined in LIMITS.H. These values apply to the integral data types.
+The values in FLOAT.H contain the values for the floating-point types.</P>
+<P>
+<H4>Table D.3. The ANSI-defined constants within LIMITS.H.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Constant</B></TD>
+		<TD ALIGN="LEFT"><B>Value</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">CHAR_BIT</TD>
+		<TD ALIGN="LEFT">Character variable's number of bits.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">CHAR_MIN</TD>
+		<TD ALIGN="LEFT">Character variable's minimum value (signed).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">CHAR_MAX</TD>
+		<TD ALIGN="LEFT">Character variable's maximum value (signed).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">SCHAR_MIN</TD>
+		<TD ALIGN="LEFT">Signed character variable's minimum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">SCHAR_MAX</TD>
+		<TD ALIGN="LEFT">Signed character variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">UCHAR_MAX</TD>
+		<TD ALIGN="LEFT">Unsigned character's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">INT_MIN</TD>
+		<TD ALIGN="LEFT">Integer variable's minimum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">INT_MAX</TD>
+		<TD ALIGN="LEFT">Integer variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">UINT_MAX</TD>
+		<TD ALIGN="LEFT">Unsigned integer variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">SHRT_MIN</TD>
+		<TD ALIGN="LEFT">Short variable's minimum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">SHRT_MAX</TD>
+		<TD ALIGN="LEFT">Short variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">USHRT_MAX</TD>
+		<TD ALIGN="LEFT">Unsigned short variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LONG_MIN</TD>
+		<TD ALIGN="LEFT">Long variable's minimum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LONG_MAX</TD>
+		<TD ALIGN="LEFT">Long variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ULONG_MAX</TD>
+		<TD ALIGN="LEFT">Unsigned long variable's maximum value.</TD>
+	</TR>
+</TABLE>
+
+<H4>Table D.4. The ANSI-defined constants within FLOAT.H.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Constant</B></TD>
+		<TD ALIGN="LEFT"><B>Value</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FLT_DIG</TD>
+		<TD ALIGN="LEFT">Precision digits in a variable of type float.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">DBL_DIG</TD>
+		<TD ALIGN="LEFT">Precision digits in a variable of type double.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LDBL_DIG</TD>
+		<TD ALIGN="LEFT">Precision digits in a variable of type long double.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FLT_MAX</TD>
+		<TD ALIGN="LEFT">Float variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FLT_MAX_10_EXP</TD>
+		<TD ALIGN="LEFT">Float variable's exponent maximum value (base 10).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FLT_MAX_EXP</TD>
+		<TD ALIGN="LEFT">Float variable's exponent maximum value (base 2).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FLT_MIN</TD>
+		<TD ALIGN="LEFT">Float variable's minimum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FLT_MIN_10_EXP</TD>
+		<TD ALIGN="LEFT">Float variable's exponent minimum value (base 10).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">FLT_MIN_EXP</TD>
+		<TD ALIGN="LEFT">Float variable's exponent minimum value (base 2).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">DBL_MAX</TD>
+		<TD ALIGN="LEFT">Double variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">DBL_MAX_10_EXP</TD>
+		<TD ALIGN="LEFT">Double variable's exponent maximum value (base 10).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">DBL_MAX_EXP</TD>
+		<TD ALIGN="LEFT">Double variable's exponent maximum value (base 2).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">DBL_MIN</TD>
+		<TD ALIGN="LEFT">Double variable's minimum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">DBL_MIN_10_EXP</TD>
+		<TD ALIGN="LEFT">Double variable's exponent minimum value (base 10).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">DBL_MIN_EXP</TD>
+		<TD ALIGN="LEFT">Double variable's exponent minimum value (base 2).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LDBL_MAX</TD>
+		<TD ALIGN="LEFT">Long double variable's maximum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LDBL_MAX_10_DBL</TD>
+		<TD ALIGN="LEFT">Long double variable's exponent maximum value (base 10).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LDBL_MAX_EXP</TD>
+		<TD ALIGN="LEFT">Long double variable's exponent maximum value (base 2).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LDBL_MIN</TD>
+		<TD ALIGN="LEFT">Long double variable's minimum value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LDBL_MIN_10_EXP</TD>
+		<TD ALIGN="LEFT">Long double variable's exponent minimum value (base 10).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">LDBL_MIN_EXP</TD>
+		<TD ALIGN="LEFT">Long double variable's exponent minimum value (base 2).</TD>
+	</TR>
+</TABLE>
+</P>
+<P>The values in Tables D.3 and D.4 can be used when storing numbers. Ensuring that
+a number is above or equal to the minimum constant and less than or equal to the
+maximum constant ensures that the listing will be portable. Listing D.3 prints the
+values stored in the ANSI-defined constants, and Listing D.4 demonstrates the use
+of some of these constants. The output may be slightly different depending on the
+compiler used.</P>
+<P>
+<H4>Listing D.3. Printing the values stored in the ANSI-defined constants.</H4>
+<PRE>1:   /*=====================================================*
+2:    * Program:  listD03.c                                 *
+3:    * Book:     Teach Yourself C in 21 Days               *
+4:    * Purpose:  Display of defined constants.             *
+5:    *=====================================================*/
+6:   #include &lt;stdio.h&gt;
+7:   #include &lt;float.h&gt;
+8:   #include &lt;limits.h&gt;
+9:
+10:  int main( void )
+11:  {
+12:      printf( &quot;\n CHAR_BIT        %d &quot;, CHAR_BIT );
+13:      printf( &quot;\n CHAR_MIN        %d &quot;, CHAR_MIN );
+14:      printf( &quot;\n CHAR_MAX        %d &quot;, CHAR_MAX );
+15:      printf( &quot;\n SCHAR_MIN       %d &quot;, SCHAR_MIN );
+16:      printf( &quot;\n SCHAR_MAX       %d &quot;, SCHAR_MAX );
+17:      printf( &quot;\n UCHAR_MAX       %d &quot;, UCHAR_MAX );
+18:      printf( &quot;\n SHRT_MIN        %d &quot;, SHRT_MIN );
+19:      printf( &quot;\n SHRT_MAX        %d &quot;, SHRT_MAX );
+20:      printf( &quot;\n USHRT_MAX       %d &quot;, USHRT_MAX );
+21:      printf( &quot;\n INT_MIN         %d &quot;, INT_MIN );
+22:      printf( &quot;\n INT_MAX         %d &quot;, INT_MAX );
+23:      printf( &quot;\n UINT_MAX        %ld &quot;, UINT_MAX );
+24:      printf( &quot;\n LONG_MIN        %ld &quot;, LONG_MIN );
+25:      printf( &quot;\n LONG_MAX        %ld &quot;, LONG_MAX );
+26:      printf( &quot;\n ULONG_MAX       %e &quot;, ULONG_MAX );
+27:      printf( &quot;\n FLT_DIG         %d &quot;, FLT_DIG );
+28:      printf( &quot;\n DBL_DIG         %d &quot;, DBL_DIG );
+29:      printf( &quot;\n LDBL_DIG        %d &quot;, LDBL_DIG );
+30:      printf( &quot;\n FLT_MAX         %e &quot;, FLT_MAX );
+31:      printf( &quot;\n FLT_MIN         %e &quot;, FLT_MIN );
+32:      printf( &quot;\n DBL_MAX         %e &quot;, DBL_MAX );
+33:      printf( &quot;\n DBL_MIN         %e \n&quot;, DBL_MIN );
+34:
+35:      return(0);
+36:  }
+CHAR_BIT        8
+CHAR_MIN        -128
+CHAR_MAX        127
+SCHAR_MIN       -128
+SCHAR_MAX       127
+UCHAR_MAX       255
+SHRT_MIN        -32768
+SHRT_MAX        32767
+USHRT_MAX       -1
+INT_MIN         -32768
+INT_MAX         32767
+UINT_MAX        65535
+LONG_MIN        -2147483648
+LONG_MAX        2147483647
+ULONG_MAX       3.937208e-302
+FLT_DIG         6
+DBL_DIG         15
+LDBL_DIG        19
+FLT_MAX         3.402823e+38
+FLT_MIN         1.175494e-38
+DBL_MAX         1.797693e+308
+DBL_MIN         2.225074e-308
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>NOTE:</strong> Output values will vary from compiler to compiler; therefore, your
+	output may differ from the output shown here. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<P><strong>ANALYSIS: [endd] Listing D.3 is straightforward. The program consists of
+printf() function calls. Each function call prints a different defined constant.
+You'll notice the conversion character used (in this case, %d) depends on the type
+of value being printed. This listing provides a synopsis of what values your compiler
+used. You could also have looked in the FLOAT.H and LIMITS.H header files to see
+whether these values had been defined. This program should make determining the constant
+values easier.</P>
+<P>
+<H4>Listing D.4. Using the ANSI-defined constants.</H4>
+<PRE>1:   /*==========================================================*
+2:    * Program: listD04.c                                       *
+3:    * Book:    Teach Yourself C in 21 Days                     *
+4:    *                                                          *
+5:    * Purpose: To use maximum and minimum constants.           *
+6:    * Note:    Not all valid characters are displayable to the *
+7:    *          screen!                                         *
+8:    *==========================================================*/
+9:
+10:  #include &lt;float.h&gt;
+11:  #include &lt;limits.h&gt;
+12:  #include &lt;stdio.h&gt;
+13:
+14:  int main( void )
+15:  {
+16:      unsigned char ch;
+17:      int  i;
+18:
+19:      printf( &quot;Enter a numeric value.&quot;);
+20:      printf( &quot;\nThis value will be translated to a character.&quot;);
+21:      printf( &quot;\n\n==&gt; &quot; );
+22:
+23:      scanf(&quot;%d&quot;, &amp;i);
+24:
+25:      while( i &lt; 0 || i &gt; UCHAR_MAX )
+26:      {
+27:         printf(&quot;\n\nNot a valid value for a character.&quot;);
+28:         printf(&quot;\nEnter a value from 0 to %d ==&gt; &quot;, UCHAR_MAX);
+29:
+30:         scanf(&quot;%d&quot;, &amp;i);
+31:      }
+32:      ch = (char) i;
+33:
+34:      printf(&quot;\n\n%d is character %c\n&quot;, ch, ch );
+35:
+36:      return(0);
+37:  }
+Enter a numeric value.
+This value will be translated to a character.
+<B>==&gt; 5000</B>
+Not a valid value for a character.
+Enter a value from 0 to 255 ==&gt;<B> 69</B>
+69 is character E
+</PRE>
+<P><strong>ANALYSIS: [</strong> Listing D.4 shows the UCHAR_MAX constant in action. The
+first new items you should notice are the includes in lines 10 and 11. As stated
+earlier, these two include files contain the defined constants. If you're questioning
+the need for FLOAT.H to be included in line 10, you're doing well. Because none of
+the decimal point constants are being used, the FLOAT.H header file isn't needed.
+Line 11, however, is needed. This is the header file that contains the definition
+of UCHAR_MAX that is used later in the listing.</P>
+<P>Lines 16 and 17 declare the variables that will be used by the listing. An unsigned
+character, ch, is used along with an integer variable, i. When the variables are
+declared, several print statements are issued to prompt the user for a number. Notice
+that this number is entered into an integer. Because an integer is usually capable
+of holding a larger number, it is used for the input. If a character variable were
+used, a number that was too large would wrap to a number that fits a character variable.
+This can easily be seen by changing the i in line 23 to ch.</P>
+<P>Line 25 uses the defined constant to see whether the entered number is greater
+than the maximum for an unsigned character. We are comparing to the maximum for an
+unsigned character rather than an integer because the program's purpose is to print
+a character, not an integer. If the entered value isn't valid for a character--or,
+more specifically, for an unsigned character--the user is told the proper values
+that can be entered (line 28) and is asked to enter a valid value.</P>
+<P>Line 32 casts the integer to a character value. In a more complex program, you
+might find that switching to the character variable is easier than continuing with
+the integer. This can help prevent reallocating a value that isn't valid for a character
+into the integer variable. For this program, the line that prints the resulting character,
+line 34, could just as easily have used i rather than ch.</P>
+<P>
+<H3><A NAME="Heading9"></A>Classifying Numbers</H3>
+<P>In several instances, you'll want to know information about a variable. For instance,
+you might want to know whether the information is numeric, a control character, an
+uppercase character, or any of nearly a dozen different classifications. There are
+two different ways to check some of these classifications. Consider Listing D.5,
+which demonstrates one way of determining whether a value stored in a character is
+a letter of the alphabet.</P>
+<P>
+<H4>Listing D.5. Is the character a letter of the alphabet?</H4>
+<PRE>1:   /*=======================================================*
+2:    * Program: listD05.c                                    *
+3:    * Purpose: This program may not be portable due to the  *
+4:    *          way it uses character values.                *
+5:    *=======================================================*/
+6:   #include &lt;stdio.h&gt;
+7:   int main(void)
+8:   {
+9:     unsigned char x = 0;
+10:    char trash[256];               /* used to remove extra keys */
+11:    while( x != `Q' &amp;&amp; x != `q' )
+12:    {
+13:       printf( &quot;\n\nEnter a character (Q to quit) ==&gt; &quot; );
+14:
+15:       x = getchar();
+16:
+17:       if( x &gt;= `A' &amp;&amp; x &lt;= `Z')
+18:       {
+19:          printf( &quot;\n\n%c is a letter of the alphabet!&quot;, x );
+20:          printf(&quot;\n%c is an uppercase letter!&quot;, x );
+21:       }
+22:       else
+23:       {
+24:          if( x &gt;= `a' &amp;&amp; x &lt;= `z')
+25:          {
+26:             printf( &quot;\n\n%c is a letter of the alphabet!&quot;, x );
+27:             printf(&quot;\n%c is a lowercase letter!&quot;, x );
+28:          }
+29:          else
+30:          {
+31:             printf( &quot;\n\n%c is not a letter of the alphabet!&quot;, x );
+32:          }
+33:       }
+34:       gets(trash); /* eliminates enter key */
+35:    }
+36:    printf(&quot;\n\nThank you for playing!\n&quot;);
+37:    return;
+38:  }
+Enter a character (Q to quit) ==&gt; <B>A</B>
+A is a letter of the alphabet!
+A is an uppercase letter!
+Enter a character (Q to quit) ==&gt;<B> f</B>
+f is a letter of the alphabet!
+f is a lowercase letter!
+Enter a character (Q to quit) ==&gt; <B>1</B>
+1 is not a letter of the alphabet!
+Enter a character (Q to quit) ==&gt; <B>*</B>
+* is not a letter of the alphabet!
+Enter a character (Q to quit) ==&gt; <B>q</B>
+q is a letter of the alphabet!
+q is a lowercase letter!
+Thank you for playing!
+</PRE>
+<P><strong>ANALYSIS: </strong> This program checks to see whether a letter is between the
+uppercase letter A and the uppercase letter Z. In addition, it checks to see whether
+it is between the lowercase a and the lowercase z. If the letter is between one of
+these two ranges, you would think you could assume that the letter is alphabetic.
+This is a bad assumption! There is no standard for the order in which characters
+are stored. If you're using the ASCII character set, you can get away with using
+the character ranges; however, your program isn't guaranteed portability. To guarantee
+portability, you should use a character-classification function.</P>
+<P>There are several character-classification functions. Each is listed in Table
+D.5 with what it checks for. These functions return 0 if the given character doesn't
+meet the check; otherwise, they return a value other than 0.</P>
+<P>
+<H4>Table D.5. Character-classification functions.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Function</B></TD>
+		<TD ALIGN="LEFT"><B>Description</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isalnum()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is alphanumeric.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isalpha()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is alphabetic.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">iscntrl()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is a control character.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isdigit()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is a decimal digit.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isgraph()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is printable (space is an exception).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">islower()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is lowercase.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isprint()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is printable.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ispunct()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is a punctuation character.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isspace()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is a whitespace character.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isupper()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is uppercase.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isxdigit()</TD>
+		<TD ALIGN="LEFT">Checks to see whether the character is a hexadecimal digit.</TD>
+	</TR>
+</TABLE>
+</P>
+<P>With the exception of an equality check, you should never compare the values of
+two different characters. For example, you could check to see whether the value of
+a character variable is equal to `A', but you wouldn't want to check to see whether
+the value of a character is greater than `A'.</P>
+<P>
+<PRE>if( X &gt; `A' )     /* NOT PORTABLE!! */
+...
+if( X == `A' )    /* PORTABLE */
+...
+</PRE>
+<P>Listing D.6 is a rewrite of Listing D.5. Instead of using range checks, the appropriate
+character classification values are used. Listing D.6 is a much more portable program.</P>
+<P>
+<H4>Listing D.6. Using character-classification functions.</H4>
+<PRE>1:   /*============================================================*
+2:    * Program: listD06.c                                         *
+3:    * Book:    Teach Yourself C in 21 Days                       *
+4:    * Purpose: This program is an alternative approach to        *
+5:    *          the same task accomplished in Listing D.5.        *
+6:    *          This program has a higher degree of portability!  *
+7:    *============================================================*/
+8:   #include &lt;ctype.h&gt;
+9:
+10:  int main(void)
+11:  {
+12:    unsigned char x = 0;
+13:    char trash[256];                /* use to flush extra keys */
+14:    while( x != `Q' &amp;&amp; x != `q' )
+15:    {
+16:       printf( &quot;\n\nEnter a character (Q to quit) ==&gt; &quot; );
+17:
+18:       x = getchar();
+19:
+20:       if( isalpha(x) )
+21:       {
+22:          printf( &quot;\n\n%c is a letter of the alphabet!&quot;, x );
+23:          if( isupper(x) )
+24:          {
+25:             printf(&quot;\n%c is an uppercase letter!&quot;, x );
+26:          }
+27:          else
+28:          {
+29:             printf(&quot;\n%c is a lowercase letter!&quot;, x );
+30:          }
+31:       }
+32:       else
+33:       {
+34:          printf( &quot;\n\n%c is not a letter of the alphabet!&quot;, x );
+35:       }
+36:       gets(trash);   /* get extra keys */
+37:    }
+38:    printf(&quot;\n\nThank you for playing!\n&quot;);
+39:    return(0);
+40:  }
+Enter a character (Q to quit) ==&gt; <B>z</B>
+z is a letter of the alphabet!
+z is a lowercase letter!
+Enter a character (Q to quit) ==&gt; <B>T</B>
+T is a letter of the alphabet!
+T is an uppercase letter!
+Enter a character (Q to quit) ==&gt; <B>#</B>
+# is not a letter of the alphabet!
+Enter a character (Q to quit) ==&gt; <B>7</B>
+7 is not a letter of the alphabet!
+Enter a character (Q to quit) ==&gt; <B>Q</B>
+Q is a letter of the alphabet!
+Q is an uppercase letter!
+Thank you for playing!
+</PRE>
+<P><strong>ANALYSIS: </strong> The outcome should look virtually identical to that for Listing
+D.5--assuming you ran the program with the same values. This time, instead of using
+range checks, the character-classification functions were used. Notice that line
+8 includes the CTYPE.H header file. When this is included, the classification functions
+are ready to go. Line 20 uses the isalpha() function to ensure that the character
+entered is a letter of the alphabet. If it is, a message is printed in line 22 stating
+that fact. Line 23 then checks to see whether the character is uppercase with the
+isupper() function. If the character is uppercase, a message is printed in line 25;
+otherwise, the message in line 29 is printed. If the character isn't a letter of
+the alphabet, a message is printed in line 34. Because the while loop starts in line
+14, the program continues until Q or q is pressed. You might think line 14 detracts
+from the portability of this program, but that is incorrect. Remember that equality
+checks for characters are portable, and inequality checks aren't portable. &quot;Not
+equal to&quot; and &quot;equal to&quot; are both equality checks.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> use numeric values when determining maximums for variables. Use the
+	defined constants if you're writing a portable program.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use the character classification functions when possible.<BR>
+	<B></B></P>
+
+	<P><B>DO </B>remember that &quot;!=&quot; is considered an equality check. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading10"></A>Converting a Character's Case: A Portability Example</H3>
+<P>A common practice in programming is to convert the case of a character. Many people
+write a function similar to the following:</P>
+<P>
+<PRE>char conv_to_upper( char x )
+{
+if( x &gt;= `a' &amp;&amp; x &lt;= `z' )
+{
+x -= 32;
+}
+return( x )
+}
+</PRE>
+<P>As you saw earlier, this if statement might not be portable. The following is
+an update function with the if statement updated to the portable functions presented
+in the preceding section:</P>
+<P>
+<PRE>char conv_to_upper( char x )
+{
+if( isalpha( x ) &amp;&amp; islower( x ) )
+{
+x -= 32;
+}
+return( x )
+}
+</PRE>
+<P>This example is better than the previous listing in terms of portability; however,
+it still isn't completely portable. This function assumes that the uppercase letters
+are a numeric value that is 32 less than the lowercase letters. This is true if the
+ASCII character set is used. In the ASCII character set, `A' + 32 equals `a'; however,
+this isn't necessarily true on every system. This is especially untrue on non-ASCII
+character systems.</P>
+<P>Two ANSI standard functions take care of switching the case of a character. The
+toupper() function converts a lowercase character to uppercase; the lowercase() function
+converts an uppercase character to lowercase. The previous function would look like
+this when rewritten:</P>
+<P>
+<PRE>toupper();
+</PRE>
+<P>As you can see, this is a function that already exists. In addition, this function
+is defined by ANSI standards, so it should be portable.</P>
+<P>
+<H2><A NAME="Heading11"></A>Portable Structures and Unions</H2>
+<P>When using structures and unions, care must also be exercised if portability is
+a concern. Word alignment and the order in which members are stored are two areas
+of incompatibility that can occur when working with these constructs.</P>
+<P>
+<H3><A NAME="Heading12"></A>Word Alignment</H3>
+<P>Word alignment is an important factor in the portability of a structure. Word
+alignment is the aligning of data on a word boundary. A <I>word</I> is a set number
+of bytes. A word usually is equivalent to the size of the processor on the computer
+being used. For example, an IBM 16-bit PC generally has a two-byte word. Two bytes
+equals 16 bits.</P>
+<P>An example will make this easy to understand. Consider the following structure.
+Using two-byte integers and one-byte characters, determine how many bytes of storage
+are needed to store the structure.</P>
+<P>
+<PRE>struct struct_tag {
+int    x;    /* ints will be 2 bytes */
+char   a;    /* chars are 1 byte */
+int    y;
+char   b;
+int    z;
+} sample = { 100, `A', 200, `B', 300);
+</PRE>
+<P>Adding up the integers and the characters, you might come up with eight bytes
+for the amount of storage. This answer could be right. It also could be wrong! If
+word alignment is on, this structure will take 10 bytes of storage. Figures D.1 and
+D.2 illustrate how this structure would be stored in memory.</P>
+<P><A HREF="javascript:popUp('b2tyc01.gif')"><B>Figure D.1.</B></A><B> </B><I>Word
+alignment is off.</I></P>
+
+<P><A HREF="javascript:popUp('b2tyc02.gif')"><B>Figure D.2.</B></A><B> </B><I>Word
+alignment is on.</I></P>
+
+<P>A program can't assume that the word alignment will be the same or that it will
+be on or off. The members could be aligned on every two bytes, four bytes, or eight
+bytes. You can't assume that you know.</P>
+<P>
+<H3><A NAME="Heading13"></A>Reading and Writing Structures</H3>
+<P>When reading or writing structures, you must be cautious. It's best to never use
+a literal constant for the size of a structure or union. If you're reading or writing
+structures to a file, the file probably won't be portable. This means you need to
+concentrate only on making the program portable. The program then needs to read and
+write the data files specific to the machine compiled on. The following is an example
+of a read statement that would be portable:</P>
+<P>
+<PRE>fread( &amp;the_struct, sizeof( the_struct ), 1, filepointer );
+</PRE>
+<P>As you can see, the sizeof command is used instead of a literal. Regardless of
+whether byte alignment is on or off, the correct number of bytes should be read.</P>
+<P>
+<H4>Structure Order</H4>
+<P>When you create a structure, you might assume that the members will be stored
+in the order in which they are listed. There isn't a standard stating that a certain
+order must be followed. Because of this, you can't make assumptions about the order
+of information within a structure.</P>
+<P>
+<H4>Preprocessor Directives</H4>
+<P>On Day 21, &quot;Advanced Compiler Use,&quot; you learned about several preprocessor
+directives you can use. Several preprocessor directives have been defined in the
+ANSI standards. You use two of these all the time: #include and #define. Several
+other preprocessor directives are in the ANSI standards. The additional preprocessor
+directives available under the ANSI guidelines are listed in Table D.6.</P>
+<P>
+<H4>Table D.6. ANSI standard preprocessor directives.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">#define</TD>
+		<TD ALIGN="LEFT">#if</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">#elif</TD>
+		<TD ALIGN="LEFT">#ifdef</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">#else</TD>
+		<TD ALIGN="LEFT">#ifndef</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">#endif</TD>
+		<TD ALIGN="LEFT">#include</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">#error</TD>
+		<TD ALIGN="LEFT">#pragma</TD>
+	</TR>
+</TABLE>
+
+<H4>Using Predefined Constants</H4>
+<P>Every compiler comes with predefined constants. A majority of these are typically
+compiler-specific. This means that they probably won't be portable from one compiler
+to the next. However, several predefined constants are defined in the ANSI standards.
+The following are some of these constants:</P>
+<P><I>Constant Description</I></P>
+<P>__DATE__ This is replaced by the date at the time the program is compiled. The
+date is in the form of a literal string (text enclosed in double quotes). The format
+is &quot;Mmm DD, YYYY&quot;. For example, January 1, 1998 would be &quot;Jan 1, 1998&quot;.</P>
+<P>__FILE__ This is replaced with the name of the source file at the time of compilation.
+This will be in the form of a literal string.</P>
+<P>__LINE__ This will be replaced with the number of the line on which __LINE__ appears
+in the source code. This will be a numeric decimal value.</P>
+<P>__STDC__ This literal will be defined as 1 if the source file is compiled with
+the ANSI standard. If the source file wasn't compiled with the ANSI flag set, this
+value will be undefined.</P>
+<P>__TIME__ This is replaced with the time that the program is compiled. This time
+is in the form of a literal string (text enclosed in double quotes). The format is
+&quot;HH:MM:SS&quot;. An example would be &quot;12:15:03&quot;.</P>
+<P>
+<H3><A NAME="Heading14"></A>Using Non-ANSI Features in Portable Programs</H3>
+<P>A program can use constants and other commands that aren't ANSI-defined and still
+be portable. You accomplish this by ensuring that the constants are used only if
+compiled with a compiler that supports the features used. Most compilers provide
+defined constants that you can use to identify them. By setting up areas of the code
+that are supportive for each of the compilers, you can create a portable program.
+Listing D.7 demonstrates how this can be done.</P>
+<P>
+<H4>Listing D.7. A portable program with compiler specifics.</H4>
+<PRE>1:   /*=======================================================*
+2:    * Program: listD07.c                                    *
+3:    * Purpose: This program demonstrates using defined      *
+4:    *          constants for creating a portable program.   *
+5:    * Note:    This program gets different results with     *
+6:    *          different compilers.                         *
+7:    *=======================================================*/
+8:   #include &lt;stdio.h&gt;
+9:   #ifdef _WINDOWS
+10:
+11:  #define STRING &quot;DOING A WINDOWS PROGRAM!\n&quot;
+12:
+13:  #else
+14:
+15:  #define STRING &quot;NOT DOING A WINDOWS PROGRAM\n&quot;
+16:
+17:  #endif
+18:
+19:  int main(void)
+20:  {
+21:     printf( &quot;\n\n&quot;) ;
+22:     printf( STRING );
+23:
+24:  #ifdef _MSC_VER
+25:
+26:     printf( &quot;\n\nUsing a Microsoft compiler!&quot; );
+27:     printf( &quot;\n   Your Compiler version is %s\n&quot;, _MSC_VER );
+28:
+29:  #endif
+30:
+31:  #ifdef __TURBOC__
+32:
+33:     printf( &quot;\n\nUsing the Turbo C compiler!&quot; );
+34:     printf( &quot;\n   Your compiler version is %x\n&quot;, __TURBOC__ );
+35:
+36:  #endif
+37:
+38:  #ifdef __BORLANDC__
+39:
+40:     printf( &quot;\n\nUsing a Borland compiler!\n&quot; );
+41:
+42:  #endif
+43:
+44:     return(0);
+45:  }
+</PRE>
+<P>Here's the output you'll see when you run the program using a Turbo C for DOS
+3.0 compiler:</P>
+<P>
+<PRE>NOT DOING A WINDOWS PROGRAM
+Using the Turbo C compiler!
+   Your compiler version is 300
+</PRE>
+<P>Here's the output you'll see when you run the program using a Borland C++ compiler
+under DOS:</P>
+<P>
+<PRE>NOT DOING A WINDOWS PROGRAM
+Using a Borland compiler!
+</PRE>
+<P>Here's the output you'll see when you run the program using a Microsoft compiler
+under DOS:</P>
+<P>
+<PRE>NOT DOING A WINDOWS PROGRAM
+Using a Microsoft compiler!
+   Your compiler version is &gt;&gt;
+</PRE>
+<P><strong>ANALYSIS: </strong> This program takes advantage of defined constants to determine
+information about the compiler being used. In line 9, the #ifdef preprocessor directive
+is used. This directive checks to see whether the following constant has been defined.
+If the constant has been defined, the statements following the #ifdef are executed
+until an #endif preprocessor directive is reached. In the case of line 9, a determination
+is made as to whether _WINDOWS has been defined. An appropriate message is applied
+to the constant STRING. Line 22 then prints this string, which states whether or
+not this listing has been compiled as a Windows program.</P>
+<P>Line 24 checks to see whether _MSC_VER has been defined. _MSC_VER is a constant
+that contains the version number of a Microsoft compiler. If a compiler other than
+a Microsoft compiler is used, this constant won't be defined. If a Microsoft compiler
+is used, this will be defined with the compiler's version number. Line 27 will print
+this compiler version number after line 26 prints a message stating that a Microsoft
+compiler was used.</P>
+<P>Lines 31 through 36 and lines 38 through 42 operate in a similar manner. They
+check to see whether Borland's Turbo C or Borland's professional compiler were used.
+The appropriate message is printed based on these constants.</P>
+<P>As you can see, this program determines which compiler is being used by checking
+the defined constants. The object of the program--to print a message stating which
+compiler is being used--is the same regardless of which compiler is used. If you're
+aware of the systems that you will be porting, you can put compiler-specific commands
+into the code. If you do use compiler-specific commands, you should ensure that the
+appropriate code is provided for each compiler.</P>
+<P>
+<H3><A NAME="Heading15"></A>ANSI Standard Header Files</H3>
+<P>Several header files that can be included are set by the ANSI standards. It's
+good to know which header files are ANSI standard, because these can be used in creating
+portable programs. Appendix E, &quot;Common C Functions,&quot; contains the ANSI
+header files along with a list of their functions.</P>
+<P>
+<H2><A NAME="Heading16"></A>Summary</H2>
+<P>This appendix exposed you to a great deal of material. This information centered
+on portability. C is one of the most portable languages--if not <I>the</I> most portable.
+Portability doesn't happen by accident. ANSI standards have been created to ensure
+that C programs can be ported from one compiler to another and from one computer
+system to another. You should consider several areas when writing portable code.
+These areas include variable case, choosing which character set to use, using portable
+numerics, ensuring variable sizes, comparing characters, using structures and unions,
+and using preprocessor directives and preprocessor constants. This appendix ended
+with a discussion of how to incorporate compiler specifics into a portable program.</P>
+<P>
+<H2><A NAME="Heading17"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q How do you write portable graphics programs?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A </B>ANSI doesn't define any real standards for programming graphics. Graphics
+	pro-gramming is more machine-dependent than other programming areas, so it can be
+	somewhat difficult to write portable graphics programs.
+	<P>
+	<DT></DT>
+	<DD><B>Q Should you always worry about portability?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A </B>No, it's not always necessary to consider portability. Some programs
+	you write will be used only by you on your system. In addition, some programs won't
+	be ported to a different computer system. Because of this, some nonportable functions,
+	such as system(), can be used that wouldn't be used in portable programs.
+	<P>
+	<DT></DT>
+	<DD><B>Q Are comments portable if they are done with // instead of /* and */?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A </B>No. Forward-slash comments come from C++. Many C programmers now use
+	these comments. Although they will most likely be a standard in the future, you might
+	find that some current C compilers don't support them.
+	<P>
+</DL>
+
+<H2><A NAME="Heading18"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered and exercises to provide you with experience in using what you've
+learned.</P>
+<P>Answers are not provided for the following quiz questions and exercises.</P>
+<P>
+<H3><A NAME="Heading19"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1.</B> Which is more important: efficiency or maintainability?
+	<P>
+	<DT></DT>
+	<DD><B>2.</B> What is the numeric value of the letter a?
+	<P>
+	<DT></DT>
+	<DD><B>3.</B> What is guaranteed to be the largest unsigned character value on your
+	system?
+	<P>
+	<DT></DT>
+	<DD><B>4.</B> What does ANSI stand for?
+	<P>
+	<DT></DT>
+	<DD><B>5.</B> Are the following variable names valid in the same C program?
+	<P>
+	<DT></DT>
+	<DD>int lastname,
+	<P>
+	<DT></DT>
+	<DD>LASTNAME,
+	<P>
+	<DT></DT>
+	<DD>LastName,
+	<P>
+	<DT></DT>
+	<DD>Lastname;
+	<P>
+	<DT></DT>
+	<DD><B>6.</B> What does isalpha() do?
+	<P>
+	<DT></DT>
+	<DD><B>7.</B> What does isdigit() do?
+	<P>
+	<DT></DT>
+	<DD><B>8.</B> Why would you want to use functions such as isalpha() and isdigit()?
+	<P>
+	<DT></DT>
+	<DD><B>9.</B> Can structures be written to disk without worrying about portability?
+	<P>
+	<DT></DT>
+	<DD><B>10.</B> Can __TIME__ be used in a printf() statement to print the current
+	time in a program? Here's an example:
+	<P>
+</DL>
+
+<PRE>printf( &quot;The Current Time is:  %s&quot;, __TIME__ );
+</PRE>
+<H3><A NAME="Heading20"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1.</B> <B>BUG BUSTER: </B>What, if anything, is wrong with the following function?
+	<P>
+</DL>
+
+<PRE>void Print_error( char *msg )
+{
+    static int ctr = 0,
+               CTR = 0;
+    printf(&quot;\n&quot; );
+    for( ctr = 0; ctr &lt; 60; ctr++ )
+    {
+       printf(&quot;*&quot;);
+    }
+    printf( &quot;\nError %d, %s - %d: %s.\n&quot;, CTR,
+           __FILE__, __LINE__, msg );
+    for( ctr = 0; ctr &lt; 60; ctr++ )
+    {
+        printf(&quot;*&quot;);
+    }
+}
+</PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>2.</B> Write a function that verifies that a character is a vowel.
+	<P>
+	<DT></DT>
+	<DD><B>3.</B> Write a function that returns 0 if it receives a character that isn't
+	a letter of the alphabet, 1 if it is an uppercase letter, and 2 if it is a lowercase
+	letter. Keep the function as portable as possible.
+	<P>
+	<DT></DT>
+	<DD><B>4.</B> For your compiler, determine what flags must be set to ignore variable
+	case, allow for byte alignment, and guarantee ANSI compatibility.
+	<P>
+	<DT></DT>
+	<DD><B>5.</B> Is the following code portable?
+	<P>
+</DL>
+
+<PRE>void list_a_file( char *file_name )
+{
+    system(&quot;TYPE &quot; file_name );
+}
+</PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>6.</B> Is the following code portable?
+	<P>
+</DL>
+
+<PRE>int to_upper( int x )
+{
+    if( x &gt;= `a' &amp;&amp; x &lt;= `z' )
+    {
+         toupper( x );
+    }
+    return( x );
+}</PRE>
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../apc/apc.htm">

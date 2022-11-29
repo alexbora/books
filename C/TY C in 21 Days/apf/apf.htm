@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Appendix F -- What is C++?</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ape/ape.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apg/apg.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1></H1>
+
+<H1>What is C++?<A HREF="#Heading1"></A></H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Procedural Versus Object-Oriented Programming</A>
+	<LI><A HREF="#Heading2">What's the Object?</A>
+	<LI><A HREF="#Heading3">Good Old C, with a Plus</A>
+	<LI><A HREF="#Heading4">Your First C++ Program</A>
+	<LI><A HREF="#Heading5">What About Compilers?</A>
+	<LI><A HREF="#Heading6">Where to Go from Here</A>
+	<LI><A HREF="#Heading7">Summary</A>
+	<LI><A HREF="#Heading8">Q&amp;A</A>
+	<LI><A HREF="#Heading9">Wrap-Up</A>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>You may have heard about the language called C++, which is becoming increasingly
+popular with programmers. Should you worry that you've wasted the time you spent
+learning to program in C? Not at all! In fact, if you ever decide to tackle C++,
+it's a good idea to know C first. But I'm getting ahead of myself. I can't teach
+you C++ in a single chapter, but I can introduce you to what it is and when you might
+want to use it. This appendix teaches you</P>
+<P>
+
+<UL>
+	<LI>The relationship between C and C++
+	<P>
+	<LI>How to write a simple C++ program
+	<P>
+	<LI>Object-oriented programming fundamentals
+	<P>
+	<LI>What type of compiler to use
+</UL>
+
+<H2><A NAME="Heading1"></A>Procedural Versus Object-Oriented Programming</H2>
+<P>C is a procedural language, as are BASIC, Pascal, FORTRAN, and most other programming
+languages. In a <I>procedural</I> language, functions (sometimes called <I>procedures</I>)
+take center stage, and the data plays second fiddle. If you think about what you've
+learned in this book, you'll probably agree that this is true. The entire structure
+of your program is designed around functions, with data being shuffled from one function
+to another. The emphasis is on what is done to the data--displaying it, sorting it,
+saving it to disk, and so on.</P>
+<P>Procedural programming is a very powerful approach that has been used to create
+the majority of the commercial programs available today. Yet, as programs became
+more complex, certain shortcomings of the procedural approach started to become evident.
+The difficulty of writing, debugging, maintaining, and modifying procedural programs
+became unmanageable. Rather than trying to design an improved procedural language,
+the necessary next step seemed to be to create a whole new approach to programming.</P>
+<P>That approach was <I>object-oriented programming</I> (OOP). C++ is an object-oriented
+language, as is SmallTalk, the only other object-oriented language you're likely
+to have heard of. OOP places the emphasis on data, and functions play a subsidiary
+role. That's what an object is--a chunk of data. However, as you'll see, an object
+in C++ is nothing like the data you're accustomed to working with in C.</P>
+<P>
+<H2><A NAME="Heading2"></A>What's the Object?</H2>
+<P>An <I>object</I> is a chunk of data. Using OOP, you design your program around
+the data it will handle. If you're using objects in your C++ program (and, as you'll
+soon see, you don't have to use objects), much of your programming time will be spent
+creating objects. What's the difference between a C++ object and a C data item? The
+difference is that a C++ object is smart--it knows what to do.</P>
+<P>Confused? I can't blame you. Hang on, though, and I'll try to explain. A C++ object
+contains both data and code. To be more specific, an object contains data plus the
+code required to manipulate the data in the desired ways. An example should clarify
+this.</P>
+<P>Suppose you need to maintain a long list of numbers and manipulate it in various
+ways. For example, you need to be able to get the largest value in the list, the
+smallest value, the average value, and the median value. You also need to sort the
+list in both ascending and descending order. In C, you would write a variety of functions
+to perform the needed actions, and you would declare an array to hold the numbers.
+The array would be passed to the functions as an argument, and the result might be
+passed back as the return value.</P>
+<P>In C++, you would design an object (also called a <I>class</I>) to hold and manipulate
+the data. The object would contain an array to store the data and functions to manipulate
+the data. In effect, the data object would know how to find its minimum, its maximum,
+and so on. Most important, the data and the functions would be isolated from the
+rest of the program, removing the possibility of the sort of unintentional interaction
+that can cause problems in procedural programs.</P>
+<P>There's more to OOP than this, but I hope this gives you some idea of what it's
+all about. There's more to C++ than its object-oriented capabilities, however. Now
+let's take a closer look at C++.</P>
+<P>
+<H2><A NAME="Heading3"></A>Good Old C, with a Plus</H2>
+<P>If you apply your deductive skills, you can tell something about C++ from its
+name alone. Remember what ++ means in the C language--it's the unary increment operator.
+So the expression &quot;C++&quot; evaluates to the value of C plus 1. And that's
+exactly why this new language was given the name C++--it's the C language plus something.
+Actually, there are several new somethings in C++, but that's not the point. The
+point is that the entire C language is part of C++. With a few minor changes, you
+can use everything you've learned about C in a C++ program. Figure F.1 illustrates
+the relationship between C and C++.</P>
+<P><A HREF="javascript:popUp('b7tyc01.gif')"><B>Figure F.1.</B></A><B> </B><I>The
+relationship between C and C++.</I></P>
+
+<P>You can see that there's a region common to both languages. This means that if
+you know C, you're well on your way to learning C++. The large area representing
+things present in C++ but not in C shows you how much has been added to the new language.
+Objects are a big part of this, but certainly not all of it. Objects aside, there
+are lots of neat new things in C++. I can't go into details here, but once you have
+a little C programming under your belt, you might want to give C++ a try. I think
+you'll like it!</P>
+<P>
+<H2><A NAME="Heading4"></A>Your First C++ Program</H2>
+<P>Although I can't teach you C++ in a single chapter, I can show you a simple C++
+program that illustrates how C++ doesn't look all that different from C. It also
+demonstrates one of C++'s new features. I have created a variation on the traditional
+&quot;Hello, world&quot; program, as shown in Listing F.1.</P>
+<P>
+<H4>Listing F.1. A simple C++ program.</H4>
+<PRE>1: #include &lt;iostream.h&gt;
+2:
+3: main()
+4: {
+5:     float pi = 3.14;
+6:     cout &lt;&lt; &quot;The value of pi is &quot; &lt;&lt; pi &lt;&lt; &quot;\n&quot;;
+7:     return 0;
+</PRE>
+<P>8: }</P>
+<P>
+<PRE>The value of pi is 3.14
+</PRE>
+<P><strong>ANALYSIS: </strong> Much of this program should make sense to you. There's an
+#include statement on line 1, and although the name of the file might be unfamiliar,
+you should be able to understand what's going on here. The main() function with its
+enclosing brackets on lines 3, 4, and 8 is familiar, as is the declaration and initialization
+of a type float variable on line 5.</P>
+<P>Line 6 is certainly strange, though. What does cout refer to, and why are there
+two left-shift operators? cout is one of C++'s predefined streams. It's actually
+the same as stdout, but you use it differently. To send data to cout, you use the
+insertor operator &lt;&lt; (so called because it inserts data into the stream). But
+isn't &lt;&lt; the left-shift operator? Indeed it is, but here you're seeing one
+of C++'s new and most powerful features in action: operator overloading. An operator
+can have different meanings in different contexts. When placed after an integer variable,
+&lt;&lt; is interpreted as the left-shift operator, but when placed after the name
+of an output stream, it's interpreted as the insertor operator. Line 6 inserts the
+string constant &quot;The value of pi is&quot; into the cout stream and then inserts
+the value of the variable pi. The cout stream is smart enough to apply default formatting
+to the numerical value.</P>
+<P>Finally, there's a return statement on line 7. Isn't return used to return a value
+from a function to the program that called the function? Yes, indeed. Remember that
+main() itself is a function, and you can think of running a C++ program as calling
+the main() function from the operating system. The operating system might or might
+not make use of the return value. A C program could return a value from main(), but
+C++ requires it. This is an exam-ple of C++'s stricter rules that are designed to
+enforce consistent programming.</P>
+<P>
+<H2><A NAME="Heading5"></A>What About Compilers?</H2>
+<P>If you've been shopping for a commercial C compiler, you might have noticed that
+it's difficult to find one. Everything seems to be for C++ these days. Remember,
+however, that C is part of C++, so go ahead and buy that C++ compiler that's on sale.
+You can use it for your C programs, and you'll be ready if and when you decide to
+take up C++.</P>
+<P>A C++ compiler is actually three compilers in one. If your program's source code
+file has a .C extension (such as PROGRAM.C), the compiler will treat it as a C program.
+All of C's rules apply, and all of its capabilities are available. Therefore, you
+should give your files a .C extension if you're using a C++ compiler to work through
+this book. On the other hand, if your program has a .CPP extension (or, with some
+compilers, .CXX), it is treated as a C++ program, and C++'s rules and features are
+available. In other words, you control the rules and restrictions that the compiler
+applies with the source-code file extension.</P>
+<P>I've described only two compilers. Where's the third one I promised? This &quot;third&quot;
+compiler comes into play when you write a C program and then compile it as a C++
+program (by giving it a .CPP extension). Just because you use a C++ compiler doesn't
+mean you have to use all of C++'s object-oriented features in your program--or any
+of them, for that matter! This approach offers two advantages. Your program is subjected
+to C++'s stricter rules, which are designed in part to prevent certain programming
+practices that, although perfectly legal in C, sometimes create problems. Also, you
+can slowly start incorporating elements of C++ into your programs, which can be an
+excellent way to learn that language as you work.</P>
+<P>
+<H2><A NAME="Heading6"></A>Where to Go from Here</H2>
+<P>If you're seriously interested in learning C++, I strongly recommend getting a
+good introductory book. You can't do better than <I>Sams' Teach Yourself C++ Programming
+in 21 Days</I> (Sams Publishing, 1994), which takes the same structured approach
+to C++ that was used in this book.</P>
+<P>
+<H2><A NAME="Heading7"></A>Summary</H2>
+<P>This appendix provided a brief introduction to the C++ language. You learned that
+C++ is an object-oriented extension of the C language. It includes everything C does
+plus a host of additions and enhancements that provide significantly more programming
+power and convenience. The major addition is support for object-oriented programming,
+a technique that gives priority to a program's data in the design of the program.
+C++ can be used for any size of program, but its advantages are particularly evident
+when you create large, complex programs. You also saw a simple C++ program that illustrates
+two of the language's new features: operator overloading and improved standard streams.</P>
+<P>
+<H2><A NAME="Heading8"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q I'm pretty comfortable with the material presented in this book. How can
+	I continue improving my skills as a programmer?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> One way is to start learning C++. You can also explore more advanced
+	C programming topics. There are numerous good books on this topic, including <I>Sams'
+	Teach Yourself Advanced C in 21 Days</I> (Sams Publishing, 1994). The best way to
+	improve your skills, however, is by programming. There's no substitute for writing
+	real programs.
+	<P>
+	<DT></DT>
+	<DD><B>Q When are you most likely to see the advantage of C++ over C?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> The new features of C++ can be put to good use in almost any program,
+	no matter how small. It's in large and complex programs, however, that these advantages
+	can really make a difference.
+	<P>
+	<DT></DT>
+	<DD><B>Q I'm not sure whether I need to learn C++. I don't want to waste time learning
+	something I won't ever use, but on the other hand, I don't want to fall behind. Do
+	you have any advice?</B>
+	<P>
+	<DT><B></B></DT>
+	<DD><B>A</B> This is a tough question to answer, because I don't know the kind of
+	programming you'll be doing. Generally speaking, the more serious you are about programming,
+	the more strongly I recommend that you learn C++. In particular, if you plan to program
+	for a living, you need to know C++.
+	<P>
+</DL>
+
+<H2><A NAME="Heading9"></A>Wrap-Up</H2>
+<P>I hope you've found this book useful, and maybe even enjoyable, in your quest
+to learn C programming. You might program only occasionally as a hobby, or you might
+become an ace programmer working for Microsoft, Borland, or Lotus. In any event,
+I think the lessons you've learned here will serve you well.</P>
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ape/ape.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apg/apg.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+<BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

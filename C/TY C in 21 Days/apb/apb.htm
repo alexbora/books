@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Appendix B -- Reserved Words</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../apa/apa.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apc/apc.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<H1></H1>
+<CENTER>
+<H1>- B -</H1>
+
+<H1>Reserved Words</H1>
+</CENTER>
+<P>The identifiers listed in Table B.1 are reserved C keywords. You shouldn't use
+them for any other purpose in a C program. They are allowed, of course, within double
+quotation marks.</P>
+<P>Also included is a list of words that aren't reserved in C but are C++ reserved
+words. These C++ reserved words aren't described here, but if there's a chance your
+C programs might eventually be ported to C++, you need to avoid these words as well.</P>
+<P>
+<H4>Table B.1. Reserved C keywords.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Keyword</B></TD>
+		<TD ALIGN="LEFT"><B>Description</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">asm</TD>
+		<TD ALIGN="LEFT">Keyword that denotes inline assembly language code.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">auto</TD>
+		<TD ALIGN="LEFT">The default storage class.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">break</TD>
+		<TD ALIGN="LEFT">Command that exits for, while, switch, and do...while statements unconditionally.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">case</TD>
+		<TD ALIGN="LEFT">Command used within the switch statement.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">char</TD>
+		<TD ALIGN="LEFT">The simplest C data type.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">const</TD>
+		<TD ALIGN="LEFT">Data modifier that prevents a variable from being changed. See volatile.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">continue</TD>
+		<TD ALIGN="LEFT">Command that resets a for, while, or do...while statement to the next iteration.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">default</TD>
+		<TD ALIGN="LEFT">Command used within the switch statement to catch any instances not specified with
+			a case statement.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">do</TD>
+		<TD ALIGN="LEFT">Looping command used in conjunction with the while statement. The loop will always
+			execute at least once.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">double</TD>
+		<TD ALIGN="LEFT">Data type that can hold double-precision floating-point values.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">else</TD>
+		<TD ALIGN="LEFT">Statement signaling alternative statements to be executed when an if statement evaluates
+			to FALSE.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">enum</TD>
+		<TD ALIGN="LEFT">Data type that allows variables to be declared that accept only certain values.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">extern</TD>
+		<TD ALIGN="LEFT">Data modifier indicating that a variable will be declared in another area of the
+			program.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">float</TD>
+		<TD ALIGN="LEFT">Data type used for floating-point numbers.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">for</TD>
+		<TD ALIGN="LEFT">Looping command that contains initialization, incrementation, and conditional sections.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">goto</TD>
+		<TD ALIGN="LEFT">Command that causes a jump to a predefined label.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">if</TD>
+		<TD ALIGN="LEFT">Command used to change program flow based on a TRUE/FALSE decision.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">int</TD>
+		<TD ALIGN="LEFT">Data type used to hold integer values.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">long</TD>
+		<TD ALIGN="LEFT">Data type used to hold larger integer values than int.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">register</TD>
+		<TD ALIGN="LEFT">Storage modifier that specifies that a variable should be stored in a register if
+			possible.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">return</TD>
+		<TD ALIGN="LEFT">Command that causes program flow to exit from the current function and return to
+			the calling function. It can also be used to return a single value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">short</TD>
+		<TD ALIGN="LEFT">Data type used to hold integers. It isn't commonly used, and it's the same size as
+			an int on most computers.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">signed</TD>
+		<TD ALIGN="LEFT">Modifier used to signify that a variable can have both positive and negative values.
+			See unsigned.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sizeof</TD>
+		<TD ALIGN="LEFT">Operator that returns the size of the item in bytes.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">static</TD>
+		<TD ALIGN="LEFT">Modifier used to signify that the compiler should retain the variable's value.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">struct</TD>
+		<TD ALIGN="LEFT">Keyword used to combine C variables of any data type into a group.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">switch</TD>
+		<TD ALIGN="LEFT">Command used to change program flow in a multitude of directions. Used in conjunction
+			with the case statement.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">typedef</TD>
+		<TD ALIGN="LEFT">Modifier used to create new names for existing variable and function types.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">union</TD>
+		<TD ALIGN="LEFT">Keyword used to allow multiple variables to share the same memory space.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">unsigned</TD>
+		<TD ALIGN="LEFT">Modifier used to signify that a variable will contain only positive values. See signed.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">void</TD>
+		<TD ALIGN="LEFT">Keyword used to signify either that a function doesn't return anything or that a
+			pointer being used is considered generic or able to point to any data type.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">volatile</TD>
+		<TD ALIGN="LEFT">Modifier that signifies that a variable can be changed. See const.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">while</TD>
+		<TD ALIGN="LEFT">Looping statement that executes a section of code as long as a condition remains
+			TRUE.</TD>
+	</TR>
+</TABLE>
+</P>
+<P>In addition to the preceding keywords, the following are C++ reserved words:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">catch</TD>
+		<TD ALIGN="LEFT">inline</TD>
+		<TD ALIGN="LEFT">template</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">class</TD>
+		<TD ALIGN="LEFT">new</TD>
+		<TD ALIGN="LEFT">this</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">delete</TD>
+		<TD ALIGN="LEFT">operator</TD>
+		<TD ALIGN="LEFT">throw</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">except</TD>
+		<TD ALIGN="LEFT">private</TD>
+		<TD ALIGN="LEFT">try</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">finally</TD>
+		<TD ALIGN="LEFT">protected</TD>
+		<TD ALIGN="LEFT">virtual</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">friend</TD>
+		<TD ALIGN="LEFT">public</TD>
+		<TD ALIGN="LEFT"></TD>
+	</TR>
+</TABLE>
+</P>
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../apa/apa.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apc/apc.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> </P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,1599 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 14 -- Working with the Screen, Printer, and Keyboard</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch13/ch13.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch15/ch15.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 14 -</H1>
+</CENTER>
+<CENTER>
+<H1>Working with the Screen, Printer, and Keyboard</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Streams and C</A>
+	<UL>
+		<LI><A HREF="#Heading2">What Exactly Is Program Input/Output?</A>
+		<LI><A HREF="#Heading3">What Is a Stream?</A>
+		<LI><A HREF="#Heading4">Text Versus Binary Streams</A>
+		<LI><A HREF="#Heading5">Predefined Streams</A>
+	</UL>
+	<LI><A HREF="#Heading6">C's Stream Functions</A>
+	<UL>
+		<LI><A HREF="#Heading7">An Example</A>
+	</UL>
+	<LI><A HREF="#Heading8">Accepting Keyboard Input</A>
+	<UL>
+		<LI><A HREF="#Heading9">Character Input</A>
+		<LI><A HREF="#Heading10">Formatted Input</A>
+	</UL>
+	<LI><A HREF="#Heading11">Screen Output</A>
+	<UL>
+		<LI><A HREF="#Heading12">Character Output with putchar(), putc(), and fputc()</A>
+		<LI><A HREF="#Heading13">Using puts() and fputs() for String Output</A>
+		<LI><A HREF="#Heading14">Using printf() and fprintf() for Formatted Output</A>
+	</UL>
+	<LI><A HREF="#Heading15">Redirecting Input and Output</A>
+	<UL>
+		<LI><A HREF="#Heading16">Redirecting Input</A>
+	</UL>
+	<LI><A HREF="#Heading17">When to Use fprintf()</A>
+	<UL>
+		<LI><A HREF="#Heading18">Using stderr</A>
+	</UL>
+	<LI><A HREF="#Heading19">Summary</A>
+	<LI><A HREF="#Heading20">Q&amp;A</A>
+	<LI><A HREF="#Heading21">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading22">Quiz</A>
+		<LI><A HREF="#Heading23">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>Almost every program must perform input and output. How well a program handles
+input and output is often the best judge of the program's usefulness. You've already
+learned how to perform some basic input and output. Today you will learn</P>
+
+<UL>
+	<LI>How C uses streams for input and output
+	<P>
+	<LI>Various ways of accepting input from the keyboard
+	<P>
+	<LI>Methods of displaying text and numeric data on-screen
+	<P>
+	<LI>How to send output to the printer
+	<P>
+	<LI>How to redirect program input and output
+</UL>
+
+<H2><A NAME="Heading1"></A>Streams and C</H2>
+<P>Before you get to the details of program input/output, you need to learn about
+streams. All C input/output is done with streams, no matter where input is coming
+from or where output is going to. As you will see later, this standard way of handling
+all input and output has definite advantages for the programmer. Of course, this
+makes it essential that you understand what streams are and how they work. First,
+however, you need to know exactly what the terms <I>input</I> and <I>output</I> mean.</P>
+<P>
+<H3><A NAME="Heading2"></A>What Exactly Is Program Input/Output?</H3>
+<P>As you learned earlier in this book, a C program keeps data in random access memory
+(RAM) while executing. This data is in the form of variables, structures, and arrays
+that have been declared by the program. Where did this data come from, and what can
+the program do with it?</P>
+
+<UL>
+	<LI>Data can come from some location external to the program. Data moved from an
+	external location into RAM, where the program can access it, is called <I>input</I>.
+	The keyboard and disk files are the most common sources of program input.
+	<P>
+	<LI>Data can also be sent to a location external to the program; this is called <I>output</I>.
+	The most common destinations for output are the screen, a printer, and disk files.
+</UL>
+
+<P>Input sources and output destinations are collectively referred to as <I>devices</I>.
+The keyboard is a device, the screen is a device, and so on. Some devices (the keyboard)
+are for input only, others (the screen) are for output only, and still others (disk
+files) are for both input and output. This is illustrated in Figure 14.1.</P>
+<P>Whatever the device, and whether it's performing input or output, C carries out
+all input and output operations by means of streams.</P>
+<P>
+<H3><A NAME="Heading3"></A>What Is a Stream?</H3>
+<P>A <I>stream</I> is a sequence of characters. More exactly, it is a sequence of
+bytes of data. A sequence of bytes flowing into a program is an input stream; a sequence
+of bytes flowing out of a program is an output stream. By focusing on streams, you
+don't have to worry as much about where they're going or where they originated. The
+major advantage of streams, therefore, is that input/output programming is <I>device
+independent</I>. Programmers don't need to write special input/output functions for
+each device (keyboard, disk, and so on). The program sees input/output as a continuous
+stream of bytes no matter where the input is coming from or going to.</P>
+<P><A HREF="javascript:popUp('14tyc01.gif')"><B>Figure 14.1.</B></A><B> </B><I>Input
+and output can take place between your program and a variety of external devices.</I></P>
+<P>Every C stream is connected to a file. In this context, the term <I>file</I> doesn't
+refer to a disk file. Rather, it is an intermediate step between the stream that
+your program deals with and the actual physical device being used for input or output.
+For the most part, the beginning C programmer doesn't need to be concerned with these
+files, because the details of interactions between streams, files, and devices are
+taken care of automatically by the C library functions and the operating system.</P>
+<P>
+<H3><A NAME="Heading4"></A>Text Versus Binary Streams</H3>
+<P>C streams fall into two modes: text and binary. A <I>text</I> stream consists
+only of characters, such as text data being sent to the screen. Text streams are
+organized into lines, which can be up to 255 characters long and are terminated by
+an end-of-line, or newline, character. Certain characters in a text stream are recognized
+as having special meaning, such as the newline character. This chapter deals with
+text streams.</P>
+<P>A <I>binary</I> stream can handle any sort of data, including, but not limited
+to, text data. Bytes of data in a binary stream aren't translated or interpreted
+in any special way; they are read and written exactly as-is. Binary streams are used
+primarily with disk files, which are covered on Day 16, &quot;Using Disk Files.&quot;</P>
+<P>
+<H3><A NAME="Heading5"></A>Predefined Streams</H3>
+<P>ANSI C has three predefined streams, also referred to as the <I>standard input/output
+files</I>. If you're programming for an IBM-compatible PC running DOS, two additional
+standard streams are available to you. These streams are automatically opened when
+a C program starts executing and are closed when the program terminates. The programmer
+doesn't need to take any special action to make these streams available. Table 14.1
+lists the standard streams and the devices they normally are connected with. All
+five of the standard streams are text-mode streams.</P>
+<P>
+<H4>Table 14.1. The five standard streams.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Name</B></TD>
+		<TD ALIGN="LEFT"><B>Stream</B></TD>
+		<TD ALIGN="LEFT"><B>Device</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">stdin</TD>
+		<TD ALIGN="LEFT">Standard input</TD>
+		<TD ALIGN="LEFT">Keyboard</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">stdout</TD>
+		<TD ALIGN="LEFT">Standard output</TD>
+		<TD ALIGN="LEFT">Screen</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">stderr</TD>
+		<TD ALIGN="LEFT">Standard error</TD>
+		<TD ALIGN="LEFT">Screen</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">stdprn<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">Standard printer</TD>
+		<TD ALIGN="LEFT">Printer (LPT1:)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">stdaux<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">Standard auxiliary</TD>
+		<TD ALIGN="LEFT">Serial port (COM1:)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT" COLSPAN="3"><SUP>*</SUP>Supported only under DOS.</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Whenever you have used the printf() or puts() functions to display text on-screen,
+you have used the stdout stream. Likewise, when you use gets() or scanf() to read
+keyboard input, you use the stdin stream. The standard streams are opened automatically,
+but other streams, such as those used to manipulate information stored on disk, must
+be opened explicitly. You'll learn how to do this on Day 16. The remainder of this
+chapter deals with the standard streams.</P>
+<P>
+<H2><A NAME="Heading6"></A>C's Stream Functions</H2>
+<P>The C standard library has a variety of functions that deal with stream input
+and output. Most of these functions come in two varieties: one that always uses one
+of the standard streams, and one that requires the programmer to specify the stream.
+These functions are listed in Table 14.2. This table doesn't list all of C's input/output
+functions, nor are all of the functions in the table covered in this chapter.</P>
+<P>
+<H4>Table 14.2. The standard library's stream input/output functions.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Uses One of the</B> <B>Standard Streams</B></TD>
+		<TD ALIGN="LEFT"><B>Requires a</B> <B>Stream Name</B></TD>
+		<TD ALIGN="LEFT"><B>Description</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">printf()</TD>
+		<TD ALIGN="LEFT">fprintf()</TD>
+		<TD ALIGN="LEFT">Formatted output</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">vprintf()</TD>
+		<TD ALIGN="LEFT">vfprintf()</TD>
+		<TD ALIGN="LEFT">Formatted output with a variable argument list</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">puts()</TD>
+		<TD ALIGN="LEFT">fputs()</TD>
+		<TD ALIGN="LEFT">String output</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">putchar()</TD>
+		<TD ALIGN="LEFT">putc(), fputc()</TD>
+		<TD ALIGN="LEFT">Character output</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">scanf()</TD>
+		<TD ALIGN="LEFT">fscanf()</TD>
+		<TD ALIGN="LEFT">Formatted input</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">gets()</TD>
+		<TD ALIGN="LEFT">fgets()</TD>
+		<TD ALIGN="LEFT">String input</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">getchar()</TD>
+		<TD ALIGN="LEFT">getc(), fgetc()</TD>
+		<TD ALIGN="LEFT">Character input</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">perror()</TD>
+		<TD ALIGN="LEFT"></TD>
+		<TD ALIGN="LEFT">String output to stderr only</TD>
+	</TR>
+</TABLE>
+</P>
+<P>All these functions require that you include STDLIB.H. The function perror() may
+also require STDLIB.H. The functions vprintf() and vfprintf() also require STDARGS.H.
+On UNIX systems, vprintf() and vfprintf() may also require VARARGS.H. Your compiler's
+Library Reference will state whether any additional or alternative header files are
+needed.</P>
+<P>
+<H3><A NAME="Heading7"></A>An Example</H3>
+<P>The short program in Listing 14.1 demonstrates the equivalence of streams.</P>
+<P>
+<H4>Listing 14.1. The equivalence of streams.</H4>
+<PRE>1:  /* Demonstrates the equivalence of stream input and output. */
+2:  #include &lt;stdio.h&gt;
+3:
+4:  main()
+5:  {
+6:     char buffer[256];
+7:
+8:     /* Input a line, then immediately output it. */
+9:
+10:    puts(gets(buffer));
+11:
+12:    return 0;
+13: }
+</PRE>
+<P>On line 10, the gets() function is used to input a line of text from the keyboard
+(stdin). Because gets() returns a pointer to the string, it can be used as the argument
+to puts(), which displays the string on-screen (stdout). When run, this program inputs
+a line of text from the user and then immediately displays the string on-screen.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> take advantage of the standard input/output streams that C provides.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> rename or change the standard streams unnecessarily.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> try to use an input stream such as stdin for an output function such
+	as fprintf(). 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading8"></A>Accepting Keyboard Input</H2>
+<P>Most C programs require some form of input from the keyboard (that is, from stdin).
+Input functions are divided into a hierarchy of three levels: character input, line
+input, and formatted input.</P>
+<P>
+<H3><A NAME="Heading9"></A>Character Input</H3>
+<P>The character input functions read input from a stream one character at a time.
+When called, each of these functions returns the next character in the stream, or
+EOF if the end of the file has been reached or an error has occurred. EOF is a symbolic
+constant defined in STDIO.H as -1. Character input functions differ in terms of buffering
+and echoing.</P>
+
+<UL>
+	<LI>Some character input functions are <I>buffered</I>. This means that the operating
+	system holds all characters in a temporary storage space until you press Enter, and
+	then the system sends the characters to the stdin stream. Others are <I>unbuffered,</I>
+	meaning that each character is sent to stdin as soon as the key is pressed.
+	<P>
+	<LI>Some input functions automatically <I>echo</I> each character to stdout as it
+	is received. Others don't echo; the character is sent to stdin and not stdout. Because
+	stdout is assigned to the screen, that's where input is echoed.
+</UL>
+
+<P>The uses of buffered, unbuffered, echoing, and nonechoing character input are
+explained in the following sections.</P>
+<P>
+<H4>The getchar() Function</H4>
+<P>The function getchar() obtains the next character from the stream stdin. It provides
+buffered character input with echo, and its prototype is</P>
+<P>
+<PRE>int getchar(void);
+</PRE>
+<P>The use of getchar() is demonstrated in Listing 14.2. Notice that the putchar()
+function, explained in detail later in this chapter, simply displays a single character
+on-screen.</P>
+<P>
+<H4>Listing 14.2. The getchar() function.</H4>
+<PRE>1: /* Demonstrates the getchar() function. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: main()
+6: {
+7:     int ch;
+8:
+9:     while ((ch = getchar()) != `\n')
+10:         putchar(ch);
+11:
+12:    return 0;
+13: }
+<B>This is what's typed in.</B>
+This is what's typed in.
+</PRE>
+<P><strong>ANALYSIS: </strong>] On line 9, the getchar() function is called and waits to
+receive a character from stdin. Because getchar() is a buffered input function, no
+characters are received until you press Enter. However, each key you press is echoed
+immediately on the screen.</P>
+<P>When you press Enter, all the characters you entered, including the newline, are
+sent to stdin by the operating system. The getchar() function returns the characters
+one at a time, assigning each in turn to ch.</P>
+<P>Each character is compared to the newline character \n and, if not equal, displayed
+on-screen with putchar(). When a newline is returned by getchar(), the while loop
+terminates.</P>
+<P>The getchar() function can be used to input entire lines of text, as shown in
+Listing 14.3. However, other input functions are better suited for this task, as
+you'll learn later in this chapter.</P>
+<P>
+<H4>Listing 14.3. Using the getchar() function to input an entire line of text.</H4>
+<PRE>1: /* Using getchar() to input strings. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: #define MAX 80
+6:
+7: main()
+8: {
+9:     char ch, buffer[MAX+1];
+10:     int x = 0;
+11:
+12:     while ((ch = getchar()) != `\n' &amp;&amp; x &lt; MAX)
+13:         buffer[x++] = ch;
+14:
+15:     buffer[x] = `\0';
+16:
+17:     printf(&quot;%s\n&quot;, buffer);
+18:
+19:     return 0;
+20: }
+<B>This is a string</B>
+This is a string
+</PRE>
+<P><strong>ANALYSIS: </strong> This program is similar to Listing 14.2 in the way that it
+uses getchar(). An extra condition has been added to the loop. This time the while
+loop accepts characters from getchar() until either a newline character is reached
+or 80 characters are read. Each character is assigned to an array called buffer.
+When the characters have been input, line 15 puts a null on the end of the array
+so that the printf() function on line 17 can print the entered string.</P>
+<P>On line 9, why was buffer declared with a size of MAX + 1 instead of just MAX?
+If you declare buffer with a size of MAX + 1, the string can be 80 characters plus
+a null terminator. Don't forget to include a place for the null terminator at the
+end of your strings.</P>
+<P>
+<H4>The getch() Function</H4>
+<P>The getch() function obtains the next character from the stream stdin. It provides
+unbuffered character input without echo. The getch() function isn't part of the ANSI
+standard. This means that it might not be available on every system. Additionally,
+it might require that different header files be included. Generally, the prototype
+for getch() is in the header file CONIO.H, as follows:</P>
+<P>
+<PRE>int getch(void);
+</PRE>
+<P>Because it is unbuffered, getch() returns each character as soon as the key is
+pressed, without waiting for the user to press Enter. Because getch() doesn't echo
+its input, the characters aren't displayed on-screen. Listing 14.4 illustrates the
+use of getch().</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>WARNING:</strong> The following listing uses getch(), which is not ANSI-compliant.
+	You should be careful when using non-ANSI functions, because there is no guarantee
+	that all compilers support them. If you get errors from the following listing, it
+	might be because your compiler doesn't support getch(). 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>Listing 14.4. Using the getch() function.</H4>
+<PRE>1: /* Demonstrates the getch() function. */
+2: /* Non-ANSI code */
+3: #include &lt;stdio.h&gt;
+4: #include &lt;conio.h&gt;
+5:
+6: main()
+7: {
+8:     int ch;
+9:
+10:     while ((ch = getch()) != `\r')
+11:         putchar(ch);
+12:
+13:     return 0;
+14:}
+</PRE>
+<PRE>Testing the getch() function
+</PRE>
+<P><strong>ANALYSIS: </strong> When this program runs, getch() returns each character as
+soon as you press a key--it doesn't wait for you to press Enter. There's no echo,
+so the only reason that each character is displayed on-screen is the call to putchar().
+To get a better understanding of how getch() works, add a semicolon to the end of
+line 10 and remove line 11 (putchar(ch)). When you rerun the program, you will find
+that nothing you type is echoed to the screen. The getch() function gets the characters
+without echoing them to the screen. You know the characters are being gotten because
+the original listing used putchar() to display them.</P>
+<P>Why does this program compare each character to \r instead of to \n? The code
+\r is the escape sequence for the carriage return character. When you press Enter,
+the keyboard device sends a carriage return to stdin. The buffered character input
+functions automatically translate the carriage return to a newline, so the program
+must test for \n to determine whether Enter has been pressed. The unbuffered character
+input functions don't translate, so a carriage return is input as \r, and that's
+what the program must test for.</P>
+<P>Listing 14.5 uses getch() to input an entire line of text. Running this program
+clearly illustrates that getch() doesn't echo its input. With the exception of substituting
+getch() for getchar(), this program is virtually identical to Listing 14.3.</P>
+<P>
+<H4>Listing 14.5. Using the getch() function to input an entire line.</H4>
+<PRE>1: /* Using getch() to input strings. */
+2: /* Non-ANSI code */
+3: #include &lt;stdio.h&gt;
+4: #include &lt;conio.h&gt;
+5:
+6: #define MAX 80
+7:
+8: main()
+9: {
+10:     char ch, buffer[MAX+1];
+11:     int x = 0;
+12:
+13:     while ((ch = getch()) != `\r' &amp;&amp; x &lt; MAX)
+14:         buffer[x++] = ch;
+15:
+16:     buffer[x] = `\0';
+17:
+18:     printf(&quot;%s&quot;, buffer);
+19:
+20:     return 0;
+21:}
+<B>Here's a string</B>
+Here's a string
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>WARNING:</strong> Remember that getch() isn't an ANSI-standard command. This means
+	that your compiler (and other compilers) might or might not support it. getch() is
+	supported by Symantec and Borland. Microsoft supports _getch(). If you have problems
+	using this command, you should check your compiler and see whether it supports getch().
+	If you're concerned about portability, you should avoid non-ANSI functions. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>The getche() Function</H4>
+<P>This is a short section, because getche() is exactly like getch(), except that
+it echoes each character to stdout. Modify the program in Listing 14.4 to use getche()
+instead of getch(). When the program runs, each key you press is displayed on-screen
+twice--once as echoed by getche(), and once as echoed by putchar().</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<strong>WARNING:</strong> getche() is not an ANSI-standard command, but many C compilers
+	support it. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>The getc() and fgetc() Functions</H4>
+<P>The getc() and fgetc() character input functions don't automatically work with
+stdin. Instead, they let the program specify the input stream. They are used primarily
+to read characters from disk files. See Day 16 for more details.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> understand the difference between echoed and nonechoed input.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> understand the difference between buffered and unbuffered input.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> use non-ANSI standard functions if portability is a concern. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H4>&quot;Ungetting&quot; a Character with ungetc()</H4>
+<P>What does &quot;ungetting&quot; a character mean? An example should help you understand.
+Suppose that your program is reading characters from an input stream and can detect
+the end of input only by reading one character too many. For example, you might be
+inputting digits only, so you know that input has ended when the first nondigit character
+is encountered. That first nondigit character might be an important part of subsequent
+data, but it has been removed from the input stream. Is it lost? No, it can be &quot;ungotten&quot;
+or returned to the input stream, where it is then the first character read by the
+next input operation on that stream.</P>
+<P>To &quot;unget&quot; a character, you use the ungetc() library function. Its prototype
+is</P>
+<P>
+<PRE>int ungetc(int ch, FILE *fp);
+</PRE>
+<P>The argument ch is the character to be returned. The argument *fp specifies the
+stream that the character is to be returned to, which can be any input stream. For
+now, simply specify stdin as the second argument: ungetc(ch, stdin);. The notation
+FILE *fp is used with streams associated with disk files; you'll learn about this
+on Day 16.</P>
+<P>You can unget only a single character to a stream between reads, and you can't
+unget EOF at any time. The function ungetc() returns ch on success and EOF if the
+character can't be returned to the stream.</P>
+<P>
+<H4>Line Input</H4>
+<P>The line input functions read a line from an input stream--they read all characters
+up to the next newline character. The standard library has two line input functions,
+gets() and fgets().</P>
+<P>
+<H4>The gets() Function</H4>
+<P>You were introduced to the gets() function on Day 10, &quot;Characters and Strings.&quot;
+This is a straightforward function, reading a line from stdin and storing it in a
+string. The function prototype is</P>
+<P>
+<PRE>char *gets(char *str);
+</PRE>
+<P>You probably can interpret this prototype by yourself. gets() takes a pointer
+to type char as its argument and returns a pointer to type char. The gets() function
+reads characters from stdin until a newline (\n) or end-of-file is encountered; the
+newline is replaced with a null character, and the string is stored at the location
+indicated by str.</P>
+<P>The return value is a pointer to the string (the same as str). If gets() encounters
+an error or reads end-of-file before any characters are input, a null pointer is
+returned.</P>
+<P>Before calling gets(), you must allocate sufficient memory space to store the
+string, using the methods covered on Day 10. This function has no way of knowing
+whether space pointed to by ptr is allocated; the string is input and stored starting
+at ptr in either case. If the space hasn't been allocated, the string might overwrite
+other data and cause program errors.</P>
+<P>Listings 10.5 and 10.6 use gets().</P>
+<P>
+<H4>The fgets() Function</H4>
+<P>The fgets() library function is similar to gets() in that it reads a line of text
+from an input stream. It's more flexible, because it lets the programmer specify
+the specific input stream to use and the maximum number of characters to be input.
+The fgets() function is often used to input text from disk files, which is covered
+on Day 16. To use it for input from stdin, you specify stdin as the input stream.
+The prototype of fgets() is</P>
+<P>
+<PRE>char *fgets(char *str, int n, FILE *fp);
+</PRE>
+<P>The last parameter, FILE *fp, is used to specify the input stream. For now, simply
+specify the standard input stream, stdin, as the stream argument.</P>
+<P>The pointer str indicates where the input string is stored. The argument n specifies
+the maximum number of characters to be input. The fgets() function reads characters
+from the input stream until a newline or end-of-line is encountered or n - 1 characters
+have been read. The newline is included in the string and terminated with a \0 before
+it is stored. The return values of fgets() are the same as described earlier for
+gets().</P>
+<P>Strictly speaking, fgets() doesn't input a single line of text (if you define
+a line as a sequence of characters ending with a newline). It can read less than
+a full line if the line contains more than <I>n </I>-1 characters. When used with
+stdin, execution doesn't return from fgets() until you press Enter, but only the
+first <I>n</I>-1 characters are stored in the string. The newline is included in
+the string only if it falls within the first <I>n</I>-1 characters. Listing 14.6
+demonstrates the fgets() function.</P>
+<P>
+<H4>Listing 14.6. Using the fgets() function for keyboard input.</H4>
+<PRE>1:  /* Demonstrates the fgets() function. */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  #define MAXLEN 10
+6:
+7:  main()
+8:  {
+9:     char buffer[MAXLEN];
+10:
+11:    puts(&quot;Enter text a line at a time; enter a blank to exit.&quot;);
+12:
+13:    while (1)
+14:    {
+15:         fgets(buffer, MAXLEN, stdin);
+16:
+17:         if (buffer[0] == `\n')
+18:             break;
+19:
+20:         puts(buffer);
+21:    }
+22:    return 0;
+23: }
+Enter text a line at a time; enter a blank to exit.
+<B>Roses are red</B>
+Roses are
+ red
+<B>Violets are blue</B>
+Violets a
+re blue
+<B>Programming in C</B>
+Programmi
+ng in C
+<B>Is for people like you!</B>
+Is for pe
+ople like
+ you!
+</PRE>
+<P>Line 15 contains the fgets() function. When running the program, enter lines of
+length less than and greater than MAXLEN to see what happens. If a line greater than
+MAXLEN is entered, the first MAXLEN - 1 characters are read by the first call to
+fgets(); the remaining characters remain in the keyboard buffer and are read by the
+next call to fgets() or any other function that reads from stdin. The program exits
+when a blank line is entered (lines 17 and 18).</P>
+<P>
+<H3><A NAME="Heading10"></A>Formatted Input</H3>
+<P>The input functions covered up to this point have simply taken one or more characters
+from an input stream and put them somewhere in memory. No interpretation or formatting
+of the input has been done, and you still have no way to input numeric variables.
+For example, how would you input the value 12.86 from the keyboard and assign it
+to a type float variable? Enter the scanf() and fscanf() functions. You were introduced
+to scanf() on Day 7, &quot;Fundamentals of Input and Output.&quot; This section explains
+its use in more detail.</P>
+<P>These two functions are identical, except that scanf() always uses stdin, whereas
+the user can specify the input stream in fscanf(). This section covers scanf(); fscanf()
+generally is used with disk file input and is covered on Day 16.</P>
+<P>
+<H4>The scanf() Function's Arguments</H4>
+<P>The scanf() function takes a variable number of arguments; it requires a minimum
+of two. The first argument is a format string that uses special characters to tell
+scanf() how to interpret the input. The second and additional arguments are the addresses
+of the variable(s) to which the input data is assigned. Here's an example:</P>
+<P>
+<PRE>scanf(&quot;%d&quot;, &amp;x);
+</PRE>
+<P>The first argument, &quot;%d&quot;, is the format string. In this case, %d tells
+scanf() to look for one signed integer value. The second argument uses the address-of
+operator (&amp;) to tell scanf() to assign the input value to the variable x. Now
+you can look at the format string details.</P>
+<P>The scanf() format string can contain the following:</P>
+
+<UL>
+	<LI>Spaces and tabs, which are ignored (they can be used to make the format string
+	more readable).
+	<P>
+	<LI>Characters (but not %), which are matched against nonwhitespace characters in
+	the input.
+	<P>
+	<LI>One or more <I>conversion specifications,</I> which consist of the % character
+	followed by special characters. Generally, the format string contains one conversion
+	specification for each variable.
+</UL>
+
+<P>The only required part of the format string is the conversion specifications.
+Each conversion specification begins with the % character and contains optional and
+required components in a certain order. The scanf() function applies the conversion
+specifications in the format string, in order, to the input fields. An <I>input field</I>
+is a sequence of nonwhitespace characters that ends when the next white space is
+encountered or when the field width, if specified, is reached. The conversion specification
+components include the following:</P>
+
+<UL>
+	<LI>The optional assignment suppression flag (*) immediately follows the %. If present,
+	this character tells scanf() to perform the conversion corresponding to the current
+	conversion specifier but to ignore the result (not assign it to any variable).
+	<P>
+	<LI>The next component, the field width, is also optional. The field width is a decimal
+	number specifying the width, in characters, of the input field. In other words, the
+	field width specifies how many characters from stdin scanf() should examine for the
+	current conversion. If a field width isn't specified, the input field extends to
+	the next white space.
+	<P>
+	<LI>The next component is the optional precision modifier, a single character that
+	can be h, l, or L. If present, the precision modifier changes the meaning of the
+	type specifier that follows it. Details are given later in this chapter.
+	<P>
+	<LI>The only required component of the conversion specifier (besides the %) is the
+	type specifier. The type specifier is one or more characters that tell scanf() how
+	to interpret the input. These characters are listed and described in Table 14.3.
+	The Argument column lists the required type of the corresponding variable. For example,
+	the type specifier d requires int * (a pointer to type int).
+</UL>
+
+<H4>Table 14.3. The type specifier characters used in scanf() conversion specifiers.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Type</B></TD>
+		<TD ALIGN="LEFT"><B>Argument</B></TD>
+		<TD ALIGN="LEFT"><B>Meaning of Type</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">d</TD>
+		<TD ALIGN="LEFT">int *</TD>
+		<TD ALIGN="LEFT">A decimal integer.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">i</TD>
+		<TD ALIGN="LEFT">int *</TD>
+		<TD ALIGN="LEFT">An integer in decimal, octal (with leading 0), or hexadecimal (with leading 0X or
+			0x) notation.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">o</TD>
+		<TD ALIGN="LEFT">int *</TD>
+		<TD ALIGN="LEFT">An integer in octal notation with or without the leading 0.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">u</TD>
+		<TD ALIGN="LEFT">unsigned int *</TD>
+		<TD ALIGN="LEFT">An unsigned decimal integer.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">x</TD>
+		<TD ALIGN="LEFT">int *</TD>
+		<TD ALIGN="LEFT">A hexadecimal integer with or without the leading 0X or 0x.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">c</TD>
+		<TD ALIGN="LEFT">char *</TD>
+		<TD ALIGN="LEFT">One or more characters are read and assigned sequentially to the memory location
+			indicated by the argument. No terminating \0 is added. If a field width argument
+			isn't given, one character is read. If a field width argument is given, that number
+			of characters, including white space (if any), is read.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">s</TD>
+		<TD ALIGN="LEFT">char *</TD>
+		<TD ALIGN="LEFT">A string of nonwhitespace characters is read into the specified memory location,
+			and a terminating \0 is added.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">e,f,g</TD>
+		<TD ALIGN="LEFT">float *</TD>
+		<TD ALIGN="LEFT">A floating-point number. Numbers can be input in decimal or scientific notation.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">[...]</TD>
+		<TD ALIGN="LEFT">char *</TD>
+		<TD ALIGN="LEFT">A string. Only the characters listed between the brackets are accepted. Input ends
+			as soon as a nonmatching character is encountered, the specified field width is reached,
+			or Enter is pressed. To accept the ] character, list it first:[]...]. A \0 is added
+			at the end of the string.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">[^...]</TD>
+		<TD ALIGN="LEFT">char *</TD>
+		<TD ALIGN="LEFT">The same as [...], except that only characters not listed between the brackets are
+			accepted.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%</TD>
+		<TD ALIGN="LEFT">None</TD>
+		<TD ALIGN="LEFT">Literal %: Reads the % character. No assignment is made.</TD>
+	</TR>
+</TABLE>
+</P>
+<P>Before seeing some examples of scanf(), you need to understand the precision modifiers,
+which are listed in Table 14.4.</P>
+<P>
+<H4>Table 14.4. The precision modifiers.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Precision </B> <B>Modifier</B></TD>
+		<TD ALIGN="LEFT"><B>Meaning</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">h</TD>
+		<TD ALIGN="LEFT">When placed before the type specifier d, i, o, u, or x, the modifier h specifies
+			that the argument is a pointer to type short instead of type int. On a PC, the type
+			short is the same as type int, so the h precision modifier is never needed.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">l</TD>
+		<TD ALIGN="LEFT">When placed before the type specifier d, i, o, u, or x, the modifier l specifies
+			that the argument is a pointer to type long. When placed before the type specifier
+			e, f, or g, the modifier l specifies that the argument is a pointer to type double.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">L</TD>
+		<TD ALIGN="LEFT">When placed before the type specifier e, f, or g, the modifier L specifies that the
+			argument is a pointer to type long double.</TD>
+	</TR>
+</TABLE>
+
+<H4>Handling Extra Characters</H4>
+<P>Input from scanf() is buffered; no characters are actually received from stdin
+until the user presses Enter. The entire line of characters then &quot;arrives&quot;
+from stdin, and is processed, in order, by scanf(). Execution returns from scanf()
+only when enough input has been received to match the specifications in the format
+string. Also, scanf() processes only enough characters from stdin to satisfy its
+format string. Extra, unneeded characters, if any, remain waiting in stdin. These
+characters can cause problems. Take a closer look at the operation of scanf() to
+see how.</P>
+<P>When a call to scanf() is executed and the user has entered a single line, you
+can have three situations. For these examples, assume that scanf(&quot;%d %d&quot;,
+&amp;x, &amp;y); is being executed; in other words, scanf() is expecting two decimal
+integers. Here are the possibilities:</P>
+
+<UL>
+	<LI>The line the user inputs matches the format string. For example, suppose the
+	user enters 12 14 followed by Enter. In this case, there are no problems. scanf()
+	is satisfied, and no characters are left over in stdin.
+	<P>
+	<LI>The line that the user inputs has too few elements to match the format string.
+	For example, suppose the user enters 12 followed by Enter. In this case, scanf()
+	continues to wait for the missing input. Once the input is received, execution continues,
+	and no characters are left over in stdin.
+	<P>
+	<LI>The line that the user enters has more elements than required by the format string.
+	For example, suppose the user enters 12 14 16 followed by Enter. In this case, scanf()
+	reads the 12 and the 14 and then returns. The extra characters, the 1 and the 6,
+	are left waiting in stdin.
+</UL>
+
+<P>It is this third situation (specifically, those leftover characters) that can
+cause problems. They remain waiting for as long as your program is running, until
+the next time the program reads input from stdin. Then the leftover characters are
+the first ones read, ahead of any input the user makes at the time. It's clear how
+this could cause errors. For example, the following code asks the user to input an
+integer and then a string:</P>
+<P>
+<PRE>puts(&quot;Enter your age.&quot;);
+scanf(&quot;%d&quot;, &amp;age);
+puts(&quot;Enter your first name.&quot;);
+scanf(&quot;%s&quot;, name);
+</PRE>
+<P>Say, for example, that in response to the first prompt, the user decides to be
+precise and enters 29.00 and then presses Enter. The first call to scanf() is looking
+for an integer, so it reads the characters 29 from stdin and assigns the value 29
+to the variable age. The characters .00 are left waiting in stdin. The next call
+to scanf() is looking for a string. It goes to stdin for input and finds .00 waiting
+there. The result is that the string .00 is assigned to name.</P>
+<P>How can you avoid this problem? If the people who use your programs never make
+mistakes when entering information, that's one solution--but it's rather impractical.</P>
+<P>A better solution is to make sure there are no extra characters waiting in stdin
+before prompting the user for input. You can do this by calling gets(), which reads
+any remaining characters from stdin, up to and including the end of the line. Rather
+than calling gets() directly from the program, you can put it in a separate function
+with the descriptive name of clear_kb(). This function is shown in Listing 14.7.</P>
+<P>
+<H4>Listing 14.7. Clearing stdin of extra characters to avoid errors.</H4>
+<PRE>1: /* Clearing stdin of extra characters. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: void clear_kb(void);
+6:
+7: main()
+8: {
+9:     int age;
+10:     char name[20];
+11:
+12:     /* Prompt for user's age. */
+13:
+14:     puts(&quot;Enter your age.&quot;);
+15:     scanf(&quot;%d&quot;, &amp;age);
+16:
+17:     /* Clear stdin of any extra characters. */
+18:
+19:     clear_kb();
+20:
+21:     /* Now prompt for user's name. */
+22:
+23:     puts(&quot;Enter your first name.&quot;);
+24:     scanf(&quot;%s&quot;, name);
+25:     /* Display the data. */
+26:
+27:     printf(&quot;Your age is %d.\n&quot;, age);
+28:     printf(&quot;Your name is %s.\n&quot;, name);
+29:
+30:     return 0;
+31: }
+32:
+33: void clear_kb(void)
+34:
+35: /* Clears stdin of any waiting characters. */
+36: {
+37:     char junk[80];
+38:     gets(junk);
+39: }
+Enter your age.
+<B>29 and never older!</B>
+Enter your first name.
+<B>Bradley</B>
+Your age is 29.
+Your name is Bradley.
+</PRE>
+<P><strong>]ANALYSIS: </strong> When you run Listing 14.7, enter some extra characters after
+your age, before pressing Enter. Make sure the program ignores them and correctly
+prompts you for your name. Then modify the program by removing the call to clear_kb(),
+and run it again. Any extra characters entered on the same line as your age are assigned
+to name.</P>
+<P>
+<H4>Handling Extra Characters with fflush()</H4>
+<P>There is a second way in which you can clear the extra characters that were typed
+in. The fflush() function flushes the information in a stream--including the standard
+input stream. fflush() is generally used with disk files (which are covered on Day
+16); however, it can also be used to make Listing 14.7 even simpler. Listing 14.8
+uses the fflush() function instead of the clear_kb() function that was created in
+Listing 14.7.</P>
+<P>
+<H4>Listing 14.8. Clearing stdin of extra characters using fflush().</H4>
+<PRE>1:   /* Clearing stdin of extra characters. */
+2:   /* Using the fflush() function         */
+3:   #include &lt;stdio.h&gt;
+4:
+5:   main()
+6:   {
+7:      int age;
+8:      char name[20];
+9:
+10:     /* Prompt for user's age. */
+11:     puts(&quot;Enter your age.&quot;);
+12:     scanf(&quot;%d&quot;, &amp;age);
+13:
+14:     /* Clear stdin of any extra characters. */
+15:     fflush(stdin);
+16:
+17:     /* Now prompt for user's name. */
+18:     puts(&quot;Enter your first name.&quot;);
+19:     scanf(&quot;%s&quot;, name);
+20:
+21:     /* Display the data. */
+22:     printf(&quot;Your age is %d.\n&quot;, age);
+23:     printf(&quot;Your name is %s.\n&quot;, name);
+24:
+25:     return 0;
+26: }
+Enter your age.
+<B>29 and never older!</B>
+Enter your first name.
+<B>Bradley</B>
+Your age is 29.
+Your name is Bradley.
+</PRE>
+<P><strong>ANALYSIS: </strong> As you can see in line 15, the fflush() function is being
+used. The prototype for the fflush() function is as follows:</P>
+<P>
+<PRE>int fflush( FILE *<I>stream</I>);
+</PRE>
+<P>The <I>stream</I> is the stream to be flushed. In Listing 14.8, the standard input
+stream, stdin, is being passed for <I>stream</I>.</P>
+<P>
+<H4>scanf() Examples</H4>
+<P>The best way to become familiar with the operation of the scanf() function is
+to use it. It's a powerful function, but it can be a bit confusing at times. Try
+it and see what happens. Listing 14.9 demonstrates some of the unusual ways to use
+scanf(). You should compile and run this program and then experiment by making changes
+to the scanf() format strings.</P>
+<P>
+<H4>Listing 14.9. Some ways to use scanf() for keyboard input.</H4>
+<PRE>1:  /* Demonstrates some uses of scanf(). */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:
+6:
+7:  main()
+8:  {
+9:      int i1, i2;
+10:     long l1;
+11:
+12:     double d1;
+13:     char buf1[80], buf2[80];
+14:
+15:     /* Using the l modifier to enter long integers and doubles.*/
+16:
+17:     puts(&quot;Enter an integer and a floating point number.&quot;);
+18:     scanf(&quot;%ld %lf&quot;, &amp;l1, &amp;d1);
+19:     printf(&quot;\nYou entered %ld and %lf.\n&quot;,l1, d1);
+20:     puts(&quot;The scanf() format string used the l modifier to store&quot;);
+21:     puts(&quot;your input in a type long and a type double.\n&quot;);
+22:
+23:     fflush(stdin);
+24:
+25:     /* Use field width to split input. */
+26:
+27:     puts(&quot;Enter a 5 digit integer (for example, 54321).&quot;);
+28:     scanf(&quot;%2d%3d&quot;, &amp;i1, &amp;i2);
+29:
+30:     printf(&quot;\nYou entered %d and %d.\n&quot;, i1, i2);
+31:     puts(&quot;Note how the field width specifier in the scanf() format&quot;);
+32:     puts(&quot;string split your input into two values.\n&quot;);
+33:
+34:     fflush(stdin);
+35:
+36:     /* Using an excluded space to split a line of input into */
+37:     /* two strings at the space. */
+38:
+39:     puts(&quot;Enter your first and last names separated by a space.&quot;);
+40:     scanf(&quot;%[^ ]%s&quot;, buf1, buf2);
+41:     printf(&quot;\nYour first name is %s\n&quot;, buf1);
+42:     printf(&quot;Your last name is %s\n&quot;, buf2);
+43:     puts(&quot;Note how [^ ] in the scanf() format string, by excluding&quot;);
+44:     puts(&quot;the space character, caused the input to be split.&quot;);
+45:
+46:     return 0;
+47: }
+Enter an integer and a floating point number.
+<B>123 45.6789</B>
+You entered 123 and 45.678900.
+The scanf() format string used the l modifier to store
+your input in a type long and a type double.
+Enter a 5 digit integer (for example, 54321).
+<B>54321</B>
+You entered 54 and 321.
+Note how the field width specifier in the scanf() format
+string split your input into two values.
+Enter your first and last names separated by a space.
+<B>Gayle Johnson</B>
+Your first name is Gayle
+Your last name is Johnson
+Note how [^ ] in the scanf() format string, by excluding
+the space character, caused the input to be split.
+</PRE>
+<P><strong>ANALYSIS: </strong> This listing starts by defining several variables in lines
+9 through 13 for data input. The program then walks you through the steps of entering
+various types of data. Lines 17 through 21 have you enter and print long integers
+and a double. Line 23 calls the fflush() function to clear any unwanted characters
+from the standard input stream. Lines 27 and 28 get the next value, a five-character
+integer. Because there are width specifiers, the five-digit integer is split into
+two integers--one that is two characters, and one that is three characters. Line
+34 calls fflush() to clear the keyboard again. The final example, in lines 36 through
+44, uses the exclude character. Line 40 uses &quot;%[^ ]%s&quot;, which tells scanf()
+to get a string but to stop at any spaces. This effectively splits the input.</P>
+<P>Take the time to modify this listing and enter additional values to see what the
+results are.</P>
+<P>The scanf() function can be used for most of your input needs, particularly those
+involving numbers (strings can be input more easily with gets()). It is often worthwhile,
+however, to write your own specialized input functions. You can see some examples
+of user-defined functions on Day 18, &quot;Getting More from Functions.&quot;</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> take advantage of extended characters in your programs. When using extended
+	characters, you should try to be consistent with other programs.<BR>
+	<B></B></P>
+
+	<P><B>DON'T</B> forget to check the input stream for extra characters.<BR>
+	<B></B></P>
+
+	<P><B>DO</B> use the gets() and scanf() functions instead of the fgets() and fscanf()
+	functions if you're using the standard input file (stdin) only. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading11"></A>Screen Output</H2>
+<P>Screen output functions are divided into three general categories along the same
+lines as the input functions: character output, line output, and formatted output.
+You were introduced to some of these functions in earlier chapters. This section
+covers them all in detail.</P>
+<P>
+<H3><A NAME="Heading12"></A>Character Output with putchar(), putc(), and fputc()</H3>
+<P>The C library's character output functions send a single character to a stream.
+The function putchar() sends its output to stdout (normally the screen). The functions
+fputc() and putc() send their output to a stream specified in the argument list.</P>
+<P>
+<H4>Using the putchar() Function</H4>
+<P>The prototype for putchar(), which is located in STDIO.H, is as follows:</P>
+<P>
+<PRE>int putchar(int c);
+</PRE>
+<P>This function writes the character stored in c to stdout. Although the prototype
+specifies a type int argument, you pass putchar() a type char. You can also pass
+it a type int as long as its value is appropriate for a character (that is, in the
+range 0 to 255). The function returns the character that was just written, or EOF
+if an error has occurred.</P>
+<P>You saw putchar() demonstrated in Listing 14.2. Listing 14.10 displays the characters
+with ASCII values between 14 and 127.</P>
+<P>
+<H4>Listing 14.10. The putchar() function.</H4>
+<PRE>1: /* Demonstrates putchar(). */
+2:
+3: #include &lt;stdio.h&gt;
+4: main()
+5: {
+6:     int count;
+7:
+8:     for (count = 14; count &lt; 128; )
+9:          putchar(count++);
+10:
+11:   return 0;
+12: }
+</PRE>
+<P>You can also display strings with the putchar() function (as shown in Listing
+14.11), although other functions are better suited for this purpose.</P>
+<P>
+<H4>Listing 14.11. Displaying a string with putchar().</H4>
+<PRE>1: /* Using putchar() to display strings. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: #define MAXSTRING 80
+6:
+7: char message[] = &quot;Displayed with putchar().&quot;;
+8: main()
+9: {
+10:     int count;
+11:
+12:     for (count = 0; count &lt; MAXSTRING; count++)
+13:     {
+14:
+15:         /* Look for the end of the string. When it's found, */
+16:         /* write a newline character and exit the loop. */
+17:
+18:         if (message[count] == `\0')
+19:         {
+20:             putchar(`\n');
+21:             break;
+22:         }
+23:         else
+24:
+25:         /* If end of string not found, write the next character. */
+26:
+27:             putchar(message[count]);
+28:     }
+29:     return 0;
+30: }
+</PRE>
+<PRE>Displayed with putchar().
+</PRE>
+<H4>Using the putc() and fputc() Functions</H4>
+<P>These two functions perform the same action--sending a single character to a specified
+stream. putc() is a macro implementation of fputc(). You'll learn about macros on
+Day 21, &quot;Advanced Compiler Use.&quot; For now, just stick to fputc(). Its prototype
+is</P>
+<P>
+<PRE>int fputc(int c, FILE *fp);
+</PRE>
+<P>The FILE *fp part might puzzle you. You pass fputc() the output stream in this
+argument. (You'll learn more about this on Day 16.) If you specify stdout as the
+stream, fputc() behaves exactly the same as putchar(). Thus, the following two statements
+are equivalent:</P>
+<P>
+<PRE>putchar(`x');
+fputc(`x', stdout);
+</PRE>
+<H3><A NAME="Heading13"></A>Using puts() and fputs() for String Output</H3>
+<P>Your programs display strings on-screen more often than they display single characters.
+The library function puts() displays strings. The function fputs() sends a string
+to a specified stream; otherwise, it is identical to puts(). The prototype for puts()
+is</P>
+<P>
+<PRE>int puts(char *cp);
+</PRE>
+<P>*cp is a pointer to the first character of the string that you want displayed.
+The puts() function displays the entire string up to but not including the terminating
+null character, adding a newline at the end. Then puts() returns a positive value
+if successful or EOF on error. (Remember, EOF is a symbolic constant with the value
+-1; it is defined in STDIO.H.)</P>
+<P>The puts() function can be used to display any type of string, as demonstrated
+in Listing 14.12.</P>
+<P>
+<H4>Listing 14.12. Using the puts() function to display strings.</H4>
+<PRE>1: /* Demonstrates puts(). */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: /* Declare and initialize an array of pointers. */
+6:
+7: char *messages[5] = { &quot;This&quot;, &quot;is&quot;, &quot;a&quot;, &quot;short&quot;, &quot;message.&quot; };
+8:
+9: main()
+10: {
+11:     int x;
+12:
+13:     for (x=0; x&lt;5; x++)
+14:         puts(messages[x]);
+15:
+16:     puts(&quot;And this is the end!&quot;);
+17:
+18:     return 0;
+19: }
+This
+is
+a
+short
+message.
+And this is the end!
+</PRE>
+<P><strong>ANALYSIS: </strong> This listing declares an array of pointers, a subject not
+covered yet. (It will be covered tomorrow.) Lines 13 and 14 print each of the strings
+stored in the message array.</P>
+<P>
+<H3><A NAME="Heading14"></A>Using printf() and fprintf() for Formatted Output</H3>
+<P>So far, the output functions have displayed characters and strings only. What
+about numbers? To display numbers, you must use the C library's formatted output
+functions, printf() and fprintf(). These functions can also display strings and characters.
+You were officially introduced to printf() on Day 7, and you've used it in almost
+every chapter. This section provides the remainder of the details.</P>
+<P>The two functions printf() and fprintf() are identical, except that printf() always
+sends output to stdout, whereas fprintf() specifies the output stream. fprintf()
+is generally used for output to disk files. It's covered on Day 16.</P>
+<P>The printf() function takes a variable number of arguments, with a minimum of
+one. The first and only required argument is the format string, which tells printf()
+how to format the output. The optional arguments are variables and expressions whose
+values you want to display. Take a look at these few simple examples, which give
+you a feel for printf(), before you really get into the nitty-gritty:</P>
+
+<UL>
+	<LI>The statement printf(&quot;Hello, world.&quot;); displays the message Hello,
+	world. on-screen. This is an example of using printf() with only one argument, the
+	format string. In this case, the format string contains only a literal string to
+	be displayed on-screen.
+	<P>
+	<LI>The statement printf(&quot;%d&quot;, i); displays the value of the integer variable
+	i on-screen. The format string contains only the format specifier %d, which tells
+	printf() to display a single decimal integer. The second argument i is the name of
+	the variable whose value is to be displayed.
+	<P>
+	<LI>The statement printf(&quot;%d plus %d equals %d.&quot;, a, b, a+b); displays
+	2 plus 3 equals 5 on-screen (assuming that a and b are integer variables with the
+	values of 2 and 3, respectively). This use of printf() has four arguments: a format
+	string that contains literal text as well as format specifiers, and two variables
+	and an expression whose values are to be displayed.
+</UL>
+
+<P>Now look at the printf() format string in more detail. It can contain the following:</P>
+
+<UL>
+	<LI>Zero, one, or more conversion commands that tell printf() how to display a value
+	in its argument list. A conversion command consists of % followed by one or more
+	characters.
+	<P>
+	<LI>Characters that are not part of a conversion command and are displayed as-is.
+</UL>
+
+<P>The third example's format string is %d plus %d equals %d. In this case, the three
+%ds are conversion commands, and the remainder of the string, including the spaces,
+is literal characters that are displayed directly.</P>
+<P>Now you can dissect the conversion command. The components of the command are
+given here and explained next. Components in brackets are optional.</P>
+<P>
+<PRE>%[<I>flag</I>][<I>field_width</I>][.[<I>precision</I>]][l]<I>conversion_char</I>
+</PRE>
+<P>The <I>conversion_char</I> is the only required part of a conversion command (other
+than the %). Table 14.5 lists the conversion characters and their meanings.</P>
+<P>
+<H4>Table 14.5. The printf() and fprintf() conversion characters.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Conversion Character</B></TD>
+		<TD ALIGN="LEFT"><B>Meaning</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">d, i</TD>
+		<TD ALIGN="LEFT">Display a signed integer in decimal notation.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">u</TD>
+		<TD ALIGN="LEFT">Display an unsigned integer in decimal notation.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">o</TD>
+		<TD ALIGN="LEFT">Display an integer in unsigned octal notation.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">x, X</TD>
+		<TD ALIGN="LEFT">Display an integer in unsigned hexadecimal notation. Use x for lowercase output and
+			X for uppercase output.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">c</TD>
+		<TD ALIGN="LEFT">Display a single character (the argument gives the character's ASCII code).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">e, E</TD>
+		<TD ALIGN="LEFT">Display a float or double in scientific notation (for example, 123.45 is displayed
+			as 1.234500e+002). Six digits are displayed to the right of the decimal point unless
+			another precision is specified with the f specifier. Use e or E to control the case
+			of output.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">f</TD>
+		<TD ALIGN="LEFT">Display a float or double in decimal notation (for example, 123.45 is displayed as
+			123.450000). Six digits are displayed to the right of the decimal point unless another
+			precision is specified.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">g, G</TD>
+		<TD ALIGN="LEFT">Use e, E, or f format. The e or E format is used if the exponent is less than -3
+			or greater than the precision (which defaults to 6). f format is used otherwise.
+			Trailing zeros are truncated.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">n</TD>
+		<TD ALIGN="LEFT">Nothing is displayed. The argument corresponding to an n conversion command is a
+			pointer to type int. The printf() function assigns to this variable the number of
+			characters output so far.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">s</TD>
+		<TD ALIGN="LEFT">Display a string. The argument is a pointer to char. Characters are displayed until
+			a null character is encountered or the number of characters specified by precision
+			(which defaults to 32767) is displayed. The terminating null character is not output.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%</TD>
+		<TD ALIGN="LEFT">Display the % character.</TD>
+	</TR>
+</TABLE>
+</P>
+<P>You can place the l modifier just before the conversion character. This modifier
+applies only to the conversion characters o, u, x, X, i, d, and b. When applied,
+this modifier specifies that the argument is a type long rather than a type int.
+If the l modifier is applied to the conversion characters e, E, f, g, or G, it specifies
+that the argument is a type double. If an l is placed before any other conversion
+character, it is ignored.</P>
+<P>The precision specifier consists of a decimal point (.) by itself or followed
+by a number. A precision specifier applies only to the conversion characters e, E,
+f, g, G, and s. It specifies the number of digits to display to the right of the
+decimal point or, when used with s, the number of characters to output. If the decimal
+point is used alone, it specifies a precision of 0.</P>
+<P>The field-width specifier determines the minimum number of characters output.
+The field-width specifier can be the following:</P>
+
+<UL>
+	<LI>A decimal integer not starting with 0. The output is padded on the left with
+	spaces to fill the designated field width.
+	<P>
+	<LI>A decimal integer starting with 0. The output is padded on the left with zeros
+	to fill the designated field width.
+	<P>
+	<LI>The * character. The value of the next argument (which must be an int) is used
+	as the field width. For example, if w is a type int with a value of 10, the statement
+	printf(&quot;%*d&quot;, w, a); prints the value of a with a field width of 10.
+</UL>
+
+<P>If no field width is specified, or if the specified field width is narrower than
+the output, the output field is just as wide as needed.</P>
+<P>The last optional part of the printf() format string is the flag, which immediately
+follows the % character. There are four available flags:</P>
+<P>- This means that the output is left-justified in its field rather than right-justified,
+which is the default.</P>
+<P>+ This means that signed numbers are always displayed with a leading + or -.</P>
+<P>` ` A space means that positive numbers are preceded by a space.</P>
+<P># This applies only to x, X, and o conversion characters. It specifies that nonzero
+numbers are displayed with a leading 0X or 0x (for x and X) or a leading 0 (for o).</P>
+<P>When you use printf(), the format string can be a string literal enclosed in double
+quotes in the printf() argument list. It can also be a null-terminated string stored
+in memory, in which case you pass a pointer to the string to printf(). For example,
+this statement:</P>
+<P>
+<PRE>char *fmt = &quot;The answer is %f.&quot;;
+printf(fmt, x);
+</PRE>
+<P>is equivalent to this statement:</P>
+<P>
+<PRE>printf(&quot;The answer is %f.&quot;, x);
+</PRE>
+<P>As explained on Day 7, the printf() format string can contain escape sequences
+that provide special control over the output. Table 14.6 lists the most frequently
+used escape sequences. For example, including the newline sequence (\n) in a format
+string causes subsequent output to appear starting on the next screen line.</P>
+<P>
+<H4>Table 14.6. The most frequently used escape sequences.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Sequence</B></TD>
+		<TD ALIGN="LEFT"><B>Meaning</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\a</TD>
+		<TD ALIGN="LEFT">Bell (alert)</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\b</TD>
+		<TD ALIGN="LEFT">Backspace</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\n</TD>
+		<TD ALIGN="LEFT">Newline</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\t</TD>
+		<TD ALIGN="LEFT">Horizontal tab</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\\</TD>
+		<TD ALIGN="LEFT">Backslash</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\?</TD>
+		<TD ALIGN="LEFT">Question mark</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\'</TD>
+		<TD ALIGN="LEFT">Single quote</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">\&quot;</TD>
+		<TD ALIGN="LEFT">Double quote</TD>
+	</TR>
+</TABLE>
+</P>
+<P>printf() is somewhat complicated. The best way to learn how to use it is to look
+at examples and then experiment on your own. Listing 14.13 demonstrates some of the
+ways you can use printf().</P>
+<P>
+<H4>Listing 14.13. Some ways to use the printf() function.</H4>
+<PRE>1:  /* Demonstration of printf(). */
+2:
+3:  #include &lt;stdio.h&gt;
+4:
+5:  char *m1 = &quot;Binary&quot;;
+6:  char *m2 = &quot;Decimal&quot;;
+7:  char *m3 = &quot;Octal&quot;;
+8:  char *m4 = &quot;Hexadecimal&quot;;
+9:
+10: main()
+11: {
+12:     float d1 = 10000.123;
+13:     int n, f;
+14:
+15:
+16:     puts(&quot;Outputting a number with different field widths.\n&quot;);
+17:
+18:     printf(&quot;%5f\n&quot;, d1);
+19:     printf(&quot;%10f\n&quot;, d1);
+20:     printf(&quot;%15f\n&quot;, d1);
+21:     printf(&quot;%20f\n&quot;, d1);
+22:     printf(&quot;%25f\n&quot;, d1);
+23:
+24:     puts(&quot;\n Press Enter to continue...&quot;);
+25:     fflush(stdin);
+26:     getchar();
+27:
+28:     puts(&quot;\nUse the * field width specifier to obtain field width&quot;);
+29:     puts(&quot;from a variable in the argument list.\n&quot;);
+30:
+31:     for (n=5;n&lt;=25; n+=5)
+32:         printf(&quot;%*f\n&quot;, n, d1);
+33:
+34:     puts(&quot;\n Press Enter to continue...&quot;);
+35:     fflush(stdin);
+36:     getchar();
+37:
+38:     puts(&quot;\nInclude leading zeros.\n&quot;);
+39:
+40:     printf(&quot;%05f\n&quot;, d1);
+41:     printf(&quot;%010f\n&quot;, d1);
+42:     printf(&quot;%015f\n&quot;, d1);
+43:     printf(&quot;%020f\n&quot;, d1);
+44:     printf(&quot;%025f\n&quot;, d1);
+45:
+46:     puts(&quot;\n Press Enter to continue...&quot;);
+47:     fflush(stdin);
+48:     getchar();
+49:
+50:     puts(&quot;\nDisplay in octal, decimal, and hexadecimal.&quot;);
+51:     puts(&quot;Use # to precede octal and hex output with 0 and 0X.&quot;);
+52:     puts(&quot;Use - to left-justify each value in its field.&quot;);
+53:     puts(&quot;First display column labels.\n&quot;);
+54:
+55:     printf(&quot;%-15s%-15s%-15s&quot;, m2, m3, m4);
+56:
+57:     for (n = 1;n&lt; 20; n++)
+58:         printf(&quot;\n%-15d%-#15o%-#15X&quot;, n, n, n);
+59:
+60:     puts(&quot;\n Press Enter to continue...&quot;);
+61:     fflush(stdin);
+62:     getchar();
+63:
+64:     puts(&quot;\n\nUse the %n conversion command to count characters.\n&quot;);
+65:
+66:     printf(&quot;%s%s%s%s%n&quot;, m1, m2, m3, m4, &amp;n);
+67:
+68:     printf(&quot;\n\nThe last printf() output %d characters.\n&quot;, n);
+69:
+70:     return 0;
+71: }
+Outputting a number with different field widths.
+10000.123047
+10000.123047
+   10000.123047
+        10000.123047
+             10000.123047
+ Press Enter to continue...
+Use the * field width specifier to obtain field width
+from a variable in the argument list.
+10000.123047
+10000.123047
+   10000.123047
+        10000.123047
+             10000.123047
+ Press Enter to continue...
+Include leading zeros.
+10000.123047
+10000.123047
+00010000.123047
+0000000010000.123047
+000000000000010000.123047
+ Press Enter to continue...
+Display in octal, decimal, and hexadecimal.
+Use # to precede octal and hex output with 0 and 0X.
+Use - to left-justify each value in its field.
+First display column labels.
+Decimal        Octal          Hexadecimal
+1              01             0X1
+2              02             0X2
+3              03             0X3
+4     

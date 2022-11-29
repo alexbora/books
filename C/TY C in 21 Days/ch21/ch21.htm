@@ -1,0 +1,1159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 21 -- Advanced Compiler Use</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch20/ch20.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apa/apa.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 21 -</H1>
+</CENTER>
+<CENTER>
+<H1>Advanced Compiler Use</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Programming with Multiple Source Files</A>
+	<UL>
+		<LI><A HREF="#Heading2">Advantages of Modular Programming</A>
+		<LI><A HREF="#Heading3">Modular Programming Techniques</A>
+		<LI><A HREF="#Heading4">Module Components</A>
+		<LI><A HREF="#Heading5">External Variables and Modular Programming</A>
+		<LI><A HREF="#Heading6">Using .OBJ Files</A>
+		<LI><A HREF="#Heading7">Using the make Utility</A>
+	</UL>
+	<LI><A HREF="#Heading8">The C Preprocessor</A>
+	<UL>
+		<LI><A HREF="#Heading9">The #define Preprocessor Directive</A>
+		<LI><A HREF="#Heading10">The #include Directive</A>
+		<LI><A HREF="#Heading11">Using #if, #elif, #else, and #endif</A>
+		<LI><A HREF="#Heading12">Using #if...#endif to Help Debug</A>
+		<LI><A HREF="#Heading13">Avoiding Multiple Inclusions of Header Files</A>
+		<LI><A HREF="#Heading14">The #undef Directive</A>
+	</UL>
+	<LI><A HREF="#Heading15">Predefined Macros</A>
+	<LI><A HREF="#Heading16">Using Command-Line Arguments</A>
+	<LI><A HREF="#Heading17">Summary</A>
+	<LI><A HREF="#Heading18">Q&amp;A</A>
+	<LI><A HREF="#Heading19">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading20">Quiz</A>
+		<LI><A HREF="#Heading21">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>This chapter, the last of your 21 days, covers some additional features of the
+C compiler. Today you will learn about</P>
+
+<UL>
+	<LI>Programming with multiple source-code files
+	<P>
+	<LI>Using the C preprocessor
+	<P>
+	<LI>Using command-line arguments
+</UL>
+
+<H2><A NAME="Heading1"></A>Programming with Multiple Source Files</H2>
+<P>Until now, all your C programs have consisted of a single source-code file, exclusive
+of header files. A single source-code file is often all you need, particularly for
+small programs, but you can also divide the source code for a single program among
+two or more files, a practice called <I>modular programming</I>. Why would you want
+to do this? The following sections explain.</P>
+<P>
+<H3><A NAME="Heading2"></A>Advantages of Modular Programming</H3>
+<P>The primary reason to use modular programming is closely related to structured
+programming and its reliance on functions. As you become a more experienced programmer,
+you develop more general-purpose functions that you can use, not only in the program
+for which they were originally written, but in other programs as well. For example,
+you might write a collection of general-purpose functions for displaying information
+on-screen. By keeping these functions in a separate file, you can use them again
+in different programs that also display information on-screen. When you write a program
+that consists of multiple source-code files, each source file is called a <I>module</I>.</P>
+<P>
+<H3><A NAME="Heading3"></A>Modular Programming Techniques</H3>
+<P>A C program can have only one main() function. The module that contains the main()
+function is called the <I>main module,</I> and other modules are called <I>secondary
+modules</I>. A separate header file is usually associated with each secondary module
+(you'll learn why later in this chapter). For now, look at a few simple examples
+that illustrate the basics of multiple module programming. Listings 21.1, 21.2, and
+21.3 show the main module, the secondary module, and the header file, respectively,
+for a program that inputs a number from the user and displays its square.</P>
+<P>
+<H4>Listing 21.1. LIST21_1.C: the main module.</H4>
+<PRE>1: /* Inputs a number and displays its square. */
+2:
+3: #include &lt;stdio.h&gt;
+4: #include &quot;calc.h&quot;
+5:
+6: main()
+7: {
+8:    int x;
+9:
+10:    printf(&quot;Enter an integer value: &quot;);
+11:    scanf(&quot;%d&quot;, &amp;x);
+12:    printf(&quot;\nThe square of %d is %ld.\n&quot;, x, sqr(x));
+13:    return(0);
+14: }
+</PRE>
+<H4>Listing 21.2. CALC.C: the secondary module.</H4>
+<PRE>1: /* Module containing calculation functions. */
+2:
+3: #include &quot;calc.h&quot;
+4:
+5: long sqr(int x)
+6: {
+7:    return ((long)x * x);
+8: }
+</PRE>
+<H4>Listing 21.3. CALC.H: the header file for CALC.C.</H4>
+<PRE>1: /* CALC.H: header file for CALC.C. */
+2:
+3: long sqr(int x);
+4:
+5: /* end of CALC.H */
+Enter an integer value: <B>100</B>
+The square of 100 is 10000.
+</PRE>
+<P><strong>ANALYSIS: </strong> Let's look at the components of these three files in greater
+detail. The header file, CALC.H, contains the prototype for the sqr() function in
+CALC.C. Because any module that uses sqr() needs to know sqr()'s prototype, the module
+must include CALC.H.</P>
+<P>The secondary module file, CALC.C, contains the definition of the sqr() function.
+The #include directive is used to include the header file, CALC.H. Note that the
+header filename is enclosed in quotation marks rather than angle brackets. (You'll
+learn the reason for this later in this chapter.)</P>
+<P>The main module, LIST21_1.C, contains the main() function. This module also includes
+the header file, CALC.H.</P>
+<P>After you use your editor to create these three files, how do you compile and
+link the final executable program? Your compiler controls this for you. At the command
+line, enter</P>
+<P>
+<PRE><I>xxx</I> list21_1.c calc.c
+</PRE>
+<P>where <I>xxx</I> is your compiler's command. This directs the compiler's components
+to perform the following tasks:</P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Compile LIST21_1.C, creating LIST21_1.OBJ (or LIST21_1.O on a UNIX
+	system). If it encounters any errors, the compiler displays descriptive error messages.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Compile CALC.C, creating CALC.OBJ (or CALC.O on a UNIX system). Again,
+	error messages appear if necessary.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>Link LIST21_1.OBJ, CALC.OBJ, and any needed functions from the standard
+	library to create the final executable program LIST21_1.EXE.
+	<P>
+</DL>
+
+<H3><A NAME="Heading4"></A>Module Components</H3>
+<P>As you can see, the mechanics of compiling and linking a multiple-module program
+are quite simple. The only real question is what to put in each file. This section
+gives you some general guidelines.</P>
+<P>The secondary module should contain general utility functions--that is, functions
+that you might want to use in other programs. A common practice is to create one
+secondary module for each type of function--for example, KEYBOARD.C for your keyboard
+functions, SCREEN.C for your screen display functions, and so on. To compile and
+link more than two modules, list all source files on the command line:</P>
+<P>
+<PRE>tcc mainmod.c screen.c keyboard.c
+</PRE>
+<P>The main module should contain main(), of course, and any other functions that
+are program-specific (meaning that they have no general utility).</P>
+<P>There is usually one header file for each secondary module. Each file has the
+same name as the associated module, with an .H extension. In the header file, put</P>
+
+<UL>
+	<LI>Prototypes for functions in the secondary module
+	<P>
+	<LI>#define directives for any symbolic constants and macros used in the module
+	<P>
+	<LI>Definitions of any structures or external variables used in the module
+</UL>
+
+<P>Because this header file might be included in more than one source file, you want
+to prevent portions of it from compiling more than once. You can do this by using
+the preprocessor directives for conditional compilation (discussed later in this
+chapter).</P>
+<P>
+<H3><A NAME="Heading5"></A>External Variables and Modular Programming</H3>
+<P>In many cases, the only data communication between the main module and the secondary
+module is through arguments passed to and returned from the functions. In this case,
+you don't need to take special steps regarding data visibility, but what about an
+external variable that needs to be visible in both modules?</P>
+<P>Recall from Day 12, &quot;Understanding Variable Scope,&quot; that an external
+variable is one declared outside of any function. An external variable is visible
+throughout the entire source code file in which it is declared. However, it is not
+automatically visible in other modules. To make it visible, you must declare the
+variable in each module, using the extern keyword. For example, if you have an external
+variable declared in the main module as</P>
+<P>
+<PRE>float interest_rate;
+</PRE>
+<P>you make interest_rate visible in a secondary module by including the following
+declaration in that module (outside of any function):</P>
+<P>
+<PRE>extern float interest_rate;
+</PRE>
+<P>The extern keyword tells the compiler that the original declaration of interest_rate
+(the one that set aside storage space for it) is located elsewhere, but that the
+variable should be made visible in this module. All extern variables have static
+duration and are visible to all functions in the module. Figure 21.1 illustrates
+the use of the extern keyword in a multiple-module program.</P>
+<P><B>Figure 21.1.</B></P>
+<P><I>Using the extern keyword to make an external variable visible across modules.</I></P>
+<P>In Figure 21.1, the variable x is visible throughout all three modules. In contrast,
+y is visible only in the main module and secondary module 1.</P>
+<P>
+<H3><A NAME="Heading6"></A>Using .OBJ Files</H3>
+<P>After you've written and thoroughly debugged a secondary module, you don't need
+to recompile it every time you use it in a program. Once you have the object file
+for the module code, all you need to do is link it with each program that uses the
+functions in the module.</P>
+<P>When you compile a program, the compiler creates an object file that has the same
+name as the C source code file and an .OBJ extension (or an .O extension on UNIX
+systems). For example, suppose you're developing a module called KEYBOARD.C and compiling
+it, along with the main module DATABASE.C, using the following command:</P>
+<P>
+<PRE>tcc database.c keyboard.c
+</PRE>
+<P>The KEYBOARD.OBJ file is also on your disk. Once you know that the functions in
+KEYBOARD.C work properly, you can stop compiling it every time you recompile DATABASE.C
+(or any other program that uses it), linking the existing object file instead. To
+do this, use the command</P>
+<P>
+<PRE>tcc database.c keyboard.obj
+</PRE>
+<P>The compiler then compiles DATABASE.C and links the resulting object file DATABASE.OBJ
+with KEYBOARD.OBJ to create the final executable file DATABASE.EXE. This saves time,
+because the compiler doesn't have to recompile the code in KEYBOARD.C. However, if
+you modify the code in KEYBOARD.C, you must recompile it. In addition, if you modify
+a header file, you must recompile all the modules that use it.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> try to compile multiple source files together if more than one module
+	contains a main() function. You can have only one main().</P>
+	<P><B>DO</B> create generic functions in their own source files. This way, they can
+	be linked into any other programs that need them.</P>
+	<P><B>DON'T</B> always use the C source files when compiling multiple files together.
+	If you compile a source file into an object file, recompile only when the file changes.
+	This saves a great deal of time. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading7"></A>Using the make Utility</H3>
+<P>Almost all C compilers come with a make utility that can simplify and speed the
+task of working with multiple source-code files. This utility, which is usually called
+NMAKE.EXE, lets you write a so-called <I>make file</I> that defines the dependencies
+between your various program components. What does dependency mean?</P>
+<P>Imagine a project that has a main module named PROGRAM.C and a secondary module
+named SECOND.C. There are also two header files, PROGRAM.H and SECOND.H. PROGRAM.C
+includes both of the header files, whereas SECOND.C includes only SECOND.H. Code
+in PROGRAM.C calls functions in SECOND.C.</P>
+<P>PROGRAM.C is dependent on the two header files because it includes them both.
+If you make a change to either header file, you must recompile PROGRAM.C so that
+it will include those changes. In contrast, SECOND.C is dependent on SECOND.H but
+not on PROGRAM.H. If you change PROGRAM.H, there is no need to recompile SECOND.C--you
+can just link the existing object file SECOND.OBJ that was created when SECOND.C
+was last compiled.</P>
+<P>A make file describes the dependencies such as those just discussed that exist
+in your project. Each time you edit one or more of your source code files, you use
+the NMAKE utility to &quot;run&quot; the make file. This utility examines the time
+and date stamps on the source code and object files and, based on the dependencies
+you have defined, instructs the compiler to recompile only those files that are dependent
+on the modified file(s). The result is that no unnecessary compilation is done, and
+you can work at the maximum efficiency.</P>
+<P>For projects that involve one or two source code files, it usually isn't worth
+the trouble of defining a make file. For larger projects, however, it's a real benefit.
+Refer to your compiler documentation for information on how to use its NMAKE utility.</P>
+<P>
+<H2><A NAME="Heading8"></A>The C Preprocessor</H2>
+<P>The preprocessor is a part of all C compiler packages. When you compile a C program,
+the preprocessor is the first compiler component that processes your program. In
+most C compilers, the preprocessor is part of the compiler program. When you run
+the compiler, it automatically runs the preprocessor.</P>
+<P>The preprocessor changes your source code based on instructions, or <I>preprocessor
+directives,</I> in the source code. The output of the preprocessor is a modified
+source code file that is then used as the input for the next compilation step. Normally
+you never see this file, because the compiler deletes it after it's used. However,
+later in this chapter you'll learn how to look at this intermediate file. First,
+you need to learn about the preprocessor directives, all of which begin with the
+# symbol.</P>
+<P>
+<H3><A NAME="Heading9"></A>The #define Preprocessor Directive</H3>
+<P>The #define preprocessor directive has two uses: creating symbolic constants and
+creating macros.</P>
+<P>
+<H4>Simple Substitution Macros Using #define</H4>
+<P>You learned about substitution macros on Day 3, &quot;Storing Data: Variables
+and Constants,&quot; although the term used to describe them in that chapter was
+<I>symbolic constants</I>. You create a substitution macro by using #define to replace
+text with other text. For example, to replace text1 with text2, you write</P>
+<P>
+<PRE>#define text1 text2
+</PRE>
+<P>This directive causes the preprocessor to go through the entire source code file,
+replacing every occurrence of text1 with text2. The only exception occurs if text1
+is found within double quotation marks, in which case no change is made.</P>
+<P>The most frequent use for substitution macros is to create symbolic constants,
+as explained on Day 3. For example, if your program contains the following lines:</P>
+<P>
+<PRE>#define MAX 1000
+x = y * MAX;
+z = MAX - 12;
+</PRE>
+<P>during preprocessing, the source code is changed to read as follows:</P>
+<P>
+<PRE>x = y * 1000;
+z = 1000 - 12;
+</PRE>
+<P>The effect is the same as using your editor's search-and-replace feature in order
+to change every occurrence of MAX to 1000. Your original source code file isn't changed,
+of course. Instead, a temporary copy is created with the changes. Note that #define
+isn't limited to creating symbolic numeric constants. For example, you could write</P>
+<P>
+<PRE>#define ZINGBOFFLE printf
+ZINGBOFFLE(&quot;Hello, world.&quot;);
+</PRE>
+<P>although there is little reason to do so. You should also be aware that some authors
+refer to symbolic constants defined with #define as being macros themselves. (Symbolic
+constants are also called <I>manifest constants</I>.) However, in this book, the
+word <I>macro</I> is reserved for the type of construction described next.</P>
+<P>
+<H4>Creating Function Macros with #define</H4>
+<P>You can use the #define directive also to create function macros. A <I>function
+macro</I> is a type of shorthand, using something simple to represent something more
+complicated. The reason for the &quot;function&quot; name is that this type of macro
+can accept arguments, just like a real C function does. One advantage of function
+macros is that their arguments aren't type-sensitive. Therefore, you can pass any
+numeric variable type to a function macro that expects a numeric argument.</P>
+<P>Let's look at an example. The preprocessor directive</P>
+<P>
+<PRE>#define HALFOF(value) ((value)/2)
+</PRE>
+<P>defines a macro named HALFOF that takes a parameter named value. Whenever the
+preprocessor encounters the text HALFOF(value) in the source code, it replaces it
+with the definition text and inserts the argument as needed. Thus, the source code
+line</P>
+<P>
+<PRE>result = HALFOF(10);
+</PRE>
+<P>is replaced by this line:</P>
+<P>
+<PRE>result = ((10)/2);
+</PRE>
+<P>Likewise, the program line</P>
+<P>
+<PRE>printf(&quot;%f&quot;, HALFOF(x[1] + y[2]));
+</PRE>
+<P>is replaced by this line:</P>
+<P>
+<PRE>printf(&quot;%f&quot;, ((x[1] + y[2])/2));
+</PRE>
+<P>A macro can have more than one parameter, and each parameter can be used more
+than once in the replacement text. For example, the following macro, which calculates
+the average of five values, has five parameters:</P>
+<P>
+<PRE>#define AVG5(v, w, x, y, z) (((v)+(w)+(x)+(y)+(z))/5)
+</PRE>
+<P>The following macro, in which the conditional operator determines the larger of
+two values, also uses each of its parameters twice. (You learned about the conditional
+operator on Day 4, &quot;Statements, Expressions, and Operators.&quot;)</P>
+<P>
+<PRE>#define LARGER(x, y) ((x) &gt; (y) ? (x) : (y))
+</PRE>
+<P>A macro can have as many parameters as needed, but all of the parameters in the
+list must be used in the substitution string. For example, the macro definition</P>
+<P>
+<PRE>#define ADD(x, y, z) ((x) + (y))
+</PRE>
+<P>is invalid, because the parameter z is not used in the substitution string. Also,
+when you invoke the macro, you must pass it the correct number of arguments.</P>
+<P>When you write a macro definition, the opening parenthesis must immediately follow
+the macro name; there can be no white space. The opening parenthesis tells the preprocessor
+that a function macro is being defined and that this isn't a simple symbolic constant
+type substitution. Look at the following definition:</P>
+<P>
+<PRE>#define SUM (x, y, z) ((x)+(y)+(z))
+</PRE>
+<P>Because of the space between SUM and (, the preprocessor treats this like a simple
+substitution macro. Every occurrence of SUM in the source code is replaced with (x,
+y, z) ((x)+(y)+(z)), clearly not what you wanted.</P>
+<P>Also note that in the substitution string, each parameter is enclosed in parentheses.
+This is necessary to avoid unwanted side effects when passing expressions as arguments
+to the macro. Look at the following example of a macro defined without parentheses:</P>
+<P>
+<PRE>#define SQUARE(x) x*x
+</PRE>
+<P>If you invoke this macro with a simple variable as an argument, there's no problem.
+But what if you pass an expression as an argument?</P>
+<P>
+<PRE>result = SQUARE(x + y);
+</PRE>
+<P>The resulting macro expansion is as follows, which doesn't give the proper result:</P>
+<P>
+<PRE>result = x + y * x + y;
+</PRE>
+<P>If you use parentheses, you can avoid the problem, as shown in this example:</P>
+<P>
+<PRE>#define SQUARE(x) (x)*(x)
+</PRE>
+<P>This definition expands to the following line, which does give the proper result:</P>
+<P>
+<PRE>result = (x + y) * (x + y);
+</PRE>
+<P>You can obtain additional flexibility in macro definitions by using the <I>stringizing
+operator</I> (#) (sometimes called the <I>string-literal operator</I>). When a macro
+parameter is preceded by # in the substitution string, the argument is converted
+into a quoted string when the macro is expanded. Thus, if you define a macro as</P>
+<P>
+<PRE>#define OUT(x) printf(#x)
+</PRE>
+<P>and you invoke it with the statement</P>
+<P>
+<PRE>OUT(Hello Mom);
+</PRE>
+<P>it expands to this statement:</P>
+<P>
+<PRE>printf(&quot;Hello Mom&quot;);
+</PRE>
+<P>The conversion performed by the stringizing operator takes special characters
+into account. Thus, if a character in the argument normally requires an escape character,
+the # operator inserts a backslash before the character. Continuing with the example,
+the invocation</P>
+<P>
+<PRE>OUT(&quot;Hello Mom&quot;);
+</PRE>
+<P>expands to</P>
+<P>
+<PRE>printf(&quot;\&quot;Hello Mom\&quot;&quot;);
+</PRE>
+<P>The # operator is demonstrated in Listing 21.4. First, you need to look at one
+other operator used in macros, the <I>concatenation operator</I> (##). This operator
+concatenates, or joins, two strings in the macro expansion. It doesn't include quotation
+marks or special treatment of escape characters. Its main use is to create sequences
+of C source code. For example, if you define and invoke a macro as</P>
+<P>
+<PRE>#define CHOP(x) func ## x
+salad = CHOP(3)(q, w);
+</PRE>
+<P>the macro invoked in the second line is expanded to</P>
+<P>
+<PRE>salad = func3 (q, w);
+</PRE>
+<P>You can see that by using the ## operator, you determine which function is called.
+You have actually modified the C source code.</P>
+<P>Listing 21.4 shows an example of one way to use the # operator.</P>
+<P>
+<H4>Listing 21.4. Using the # operator in macro expansion.</H4>
+<PRE>1: /* Demonstrates the # operator in macro expansion. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: #define OUT(x) printf(#x &quot; is equal to %d.\n&quot;, x)
+6:
+7: main()
+8: {
+9:    int value = 123;
+10:   OUT(value);
+11:   return(0);
+12: }
+</PRE>
+<PRE>value is equal to 123.
+</PRE>
+<P><strong>ANALYSIS: </strong> By using the # operator on line 5, the call to the macro
+expands with the variable name value as a quoted string passed to the printf() function.
+After expansion on line 9, the macro OUT looks like this:</P>
+<P>
+<PRE>printf(&quot;value&quot; &quot; is equal to %d.&quot;,  value );
+</PRE>
+<H4>Macros Versus Functions</H4>
+<P>You have seen that function macros can be used in place of real functions, at
+least in situations where the resulting code is relatively short. Function macros
+can extend beyond one line but usually become impractical beyond a few lines. When
+you can use either a function or a macro, which should you use? It's a trade-off
+between program speed and program size.</P>
+<P>A macro's definition is expanded into the code each time the macro is encountered
+in the source code. If your program invokes a macro 100 times, 100 copies of the
+expanded macro code are in the final program. In contrast, a function's code exists
+only as a single copy. Therefore, in terms of program size, the better choice is
+a true function.</P>
+<P>When a program calls a function, a certain amount of processing overhead is required
+in order to pass execution to the function code and then return execution to the
+calling program. There is no processing overhead in &quot;calling&quot; a macro,
+because the code is right there in the program. In terms of speed, a function macro
+has the advantage.</P>
+<P>These size/speed considerations aren't usually of much concern to the beginning
+programmer. Only with large, time-critical applications do they become important.</P>
+<P>
+<H4>Viewing Macro Expansion</H4>
+<P>At times, you might want to see what your expanded macros look like, particularly
+when they aren't working properly. To see the expanded macros, you instruct the compiler
+to create a file that includes macro expansion after the compiler's first pass through
+the code. You might not be able to do this if your C compiler uses an Integrated
+Development Environment (IDE); you might have to work from the command prompt. Most
+compilers have a flag that should be set during compilation. This flag is passed
+to the compiler as a command-line parameter.</P>
+<P>For example, to precompile a program named PROGRAM.C with the Microsoft compiler,
+you would enter</P>
+<P>
+<PRE>cl /E program.c
+</PRE>
+<P>On a UNIX compiler, you would enter</P>
+<P>
+<PRE>cc -E program.c
+</PRE>
+<P>The preprocessor makes the first pass through your source code. All header files
+are included, #define macros are expanded, and other preprocessor directives are
+carried out. Depending on your compiler, the output goes either to stdout (that is,
+the screen) or to a disk file with the program name and a special extension. The
+Microsoft compiler sends the preprocessed output to stdout. Unfortunately, it's not
+at all useful to have the processed code whip by on your screen! You can use the
+redirection command to send this output to a file, as in this example:</P>
+<P>
+<PRE>cl /E program.c &gt; program.pre
+</PRE>
+<P>You can then load the file into your editor for printing or viewing.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use #defines, especially for symbolic constants. Symbolic constants make
+	your code much easier to read. Examples of things to put into defined constants are
+	colors, true/false, yes/no, the keyboard keys, and maximum values. Symbolic constants
+	are used throughout this book.</P>
+	<P><B>DON'T</B> overuse macro functions. Use them where needed, but be sure they
+	are a better choice than a normal function. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H3><A NAME="Heading10"></A>The #include Directive</H3>
+<P>You have already learned how to use the #include preprocessor directive to include
+header files in your program. When it encounters an #include directive, the preprocessor
+reads the specified file and inserts it at the location of the directive. You can't
+use the * or ? wildcards to read in a group of files with one #include directive.
+You can, however, nest #include directives. In other words, an included file can
+contain #include directives, which can contain #include directives, and so on. Most
+compilers limit the number of levels deep that you can nest, but you usually can
+nest up to 10 levels.</P>
+<P>There are two ways to specify the filename for an #include directive. If the filename
+is enclosed in angle brackets, such as #include &lt;stdio.h&gt; (as you have seen
+throughout this book), the preprocessor first looks for the file in the standard
+directory. If the file isn't found, or no standard directory is specified, the preprocessor
+looks for the file in the current directory.</P>
+<P>&quot;What is the standard directory?&quot; you might be asking. In DOS, it's
+the directory or directories specified by the DOS INCLUDE environment variable. Your
+DOS documentation contains complete information on the DOS environment. To summarize,
+however, you set an environment variable with a SET command (usually, but not necessarily,
+in your AUTOEXEC.BAT file). Most compilers automatically set the INCLUDE variable
+in the AUTOEXEC.BAT file when the compiler is installed.</P>
+<P>The second method of specifying the file to be included is enclosing the filename
+in double quotation marks: #include &quot;myfile.h&quot;. In this case, the preprocessor
+doesn't search the standard directories; instead, it looks in the directory containing
+the source code file being compiled. Generally speaking, header files that you write
+should be kept in the same directory as the C source code files, and they are included
+by using double quotation marks. The standard directory is reserved for header files
+supplied with your compiler.</P>
+<P>
+<H3><A NAME="Heading11"></A>Using #if, #elif, #else, and #endif</H3>
+<P>These four preprocessor directives control conditional compilation. The term <I>conditional
+compilation</I> means that blocks of C source code are compiled only if certain conditions
+are met. In many ways, the #if family of preprocessor directives operates like the
+C language's if statement. The difference is that if controls whether certain statements
+are executed, whereas #if controls whether they are compiled.</P>
+<P>The structure of an #if block is as follows:</P>
+<P>
+<PRE>#if <I>condition_1</I>
+<I>statement_block_1</I>
+#elif <I>condition_2</I>
+<I>statement_block_2</I>
+...
+#elif <I>condition_n</I>
+<I>statement_block_n</I>
+#else
+<I>default_statement_block</I>
+#endif
+</PRE>
+<P>The test expression that #if uses can be almost any expression that evaluates
+to a constant. You can't use the sizeof() operator, typecasts, or the float type.
+Most often you use #if to test symbolic constants created with the #define directive.</P>
+<P>Each <I>statement_block</I> consists of one or more C statements of any type,
+including preprocessor directives. They don't need to be enclosed in braces, although
+they can be.</P>
+<P>The #if and #endif directives are required, but #elif and #else are optional.
+You can have as many #elif directives as you want, but only one #else. When the compiler
+reaches an #if directive, it tests the associated condition. If it evaluates to TRUE
+(nonzero), the statements following the #if are compiled. If it evaluates to FALSE
+(zero), the compiler tests, in order, the conditions associated with each #elif directive.
+The statements associated with the first TRUE #elif are compiled. If none of the
+conditions evaluates as TRUE, the statements following the #else directive are compiled.</P>
+<P>Note that, at most, a single block of statements within the #if...#endif construction
+is compiled. If the compiler finds no #else directive, it might not compile any statements.</P>
+<P>The possible uses of these conditional compilation directives are limited only
+by your imagination. Here's one example. Suppose you're writing a program that uses
+a great deal of country-specific information. This information is contained in a
+header file for each country. When you compile the program for use in different countries,
+you can use an #if...#endif construction as follows:</P>
+<P>
+<PRE>#if ENGLAND == 1
+#include &quot;england.h&quot;
+#elif FRANCE == 1
+#include &quot;france.h&quot;
+#elif ITALY == 1
+#include &quot;italy.h&quot;
+#else
+#include &quot;usa.h&quot;
+#endif
+</PRE>
+<P>Then, by using #define to define the appropriate symbolic constant, you can control
+which header file is included during compilation.</P>
+<P>
+<H3><A NAME="Heading12"></A>Using #if...#endif to Help Debug</H3>
+<P>Another common use of #if...#endif is to include conditional debugging code in
+the program. You could define a DEBUG symbolic constant set to either 1 or 0. Throughout
+the program, you can insert debugging code as follows:</P>
+<P>
+<PRE>#if DEBUG == 1
+debugging code here
+#endif
+</PRE>
+<P>During program development, if you define DEBUG as 1, the debugging code is included
+to help track down any bugs. After the program is working properly, you can redefine
+DEBUG as 0 and recompile the program without the debugging code.</P>
+<P>The defined() operator is useful when you write conditional compilation directives.
+This operator tests to see whether a particular name is defined. Thus, the expression</P>
+<P>
+<PRE>defined( NAME )
+</PRE>
+<P>evaluates to TRUE or FALSE, depending on whether NAME is defined. By using defined(),
+you can control compilation, based on previous definitions, without regard to the
+specific value of a name. Referring to the previous debugging code example, you could
+rewrite the #if...#endif section as follows:</P>
+<P>
+<PRE>#if defined( DEBUG )
+debugging code here
+#endif
+</PRE>
+<P>You can also use defined() to assign a definition to a name only if it hasn't
+been previously defined. Use the NOT operator (!) as follows:</P>
+<P>
+<PRE>#if !defined( TRUE )     /* if TRUE is not defined. */
+#define TRUE 1
+#endif
+</PRE>
+<P>Notice that the defined() operator doesn't require that a name be defined as anything
+in particular. For example, after the following program line, the name RED is defined,
+but not as anything in particular:</P>
+<P>
+<PRE>#define RED
+</PRE>
+<P>Even so, the expression defined( RED ) still evaluates as TRUE. Of course, occurrences
+of RED in the source code are removed and not replaced with anything, so you must
+use caution.</P>
+<P>
+<H3><A NAME="Heading13"></A>Avoiding Multiple Inclusions of Header Files</H3>
+<P>As programs grow, or as you use header files more often, you run the risk of accidentally
+including a header file more than once. This can cause the compiler to balk in confusion.
+Using the directives you've learned, you can easily avoid this problem. Look at the
+example shown in Listing 21.5.</P>
+<P>
+<H4>Listing 21.5. Using preprocessor directives with header files.</H4>
+<PRE>1: /* PROG.H - A header file with a check to prevent multiple includes! */
+2:
+3. #if defined( PROG_H )
+4: /* the file has been included already */
+5: #else
+6: #define PROG_H
+7:
+8: /* Header file information goes here... */
+9:
+10:
+11:
+12: #endif
+</PRE>
+<P><strong>ANALYSIS: </strong> Examine what this header file does. On line 3, it checks
+whether PROG_H is defined. Notice that PROG_H is similar to the name of the header
+file. If PROG_H is defined, a comment is included on line 4, and the program looks
+for the #endif at the end of the header file. This means that nothing more is done.</P>
+<P>How does PROG_H get defined? It is defined on line 6. The first time this header
+is included, the preprocessor checks whether PROG_H is defined. It won't be, so control
+goes to the #else statement. The first thing done after the #else is to define PROG_H
+so that any other inclusions of this file skip the body of the file. Lines 7 through
+11 can contain any number of commands or declarations.</P>
+<P>
+<H3><A NAME="Heading14"></A>The #undef Directive</H3>
+<P>The #undef directive is the opposite of #define--it removes the definition from
+a name. Here's an example:</P>
+<P>
+<PRE>#define DEBUG 1
+/* In this section of the program, occurrences of DEBUG     */
+/* are replaced with 1, and the expression defined( DEBUG ) */
+/* evaluates to TRUE. *.
+#undef DEBUG
+/* In this section of the program, occurrences of DEBUG  */
+/* are not replaced, and the expression defined( DEBUG ) */
+/* evaluates to FALSE. */
+</PRE>
+<P>You can use #undef and #define to create a name that is defined only in parts
+of your source code. You can use this in combination with the #if directive, as explained
+earlier, for more control over conditional compilations.</P>
+<P>
+<H2><A NAME="Heading15"></A>Predefined Macros</H2>
+<P>Most compilers have a number of predefined macros. The most useful of these are
+__DATE__, __TIME__, __LINE__, and __FILE__. Notice that each of these are preceded
+and followed by double underscores. This is done to prevent you from redefining them,
+on the theory that programmers are unlikely to create their own definitions with
+leading and trailing underscores.</P>
+<P>These macros work just like the macros described earlier in this chapter. When
+the precompiler encounters one of these macros, it replaces the macro with the macro's
+code. __DATE__ and __TIME__ are replaced with the current date and time. This is
+the date and time the source file is precompiled. This can be useful information
+as you're working with different versions of a program. By having a program display
+its compilation date and time, you can tell whether you're running the latest version
+of the program or an earlier one.</P>
+<P>The other two macros are even more valuable. __LINE__ is replaced by the current
+source-file line number. __FILE__ is replaced with the current source-code filename.
+These two macros are best used when you're trying to debug a program or deal with
+errors. Consider the following printf() statement:</P>
+<P>
+<PRE>31:
+32: printf( &quot;Program %s: (%d) Error opening file &quot;, __FILE__, __LINE__ );
+33:
+</PRE>
+<P>If these lines were part of a program called MYPROG.C, they would print</P>
+<P>
+<PRE>Program MYPROG.C: (32) Error opening file
+</PRE>
+<P>This might not seem important at this point, but as your programs grow and spread
+across multiple source files, finding errors becomes more difficult. Using __LINE__
+and __FILE__ makes debugging much easier.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use the __LINE__ and __FILE__ macros to make your error messages more helpful.</P>
+	<P><B>DON'T</B> forget the #endif when using the #if statement.</P>
+	<P><B>DO</B> put parentheses around the value to be passed to a macro. This prevents
+	errors. For example, use this:</P>
+	<PRE>#define CUBE(x)   (x)*(x)*(x)</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+
+<BLOCKQUOTE>
+	<P>instead of this:</P>
+	<PRE>#define CUBE(x)   x*x*x</PRE>
+	<P>
+<HR>
+
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+<H2><A NAME="Heading16"></A>Using Command-Line Arguments</H2>
+<P>Your C program can access arguments passed to the program on the command line.
+This refers to information entered after the program name when you start the program.
+If you start a program named PROGNAME from the C:\&gt; prompt, for example, you could
+enter</P>
+<P>
+<PRE>C:\&gt;progname smith jones
+</PRE>
+<P>The two command-line arguments smith and jones can be retrieved by the program
+during execution. You can think of this information as arguments passed to the program's
+main() function. Such command-line arguments permit information to be passed to the
+program at startup rather than during execution, which can be convenient at times.
+You can pass as many command-line arguments as you like. Note that command-line arguments
+can be retrieved only within main(). To do so, declare main() as follows:</P>
+<P>
+<PRE>main(int argc, char *argv[])
+{
+/* Statements go here */
+}
+</PRE>
+<P>The first parameter, argc, is an integer giving the number of command-line arguments
+available. This value is always at least 1, because the program name is counted as
+the first argument. The parameter argv[] is an array of pointers to strings. The
+valid subscripts for this array are 0 through argc - 1. The pointer argv[0] points
+to the program name (including path information), argv[1] points to the first argument
+that follows the program name, and so on. Note that the names argc and argv[] aren't
+required--you can use any valid C variable names you like to receive the command-line
+arguments. However, these two names are traditionally used for this purpose, so you
+should probably stick with them.</P>
+<P>The command line is divided into discrete arguments by any white space. If you
+need to pass an argument that includes a space, enclose the entire argument in double
+quotation marks. For example, if you enter</P>
+<P>
+<PRE>C:&gt;progname smith &quot;and jones&quot;
+</PRE>
+<P>smith is the first argument (pointed to by argv[1]), and and jones is the second
+(pointed to by argv[2]). Listing 21.6 demonstrates how to access command-line arguments.</P>
+<P>
+<H4>Listing 21.6. Passing command-line arguments to main().</H4>
+<PRE>1: /* Accessing command-line arguments. */
+2:
+3: #include &lt;stdio.h&gt;
+4:
+5: main(int argc, char *argv[])
+6: {
+7:     int count;
+8:
+9:     printf(&quot;Program name: %s\n&quot;, argv[0]);
+10:
+11:     if (argc &gt; 1)
+12:     {
+13:         for (count = 1; count &lt; argc; count++)
+14:             printf(&quot;Argument %d: %s\n&quot;, count, argv[count]);
+15:     }
+16:     else
+17:         puts(&quot;No command line arguments entered.&quot;);
+18:     return(0);
+19: }
+list21_6
+Program name: C:\LIST21_6.EXE
+No command line arguments entered.
+list21_6 first second &quot;3 4&quot;
+Program name: C:\LIST21_6.EXE
+Argument 1: first
+Argument 2: second
+Argument 3: 3 4
+</PRE>
+<P><strong>ANALYSIS: </strong> This program does no more than print the command-line parameters
+entered by the user. Notice that line 5 uses the argc and argv parameters shown previously.
+Line 9 prints the one command-line parameter that you always have, the program name.
+Notice this is argv[0]. Line 11 checks to see whether there is more than one command-line
+parameter. Why more than one and not more than zero? Because there is always at least
+one--the program name. If there are additional arguments, a for loop prints each
+to the screen (lines 13 and 14). Otherwise, an appropriate message is printed (line
+17).</P>
+<P>Command-line arguments generally fall into two categories: those that are required
+because the program can't operate without them, and those that are optional, such
+as flags that instruct the program to act in a certain way. For example, imagine
+a program that sorts the data in a file. If you write the program to receive the
+input filename from the command line, the name is required information. If the user
+forgets to enter the input filename on the command line, the program must somehow
+deal with the situation. The program could also look for the argument /r, which signals
+a reverse-order sort. This argument isn't required; the program looks for it and
+behaves one way if it's found and another way if it isn't.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> use argc and argv as the variable names for the command-line arguments
+	for main(). Most C programmers are familiar with these names.</P>
+	<P><B>DON'T</B> assume that users will enter the correct number of command-line parameters.
+	Check to be sure they did, and if not, display a message explaining the arguments
+	they should enter. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading17"></A>Summary</H2>
+<P>This chapter covered some of the more advanced programming tools available with
+C compilers. You learned how to write a program that has source code divided among
+multiple files or modules. This practice, called modular programming, makes it easy
+to reuse general-purpose functions in more than one program. You saw how you can
+use preprocessor directives to create function macros, for conditional compilation,
+and other tasks. Finally, you saw that the compiler provides some function macros
+for you.</P>
+<P>
+<H2><A NAME="Heading18"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q When compiling multiple files, how does the compiler know which filename
+	to use for the executable file?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> You might think the compiler uses the name of the file containing the
+	main() function; however, this isn't usually the case. When compiling from the command
+	line, the first file listed is used to determine the name. For example, if you compiled
+	the following with Borland's Turbo C, the executable would be called FILE1.EXE:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>tcc file1.c main.c prog.c</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q Do header files need to have an .H extension?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> No. You can give a header file any name you want. It is standard practice
+	to use the .H extension.
+	<P>
+	<DT></DT>
+	<DD><B>Q When including header files, can I use an explicit path?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> Yes. If you want to state the path where a file to be included is, you
+	can. In such a case, you put the name of the include file between quotation marks.
+	<P>
+	<DT></DT>
+	<DD><B>Q Are all the predefined macros and preprocessor directives presented in this
+	chapter?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> No. The predefined macros and directives presented in this chapter are
+	ones common to most compilers. However, most compilers also have additional macros
+	and constants.
+	<P>
+	<DT></DT>
+	<DD><B>Q Is the following header also acceptable when using main() with command-line
+	parameters?</B>
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>main( int argc, char **argv);</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>A</B> You can probably answer this one on your own. This declaration uses
+	a pointer to a character pointer instead of a pointer to a character array. Because
+	an array is a pointer, this definition is virtually the same as the one presented
+	in this chapter. This declaration is also commonly used. (See Day 8, &quot;Using
+	Numeric Arrays,&quot; and Day 10, &quot;Characters and Strings,&quot; for more details.)
+	<P>
+</DL>
+
+<H2><A NAME="Heading19"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered and exercises to provide you with experience in using what you've
+learned.</P>
+<P>
+<H3><A NAME="Heading20"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>What does the term <I>modular programming</I> mean?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>In modular programming, what is the main module?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>When you define a macro, why should each argument be enclosed in parentheses?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>What are the pros and cons of using a macro in place of a regular function?
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>What does the defined() operator do?
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>What must always be used if #if is used?
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>What extension do compiled C files have? (Assume that they have not
+	been linked.)
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>What does #include do?
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>What is the difference between this line of code:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;myfile.h&gt;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>and this line of code:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &quot;myfile.h&quot;</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>10. </B>What is __DATE__ used for?
+	<P>
+	<DT></DT>
+	<DD><B>11. </B>What does argv[0] point to?
+	<P>
+</DL>
+
+<H3><A NAME="Heading21"></A>Exercises</H3>
+<P>Because many solutions are possible for the following exercises, answers are not
+provided.</P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Use your compiler to compile multiple source files into a single executable
+	file. (You can use Listings 21.1, 21.2, and 21.3 or your own listings.)
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>Write an error routine that receives an error number, line number,
+	and module name. The routine should print a formatted error message and then exit
+	the program. Use the predefined macros for the line number and module name (pass
+	the line number and module name from the location where the error occurs). Here's
+	a possible example of a formatted error:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>module.c (Line ##): Error number ##</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. </B>Modify exercise 2 to make the error message more descriptive. Create
+	a text file with your editor that contains an error number and message. Call this
+	file ERRORS.TXT. It could contain information such as the following:
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>1    Error number 1
+2    Error number 2
+90   Error opening file
+100  Error reading file</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>Have your error routine search this file and display the appropriate error message
+	based on a number passed to it.
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Some header files might be included more than once when you're writing
+	a mod-ular program. Use preprocessor directives to write the skeleton of a header
+	file that compiles only the first time it is encountered during compilation.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Write a program that takes two filenames as command-line parameters.
+	The program should copy the first file into the second file. (See Day 16, &quot;Using
+	Disk Files,&quot; if you need help working with files.)
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>This is the last exercise of the book, and its content is up to you.
+	Select a programming task of interest to you that also meets a real need you have.
+	For example, you could write programs to catalog your compact disc collection, keep
+	track of your checkbook, or calculate financial figures related to a planned house
+	purchase. There's no substitute for tackling a real-world programming problem in
+	order to sharpen your programming skills and help you remember all the things you
+	learned in this book.
+</DL>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch20/ch20.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apa/apa.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> <BR>
+</P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

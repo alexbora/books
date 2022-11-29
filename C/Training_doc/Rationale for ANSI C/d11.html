@@ -1,0 +1,174 @@
+<html><head>
+<title>4.11 String Handling</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d10.html" tppabs="http://www.lysator.liu.se/c/rat/d10.html">4.10 General Utilities</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-11" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-11">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d12.html" tppabs="http://www.lysator.liu.se/c/rat/d12.html">4.12 Date and Time</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-11">4.11</a>&#160;<tt> </tt>String Handling&#160;<tt> </tt>&lt;<a name="-60string-46h-62-4-11">string</a>.h&gt;</h1>
+
+<p>
+The Committee felt that the functions in this section were all excellent
+candidates for replacement by high-performance built-in operations.&#160;<tt> </tt>
+Hence many simple functions have been retained, and several added,
+just to leave the door open for
+better implementations of these common operations.&#160;<tt> </tt>
+<p>
+The Standard reserves
+function names beginning with <code>str</code> or <code>mem</code> for possible future use.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-1">4.11.1</a>&#160;<tt> </tt>String function conventions</h2>
+<p>
+<a name="memcpy-4-11-1"><code>memcpy</code></a>, <a name="memset-4-11-1"><code>memset</code></a>, <a name="memcmp-4-11-1"><code>memcmp</code></a>, and <a name="memchr-4-11-1"><code>memchr</code></a>
+have been adopted from several existing implementations.&#160;<tt> </tt>
+The general goal was to provide equivalent capabilities for three types of
+byte sequences:
+<ul><li>null-terminated strings (<code>str-</code>),
+<li>null-terminated strings with a maximum length (<code>strn-</code>),
+and
+<li>transparent data of specified length (<code>mem-</code>).&#160;<tt> </tt>
+</ul><h2><a name="4-11-2">4.11.2</a>&#160;<tt> </tt>Copying functions</h2>
+A block copy routine should be ``right'':
+it should work correctly even if the blocks being copied overlap.&#160;<tt> </tt>
+Otherwise it is more difficult to correctly code such overlapping
+copy operations,
+and portability suffers because the optimal C-coded algorithm on one machine
+may be horribly slow on another.&#160;<tt> </tt>
+<p>
+A block copy routine should be ``fast'':
+it should be implementable as a few inline instructions which take
+maximum advantage of any block copy provisions of the hardware.&#160;<tt> </tt>
+Checking for overlapping copies produces too much code for convenient
+inlining in many implementations.&#160;<tt> </tt>
+The programmer knows in a great many cases that the two blocks cannot
+possibly overlap,
+so the space and time overhead are for naught.&#160;<tt> </tt>
+<p>
+These arguments are contradictory but each is compelling.&#160;<tt> </tt>
+Therefore the Standard mandates two block copy functions:
+<a name="memmove-4-11-2"><code>memmove</code></a>
+is required to work correctly even if the source and destination overlap,
+while <a name="memcpy-4-11-2"><code>memcpy</code></a> can presume nonoverlapping operands and be
+optimized accordingly.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-2-1">4.11.2.1</a>&#160;<tt> </tt>The <code>memcpy</code> function</h2>
+<p>
+<h2><a name="4-11-2-2">4.11.2.2</a>&#160;<tt> </tt>The <code>memmove</code> function</h2>
+<p>
+<h2><a name="4-11-2-3">4.11.2.3</a>&#160;<tt> </tt>The <code>strcpy</code> function</h2>
+<p>
+<h2><a name="4-11-2-4">4.11.2.4</a>&#160;<tt> </tt>The <a name="strncpy-4-11-2-4"><code>strncpy</code></a> function</h2>
+
+<p>
+<code>strncpy</code> was initially introduced into the C library to
+deal with fixed-length name fields in structures such as directory
+entries.&#160;<tt> </tt>
+Such fields are not used in the same way as strings:
+the trailing null is unnecessary for a maximum-length field,
+and setting trailing bytes for shorter names to null assures
+efficient field-wise comparisons.&#160;<tt> </tt>
+<code>strncpy</code> is not by origin a ``bounded <code>strcpy</code>,'' and the
+Committee has preferred to recognize existing practice
+rather than alter the function to better suit it to such use.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-3">4.11.3</a>&#160;<tt> </tt>Concatenation functions</h2>
+<p>
+<h2><a name="4-11-3-1">4.11.3.1</a>&#160;<tt> </tt>The <code>strcat</code> function</h2>
+<p>
+<h2><a name="4-11-3-2">4.11.3.2</a>&#160;<tt> </tt>The <a name="strncat-4-11-3-2"><code>strncat</code></a> function</h2>
+
+<p>
+Note that this function may add <code>n</code>+1 characters to the string.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-4">4.11.4</a>&#160;<tt> </tt>Comparison functions</h2>
+<p>
+<h2><a name="4-11-4-1">4.11.4.1</a>&#160;<tt> </tt>The <code>memcmp</code> function</h2>
+<p>
+See <a href="#4-11-1">&#167;4.11.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-4-2">4.11.4.2</a>&#160;<tt> </tt>The <code>strcmp</code> function</h2>
+<p>
+<h2><a name="4-11-4-3">4.11.4.3</a>&#160;<tt> </tt>The <a name="strcoll-4-11-4-3"><code>strcoll</code></a> function</h2>
+
+<p>
+<code>strcoll</code> and <code>strxfrm</code> provide for
+<a name="locale-specific"><i>locale-specific</i></a> string sorting.&#160;<tt> </tt>
+<code>strcoll</code> is intended for applications in which the number of
+comparisons is small;
+<code>strxfrm</code> is more appropriate when items are to be compared a
+number of times --- the cost of transformation is then only paid once.&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-11-4-4">4.11.4.4</a>&#160;<tt> </tt>The <code>strncmp</code> function</h2>
+<p>
+<h2><a name="4-11-4-5">4.11.4.5</a>&#160;<tt> </tt>The <a name="strxfrm-4-11-4-5"><code>strxfrm</code></a> function</h2>
+
+<p>
+See <a href="#4-11-4-3">&#167;4.11.4.3</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-5">4.11.5</a>&#160;<tt> </tt>Search functions</h2>
+<p>
+<h2><a name="4-11-5-1">4.11.5.1</a>&#160;<tt> </tt>The <code>memchr</code> function</h2>
+<p>
+See <a href="#4-11-1">&#167;4.11.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-5-2">4.11.5.2</a>&#160;<tt> </tt>The <code>strchr</code> function</h2>
+<p>
+<h2><a name="4-11-5-3">4.11.5.3</a>&#160;<tt> </tt>The <code>strcspn</code> function</h2>
+<p>
+<h2><a name="4-11-5-4">4.11.5.4</a>&#160;<tt> </tt>The <code>strpbrk</code> function</h2>
+<p>
+<h2><a name="4-11-5-5">4.11.5.5</a>&#160;<tt> </tt>The <code>strrchr</code> function</h2>
+<p>
+<h2><a name="4-11-5-6">4.11.5.6</a>&#160;<tt> </tt>The <code>strspn</code> function</h2>
+<p>
+<h2><a name="4-11-5-7">4.11.5.7</a>&#160;<tt> </tt>The <code>strstr</code> function</h2>
+<p>
+The <a name="strstr-4-11-5-7"><code>strstr</code></a> function is an invention of the Committee.&#160;<tt> </tt>
+It is included as a hook for efficient substring algorithms,
+or for built-in substring instructions.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-5-8">4.11.5.8</a>&#160;<tt> </tt>The <a name="strtok-4-11-5-8"><code>strtok</code></a> function</h2>
+
+<p>
+This function has been included
+to provide a convenient solution to many simple problems
+of lexical analysis,
+such as scanning command line arguments.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-6">4.11.6</a>&#160;<tt> </tt>Miscellaneous functions</h2>
+<p>
+<h2><a name="4-11-6-1">4.11.6.1</a>&#160;<tt> </tt>The <code>memset</code> function</h2>
+<p>
+See <a href="#4-11-1">&#167;4.11.1</a>, and <a href="d10.html#4-10-3-1" tppabs="http://www.lysator.liu.se/c/rat/d10.html#4-10-3-1">&#167;4.10.3.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-6-2">4.11.6.2</a>&#160;<tt> </tt>The <a name="strerror-4-11-6-2"><code>strerror</code></a> function</h2>
+
+<p>
+This function is a descendant of <a name="perror-4-11-6-2"><code>perror</code></a>
+(see <a href="d9.html#4-9-10-4" tppabs="http://www.lysator.liu.se/c/rat/d9.html#4-9-10-4">&#167;4.9.10.4</a>).&#160;<tt> </tt>
+It is defined such that it can return a pointer to an in-memory read-only
+string, or can copy a string into a static buffer on each call.&#160;<tt> </tt>
+<p>
+<h2><a name="4-11-6-3">4.11.6.3</a>&#160;<tt> </tt>The <a name="strlen-4-11-6-3"><code>strlen</code></a> function</h2>
+
+<p>
+This function is now specified as returning a value of type <a name="size-95t-4-11-6-3"><code>size_t</code></a>.&#160;<tt> </tt>
+(See <a href="c3.html#3-3-3-4" tppabs="http://www.lysator.liu.se/c/rat/c3.html#3-3-3-4">&#167;3.3.3.4</a>.)&#160;<tt> </tt>
+<hr>
+<a href="d10.html" tppabs="http://www.lysator.liu.se/c/rat/d10.html">4.10 General Utilities</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-11" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-11">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d12.html" tppabs="http://www.lysator.liu.se/c/rat/d12.html">4.12 Date and Time</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

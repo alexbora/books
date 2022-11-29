@@ -1,0 +1,339 @@
+<html><head>
+<title>4.10 General Utilities</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d9.html" tppabs="http://www.lysator.liu.se/c/rat/d9.html">4.9 Input/Output</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-10" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-10">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d11.html" tppabs="http://www.lysator.liu.se/c/rat/d11.html">4.11 String Handling</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-10">4.10</a>&#160;<tt> </tt>General Utilities&#160;<tt> </tt>&lt;<a name="-60stdlib-46h-62-4-10">stdlib</a>.h&gt;</h1>
+
+<p>
+The header <code>&lt;stdlib.h&gt;</code>
+was invented by the Committee to hold an
+assortment of functions that were otherwise homeless.&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-10-1">4.10.1</a>&#160;<tt> </tt>String conversion functions</h2>
+<p>
+<h2><a name="4-10-1-1">4.10.1.1</a>&#160;<tt> </tt>The <code>atof</code> function</h2>
+<p>
+<a name="atof-4-10-1-1"><code>atof</code></a>, <a name="atoi-4-10-1-1"><code>atoi</code></a>, and <a name="atol-4-10-1-1"><code>atol</code></a>
+are subsumed by <code>strtod</code> and <code>strtol</code>,
+but have been retained because they are used extensively in existing code.&#160;<tt> </tt>
+They are less reliable, but may be faster if the argument is known
+to be in a valid range.
+<p>
+<h2><a name="4-10-1-2">4.10.1.2</a>&#160;<tt> </tt>The <code>atoi</code> function</h2>
+<p>
+See <a href="#4-10-1-1">&#167;4.10.1.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-1-3">4.10.1.3</a>&#160;<tt> </tt>The <code>atol</code> function</h2>
+<p>
+See <a href="#4-10-1-1">&#167;4.10.1.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-1-4">4.10.1.4</a>&#160;<tt> </tt>The <code>strtod</code> function</h2>
+<p>
+<a name="strtod-4-10-1-4"><code>strtod</code></a> and <a name="strtol-4-10-1-4"><code>strtol</code></a>
+have been adopted (from UNIX System V) because they offer
+more control over the conversion process,
+and because they are required
+not to produce unexpected results on overflow during conversion.&#160;<tt> </tt>
+<p>
+
+<p>
+<h2><a name="4-10-1-5">4.10.1.5</a>&#160;<tt> </tt>The <code>strtol</code> function</h2>
+<p>
+See <a href="#4-10-1-4">&#167;4.10.1.4</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-1-6">4.10.1.6</a>&#160;<tt> </tt>The <code>strtoul</code> function</h2>
+<p>
+<code>strtoul</code> was introduced by the Committee to provide a facility
+like <code>strtol</code> for <code>unsigned long</code> values.&#160;<tt> </tt>
+Simply using <code>strtol</code> in such cases could result in overflow
+upon conversion.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-2">4.10.2</a>&#160;<tt> </tt>Pseudo-random sequence generation functions</h2>
+<p>
+<h2><a name="4-10-2-1">4.10.2.1</a>&#160;<tt> </tt>The <code>rand</code> function</h2>
+<p>
+The Committee decided that an implementation should be allowed
+to provide a <a name="rand-4-10-2-1"><code>rand</code></a> function
+which generates the best random sequence possible in that implementation,
+and therefore mandated no standard algorithm.&#160;<tt> </tt>
+It recognized the value, however, of being able to generate
+the same pseudo-random sequence in different implementations,
+and so it has published as an example in the Standard an algorithm
+that generates the same pseudo-random sequence in any conforming
+implementation, given the same seed.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-2-2">4.10.2.2</a>&#160;<tt> </tt>The <code>srand</code> function</h2>
+<p>
+<h2><a name="4-10-3">4.10.3</a>&#160;<tt> </tt>Memory management functions</h2>
+The treatment of null pointers and 0-length allocation requests
+in the definition of these functions
+was in part guided by a desire to support this paradigm:
+<pre>        OBJ * p; /* pointer to a variable list of OBJ's */
+
+        /* initial allocation */
+        p = (OBJ *) calloc(0, sizeof(OBJ));
+        /* ... */
+
+        /* reallocations until size settles */
+        while(/* list changes size to c */) {
+            p = (OBJ *) realloc((void *)p, c*sizeof(OBJ));
+            /* ... */
+        }
+</pre>This coding style, not necessarily endorsed by the Committee,
+is reported to be in widespread use.&#160;<tt> </tt>
+<p>
+Some implementations have returned non-null values for allocation
+requests of 0 bytes.&#160;<tt> </tt>
+Although this strategy has the theoretical advantage of
+distinguishing between ``nothing'' and ``zero''&#160;<tt> </tt>
+(an unallocated pointer vs. a pointer to zero-length space),
+it has the more compelling theoretical disadvantage of
+requiring the concept of a zero-length object.&#160;<tt> </tt>
+Since such objects cannot be declared,
+the only way they could come into existence
+would be through such allocation requests.&#160;<tt> </tt>
+The Committee has decided not to accept the idea of zero-length objects.&#160;<tt> </tt>
+The allocation functions may therefore return a null
+pointer for an allocation request of zero bytes.&#160;<tt> </tt>
+Note that this treatment does not preclude the paradigm outlined above.&#160;<tt> </tt>
+<p>
+<ul><ul><ul><ul><b>QUIET CHANGE</b><p></ul></ul></ul>A program which relies on size-0 allocation requests returning
+a non-null pointer will behave differently.&#160;<tt> </tt>
+</ul>
+Some implementations provide a function
+(often called <a name="alloca-4-10-3"><code>alloca</code></a>)&#160;<tt> </tt>
+which allocates the requested object from automatic storage;
+the object is automatically freed when the calling function exits.&#160;<tt> </tt>
+Such a function is not efficiently implementable in a variety of environments,
+so it was not adopted in the Standard.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-3-1">4.10.3.1</a>&#160;<tt> </tt>The <a name="calloc-4-10-3-1"><code>calloc</code></a> function</h2>
+
+<p>
+Both <code>nelem</code> and <code>elsize</code> must be of type <a name="size-95t-4-10-3-1"><code>size_t</code></a>,
+for reasons similar to those for <code>fread</code> (see <a href="d9.html#4-9-8-1" tppabs="http://www.lysator.liu.se/c/rat/d9.html#4-9-8-1">&#167;4.9.8.1</a>).&#160;<tt> </tt>
+<p>
+If a scalar with all bits zero is not interpreted as a zero value
+by an implementation,
+then <code>calloc</code> may have astonishing results
+in existing programs transported there.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-3-2">4.10.3.2</a>&#160;<tt> </tt>The <code>free</code> function</h2><a name="cfree-4-10-3-2">
+</a>
+<p>
+The Standard makes clear that a program may only free that which has been
+allocated,
+that an allocation may only be freed once,
+and that a region may not be accessed once it is freed.&#160;<tt> </tt>
+Some implementations allow more dangerous license.&#160;<tt> </tt>
+The null pointer is specified as a valid argument to this function
+to reduce the need for special-case coding.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-3-3">4.10.3.3</a>&#160;<tt> </tt>The <code>malloc</code> function</h2>
+<p>
+<h2><a name="4-10-3-4">4.10.3.4</a>&#160;<tt> </tt>The <code>realloc</code> function</h2>
+<p>
+A null first argument is permissible.&#160;<tt> </tt>
+If the first argument is not null, and the second argument is 0,
+then the call frees the memory pointed to by the first argument,
+and a null argument may be returned;
+this specification is consistent with
+the policy of not allowing zero-size objects.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-4">4.10.4</a>&#160;<tt> </tt>Communication with the environment</h2>
+<p>
+<h2><a name="4-10-4-1">4.10.4.1</a>&#160;<tt> </tt>The <code>abort</code> function</h2>
+<p>
+The Committee vacillated over whether a call to
+<a name="abort-4-10-4-1"><code>abort</code></a> should return if the <a name="signal-4-10-4-1">signal</a>
+<a name="SIGABRT-4-10-4-1"><code>SIGABRT</code></a> is caught or ignored.&#160;<tt> </tt>
+To minimize astonishment,
+the final decision was that <code>abort</code> never returns.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-4-2">4.10.4.2</a>&#160;<tt> </tt>The <a name="atexit-4-10-4-2"><code>atexit</code></a> function</h2>
+
+<p>
+<code>atexit</code> provides a program with a convenient way to
+clean up the environment before it exits.&#160;<tt> </tt>
+It is adapted from the Whitesmiths C run-time library function
+<a name="onexit-4-10-4-2"><code>onexit</code></a>.&#160;<tt> </tt>
+<p>
+A suggested alternative was to use the <a name="SIGTERM-4-10-4-2"><code>SIGTERM</code></a>
+facility of the <a name="signal-4-10-4-2">signal</a>/raise machinery,
+but that would not give the last-in first-out stacking of multiple
+functions so useful with <code>atexit</code>.&#160;<tt> </tt>
+<p>
+It is the responsibility of the library to maintain the chain of registered
+functions so that they are invoked in the correct sequence upon program exit.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-4-3">4.10.4.3</a>&#160;<tt> </tt>The <a name="exit-4-10-4-3"><code>exit</code></a> function</h2>
+
+<p>
+The argument to <code>exit</code> is a status indication returned to the
+invoking environment.&#160;<tt> </tt>
+In the UNIX operating system, a value of 0 is the successful return
+code from a program.&#160;<tt> </tt>
+As usage of C has spread beyond UNIX,
+<code>exit(0)</code> has often been retained as an idiom indicating successful
+termination, even on operating systems with different systems of return
+codes.&#160;<tt> </tt>
+This usage is thus recognized as standard.&#160;<tt> </tt>
+There has never been a portable way of indicating a non-successful
+termination, since the arguments to <code>exit</code> are then
+implementation-defined.&#160;<tt> </tt>
+The macro <code>EXIT_FAILURE</code> has been added to provide such a capability.&#160;<tt> </tt>
+(<code>EXIT_SUCCESS</code> has been added as well.)&#160;<tt> </tt>
+<p>
+Aside from calls explicitly coded by a programmer,
+<code>exit</code> is invoked on return from <code>main</code>.&#160;<tt> </tt>
+Thus in at least this case, the body of <code>exit</code> cannot assume the
+existence of any objects with automatic storage duration (except
+those declared in <code>exit</code>).&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-10-4-4">4.10.4.4</a>&#160;<tt> </tt>The <code>getenv</code> function</h2>
+<p>
+The definition of <a name="getenv-4-10-4-4"><code>getenv</code></a>
+is designed to accommodate both implementations
+that have all in-memory read-only environment strings and those that may
+have to read an environment string into a static buffer.&#160;<tt> </tt>
+Hence the pointer returned by the <code>getenv</code>
+function points to a string not modifiable by the caller.&#160;<tt> </tt>
+<a name="undefined-behavior-4-10-4-4">If an</a> attempt is made to change this string,
+the behavior of future calls to <code>getenv</code>
+is undefined.
+<p>
+A corresponding <code>putenv</code> function was omitted from the Standard,
+since its utility outside a multi-process environment is questionable,
+and since its definition is properly the domain of an operating
+system standard.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-4-5">4.10.4.5</a>&#160;<tt> </tt>The <code>system</code> function</h2>
+The <a name="system-4-10-4-5"><code>system</code></a>
+function allows a program to suspend its execution temporarily
+in order to run another program to completion.&#160;<tt> </tt>
+<p>
+Information may be passed to the called program in three ways:
+through command-line argument strings,
+through the environment,
+and (most portably) through data files.&#160;<tt> </tt>
+Before calling the system function,
+the calling program should close all such data files.&#160;<tt> </tt>
+<p>
+Information may be returned from the called program in two ways:
+through the implementation-defined return value
+(in many implementations,
+the termination status code which is the argument to the
+<a name="exit-4-10-4-5"><code>exit</code></a> function is returned by the implementation to the
+caller as the value returned by the <code>system</code> function),
+and (most portably) through data files.&#160;<tt> </tt>
+<p>
+If the environment is interactive, information may also be exchanged
+with users of interactive devices.&#160;<tt> </tt>
+<p>
+Some implementations offer built-in programs called ``commands''&#160;<tt> </tt>
+(for example, ``date'')&#160;<tt> </tt>
+which may provide useful information to an application program via the
+<code>system</code> function.&#160;<tt> </tt>
+The Standard does not attempt to characterize such commands,
+and their use is not portable.&#160;<tt> </tt>
+<p>
+On the other hand, the use of the <code>system</code> function <i>is</i> portable,
+provided the implementation supports the capability.&#160;<tt> </tt>
+The Standard permits the application to ascertain this by calling the
+<code>system</code> function with a null pointer argument.&#160;<tt> </tt>
+Whether more levels of nesting are supported can also be ascertained this way;
+assuming more than one such level is obviously dangerous.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-5">4.10.5</a>&#160;<tt> </tt>Searching and sorting utilities</h2>
+<p>
+<h2><a name="4-10-5-2">4.10.5.2</a>&#160;<tt> </tt>The <code>bsearch</code> function</h2>
+<p>
+<h2><a name="4-10-5-1">4.10.5.1</a>&#160;<tt> </tt>The <code>qsort</code> function</h2>
+<p>
+<h2><a name="4-10-6">4.10.6</a>&#160;<tt> </tt>Integer arithmetic functions</h2>
+<p>
+<a name="abs-4-10-6"><code>abs</code></a> was moved from <a name="-60math-46h-62-4-10-6"><code>&lt;math.h&gt;</code></a>
+as it was the only function in that library which did not involve
+<code>double</code> arithmetic.&#160;<tt> </tt>
+Some programs have included <code>&lt;math.h&gt;</code> solely to gain access to <code>abs</code>,
+but in some implementations this results in unused floating-point
+run-time routines becoming part of the translated program.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-6-1">4.10.6.1</a>&#160;<tt> </tt>The <code>abs</code> function</h2>
+<p>
+The Committee rejected proposals
+to add an absolute value operator to the language.&#160;<tt> </tt>
+An implementation can provide a built-in function for efficiency.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-6-2">4.10.6.2</a>&#160;<tt> </tt>The <code>div</code> function</h2>
+<p>
+<a name="div-4-10-6-2"><code>div</code></a> and <code>ldiv</code> provide a well-specified semantics
+for signed integral division and remainder operations.&#160;<tt> </tt>
+The semantics were adopted to be the same as in <a name="FORTRAN-4-10-6-2">FORTRAN</a>.&#160;<tt> </tt>
+Since these functions return both the quotient and the remainder,
+they also serve as a convenient way of efficiently
+modelling underlying hardware that computes both results
+as part of the same operation.&#160;<tt> </tt>
+Table 4.2 summarizes the semantics of these functions.
+<pre><tt>        </tt><i>numer   denom    quot     rem</i><tt>
+          7       3      2       1
+         -7       3     -2      -1
+          7      -3     -2       1
+         -7      -3      2      -1
+</tt></pre>
+<ul><ul>
+    Table 4.2: Results of <code>div</code> and <code>ldiv</code>
+</ul></ul>
+Divide-by-zero is described as <a name="undefined-behavior"><i>undefined behavior</i></a>
+rather than as setting <code>errno</code> to <code>EDOM</code>.&#160;<tt> </tt>
+The program can as easily check for a zero divisor before a division
+as for an error code afterwards,
+and the adopted scheme reduces the burden on the function.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-6-3">4.10.6.3</a>&#160;<tt> </tt>The <code>labs</code> function</h2>
+<p>
+<h2><a name="4-10-6-4">4.10.6.4</a>&#160;<tt> </tt>The <code>ldiv</code> function</h2>
+<p>
+<h2><a name="4-10-7">4.10.7</a>&#160;<tt> </tt><a name="multibyte-characters-4-10-7">Multibyte character</a> functions</h2>
+
+
+<p>
+See <a href="b.html#2-2-1-2" tppabs="http://www.lysator.liu.se/c/rat/b.html#2-2-1-2">&#167;2.2.1.2</a> for an overall discussion of multibyte character
+representations and wide characters.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-7-1">4.10.7.1</a>&#160;<tt> </tt>The <code>mblen</code> function</h2>
+<p>
+<h2><a name="4-10-7-2">4.10.7.2</a>&#160;<tt> </tt>The <code>mbtowc</code> function</h2>
+<p>
+<h2><a name="4-10-7-3">4.10.7.3</a>&#160;<tt> </tt>The <code>wctomb</code> function</h2>
+<p>
+<h2><a name="4-10-8">4.10.8</a>&#160;<tt> </tt>Multibyte string functions</h2>
+<p>
+See <a href="b.html#2-2-1-2" tppabs="http://www.lysator.liu.se/c/rat/b.html#2-2-1-2">&#167;2.2.1.2</a> for an overall discussion of multibyte character
+representations and wide characters.&#160;<tt> </tt>
+<p>
+<h2><a name="4-10-8-1">4.10.8.1</a>&#160;<tt> </tt>The <code>mbstowcs</code> function</h2>
+<p>
+<h2><a name="4-10-8-2">4.10.8.2</a>&#160;<tt> </tt>The <code>wcstombs</code> function</h2>
+<hr>
+<a href="d9.html" tppabs="http://www.lysator.liu.se/c/rat/d9.html">4.9 Input/Output</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-10" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-10">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d11.html" tppabs="http://www.lysator.liu.se/c/rat/d11.html">4.11 String Handling</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>

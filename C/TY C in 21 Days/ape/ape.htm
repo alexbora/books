@@ -1,0 +1,843 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Appendix E -- Common C Functions</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../apd/apd.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apf/apf.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<H1></H1>
+<CENTER>
+<H1>- E -</H1>
+</CENTER>
+<CENTER>
+<H1>Common C Functions</H1>
+</CENTER>
+<P>This appendix lists the function prototypes contained in each of the header files
+supplied with most C compilers. Functions that have an asterisk after them were covered
+in this book.</P>
+<P>The functions are listed alphabetically. Following each name and header file is
+the complete prototype. Notice that the header file prototypes use a notation different
+from that used in this book. For each parameter a function takes, only the type is
+given in the prototype; no parameter name is included. Here are two examples:</P>
+<P>
+<PRE>int func1(int, int *);
+int func1(int x, int *y);
+</PRE>
+<P>Both declarations specify two parameters--the first a type int, and the second
+a pointer to type int. As far as the compiler is concerned, these two declarations
+are equivalent.</P>
+<P>
+<H4>Table E.1. Common C functions listed in alphabetical order.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Function</B></TD>
+		<TD ALIGN="LEFT"><B>Header File</B></TD>
+		<TD ALIGN="LEFT"><B>Function Prototype</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">abort<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void abort(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">abs</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int abs(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">acos<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double acos(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">asctime<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">char *asctime(const struct tm *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">asin<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double asin(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">assert<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">ASSERT.H</TD>
+		<TD ALIGN="LEFT">void assert(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atan<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double atan(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atan2<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double atan2(double, double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atexit<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int atexit(void (*)(void));</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atof<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">double atof(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atof<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double atof(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atoi<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int atoi(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atol<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">long atol(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">bsearch<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void *bsearch(const void *, const void *, size_t, size_t, int(*) (const void *, const
+			void *));</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">calloc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void *calloc(size_t, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ceil<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double ceil(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">clearerr</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">void clearerr(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">clock<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">clock_t clock(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">cos<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double cos(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">cosh<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double cosh(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ctime<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">char *ctime(const time_t *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">difftime</TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">double difftime(time_t, time_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">div</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">div_t div(int, int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">exit<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void exit(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">exp<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double exp(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fabs<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double fabs(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fclose<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fclose(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fcloseall<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fcloseall(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">feof<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int feof(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fflush<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fflush(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fgetc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fgetc(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fgetpos</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fgetpos(FILE *, fpos_t *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fgets<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">char *fgets(char *, int, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">floor<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double floor(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">flushall<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int flushall(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fmod<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double fmod(double, double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fopen<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">FILE *fopen(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fprintf<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fprintf(FILE *, const char *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fputc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fputc(int, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fputs<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fputs(const char *, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fread<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">size_t fread(void *, size_t, size_t, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">free<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void free(void *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">freopen</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">FILE *freopen(const char *, const char *, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">frexp<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double frexp(double, int *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fscanf<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fscanf(FILE *, const char *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fseek<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fseek(FILE *, long, int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fsetpos</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int fsetpos(FILE *, const fpos_t *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ftell<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">long ftell(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fwrite<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">size_t fwrite(const void *, size_t, size_t, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">getc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int getc(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">getch<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int getch(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">getchar<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int getchar(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">getche<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int getche(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">getenv</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">char *getenv(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">gets<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">char *gets(char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">gmtime</TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">struct tm *gmtime(const time_t *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isalnum<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isalnum(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isalpha<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isalpha(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isascii<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isascii(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">iscntrl<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int iscntrl(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isdigit<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isdigit(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isgraph<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isgraph(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">islower<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int islower(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isprint<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isprint(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ispunct<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int ispunct(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isspace<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isspace(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isupper<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isupper(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">isxdigit<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int isxdigit(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">labs</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">long int labs(long int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ldexp</TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double ldexp(double, int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ldiv</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">ldiv_t div(long int, long int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">localtime<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">struct tm *localtime(const time_t *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">log<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double log(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">log10<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double log10(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">malloc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void *malloc(size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">mblen</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int mblen(const char *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">mbstowcs</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">size_t mbstowcs(wchar_t *, const char *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">mbtowc</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int mbtowc(wchar_t *, const char *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">memchr</TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">void *memchr(const void *, int, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">memcmp</TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">int memcmp(const void *, const void *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">memcpy</TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">void *memcpy(void *, const void *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">memmove</TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">void *memmove(void *, const void*, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">memset</TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">void *memset(void *, int, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">mktime<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">time_t mktime(struct tm *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">modf</TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double modf(double, double *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">perror<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">void perror(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">pow<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double pow(double, double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">printf<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int printf(const char *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">putc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int putc(int, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">putchar<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int putchar(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">puts<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int puts(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">qsort<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void qsort(void*, size_t, size_t, int (*)(const void*, const void *));</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">rand</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int rand(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">realloc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void *realloc(void *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">remove<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int remove(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">rename<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int rename(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">rewind<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">void rewind(FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">scanf<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int scanf(const char *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">setbuf</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">void setbuf(FILE *, char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">setvbuf</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int setvbuf(FILE *, char *, int, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sin<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double sin(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sinh<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double sinh(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sleep<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">void sleep(time_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sprintf</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int sprintf(char *, const char *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sqrt<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double sqrt(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">srand</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">void srand(unsigned);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sscanf</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int sscanf(const char *, const char *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strcat<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strcat(char *,const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strchr<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strchr(const char *, int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strcmp<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">int strcmp(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strcmpl<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">int strcmpl(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strcpy<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strcpy(char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strcspn<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">size_t strcspn(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strdup<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strdup(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strerror</TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strerror(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strftime<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">size_t strftime(char *, size_t, const char *, const struct tm *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strlen<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">size_t strlen(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strlwr<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strlwr(char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strncat<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strncat(char *, const char *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strncmp<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">int strncmp(const char *, const char *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strncpy<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strncpy(char *, const char *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strnset<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strnset(char *, int, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strpbrk<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strpbrk(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strrchr<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strrchr(const char *, int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strspn<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">size_t strspn(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strstr<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strstr(const char *, const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strtod</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">double strtod(const char *, char **);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strtok</TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strtok(char *, const char*);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strtol</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">long strtol(const char *, char **, int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strtoul</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">unsigned long strtoul(const char*, char **, int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">strupr<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STRING.H</TD>
+		<TD ALIGN="LEFT">char *strupr(char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">system<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int system(const char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">tan<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double tan(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">tanh<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">MATH.H</TD>
+		<TD ALIGN="LEFT">double tanh(double);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">time<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">TIME.H</TD>
+		<TD ALIGN="LEFT">time_t time(time_t *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">tmpfile</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">FILE *tmpfile(void);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">tmpnam<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">char *tmpnam(char *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">tolower</TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int tolower(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">toupper</TD>
+		<TD ALIGN="LEFT">CTYPE.H</TD>
+		<TD ALIGN="LEFT">int toupper(int);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ungetc<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int ungetc(int, FILE *);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">va_arg<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDARG.H</TD>
+		<TD ALIGN="LEFT">(type) va_arg(va_list, (type));</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">va_end<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDARG.H</TD>
+		<TD ALIGN="LEFT">void va_end(va_list);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">va_start<SUP>*</SUP></TD>
+		<TD ALIGN="LEFT">STDARG.H</TD>
+		<TD ALIGN="LEFT">void va_start(va_list, lastfix);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">vfprintf</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int vfprintf(FILE *, constchar *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">vprintf</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int vprintf(FILE*, constchar *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">vsprintf</TD>
+		<TD ALIGN="LEFT">STDIO.H</TD>
+		<TD ALIGN="LEFT">int vsprintf(char *, constchar *, ...);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">wcstombs</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">size_t wcstombs(char *, const wchar_t *, size_t);</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">wctomb</TD>
+		<TD ALIGN="LEFT">STDLIB.H</TD>
+		<TD ALIGN="LEFT">int wctomb(char *, wchar_t);</TD>
+	</TR>
+</TABLE>
+</P>
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../apd/apd.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../apf/apf.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> </P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

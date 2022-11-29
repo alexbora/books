@@ -1,0 +1,1483 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript">
+
+<!--
+
+function popUp(pPage) {
+ var fullURL = document.location;
+ var textURL = fullURL.toString();
+ var URLlen = textURL.length;
+ var lenMinusPage = textURL.lastIndexOf("/");
+ lenMinusPage += 1;
+ var fullPath = textURL.substring(0,lenMinusPage);
+ popUpWin = window.open('','popWin','resizable=yes,scrollbars=no,width=525,height=394');
+ figDoc= popUpWin.document;
+ zhtm= '<HTML><HEAD><TITLE>' + pPage + '</TITLE>';
+ zhtm += '</head>';
+ zhtm += '<BODY bgcolor="#FFFFFF">';
+ zhtm += '<IMG SRC="' + fullPath + pPage + '">';
+ zhtm += '<P><B>' + pPage + '</B>';
+ zhtm += '</BODY></HTML>';
+ window.popUpWin.document.write(zhtm);
+ window.popUpWin.document.close();
+ // Johnny Jackson 4/28/98
+ }
+
+//-->
+                                                                
+</SCRIPT>
+<link rel="stylesheet" href="../../../includes/stylesheets/ebooks.css">
+
+	<META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+	<TITLE>Teach Yourself C in 21 Days -- Ch 19 -- Exploring the C Function Library</TITLE>
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF">
+
+<CENTER>
+<H1><IMG SRC="../button/samsnet.gif" WIDTH="171" HEIGHT="66" ALIGN="BOTTOM" BORDER="0"><BR>
+Teach Yourself C in 21 Days</H1>
+</CENTER>
+<CENTER>
+<P><A HREF="../ch18/ch18.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch20/ch20.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> 
+<HR>
+
+</CENTER>
+<CENTER>
+<H1>- 19 -</H1>
+</CENTER>
+<CENTER>
+<H1>Exploring the C Function Library</H1>
+</CENTER>
+
+<UL>
+	<LI><A HREF="#Heading1">Mathematical Functions</A>
+	<UL>
+		<LI><A HREF="#Heading2">Trigonometric Functions</A>
+		<LI><A HREF="#Heading3">Exponential and Logarithmic Functions</A>
+		<LI><A HREF="#Heading4">Hyperbolic Functions</A>
+		<LI><A HREF="#Heading5">Other Mathematical Functions</A>
+		<LI><A HREF="#Heading6">A Demonstration of the Math Functions</A>
+	</UL>
+	<LI><A HREF="#Heading7">Dealing with Time</A>
+	<UL>
+		<LI><A HREF="#Heading8">Representing Time</A>
+		<LI><A HREF="#Heading9">The Time Functions</A>
+		<LI><A HREF="#Heading10">Using the Time Functions</A>
+	</UL>
+	<LI><A HREF="#Heading11">Error-Handling Functions</A>
+	<UL>
+		<LI><A HREF="#Heading12">The assert() Function</A>
+		<LI><A HREF="#Heading13">The ERRNO.H Header File</A>
+		<LI><A HREF="#Heading14">The perror() Function</A>
+	</UL>
+	<LI><A HREF="#Heading15">Searching and Sorting</A>
+	<UL>
+		<LI><A HREF="#Heading16">Searching with bsearch()</A>
+		<LI><A HREF="#Heading17">Sorting with qsort()</A>
+		<LI><A HREF="#Heading18">Searching and Sorting: Two Demonstrations</A>
+	</UL>
+	<LI><A HREF="#Heading19">Summary</A>
+	<LI><A HREF="#Heading20">Q&amp;A</A>
+	<LI><A HREF="#Heading21">Workshop</A>
+	<UL>
+		<LI><A HREF="#Heading22">Quiz</A>
+		<LI><A HREF="#Heading23">Exercises</A>
+	</UL>
+</UL>
+
+<P>
+<HR SIZE="4">
+
+<CENTER>
+<H1></H1>
+</CENTER>
+<P>As you've seen throughout this book, much of C's power comes from the functions
+in the standard library. In this chapter you'll explore some of the functions that
+don't fit into the subject matter of other chapters. Today you will learn about</P>
+
+<UL>
+	<LI>Mathematical functions
+	<P>
+	<LI>Functions that deal with time
+	<P>
+	<LI>Error-handling functions
+	<P>
+	<LI>Functions for searching and sorting data
+</UL>
+
+<H2><A NAME="Heading1"></A>Mathematical Functions</H2>
+<P>The C standard library contains a variety of functions that perform mathematical
+operations. Prototypes for the mathematical functions are in the header file MATH.H.
+The math functions all return a type double. For the trigonometric functions, angles
+are expressed in radians. Remember, one radian equals 57.296 degrees, and a full
+circle (360 degrees) contains 2p radians.</P>
+<P>
+<H3><A NAME="Heading2"></A>Trigonometric Functions</H3>
+<P>The trigonometric functions perform calculations that are used in some graphical
+and engineering applications.</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><I>Function</I></TD>
+		<TD ALIGN="LEFT"><I>Prototype</I></TD>
+		<TD ALIGN="LEFT"><I>Description</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">acos()</TD>
+		<TD ALIGN="LEFT">double acos(double x)</TD>
+		<TD ALIGN="LEFT">Returns the arccosine of its argument. The argument must be in the range -1 &lt;=
+			x &lt;= 1, and the return value is in the range 0 &lt;= acos &lt;= p.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">asin()</TD>
+		<TD ALIGN="LEFT">double asin(double x)</TD>
+		<TD ALIGN="LEFT">Returns the arcsine of its argument. The argument must be in the range -1 &lt;= x
+			&lt;= 1, and the return value is in the range -p/2 &lt;= asin &lt;= p/2.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atan()</TD>
+		<TD ALIGN="LEFT">double atan(double x)</TD>
+		<TD ALIGN="LEFT">Returns the arctangent of its argument. The return value is in the range -p/2 &lt;=
+			atan &lt;= p/2.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">atan2()</TD>
+		<TD ALIGN="LEFT">double atan2(double x, double y)</TD>
+		<TD ALIGN="LEFT">Returns the arctangent of x/y. The value returned is in the range -p &lt;= atan2
+			&lt;= p.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">cos()</TD>
+		<TD ALIGN="LEFT">double cos(double x)</TD>
+		<TD ALIGN="LEFT">Returns the cosine of its argument.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sin()</TD>
+		<TD ALIGN="LEFT">double sin(double x)</TD>
+		<TD ALIGN="LEFT">Returns the sine of its argument.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">tan()</TD>
+		<TD ALIGN="LEFT">double tan(double x)</TD>
+		<TD ALIGN="LEFT">Returns the tangent of its argument.</TD>
+	</TR>
+</TABLE>
+
+<H3><A NAME="Heading3"></A>Exponential and Logarithmic Functions</H3>
+<P>The exponential and logarithmic functions are needed for certain types of mathematical
+calculations.</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><I>Function</I></TD>
+		<TD ALIGN="LEFT"><I>Prototype</I></TD>
+		<TD ALIGN="LEFT"><I>Description</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">exp()</TD>
+		<TD ALIGN="LEFT">double exp(double x)</TD>
+		<TD ALIGN="LEFT">Returns the natural exponent of its argument, that is, e<SUP>x</SUP> where e equals
+			2.7182818284590452354.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">log()</TD>
+		<TD ALIGN="LEFT">double log(double x)</TD>
+		<TD ALIGN="LEFT">Returns the natural logarithm of its argument. The argument must be greater than
+			0.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">log10()</TD>
+		<TD ALIGN="LEFT">double log10(double x)</TD>
+		<TD ALIGN="LEFT">Returns the base-10 logarithm of its argument. The argument must be greater than
+			0.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">frexp()</TD>
+		<TD ALIGN="LEFT">double frexp(double x, int *y)</TD>
+		<TD ALIGN="LEFT">The function calculates the normalized fraction representing the value x. The function's
+			return value r is a fraction in the range 0.5 &lt;= r &lt;= 1.0. The function assigns
+			to y an integer exponent such that x = r * 2y. If the value passed to the function
+			is 0, both r and y are 0.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ldexp()</TD>
+		<TD ALIGN="LEFT">double ldexp(double x, int y)</TD>
+		<TD ALIGN="LEFT">Returns x * 2y.</TD>
+	</TR>
+</TABLE>
+
+<H3><A NAME="Heading4"></A>Hyperbolic Functions</H3>
+<P>The hyperbolic functions perform hyperbolic trigonometric calculations.</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><I>Function</I></TD>
+		<TD ALIGN="LEFT"><I>Prototype</I></TD>
+		<TD ALIGN="LEFT"><I>Description</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">cosh()</TD>
+		<TD ALIGN="LEFT">double cosh(double x)</TD>
+		<TD ALIGN="LEFT">Returns the hyperbolic cosine of its argument.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sinh()</TD>
+		<TD ALIGN="LEFT">double sinh(double x)</TD>
+		<TD ALIGN="LEFT">Returns the hyperbolic sine of its argument.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">tanh()</TD>
+		<TD ALIGN="LEFT">double tanh(double x)</TD>
+		<TD ALIGN="LEFT">Returns the hyperbolic tangent of its argument.</TD>
+	</TR>
+</TABLE>
+
+<H3><A NAME="Heading5"></A>Other Mathematical Functions</H3>
+<P>The standard C library contains the following miscellaneous mathematical functions:</P>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><I>Function</I></TD>
+		<TD ALIGN="LEFT"><I>Prototype</I></TD>
+		<TD ALIGN="LEFT"><I>Description</I></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">sqrt()</TD>
+		<TD ALIGN="LEFT">double sqrt(double x)</TD>
+		<TD ALIGN="LEFT">Returns the square root of its argument. The argument must be zero or greater.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ceil()</TD>
+		<TD ALIGN="LEFT">double ceil(double x)</TD>
+		<TD ALIGN="LEFT">Returns the smallest integer not less than its argument. For example, ceil(4.5) returns
+			5.0, and ceil(-4.5) returns -4.0. Although ceil() returns an integer value, it is
+			returned as a type double.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">abs()</TD>
+		<TD ALIGN="LEFT">int abs(int x)</TD>
+		<TD ALIGN="LEFT">Returns the absolute</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">labs()</TD>
+		<TD ALIGN="LEFT">long labs(long x)</TD>
+		<TD ALIGN="LEFT">value of their arguments.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">floor()</TD>
+		<TD ALIGN="LEFT">double floor(double x)</TD>
+		<TD ALIGN="LEFT">Returns the largest integer not greater than its argument. For example, floor(4.5)
+			returns 4.0, and floor(-4.5) returns -5.0.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">modf()</TD>
+		<TD ALIGN="LEFT">double modf(double x, double *y)</TD>
+		<TD ALIGN="LEFT">Splits x into integral and fractional parts, each with the same sign as x. The fractional
+			part is returned by the function, and the integral part is assigned to *y.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">pow()</TD>
+		<TD ALIGN="LEFT">double pow(double x, double y)</TD>
+		<TD ALIGN="LEFT">Returns xy. An error occurs if x == 0 and y &lt;= 0, or if x &lt; 0 and y is not
+			an integer.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">fmod()</TD>
+		<TD ALIGN="LEFT">double fmod(double x, double y)</TD>
+		<TD ALIGN="LEFT">Returns the floating-point remainder of x/y, with the same sign as x. The function
+			returns 0 if x == 0.</TD>
+	</TR>
+</TABLE>
+
+<H3><A NAME="Heading6"></A>A Demonstration of the Math Functions</H3>
+<P>An entire book could be filled with programs demonstrating all of the math functions.
+Listing 19.1 contains a single program that demonstrates several of these functions.</P>
+<P>
+<H4>Listing 19.1. Using the C library math functions.</H4>
+<PRE>1: /* Demonstrates some of C's math functions */
+2:
+3: #include &lt;stdio.h&gt;
+4: #include &lt;math.h&gt;
+5:
+6: main()
+7: {
+8:
+9:     double x;
+10:
+11:     printf(&quot;Enter a number: &quot;);
+12:     scanf( &quot;%lf&quot;, &amp;x);
+13:
+14:     printf(&quot;\n\nOriginal value: %lf&quot;, x);
+15:
+16:     printf(&quot;\nCeil: %lf&quot;, ceil(x));
+17:     printf(&quot;\nFloor: %lf&quot;, floor(x));
+18:     if( x &gt;= 0 )
+19:         printf(&quot;\nSquare root: %lf&quot;, sqrt(x) );
+20:     else
+21:        printf(&quot;\nNegative number&quot; );
+22:
+23:     printf(&quot;\nCosine: %lf\n&quot;, cos(x));
+24:     return(0);
+25: }
+Enter a number: <B>100.95</B>
+Original value: 100.950000
+Ceil: 101.000000
+Floor: 100.000000
+Square root: 10.047388
+Cosine: 0.913482
+</PRE>
+<P><strong>ANALYSIS: </strong> This listing uses just a few of the math functions. A value
+accepted on line 12 is printed. Then it's passed to four of the C library math functions--ceil(),
+floor(), sqrt(), and cos(). Notice that sqrt() is called only if the number isn't
+negative. By definition, negative numbers don't have square roots. You can add any
+of the other math functions to a program such as this to test their functionality.</P>
+<P>
+<H2><A NAME="Heading7"></A>Dealing with Time</H2>
+<P>The C library contains several functions that let your program work with times.
+In C, the term <I>times</I> refers to dates as well as times. The function prototypes
+and the definition of the structure used by many of the time functions are in the
+header file TIME.H.</P>
+<P>
+<H3><A NAME="Heading8"></A>Representing Time</H3>
+<P>The C time functions represent time in two ways. The more basic method is the
+number of seconds elapsed since midnight on January 1, 1970. Negative values are
+used to represent times before that date.</P>
+<P>These time values are stored as type long integers. In TIME.H, the symbols time_t
+and clock_t are both defined with a typedef statement as long. These symbols are
+used in the time function prototypes rather than long.</P>
+<P>The second method represents a time broken down into its components: year, month,
+day, and so on. For this kind of time representation, the time functions use a structure
+tm, defined in TIME.H as follows:</P>
+<P>
+<PRE>struct tm {
+int tm_sec;     /* seconds after the minute - [0,59]  */
+int tm_min;     /* minutes after the hour - [0,59]    */
+int tm_hour;    /* hours since midnight - [0,23]  */
+int tm_mday;    /* day of the month - [1,31]      */
+int tm_mon;     /* months since January - [0,11]      */
+int tm_year;    /* years since 1900               */
+int tm_wday;    /* days since Sunday - [0,6]      */
+int tm_yday;    /* days since January 1 - [0,365] */
+int tm_isdst;   /* daylight savings time flag     */
+};
+</PRE>
+<H3><A NAME="Heading9"></A>The Time Functions</H3>
+<P>This section describes the various C library functions that deal with time. Remember
+that the term <I>time</I> refers to the date as well as hours, minutes, and seconds.
+A demonstration program follows the descriptions.</P>
+<P>
+<H4>Obtaining the Current Time</H4>
+<P>To obtain the current time as set on your system's internal clock, use the time()
+function. The prototype is</P>
+<P>
+<PRE>time_t time(time_t *timeptr);
+</PRE>
+<P>Remember, time_t is defined in TIME.H as a synonym for long. The function time()
+returns the number of seconds elapsed since midnight, January 1, 1970. If it is passed
+a non-NULL pointer, time() also stores this value in the type time_t variable pointed
+to by timeptr. Thus, to store the current time in the type time_t variable now, you
+could write</P>
+<P>
+<PRE>time_t now;
+now = time(0);
+</PRE>
+<P>You also could write</P>
+<P>
+<PRE>time_t now;
+time_t *ptr_now = &amp;now;
+time(ptr_now);
+</PRE>
+<H4>Converting Between Time Representations</H4>
+<P>Knowing the number of seconds since January 1, 1970, is not often useful. Therefore,
+C provides the ability to convert time represented as a time_t value to a tm structure,
+using the localtime() function. A tm structure contains day, month, year, and other
+time information in a format more appropriate for display and printing. The prototype
+of this function is</P>
+<P>
+<PRE>struct tm *localtime(time_t *ptr);
+</PRE>
+<P>This function returns a pointer to a static type tm structure, so you don't need
+to declare a type tm structure to use--only a pointer to type tm. This static structure
+is reused and overwritten each time localtime() is called; if you want to save the
+value returned, your program must declare a separate type tm structure and copy the
+values from the static structure.</P>
+<P>The reverse conversion--from a type tm structure to a type time_t value--is performed
+by the function mktime(). The prototype is</P>
+<P>
+<PRE>time_t mktime(struct tm *ntime);
+</PRE>
+<P>This function returns the number of seconds between midnight, January 1, 1970,
+and the time represented by the type tm structure pointed to by ntime.</P>
+<P>
+<H4>Displaying Times</H4>
+<P>To convert times into formatted strings appropriate for display, use the functions
+ctime() and asctime(). Both of these functions return the time as a string with a
+specific format. They differ because ctime() is passed the time as a type time_t
+value, whereas asctime() is passed the time as a type tm structure. Their prototypes
+are</P>
+<P>
+<PRE>char *asctime(struct tm *ptr);
+char *ctime(time_t *ptr);
+</PRE>
+<P>Both functions return a pointer to a static, null-terminated, 26-character string
+that gives the time of the function's argument in the following format:</P>
+<P>
+<PRE>Thu Jun 13 10:22:23 1991
+</PRE>
+<P>The time is formatted in 24-hour &quot;military&quot; time. Both functions use
+a static string, overwriting it each time they're called.</P>
+<P>For more control over the format of the time, use the strftime() function. This
+function is passed a time as a type tm structure. It formats the time according to
+a format string. The function prototype is</P>
+<P>
+<PRE>size_t strftime(char *s, size_t max, char *fmt, struct tm *ptr);
+</PRE>
+<P>This function takes the time in the type tm structure pointed to by ptr, formats
+it according to the format string fmt, and writes the result as a null-terminated
+string to the memory location pointed to by s. The argument max should specify the
+amount of space allocated at s. If the resulting string (including the terminating
+null character) has more than max characters, the function returns 0, and the string
+s is invalid. Otherwise, the function returns the number of characters written--strlen(s).</P>
+<P>The format string consists of one or more conversion specifiers from Table 19.1.</P>
+<P>
+<H4>Table 19.1. Conversion specifiers that can be used with strftime().</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Specifier</B></TD>
+		<TD ALIGN="LEFT"><B>What It's Replaced By</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%a</TD>
+		<TD ALIGN="LEFT">Abbreviated weekday name.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%A</TD>
+		<TD ALIGN="LEFT">Full weekday name.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%b</TD>
+		<TD ALIGN="LEFT">Abbreviated month name.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%B</TD>
+		<TD ALIGN="LEFT">Full month name.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%c</TD>
+		<TD ALIGN="LEFT">Date and time representation (for example, 10:41:50 30-Jun-91).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%d</TD>
+		<TD ALIGN="LEFT">Day of month as a decimal number 01 through 31.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%H</TD>
+		<TD ALIGN="LEFT">The hour (24-hour clock) as a decimal number 00 through 23.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%I</TD>
+		<TD ALIGN="LEFT">The hour (12-hour clock) as a decimal number 00 through 11.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%j</TD>
+		<TD ALIGN="LEFT">The day of the year as a decimal number 001 through 366.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%m</TD>
+		<TD ALIGN="LEFT">The month as a decimal number 01 through 12.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%M</TD>
+		<TD ALIGN="LEFT">The minute as a decimal number 00 through 59.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%p</TD>
+		<TD ALIGN="LEFT">AM or PM.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%S</TD>
+		<TD ALIGN="LEFT">The second as a decimal number 00 through 59.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%U</TD>
+		<TD ALIGN="LEFT">The week of the year as a decimal number 00 through 53. Sunday is considered the
+			first day of the week.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%w</TD>
+		<TD ALIGN="LEFT">The weekday as a decimal number 0 through 6 (Sunday = 0).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%W</TD>
+		<TD ALIGN="LEFT">The week of the year as a decimal number 00 through 53. Monday is considered the
+			first day of the week.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%x</TD>
+		<TD ALIGN="LEFT">The date representation (for example, 30-Jun-91).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%X</TD>
+		<TD ALIGN="LEFT">The time representation (for example, 10:41:50).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%y</TD>
+		<TD ALIGN="LEFT">The year, without century, as a decimal number 00 through 99.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%Y</TD>
+		<TD ALIGN="LEFT">The year, with century, as a decimal number.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%Z</TD>
+		<TD ALIGN="LEFT">The time zone name if the information is available or blank if not.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">%%</TD>
+		<TD ALIGN="LEFT">A single percent sign %.</TD>
+	</TR>
+</TABLE>
+
+<H4>Calculating Time Differences</H4>
+<P>You can calculate the difference, in seconds, between two times with the difftime()
+macro, which subtracts two time_t values and returns the difference. The prototype
+is</P>
+<P>
+<PRE>double difftime(time_t later, time_t earlier);
+</PRE>
+<P>This function subtracts earlier from later and returns the difference, the number
+of seconds between the two times. A common use of difftime() is to calculate elapsed
+time, as demonstrated (along with other time operations) in Listing 19.2.</P>
+<P>You can determine duration of a different sort using the clock() function, which
+returns the amount of time that has passed since the program started execution, in
+1/100-second units. The prototype is</P>
+<P>
+<PRE>clock_t clock(void);
+</PRE>
+<P>To determine the duration of some portion of a program, call clock() twice--before
+and after the process occurs--and subtract the two return values.</P>
+<P>
+<H3><A NAME="Heading10"></A>Using the Time Functions</H3>
+<P>Listing 19.2 demonstrates how to use the C library time functions.</P>
+<P>
+<H4>Listing 19.2. Using the C library time functions.</H4>
+<PRE>1: /* Demonstrates the time functions. */
+2:
+3: #include &lt;stdio.h&gt;
+4: #include &lt;time.h&gt;
+5:
+6: main()
+7: {
+8:      time_t start, finish, now;
+9:      struct tm *ptr;
+10:      char *c, buf1[80];
+11:      double duration;
+12:
+13:      /* Record the time the program starts execution. */
+14:
+15:      start = time(0);
+16:
+17:      /* Record the current time, using the alternate method of */
+18:      /* calling time(). */
+19:
+20:      time(&amp;now);
+21:
+22:      /* Convert the time_t value into a type tm structure. */
+23:
+24:      ptr = localtime(&amp;now);
+25:
+26:      /* Create and display a formatted string containing */
+27:      /* the current time. */
+28:
+29:      c = asctime(ptr);
+30:      puts(c);
+31:      getc(stdin);
+32:
+33:      /* Now use the strftime() function to create several different */
+34:      /* formatted versions of the time. */
+35:
+36:      strftime(buf1, 80, &quot;This is week %U of the year %Y&quot;, ptr);
+37:      puts(buf1);
+38:      getc(stdin);
+39:
+40:      strftime(buf1, 80, &quot;Today is %A, %x&quot;, ptr);
+41:      puts(buf1);
+42:      getc(stdin);
+43:
+44:      strftime(buf1, 80, &quot;It is %M minutes past hour %I.&quot;, ptr);
+45:      puts(buf1);
+46:      getc(stdin);
+47:
+48:      /* Now get the current time and calculate program duration. */
+49:
+50:      finish = time(0);
+51:      duration = difftime(finish, start);
+52:      printf(&quot;\nProgram execution time using time() = %f seconds.&quot;,           &#172;duration);
+53:
+54:      /* Also display program duration in hundredths of seconds */
+55:      /* using clock(). */
+56:
+57:      printf(&quot;\nProgram execution time using clock() = %ld hundredths of               &#172;sec.&quot;,
+58:          clock());
+59:      return(0);
+60: }
+Mon Jun 09 13:53:33 1997
+This is week 23 of the year 1997
+Today is Monday, 06/09/97
+It is 53 minutes past hour 01.
+Program execution time using time() = 4.000000 seconds.
+Program execution time using clock() = 4170 hundredths of sec.
+</PRE>
+<P><strong>ANALYSIIS: </strong> This program has numerous comment lines, so it should be
+easy to follow. Because the time functions are being used, the TIME.H header file
+is included on line 4. Line 8 declares three variables of type time_t--start, finish,
+and now. These variables can hold the time as an offset from January 1, 1970, in
+seconds. Line 9 declares a pointer to a tm structure. The tm structure was described
+earlier. The rest of the variables have types that should be familiar to you.</P>
+<P>The program records its starting time on line 15. This is done with a call to
+time(). The program then does virtually the same thing in a different way. Instead
+of using the value returned by the time() function, line 20 passes time() a pointer
+to the variable now. Line 24 does exactly what the comment on line 22 states: It
+converts the time_t value of now to a type tm structure. The next few sections of
+the program print the value of the current time to the screen in various formats.
+Line 29 uses the asctime() function to assign the information to a character pointer,
+c. Line 30 prints the formatted information. The program then waits for the user
+to press Enter.</P>
+<P>Lines 36 through 46 use the strftime() function to print the date in three different
+formats. Using Table 19.1, you should be able to determine what these lines print.</P>
+<P>The program then determines the time again on line 50. This is the program-ending
+time. Line 51 uses this ending time along with the starting time to calculate the
+program's duration by means of the difftime() function. This value is printed on
+line 52. The program concludes by printing the program execution time from the clock()
+function.</P>
+<P>
+<H2><A NAME="Heading11"></A>Error-Handling Functions</H2>
+<P>The C standard library contains a variety of functions and macros that help you
+deal with program errors.</P>
+<P>
+<H3><A NAME="Heading12"></A>The assert() Function</H3>
+<P>The macro assert() can diagnose program bugs. It is defined in ASSERT.H, and its
+prototype is</P>
+<P>
+<PRE>void assert(int <I>expression</I>);
+</PRE>
+<P>The argument <I>expression</I> can be anything you want to test--a variable or
+any C expression. If <I>expression</I> evaluates to TRUE, assert() does nothing.
+If <I>expression</I> evaluates to FALSE, assert() displays an error message on stderr
+and aborts program execution.</P>
+<P>How do you use assert()? It is most frequently used to track down program bugs
+(which are distinct from compilation errors). A bug doesn't prevent a program from
+compiling, but it causes it to give incorrect results or to run improperly (locking
+up, for example). For instance, a financial-analysis program you're writing might
+occasionally give incorrect answers. You suspect that the problem is caused by the
+variable interest_rate taking on a negative value, which should never happen. To
+check this, place the statement</P>
+<P>
+<PRE>assert(interest_rate &gt;= 0);
+</PRE>
+<P>at locations in the program where interest_rate is used. If the variable ever
+does become negative, the assert() macro alerts you. You can then examine the relevant
+code to locate the cause of the problem.</P>
+<P>To see how assert() works, run Listing 19.3. If you enter a nonzero value, the
+program displays the value and terminates normally. If you enter zero, the assert()
+macro forces abnormal program termination. The exact error message you see will depend
+on your compiler, but here's a typical example:</P>
+<P>
+<PRE>Assertion failed: x, file list19_3.c, line 13
+</PRE>
+<P>Note that, in order for assert() to work, your program must be compiled in debug
+mode. Refer to your compiler documentation for information on enabling debug mode
+(as explained in a moment). When you later compile the final version in release mode,
+the assert() macros are disabled.</P>
+<P>
+<H4>Listing 19.3. Using the assert() macro.</H4>
+<PRE>1: /* The assert() macro. */
+2:
+3: #include &lt;stdio.h&gt;
+4: #include &lt;assert.h&gt;
+5:
+6: main()
+7: {
+8:     int x;
+9:
+10:     printf(&quot;\nEnter an integer value: &quot;);
+11:     scanf(&quot;%d&quot;, &amp;x);
+12:
+13:     assert(x &gt;= 0);
+14:
+15:     printf(&quot;You entered %d.\n&quot;, x);
+16:     return(0);
+17: }
+Enter an integer value: <B>10</B>
+You entered 10.
+Enter an integer value: <B>-1</B>
+Assertion failed: x, file list19_3.c, line 13
+Abnormal program termination
+</PRE>
+<P>Your error message might differ, depending on your system and compiler, but the
+general idea is the same.</P>
+<P><strong>ANALYSIS: </strong> Run this program to see that the error message displayed
+by assert() on line 13 includes the expression whose test failed, the name of the
+file, and the line number where the assert() is located.</P>
+<P>The action of assert() depends on another macro named NDEBUG (which stands for
+&quot;no debugging&quot;). If the macro NDEBUG isn't defined (the default), assert()
+is active. If NDEBUG is defined, assert() is turned off and has no effect. If you
+placed assert() in various program locations to help with debugging and then solved
+the problem, you can define NDEBUG to turn assert() off. This is much easier than
+going through the program and removing the assert() statements (only to discover
+later that you want to use them again). To define the macro NDEBUG, use the #define
+directive. You can demonstrate this by adding the line</P>
+<P>
+<PRE>#define NDEBUG
+</PRE>
+<P>to Listing 19.3, on line 2. Now the program prints the value entered and then
+terminates normally, even if you enter -1.</P>
+<P>Note that NDEBUG doesn't need to be defined as anything in particular, as long
+as it's included in a #define directive. You'll learn more about the #define directive
+on Day 21, &quot;Advanced Compiler Use.&quot;</P>
+<P>
+<H3><A NAME="Heading13"></A>The ERRNO.H Header File</H3>
+<P>The header file ERRNO.H defines several macros used to define and document runtime
+errors. These macros are used in conjunction with the perror() function, described
+in the next section.</P>
+<P>The ERRNO.H definitions include an external integer named errno. Many of the C
+library functions assign a value to this variable if an error occurs during function
+execution. The file ERRNO.H also defines a group of symbolic constants for these
+errors, listed in Table 19.2.</P>
+<P>
+<H4>Table 19.2. The symbolic error constants defined in ERRNO.H.</H4>
+<P>
+<TABLE BORDER="1">
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT"><B>Name</B></TD>
+		<TD ALIGN="LEFT"><B>Value</B></TD>
+		<TD ALIGN="LEFT"><B>Message and Meaning</B></TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">E2BIG</TD>
+		<TD ALIGN="LEFT">1000</TD>
+		<TD ALIGN="LEFT">Argument list too long (list length exceeds 128 bytes).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">EACCES</TD>
+		<TD ALIGN="LEFT">5</TD>
+		<TD ALIGN="LEFT">Permission denied (for example, trying to write to a file opened for read only).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">EBADF</TD>
+		<TD ALIGN="LEFT">6</TD>
+		<TD ALIGN="LEFT">Bad file descriptor.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">EDOM</TD>
+		<TD ALIGN="LEFT">1002</TD>
+		<TD ALIGN="LEFT">Math argument out of domain (an argument passed to a math function was outside the
+			allowable range).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">EEXIST</TD>
+		<TD ALIGN="LEFT">80</TD>
+		<TD ALIGN="LEFT">File exists.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">EMFILE</TD>
+		<TD ALIGN="LEFT">4</TD>
+		<TD ALIGN="LEFT">Too many open files.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ENOENT</TD>
+		<TD ALIGN="LEFT">2</TD>
+		<TD ALIGN="LEFT">No such file or directory.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ENOEXEC</TD>
+		<TD ALIGN="LEFT">1001</TD>
+		<TD ALIGN="LEFT">Exec format error.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ENOMEM</TD>
+		<TD ALIGN="LEFT">8</TD>
+		<TD ALIGN="LEFT">Not enough core (for example, not enough memory to execute the exec() function).</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ENOPATH</TD>
+		<TD ALIGN="LEFT">3</TD>
+		<TD ALIGN="LEFT">Path not found.</TD>
+	</TR>
+	<TR ALIGN="LEFT" VALIGN="TOP">
+		<TD ALIGN="LEFT">ERANGE</TD>
+		<TD ALIGN="LEFT">1003</TD>
+		<TD ALIGN="LEFT">Result out of range (for example, result returned by a math function is too large
+			or too small for the return data type).</TD>
+	</TR>
+</TABLE>
+</P>
+<P>You can use errno two ways. Some functions signal, by means of their return value,
+that an error has occurred. If this happens, you can test the value of errno to determine
+the nature of the error and take appropriate action. Otherwise, when you have no
+specific indication that an error occurred, you can test errno. If it's nonzero,
+an error has occurred, and the specific value of errno indicates the nature of the
+error. Be sure to reset errno to zero after handling the error. The next section
+explains perror(), and then Listing 19.4 illustrates the use of errno.</P>
+<P>
+<H3><A NAME="Heading14"></A>The perror() Function</H3>
+<P>The perror() function is another of C's error-handling tools. When called, perror()
+displays a message on stderr describing the most recent error that occurred during
+a library function call or system call. The prototype, in STDIO.H, is</P>
+<P>
+<PRE>void perror(char *msg);
+</PRE>
+<P>The argument msg points to an optional user-defined message. This message is printed
+first, followed by a colon and the implementation-defined message that describes
+the most recent error. If you call perror() when no error has occurred, the message
+displayed is no error.</P>
+<P>A call to perror() does nothing to deal with the error condition. It's up to the
+program to take action, which might consist of prompting the user to do something
+such as terminate the program. The action the program takes can be determined by
+testing the value of errno and by the nature of the error. Note that a program need
+not include the header file ERRNO.H to use the external variable errno. That header
+file is required only if your program uses the symbolic error constants listed in
+Table 19.2. Listing 19.4 illustrates the use of perror() and errno for handling runtime
+errors.</P>
+<P>
+<H4>Listing 19.4. Using perror() and errno to deal with runtime errors.</H4>
+<PRE>1: /* Demonstration of error handling with perror() and errno. */
+2:
+3: #include &lt;stdio.h&gt;
+4: #include &lt;stdlib.h&gt;
+5: #include &lt;errno.h&gt;
+6:
+7: main()
+8: {
+9:     FILE *fp;
+10:     char filename[80];
+11:
+12:     printf(&quot;Enter filename: &quot;);
+13:     gets(filename);
+14:
+15:     if (( fp = fopen(filename, &quot;r&quot;)) == NULL)
+16:     {
+17:         perror(&quot;You goofed!&quot;);
+18:         printf(&quot;errno = %d.\n&quot;, errno);
+19:         exit(1);
+20:     }
+21:     else
+22:     {
+23:         puts(&quot;File opened for reading.&quot;);
+24:         fclose(fp);
+25:     }
+26:     return(0);
+27: }
+Enter file name: <B>list19_4.c</B>
+File opened for reading.
+Enter file name: <B>notafile.xxx</B>
+You goofed!: No such file or directory
+errno = 2.
+</PRE>
+<P><strong>ANALYSIS: </strong> This program prints one of two messages based on whether
+a file can be opened for reading. Line 15 tries to open a file. If the file opens,
+the else part of the if loop executes, printing the following message:</P>
+<P>
+<PRE>File opened for reading.
+</PRE>
+<P>If there is an error when the file is opened, such as the file not existing, lines
+17 through 19 of the if loop execute. Line 17 calls the perror() function with the
+string &quot;You goofed!&quot;. This is followed by printing the error number. The
+result of entering a file that does not exist is</P>
+<P>
+<PRE>You goofed!: No such file or directory.
+errno = 2
+</PRE>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DO</B> include the ERRNO.H header file if you're going to use the symbolic errors
+	listed in Table 19.2.</P>
+	<P><B>DON'T</B> include the ERRNO.H header file if you aren't going to use the symbolic
+	error constants listed in Table 19.2.</P>
+	<P><B>DO</B> check for possible errors in your programs. Never assume that everything
+	is okay. 
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading15"></A>Searching and Sorting</H2>
+<P>Among the most common tasks that programs perform are searching and sorting data.
+The C standard library contains general-purpose functions that you can use for each
+task.</P>
+<P>
+<H3><A NAME="Heading16"></A>Searching with bsearch()</H3>
+<P>The library function bsearch() performs a binary search of a data array, looking
+for an array element that matches a key. To use bsearch(), the array must be sorted
+into ascending order. Also, the program must provide the comparison function used
+by bsearch() to determine whether one data item is greater than, less than, or equal
+to another item. The prototype of bsearch() is in STDLIB.H:</P>
+<P>
+<PRE>void *bsearch(void *key, void *base, size_t num, size_t width,
+int (*cmp)(void *element1, void *element2));
+</PRE>
+<P>This is a fairly complex prototype, so go through it carefully. The argument key
+is a pointer to the data item being searched for, and base is a pointer to the first
+element of the array being searched. Both are declared as type void pointers, so
+they can point to any of C's data objects.</P>
+<P>The argument num is the number of elements in the array, and width is the size
+(in bytes) of each element. The type specifier size_t refers to the data type returned
+by the sizeof() operator, which is unsigned. The sizeof() operator is usually used
+to obtain the values for num and width.</P>
+<P>The final argument, cmp, is a pointer to the comparison function. This can be
+a user-written function or, when searching string data, it can be the library function
+strcmp(). The comparison function must meet the following two criteria:</P>
+
+<UL>
+	<LI>It is passed pointers to two data items
+	<P>
+	<LI>It returns a type int as follows:
+	<P>
+	<LI>&lt; 0 Element 1 is less than element 2.
+	<P>
+	<LI>0 Element 1 is equal to element 2.
+	<P>
+	<LI>&gt; 0 Element 1 is greater than element 2.
+</UL>
+
+<P>The return value of bsearch() is a type void pointer. The function returns a pointer
+to the first array element it finds that matches the key, or NULL if no match is
+found. You must cast the returned pointer to the proper type before using it.</P>
+<P>The sizeof() operator can provide the num and width arguments as follows. If array[]
+is the array to be searched, the statement</P>
+<P>
+<PRE>sizeof(array[0]);
+</PRE>
+<P>returns the value of width--the size (in bytes) of one array element. Because
+the expression sizeof(array) returns the size, in bytes, of the entire array, the
+following statement obtains the value of num, the number of elements in the array:</P>
+<P>
+<PRE>sizeof(array)/sizeof(array[0])
+</PRE>
+<P>The binary search algorithm is very efficient; it can search a large array quickly.
+Its operation is dependent on the array elements being in ascending order. Here's
+how the algorithm works:</P>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>The key is compared to the element at the middle of the array. If there's
+	a match, the search is done. Otherwise, the key must be either less than or greater
+	than the array element.
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>If the key is less than the array element, the matching element, if
+	any, must be located in the first half of the array. Likewise, if the key is greater
+	than the array element, the matching element must be located in the second half of
+	the array.
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>The search is restricted to the appropriate half of the array, and
+	then the algorithm returns to step 1.
+	<P>
+</DL>
+
+<P>You can see that each comparison performed by a binary search eliminates half
+of the array being searched. For example, a 1,000-element array can be searched with
+only 10 comparisons, and a 16,000-element array can be searched with only 14 comparisons.
+In general, a binary search requires n comparisons to search an array of 2<SUP>n</SUP>
+elements.</P>
+<P>
+<H3><A NAME="Heading17"></A>Sorting with qsort()</H3>
+<P>The library function qsort() is an implementation of the quicksort algorithm,
+invented by C.A.R. Hoare. This function sorts an array into order. Usually the result
+is in ascending order, but qsort() can be used for descending order as well. The
+function prototype, defined in STDLIB.H, is</P>
+<P>
+<PRE>void qsort(void *base, size_t num, size_t size,
+int (*cmp)(void *element1, void *element2));
+</PRE>
+<P>The argument base points at the first element in the array, num is the number
+of elements in the array, and size is the size (in bytes) of one array element. The
+argument cmp is a pointer to a comparison function. The rules for the comparison
+function are the same as for the comparison function used by bsearch(), described
+in the preceding section: You often use the same comparison function for both bsearch()
+and qsort(). The function qsort() has no return value.</P>
+<P>
+<H3><A NAME="Heading18"></A>Searching and Sorting: Two Demonstrations</H3>
+<P>Listing 19.5 demonstrates the use of qsort() and bsearch(). The program sorts
+and searches an array of values. Note that the non-ANSI function getch() is used.
+If your compiler doesn't support it, you should replace it with the ANSI standard
+function getchar().</P>
+<P>
+<H4>Listing 19.5. Using the qsort() and bsearch() functions with values.</H4>
+<PRE>1: /* Using qsort() and bsearch() with values.*/
+2:
+3: #include &lt;stdio.h&gt;
+4: #include &lt;stdlib.h&gt;
+5:
+6: #define MAX 20
+7:
+8: int intcmp(const void *v1, const void *v2);
+9:
+10: main()
+11: {
+12:      int arr[MAX], count, key, *ptr;
+13:
+14:      /* Enter some integers from the user. */
+15:
+16:      printf(&quot;Enter %d integer values; press Enter after each.\n&quot;, MAX);
+17:
+18:      for (count = 0; count &lt; MAX; count++)
+19:          scanf(&quot;%d&quot;, &amp;arr[count]);
+20:
+21:      puts(&quot;Press Enter to sort the values.&quot;);
+22:      getc(stdin);
+23:
+24:      /* Sort the array into ascending order. */
+25:
+26:      qsort(arr, MAX, sizeof(arr[0]), intcmp);
+27:
+28:      /* Display the sorted array. */
+29:
+30:      for (count = 0; count &lt; MAX; count++)
+31:          printf(&quot;\narr[%d] = %d.&quot;, count, arr[count]);
+32:
+33:      puts(&quot;\nPress Enter to continue.&quot;);
+34:      getc(stdin);
+35:
+36:      /* Enter a search key. */
+37:
+38:      printf(&quot;Enter a value to search for: &quot;);
+39:      scanf(&quot;%d&quot;, &amp;key);
+40:
+41:      /* Perform the search. */
+42:
+43:      ptr = (int *)bsearch(&amp;key, arr, MAX, sizeof(arr[0]),intcmp);
+44:
+45:      if ( ptr != NULL )
+46:          printf(&quot;%d found at arr[%d].&quot;, key, (ptr - arr));
+47:      else
+48:          printf(&quot;%d not found.&quot;, key);
+49:      return(0);
+50: }
+51:
+52: int intcmp(const void *v1, const void *v2)
+53: {
+54:      return (*(int *)v1 - *(int *)v2);
+55: }
+Enter 20 integer values; press Enter after each.
+<B>45</B>
+<B>12</B>
+<B>999</B>
+<B>1000</B>
+<B>321</B>
+<B>123</B>
+<B>2300</B>
+<B>954</B>
+<B>1968</B>
+<B>12</B>
+<B>2</B>
+<B>1999</B>
+<B>1776</B>
+<B>1812</B>
+<B>1456</B>
+<B>1</B>
+<B>9999</B>
+<B>3</B>
+<B>76</B>
+<B>200</B>
+Press Enter to sort the values.
+arr[0] = 1.
+arr[1] = 2.
+arr[2] = 3.
+arr[3] = 12.
+arr[4] = 12.
+arr[5] = 45.
+arr[6] = 76.
+arr[7] = 123.
+arr[8] = 200.
+arr[9] = 321.
+arr[10] = 954.
+arr[11] = 999.
+arr[12] = 1000.
+arr[13] = 1456.
+arr[14] = 1776.
+arr[15] = 1812.
+arr[16] = 1968.
+arr[17] = 1999.
+arr[18] = 2300.
+arr[19] = 9999.
+Press Enter to continue.
+Enter a value to search for:
+<B>1776</B>
+1776 found at arr[14]
+</PRE>
+<P><strong>ANALLYSIS: </strong> Listing 19.5 incorporates everything described previously
+about sorting and searching. This program lets you enter up to MAX values (20 in
+this case). It sorts the values and prints them in order. Then it lets you enter
+a value to search for in the array. A printed message states the search's status.</P>
+<P>Familiar code is used to obtain the values for the array on lines 18 and 19. Line
+26 contains the call to qsort() to sort the array. The first argument is a pointer
+to the array's first element. This is followed by MAX, the number of elements in
+the array. The size of the first element is then provided so that qsort() knows the
+width of each item. The call is finished with the argument for the sort function,
+intcmp.</P>
+<P>The function intcmp() is defined on lines 52 through 55. It returns the difference
+of the two values passed to it. This might seem too simple at first, but remember
+what values the comparison function is supposed to return. If the elements are equal,
+0 should be returned. If element one is greater than element two, a positive number
+should be returned. If element one is less than element two, a negative number should
+be returned. This is exactly what intcmp() does.</P>
+<P>The searching is done with bsearch(). Notice that its arguments are virtually
+the same as those of qsort(). The difference is that the first argument of bsearch()
+is the key to be searched for. bsearch() returns a pointer to the location of the
+found key or NULL if the key isn't found. On line 43, ptr is assigned the returned
+value of bsearch(). ptr is used in the if loop on lines 45 through 48 to print the
+status of the search.</P>
+<P>Listing 19.6 has the same functionality as Listing 19.5; however, Listing 19.6
+sorts and searches strings.</P>
+<P>
+<H4>Listing 19.6. Using qsort() and bsearch() with strings.</H4>
+<PRE>1: /* Using qsort() and bsearch() with strings. */
+2:
+3: #include &lt;stdio.h&gt;
+4: #include &lt;stdlib.h&gt;
+5: #include &lt;string.h&gt;
+6:
+7: #define MAX 20
+8:
+9: int comp(const void *s1, const void *s2);
+10:
+11: main()
+12: {
+13:     char *data[MAX], buf[80], *ptr, *key, **key1;
+14:     int count;
+15:
+16:     /* Input a list of words. */
+17:
+18:     printf(&quot;Enter %d words, pressing Enter after each.\n&quot;,MAX);
+19:
+20:     for (count = 0; count &lt; MAX; count++)
+21:     {
+22:         printf(&quot;Word %d: &quot;, count+1);
+23:         gets(buf);
+24:         data[count] = malloc(strlen(buf)+1);
+25:         strcpy(data[count], buf);
+26:     }
+27:
+28:     /* Sort the words (actually, sort the pointers). */
+29:
+30:     qsort(data, MAX, sizeof(data[0]), comp);
+31:
+32:     /* Display the sorted words. */
+33:
+34:     for (count = 0; count &lt; MAX; count++)
+35:         printf(&quot;\n%d: %s&quot;, count+1, data[count]);
+36:
+37:     /* Get a search key. */
+38:
+39:     printf(&quot;\n\nEnter a search key: &quot;);
+40:     gets(buf);
+41:
+42:     /* Perform the search. First, make key1 a pointer */
+43:     /* to the pointer to the search key.*/
+44:
+45:     key = buf;
+46:     key1 = &amp;key;
+47:     ptr = bsearch(key1, data, MAX, sizeof(data[0]), comp);
+48:
+49:     if (ptr != NULL)
+50:         printf(&quot;%s found.\n&quot;, buf);
+51:     else
+52:         printf(&quot;%s not found.\n&quot;, buf);
+53:     return(0);
+54: }
+55:
+56: int comp(const void *s1, const void *s2)
+57: {
+58:     return (strcmp(*(char **)s1, *(char **)s2));
+59: }
+Enter 20 words, pressing Enter after each.
+Word 1: <B>apple</B>
+Word 2: <B>orange</B>
+Word 3: <B>grapefruit</B>
+Word 4: <B>peach</B>
+Word 5: <B>plum</B>
+Word 6: <B>pear</B>
+Word 7: <B>cherries</B>
+Word 8: <B>banana</B>
+Word 9: <B>lime</B>
+Word 10: <B>lemon</B>
+Word 11: <B>tangerine</B>
+Word 12: <B>star</B>
+Word 13: <B>watermelon</B>
+Word 14: <B>cantaloupe</B>
+Word 15: <B>musk melon</B>
+Word 16: <B>strawberry</B>
+Word 17: <B>blackberry</B>
+Word 18: <B>blueberry</B>
+Word 19: <B>grape</B>
+Word 20: <B>cranberry</B>
+1: apple
+2: banana
+3: blackberry
+4: blueberry
+5: cantaloupe
+6: cherries
+7: cranberry
+8: grape
+9: grapefruit
+10: lemon
+11: lime
+12: musk melon
+13: orange
+14: peach
+15: pear
+16: plum
+17: star
+18: strawberry
+19: tangerine
+20: watermelon
+Enter a search key: <B>orange</B>
+orange found.
+</PRE>
+<P>[bbeg]ANALYSIS: </strong> A couple of points about Listing 19.6 bear mentioning. This
+program makes use of an array of pointers to strings, a technique introduced on Day
+15, &quot;Pointers: Beyond the Basics.&quot; As you saw in that chapter, you can
+&quot;sort&quot; the strings by sorting the array of pointers. However, this method
+requires a modification in the comparison function. This function is passed pointers
+to the two items in the array that are compared. However, you want the array of pointers
+sorted based not on the values of the pointers themselves but on the values of the
+strings they point to.</P>
+<P>Because of this, you must use a comparison function that is passed pointers to
+pointers. Each argument to comp() is a pointer to an array element, and because each
+element is itself a pointer (to a string), the argument is therefore a pointer to
+a pointer. Within the function itself, you dereference the pointers so that the return
+value of comp() depends on the values of the strings pointed to.</P>
+<P>The fact that the arguments passed to comp() are pointers to pointers creates
+another problem. You store the search key in buf[], and you also know that the name
+of an array (buf in this case) is a pointer to the array. However, you need to pass
+not buf itself, but a pointer to buf. The problem is that buf is a pointer constant,
+not a pointer variable. buf itself has no address in memory; it's a symbol that evaluates
+to the address of the array. Because of this, you can't create a pointer that points
+to buf by using the address-of operator in front of buf, as in &amp;buf.</P>
+<P>What to do? First, create a pointer variable and assign the value of buf to it.
+In the program, this pointer variable has the name key. Because key is a pointer
+variable, it has an address, and you can create a pointer that contains that address--in
+this case, key1. When you finally call bsearch(), the first argument is key1, a pointer
+to a pointer to the key string. The function bsearch() passes that argument on to
+comp(), and everything works properly.</P>
+
+
+<BLOCKQUOTE>
+	<P>
+<HR>
+<B>DON'T</B> forget to put your search array into ascending order before using bsearch().
+	
+<HR>
+
+
+</BLOCKQUOTE>
+
+<H2><A NAME="Heading19"></A>Summary</H2>
+<P>This chapter explored some of the more useful functions supplied in the C function
+library. There are functions that perform mathematical calculations, deal with time,
+and assist your program with error handling. The functions for sorting and searching
+data are particularly useful; they can save you considerable time when you're writing
+your programs.</P>
+<P>
+<H2><A NAME="Heading20"></A>Q&amp;A</H2>
+
+<DL>
+	<DT></DT>
+	<DD><B>Q Why do nearly all of the math functions return doubles?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> The answer to this question is precision, not consistency. A double
+	is more precise than the other variable types; therefore, your answers are more accurate.
+	On Day 20, &quot;Working with Memory,&quot; you will learn the specifics of casting
+	variables and variable promotion. These topics are also applicable to precision.
+	<P>
+	<DT></DT>
+	<DD><B>Q Are bsearch() and qsort() the only ways in C to sort and search?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> These two functions are provided in the standard library; however, you
+	don't have to use them. Many computer programming textbooks teach you how to write
+	your own searching and sorting programs. C contains all the commands you need to
+	write your own. You can purchase specially written searching and sorting routines.
+	The biggest benefits of bsearch() and qsort() are that they are already written and
+	that they are provided with any ANSI-compatible compiler.
+	<P>
+	<DT></DT>
+	<DD><B>Q Do the math functions validate bad data?</B>
+	<P>
+	<DT></DT>
+	<DD><B>A</B> Never assume that data entered is correct. Always validate user-entered
+	data. For example, if you pass a negative value to sqrt(), the function generates
+	an error. If you're formatting the output, you probably don't want this error displayed
+	as it is. Remove the if statement in Listing 19.1 and enter a negative number to
+	see what I mean.
+	<P>
+</DL>
+
+<H2><A NAME="Heading21"></A>Workshop</H2>
+<P>The Workshop provides quiz questions to help you solidify your understanding of
+the material covered and exercises to provide you with experience in using what you've
+learned.</P>
+<P>
+<H3><A NAME="Heading22"></A>Quiz</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>What is the return data type for all of C's mathematical functions?
+	<P>
+	<DT></DT>
+	<DD><B>2. </B>What C variable type is time_t equivalent to?
+	<P>
+	<DT></DT>
+	<DD><B>3. </B>What are the differences between the time() function and the clock()
+	function?
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>When you call the perror() function, what does it do to correct an
+	existing error condition?
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Before you search an array with bsearch(), what must you do?
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Using bsearch(), how many comparisons would be required to find an
+	element if the array had 16,000 items?
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Using bsearch(), how many comparisons would be required to find an
+	element if an array had only 10 items?
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Using bsearch(), how many comparisons would be required to find an
+	element if an array had 2,000,000 items?
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>What values must a comparison function for bsearch() and qsort() return?
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>What does bsearch() return if it can't find an element in an array?
+	<P>
+</DL>
+
+<H3><A NAME="Heading23"></A>Exercises</H3>
+
+<DL>
+	<DT></DT>
+	<DD><B>1. </B>Write a call to bsearch(). The array to be searched is called names,
+	and the values are characters. The comparison function is called comp_names(). Assume
+	that all the names are the same size.
+	<P>
+	<DT></DT>
+	<DD><B>2. BUG BUSTER:</B> What is wrong with the following program?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+main()
+{
+int values[10], count, key, *ptr;
+printf(&quot;Enter values&quot;);
+for( ctr = 0; ctr &lt; 10; ctr++ )
+scanf( &quot;%d&quot;, &amp;values[ctr] );
+qsort(values, 10, compare_function());
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD><B>3. BUG BUSTER:</B> Is anything wrong with the following compare function?
+	<P>
+</DL>
+
+
+
+<BLOCKQUOTE>
+	<PRE>int intcmp( int element1, int element2)
+{
+if ( element 1 &gt; element 2 )
+return -1;
+else if ( element 1 &lt; element2 )
+return 1;
+else
+return 0;
+}</PRE>
+
+</BLOCKQUOTE>
+
+<PRE></PRE>
+
+<DL>
+	<DT></DT>
+	<DD>Answers are not provided for the following exercises:
+	<P>
+	<DT></DT>
+	<DD><B>4. </B>Modify Listing 19.1 so that the sqrt() function works with negative
+	numbers. Do this by taking the absolute value of x.
+	<P>
+	<DT></DT>
+	<DD><B>5. </B>Write a program that consists of a menu that performs various math
+	functions. Use as many of the math functions as you can.
+	<P>
+	<DT></DT>
+	<DD><B>6. </B>Using the time functions discussed in this chapter, write a function
+	that causes the program to pause for approximately five seconds.
+	<P>
+	<DT></DT>
+	<DD><B>7. </B>Add the assert() function to the program in exercise 4. The program
+	should print a message if a negative value is entered.
+	<P>
+	<DT></DT>
+	<DD><B>8. </B>Write a program that accepts 30 names and sorts them using qsort().
+	The program should print the sorted names.
+	<P>
+	<DT></DT>
+	<DD><B>9. </B>Modify the program in exercise 8 so that if the user enters QUIT, the
+	program stops accepting input and sorts the entered values.
+	<P>
+	<DT></DT>
+	<DD><B>10. </B>Refer to Day 15 for a &quot;brute-force&quot; method of sorting an
+	array of pointers to strings based on the string values. Write a program that measures
+	the time required to sort a large array of pointers with that method and then compares
+	that time with the time required to perform the same sort with the library function
+	qsort().
+</DL>
+
+<H1></H1>
+<CENTER>
+<P>
+<HR>
+<A HREF="../ch18/ch18.htm"><IMG SRC="../button/previous.gif" WIDTH="128" HEIGHT="28"
+ALIGN="BOTTOM" ALT="Previous chapter" BORDER="0"></A><A HREF="../ch20/ch20.htm"><IMG
+SRC="../button/next.gif" WIDTH="128" HEIGHT="28" ALIGN="BOTTOM" ALT="Next chapter"
+BORDER="0"></A><A HREF="../index.htm"><IMG SRC="../button/contents.gif" WIDTH="128"
+HEIGHT="28" ALIGN="BOTTOM" ALT="Contents" BORDER="0"></A> </P>
+
+<P>&#169; <A HREF="../copy.htm">Copyright</A>, Macmillan Computer Publishing. All
+rights reserved.
+</CENTER>
+
+
+</BODY>
+
+</HTML>

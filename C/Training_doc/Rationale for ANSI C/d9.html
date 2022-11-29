@@ -1,0 +1,775 @@
+<html><head>
+<title>4.9 Input/Output</title>
+<link rel="made" rev="made" href="mailto:jutta@cs.tu-berlin.de">
+</head>
+<body>
+<a href="d8.html" tppabs="http://www.lysator.liu.se/c/rat/d8.html">4.8 Variable Arguments</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-9" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-9">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d10.html" tppabs="http://www.lysator.liu.se/c/rat/d10.html">4.10 General Utilities</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+<hr>
+<h1><a name="4-9">4.9</a>&#160;<tt> </tt>Input/Output&#160;<tt> </tt>&lt;<a name="-60stdio-46h-62-4-9">stdio</a>.h&gt;</h1>
+
+<p>
+Many implementations of the C runtime environment
+(most notably the <a name="UNIX-4-9">UNIX</a> operating system)&#160;<tt> </tt>
+provide, aside from the standard I/O library
+(<a name="fopen-4-9"><code>fopen</code></a>,
+<a name="fclose-4-9"><code>fclose</code></a>,
+<a name="fread-4-9"><code>fread</code></a>,
+<a name="fwrite-4-9"><code>fwrite</code></a>,
+<a name="fseek-4-9" href="#fseek-4-9-9-2"><code>fseek</code></a>),
+a set of unbuffered I/O services
+(<code>open</code>, <code>close</code>, <code>read</code>, <code>write</code>, <code>lseek</code>).&#160;<tt> </tt>
+The Committee has decided not to standardize the latter set
+of functions.&#160;<tt> </tt>
+<p>
+A suggested semantics for these functions in the UNIX world
+may be found in the emerging <a name="IEEE-P1003-4-9">IEEE P1003</a> standard.&#160;<tt> </tt>
+The standard I/O library functions use a <a name="file-pointer"><i>file pointer</i></a>
+for referring to the desired I/O stream.&#160;<tt> </tt>
+The unbuffered I/O services use a <i>file descriptor</i>
+(a small integer)&#160;<tt> </tt>
+to refer to the desired I/O stream.&#160;<tt> </tt>
+<p>
+Due to weak implementations of the standard I/O library,
+many implementors have assumed
+that the standard I/O library was used for small records
+and that the unbuffered I/O library was used for large records.&#160;<tt> </tt>
+However, a good implementation of the standard I/O library can match
+the performance of the unbuffered services on large records.&#160;<tt> </tt>
+The user also has the capability of tuning the performance of the standard
+I/O library (with <a name="setvbuf-4-9"><code>setvbuf</code></a>) to suit the application.&#160;<tt> </tt>
+<p>
+Some subtle differences between the two sets of services
+can make the implementation of the unbuffered I/O services difficult:
+<ul><li>The model of a file used in the unbuffered I/O services is an array
+of characters.&#160;<tt> </tt>
+Many C environments do not support this file model.&#160;<tt> </tt>
+<p>
+<li>Difficulties arise when handling the new-line character.&#160;<tt> </tt>
+Many hosts use conventions other than an in-stream new-line character
+to mark the end of a line.&#160;<tt> </tt>
+The unbuffered I/O services assume that no translation occurs
+between the program's data and the file data when performing I/O,
+so either the new-line character translation would be lost
+(which breaks programs)&#160;<tt> </tt>
+or the implementor must be aware of the new-line translation
+(which results in non-portable programs).&#160;<tt> </tt>
+<p>
+<li>On UNIX systems,
+file descriptors 0, 1, and 2 correspond to the standard input,
+output, and error streams.&#160;<tt> </tt>
+This convention may be problematic
+for other systems in that (1) file descriptors 0, 1, and 2 may not
+be available or may be reserved for another purpose, (2) the operating
+system may use a different set of services for terminal I/O than file I/O.&#160;<tt> </tt>
+<p>
+</ul>In summary, the Committee chose not to standardize the unbuffered I/O services
+because:
+<ul><li>They duplicate the facilities provided by the standard I/O services.&#160;<tt> </tt>
+<p>
+<li>The performance of the standard I/O services
+	can be the same or better than the unbuffered I/O services.&#160;<tt> </tt>
+<p>
+<li>The unbuffered I/O file model may not be appropriate for many C language
+	environments.&#160;<tt> </tt>
+<p>
+</ul><h2><a name="4-9-1">4.9.1</a>&#160;<tt> </tt>Introduction</h2>
+<p>
+The macros
+<code>_IOFBF</code>, <code>_IOLBF</code>, <code>_IONBF</code>
+are enumerations of the third argument to <a name="setvbuf-4-9-1"><code>setvbuf</code></a>,
+a function adopted from UNIX System V.&#160;<tt> </tt>
+<p>
+<code>SEEK_CUR</code>, <code>SEEK_END</code>, and <code>SEEK_SET</code>
+have been moved to <a name="-60stdio-46h-62-4-9-1"><code>&lt;stdio.h&gt;</code></a>
+from a header specified in the Base Document and not retained in the Standard.&#160;<tt> </tt>
+<p>
+<code>FOPEN_MAX</code>
+and
+<code>TMP_MAX</code>
+are added environmental limits of some interest to
+programs that manipulate multiple temporary files.&#160;<tt> </tt>
+<p>
+<a name="FILENAME-95MAX-4-9-1"><code>FILENAME_MAX</code></a> is provided so that buffers to hold file
+names can be conveniently declared.  If the target system supports
+arbitrarily long filenames, the implementor should provide some
+reasonable value (80?, 255?, 509?) rather than something unusable
+like <code>USHRT_MAX</code>.&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-9-2">4.9.2</a>&#160;<tt> </tt>Streams</h2>
+<p>
+C inherited its notion of text <a name="streams-4-9-2">streams</a> from the <a name="UNIX-4-9-2">UNIX</a> environment
+in which it was born.&#160;<tt> </tt>
+Having each line delimited by a single <i>new-line</i> character,
+regardless of the characteristics of the actual terminal,
+supported a simple model of text
+as a sort of arbitrary length scroll or ``galley.''&#160;<tt> </tt>
+Having a channel that is ``transparent''&#160;<tt> </tt>
+(no file structure or reserved data encodings)&#160;<tt> </tt>
+eliminated the need for a distinction between text and binary streams.&#160;<tt> </tt>
+<p>
+Many other environments have different properties, however.&#160;<tt> </tt>
+If a program written in C
+is to produce a text file digestible by other programs,
+by text editors in particular, it must conform to the text formatting
+conventions of that environment.&#160;<tt> </tt>
+<p>
+The I/O facilities defined by the Standard are both more complex and more
+restrictive than the ancestral I/O facilities of UNIX.&#160;<tt> </tt>
+This is justified on pragmatic grounds:
+most of the differences, restrictions and omissions exist to permit C I/O
+implementations in environments which differ from the UNIX I/O
+model.&#160;<tt> </tt>
+<p>
+Troublesome aspects of the stream concept include:
+<p>
+<dl><p>
+<dt><b>The definition of lines.</b><dd>
+In the UNIX model, division of
+a file into lines is effected by new-line characters.&#160;<tt> </tt>
+Different techniques are used by other systems ---
+lines may be separated by
+CR-LF (carriage return, line feed) or
+by unrecorded areas on the recording medium,
+or each line may be prefixed by its length.&#160;<tt> </tt>
+The Standard
+addresses this diversity by specifying that new-line be used as a line separator
+at the program level, but then permitting an implementation to transform
+the data read or written to conform to the conventions of the environment.&#160;<tt> </tt>
+<p>
+Some environments represent text lines 
+as blank-filled fixed-length records.&#160;<tt> </tt>
+Thus the Standard specifies that it is
+<a name="implementation-defined-4-9-2"><i>implementation-defined</i></a>
+whether 
+trailing blanks are removed from a line on input.&#160;<tt> </tt>
+(This specification also addresses the problems of environments which
+represent text as variable-length records, but do not allow a record
+length of 0: an empty line may be written as a one-character record
+containing a blank, and the blank is stripped on input.)&#160;<tt> </tt>
+<p>
+<dt><b>Transparency.</b><dd>
+Some programs require access to external data without modification.&#160;<tt> </tt>
+For instance, transformation of CR-LF to new-line character
+is usually not desirable when object code is processed.&#160;<tt> </tt>
+The Standard
+defines two stream types,
+<i>text</i>
+and <i>binary</i>,
+to allow a program to define,
+when a file is opened, whether the preservation of its exact contents
+or of its line structure is more important in an environment which
+cannot accurately reflect both.&#160;<tt> </tt>
+<p>
+<dt><b>Random access.</b><dd>
+The UNIX I/O model features random access to data in a file,
+indexed by character number.&#160;<tt> </tt>
+On systems where a new-line character processed by the program
+represents an unknown number of physically recorded characters,
+this simple mechanism cannot be consistently supported for text streams.&#160;<tt> </tt>
+The Standard abstracts the significant properties of random access
+for text streams: the ability
+to determine the current file position and
+then later reposition the file to the same location.&#160;<tt> </tt>
+<a name="ftell-4-9-2"><code>ftell</code></a> returns a <a name="file-position-indicator"><i>file position indicator</i></a>,
+which has no necessary interpretation except that an <a href="#fseek-4-9-9-2" name="fseek-4-9-2"><code>fseek</code></a>
+operation with that indicator value will position the file to
+the same place.&#160;<tt> </tt>
+Thus an implementation may encode whatever file positioning
+information is most appropriate for a text file,
+subject only to the constraint that the encoding be representable
+as a <code>long</code>.&#160;<tt> </tt>
+Use of <code>fgetpos</code> and <code>fsetpos</code> removes even this
+constraint.&#160;<tt> </tt>
+<p>
+<dt><b>Buffering.</b><dd>
+UNIX allows the program to control the
+extent and type of buffering for various purposes.&#160;<tt> </tt>
+For example,
+a program can provide its own large I/O buffer to improve efficiency,
+or can request unbuffered terminal I/O to process each input character
+as it is entered.&#160;<tt> </tt>
+Other systems do not necessarily support this generality.&#160;<tt> </tt>
+Some systems provide only line-at-a-time access to terminal input;
+some systems
+support program-allocated buffers only by copying data to and from
+system-allocated buffers for processing.&#160;<tt> </tt>
+Buffering is addressed in the Standard by specifying UNIX-like
+<a name="setbuf-4-9-2"><code>setbuf</code></a> and <a name="setvbuf-4-9-2"><code>setvbuf</code></a> functions,
+but permitting great latitude in their implementation.&#160;<tt> </tt>
+A conforming library need neither
+attempt the impossible nor respond to a program attempt to improve
+efficiency by introducing additional overhead.&#160;<tt> </tt>
+<p>
+</dl><p>
+Thus, the Standard imposes a clear distinction between <a name="text-streams"><i>text streams</i></a>,
+which must be mapped to suit local custom, and
+<a name="binary-streams"><i>binary streams</i></a>,
+for which no mapping takes place.&#160;<tt> </tt>
+Local custom on UNIX (and related) systems is of course
+to treat the two sorts of streams identically, and
+nothing in the Standard requires any changes to this practice.&#160;<tt> </tt>
+<p>
+Even the specification of binary streams requires some changes to
+accommodate a wide range of systems.&#160;<tt> </tt>
+Because many systems do not keep track of the length of a file to the nearest
+byte, an arbitrary number of characters may appear on the end of a binary
+stream directed to a file.&#160;<tt> </tt>
+The Standard cannot forbid this implementation, but does require
+that this padding consist only of null characters.&#160;<tt> </tt>
+The alternative would be to restrict C to producing binary files digestible
+only by other C programs;
+this alternative runs counter to the
+<i>spirit of C</i>.&#160;<tt> </tt>
+<p>
+The set of characters required to be preserved in text stream
+I/O are those needed for writing C programs;
+the intent is the Standard should permit a C translator to be written
+in a maximally portable fashion.&#160;<tt> </tt>
+Control characters such as backspace are not required for this
+purpose, so their handling in text streams is not mandated.&#160;<tt> </tt>
+<p>
+It was agreed that some minimum maximum line length must be mandated;
+254 was chosen.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-3">4.9.3</a>&#160;<tt> </tt>Files</h2>
+<p>
+The <a name="as-if-4-9-3" href="b.html#as-if" tppabs="http://www.lysator.liu.se/c/rat/b.html#as-if"><i>as if</i></a>
+principle is once again invoked to define the nature of input and output
+in terms of just two functions,
+<a name="fgetc-4-9-3"><code>fgetc</code></a> and <a name="fputc-4-9-3"><code>fputc</code></a>.&#160;<tt> </tt>
+The actual primitives in a given system may be quite different.&#160;<tt> </tt>
+<p>
+Buffering, and unbuffering, is defined in a way suggesting the
+desired interactive behavior;
+but an implementation may still be conforming even 
+if delays (in a network or terminal controller) prevent
+output from appearing in time.&#160;<tt> </tt>
+It is the <i>intent</i> that matters here.&#160;<tt> </tt>
+<p>
+No constraints are imposed upon file names, except that they must be
+representable as strings (with no embedded null characters).&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-4">4.9.4</a>&#160;<tt> </tt>Operations on files</h2>
+<p>
+<h2><a name="4-9-4-1">4.9.4.1</a>&#160;<tt> </tt>The <a name="remove-4-9-4-1"><code>remove</code></a> function</h2>
+
+<p>
+The Base Document provides the <a name="unlink-4-9-4-1"><code>unlink</code></a>
+system call to remove files.&#160;<tt> </tt>
+The <a name="UNIX-4-9-4-1">UNIX</a>-specific definition of this function prompted
+the Committee to replace it with a portable function.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-4-2">4.9.4.2</a>&#160;<tt> </tt>The <a name="rename-4-9-4-2"><code>rename</code></a> function</h2>
+
+<p>
+This function has been added to provide
+a system-independent atomic operation
+to change the name of an existing file;
+the Base Document only provided the <code>link</code> system call,
+which gives the file a new name without removing the old one,
+and which is extremely system-dependent.&#160;<tt> </tt>
+<p>
+The Committee considered a proposal that <code>rename</code>
+should quietly copy a file if simple
+renaming couldn't be performed in some context,
+but rejected this as potentially too expensive at execution time.&#160;<tt> </tt>
+<p>
+<code>rename</code> is meant to give access to an underlying facility of
+the execution environment's operating system.&#160;<tt> </tt>
+When the new name is the name of an existing file,
+some systems allow the renaming
+(and delete the old file or make it inaccessible by that name),
+while others prohibit the operation.&#160;<tt> </tt>
+The effect of <code>rename</code> is thus <a name="implementation-defined-4-9-4-2"><i>implementation-defined</i></a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-4-3">4.9.4.3</a>&#160;<tt> </tt>The <code>tmpfile</code> function</h2>
+<p>
+The <a name="tmpfile-4-9-4-3"><code>tmpfile</code></a>
+function is intended to allow users to create binary
+``scratch'' files.&#160;<tt> </tt>
+The <a name="as-if-4-9-4-3" href="b.html#as-if" tppabs="http://www.lysator.liu.se/c/rat/b.html#as-if"><i>as if</i></a> principle implies that the information in such a file need
+never actually be stored on a file-structured device.&#160;<tt> </tt>
+<p>
+The temporary file is created in binary update mode,
+because it will presumably be first written and then
+read as transparently as possible.&#160;<tt> </tt>
+Trailing null-character padding may cause problems for some existing programs.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-4-4">4.9.4.4</a>&#160;<tt> </tt>The <a name="tmpnam-4-9-4-4"><code>tmpnam</code></a> function</h2>
+
+<p>
+This function allows for more control than <code>tmpfile</code>:
+a file can be opened in binary mode or text mode,
+and files are not erased at completion.&#160;<tt> </tt>
+<p>
+There is always some time between the call to <code>tmpnam</code> and the use
+(in <code>fopen</code>) of the returned name.&#160;<tt> </tt>
+Hence it is conceivable that in some implementations
+the name, which named no file at the call to <code>tmpnam</code>,
+has been used as a filename by the time of the call to <code>fopen</code>.&#160;<tt> </tt>
+Implementations should devise name-generation strategies which minimize
+this possibility, but users should allow for this possibility.&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-9-5">4.9.5</a>&#160;<tt> </tt>File access functions</h2>
+<p>
+<h2><a name="4-9-5-1">4.9.5.1</a>&#160;<tt> </tt>The <code>fclose</code> function</h2>
+<p>
+On some operating systems it is difficult, or impossible,
+to create a file unless something is written to the file.&#160;<tt> </tt>
+A maximally portable program which relies on a file being created
+must write something to the associated stream before closing it.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-5-2">4.9.5.2</a>&#160;<tt> </tt>The <code>fflush</code> function</h2>
+<p>
+The <a name="fflush-4-9-5-2"><code>fflush</code></a> function ensures that output has been
+forced out of internal I/O buffers for a specified stream.&#160;<tt> </tt>
+Occasionally, however, it is necessary to ensure that <em> all</em>
+output is forced out, and the programmer may not conveniently be
+able to specify all the currently-open streams (perhaps because
+some streams are manipulated within library packages).&#160;<tt> </tt>[Footnote:     For instance, on a system (such as <a name="UNIX-4-9-5-2">UNIX</a>) which supports
+    process forks, it is usually necessary to flush all output buffers just
+    prior to the fork.]&#160;<tt> </tt>
+To provide an implementation-independent method of flushing all
+output buffers, the Standard specifies that this is the result of
+calling <code>fflush</code> with a NULL argument.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-5-3">4.9.5.3</a>&#160;<tt> </tt>The <a name="fopen-4-9-5-3"><code>fopen</code></a> function</h2>
+
+<p>
+The <code>b</code> type modifier has been added to deal with the text/binary dichotomy
+(see <a href="#4-9-2">&#167;4.9.2</a>).&#160;<tt> </tt>
+Because of the limited ability to seek within text files (see <a href="#4-9-9-1">&#167;4.9.9.1</a>),
+an implementation is at liberty to treat the old update
+<code>+</code> modes as
+if <code>b</code> were also specified.&#160;<tt> </tt>
+Table 4.1 tabulates the capabilities and actions
+associated with the various specified mode string arguments to
+<code>fopen</code>.&#160;<tt> </tt>
+<pre>
+                                          r   w   a   r+  w+  a+
+    file must exist before open           <b>x</b>   -   -   <b>x</b>   -   -
+    old file contents discarded on open   -   <b>x</b>   -   -   <b>x</b>   -
+    stream can be read                    <b>x</b>   -   -   <b>x</b>   <b>x</b>   <b>x</b>
+    stream can be written                 -   <b>x</b>   <b>x</b>   <b>x</b>   <b>x</b>   <b>x</b>
+    stream can be written only at end     -   -   <b>x</b>   -   -   <b>x</b>
+</pre>
+<ul><ul>
+    Table 4.1:&#160;<tt> </tt>File and stream properties of <code>fopen</code> modes
+</ul></ul>
+Other specifications for files,
+such as record length and block size,
+are not specified in the Standard,
+due to their widely varying characteristics in
+different operating environments.&#160;<tt> </tt>
+Changes to file access modes and buffer sizes may be specified using the
+<a name="setvbuf-4-9-5-3"><code>setvbuf</code></a> function.&#160;<tt> </tt>
+(See <a href="#4-9-5-6">&#167;4.9.5.6</a>.)&#160;<tt> </tt>
+An implementation may choose to allow additional file
+specifications as part of the <code>mode</code> string argument.&#160;<tt> </tt>
+For instance,
+<pre>        file1 = fopen(file1name,&quot;wb,reclen=80&quot;);
+</pre>might be a reasonable way,
+on a system which provides record-oriented binary files,
+for an implementation to allow a programmer to specify record length.&#160;<tt> </tt>
+<p>
+A change of input/output direction on an update file
+is only allowed following a
+<a name="fsetpos-4-9-5-3"><code>fsetpos</code></a>,
+<a href="#fseek-4-9-9-2" name="fseek-4-9-5-3"><code>fseek</code></a>,
+<a name="rewind-4-9-5-3"><code>rewind</code></a>,
+or <a name="fflush-4-9-5-3"><code>fflush</code></a> operation,
+since these are precisely the functions
+which assure that the I/O buffer has been flushed.&#160;<tt> </tt>
+<p>
+The Standard (<a href="#4-9-2">&#167;4.9.2</a>) imposes the requirement that binary files
+not be truncated when they are updated.&#160;<tt> </tt>
+This rule does not preclude an implementation from supporting additional
+file types that do truncate when written to,
+even when they are opened with the same sort of <code>fopen</code> call.&#160;<tt> </tt>
+Magnetic tape files are an example of a file type that must be
+handled this way.  (On most tape hardware it is impossible to write
+to a tape without destroying immediately following data.)&#160;<tt> </tt>
+Hence tape files are not ``binary files'' within the meaning of
+the Standard.&#160;<tt> </tt>
+A conforming hosted implementation must provide (and document) at
+least one file type (on disk, most likely) that behaves exactly
+as specified in the Standard.&#160;<tt> </tt>
+<p>
+<p>
+<h2><a name="4-9-5-4">4.9.5.4</a>&#160;<tt> </tt>The <code>freopen</code> function</h2>
+<p>
+<h2><a name="4-9-5-5">4.9.5.5</a>&#160;<tt> </tt>The <a name="setbuf-4-9-5-5"><code>setbuf</code></a> function</h2>
+<p>
+<code>setbuf</code> is subsumed by
+<a name="setvbuf-4-9-5-5"><code>setvbuf</code></a>,
+but has been retained for compatibility with old code.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-5-6">4.9.5.6</a>&#160;<tt> </tt>The <a name="setvbuf-4-9-5-6"><code>setvbuf</code></a>
+function</h2>
+<p>
+<code>setvbuf</code> has been adopted from UNIX System V,
+both to control the nature of stream buffering
+and to specify the size of I/O buffers.&#160;<tt> </tt>
+An implementation is not required to make actual use of a buffer
+provided for a stream,
+so a program must never expect the buffer's contents to reflect I/O
+operations.&#160;<tt> </tt>
+Further, the Standard does not require that the requested buffering
+be implemented;
+it merely mandates a standard mechanism for requesting whatever buffering
+services might be provided.&#160;<tt> </tt>
+<p>
+Although three types of buffering are defined,
+an implementation may choose to make one or more of them equivalent.&#160;<tt> </tt>
+For example, a library may choose
+to implement line-buffering for binary files as equivalent to unbuffered I/O
+or may choose to always implement full-buffering as equivalent to
+line-buffering.&#160;<tt> </tt>
+<p>
+The general principle is to provide portable code with a means
+of requesting the most appropriate popular buffering style,
+but not to require an implementation to support these styles.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6">4.9.6</a>&#160;<tt> </tt>Formatted input/output functions</h2>
+<p>
+<h2><a name="4-9-6-1">4.9.6.1</a>&#160;<tt> </tt>The <code>fprintf</code> function</h2>
+<p>
+Use of the <code>L</code> modifier with floating conversions has been added
+to deal with formatted output of the new type <a name="long-double-4-9-6-1"><code>long double</code></a>.&#160;<tt> </tt>
+<p>
+Note that the <code>%X</code> and <code>%x</code> formats
+expect a corresponding <code>int</code> argument;
+<code>%lX</code> or <code>%lx</code> must be supplied with a <code>long int</code> argument.&#160;<tt> </tt>
+<p>
+The conversion specification <code>%p</code>
+has been added for pointer conversion,
+since the size of a pointer is not necessarily the same as the size of an
+<code>int</code>.&#160;<tt> </tt>
+Because an implementation may support more than one size of pointer,
+the corresponding argument is expected to be a
+<a name="-40void--42-41-4-9-6-1"><code>(void *)</code></a> pointer.&#160;<tt> </tt>
+<p>
+The <code>%n</code> format has been added to permit ascertaining the number
+of characters converted up to that point in the current invocation of the
+formatter.&#160;<tt> </tt>
+<p>
+Some pre-Standard implementations switch formats for <code>%g</code>
+at an exponent of <i>-</i>3 instead of (the Standard's) <i>-</i>4:
+existing code which requires the format switch at <i>-</i>3 will
+have to be changed.&#160;<tt> </tt>
+<p>
+Some existing implementations provide <code>%D</code> and <code>%O</code>
+as synonyms or replacements for <code>%ld</code> and <code>%lo</code>.&#160;<tt> </tt>
+The Committee considered the latter notation preferable.&#160;<tt> </tt>
+<p>
+The Committee has reserved lower case conversion specifiers for future
+standardization.&#160;<tt> </tt>
+<p>
+The use of leading zero in field widths to specify zero padding has been
+superseded by a precision field.&#160;<tt> </tt>
+The older mechanism has been retained.&#160;<tt> </tt>
+<p>
+Some implementations have provided the format <code>%r</code>
+as a means of indirectly passing a variable-length argument list.&#160;<tt> </tt>
+The functions <a name="vfprintf-4-9-6-1"><code>vfprintf</code></a>, etc.,
+are considered to be a more controlled method of effecting this indirection,
+so <code>%r</code> was not adopted in the Standard.&#160;<tt> </tt>
+(See <a href="#4-9-6-7">&#167;4.9.6.7</a>.)&#160;<tt> </tt>
+<p>
+The printing formats for numbers is not entirely specified.&#160;<tt> </tt>
+The requirements of the Standard are loose enough to allow implementations
+to handle such cases as signed zero, <a name="not-a-number"><i>not-a-number</i></a>, and <a name="infinity"><i>infinity</i></a>
+in an appropriate fashion.
+<p>
+<h2><a name="4-9-6-2">4.9.6.2</a>&#160;<tt> </tt>The <a name="fscanf-4-9-6-2"><code>fscanf</code></a> function</h2>
+
+The specification of <code>fscanf</code> is based in part on these principles:
+<ul><li>As soon as one specified conversion fails,
+	the whole function invocation fails.&#160;<tt> </tt>
+<p>
+<li>One-character pushback
+	is sufficient for the implementation of <code>fscanf</code>.&#160;<tt> </tt>
+	Given the invalid field ``<code>-.x</code>'', 
+	the characters ``<code>-.</code>'' are not
+	pushed back.
+<p>
+<li>If a ``flawed field'' is detected,
+	no value is stored for the corresponding argument.&#160;<tt> </tt>
+<p>
+<li>The conversions performed by <code>fscanf</code> are compatible with
+	those performed by <code>strtod</code> and <code>strtol</code>.&#160;<tt> </tt>
+</ul>Input pointer conversion with <code>%p</code> has been added,
+although it is obviously risky, for symmetry with <code>fprintf</code>.&#160;<tt> </tt>
+The <code>%i</code> format
+has been added to permit the scanner to determine the radix of the
+number in the input stream;
+the <code>%n</code> format
+has been added to make available the number of characters
+scanned thus far in the current invocation of the scanner.&#160;<tt> </tt>
+<p>
+White space is now defined by the <a name="isspace-4-9-6-2"><code>isspace</code></a> function.&#160;<tt> </tt>
+(See <a href="d3.html#4-3-1-9" tppabs="http://www.lysator.liu.se/c/rat/d3.html#4-3-1-9">&#167;4.3.1.9</a>.)&#160;<tt> </tt>
+<p>
+An implementation must not use the <a name="ungetc-4-9-6-2"><code>ungetc</code></a> function
+to perform the necessary one-character pushback.&#160;<tt> </tt>
+In particular, since the unmatched text is left ``unread,''&#160;<tt> </tt>
+the file position indicator as reported by the <code>ftell</code> function
+must be the position of the character remaining to be read.&#160;<tt> </tt>
+Furthermore, if the unread characters were themselves pushed back
+via <code>ungetc</code> calls, the pushback in <code>fscanf</code> must not affect
+the push-back stack in <code>ungetc</code>.  A <code>scanf</code> call that matches
+N characters from a stream must leave the stream in the same state
+as if N consecutive <code>getc</code> calls had been issued.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6-3">4.9.6.3</a>&#160;<tt> </tt>The <code>printf</code> function</h2>
+<p>
+See comments of section <a href="#4-9-6-1">&#167;4.9.6.1</a> above.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6-4">4.9.6.4</a>&#160;<tt> </tt>The <code>scanf</code> function</h2>
+<p>
+See comments in section <a href="#4-9-6-2">&#167;4.9.6.2</a> above.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6-5">4.9.6.5</a>&#160;<tt> </tt>The <code>sprintf</code> function</h2>
+<p>
+See <a href="#4-9-6-1">&#167;4.9.6.1</a> for comments on output formatting.&#160;<tt> </tt>
+<p>
+In the interests of minimizing redundancy,
+<code>sprintf</code> has subsumed the older, rather uncommon,
+<code>ecvt</code>, <code>fcvt</code>, and <code>gcvt</code>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6-6">4.9.6.6</a>&#160;<tt> </tt>The <a name="sscanf-4-9-6-6"><code>sscanf</code></a> function</h2>
+
+<p>
+The behavior of <code>sscanf</code> on encountering end of string has been clarified.&#160;<tt> </tt>
+See also comments in section <a href="#4-9-6-2">&#167;4.9.6.2</a> above.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6-7">4.9.6.7</a>&#160;<tt> </tt>The <code>vfprintf</code> function</h2>
+<p>
+The functions <a name="vfprintf-4-9-6-7"><code>vfprintf</code></a>, <a name="vprintf-4-9-6-7"><code>vprintf</code></a>, and <a name="vsprintf-4-9-6-7"><code>vsprintf</code></a>
+have been adopted from <a name="UNIX-4-9-6-7">UNIX</a> System V
+to facilitate writing special purpose formatted output functions.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6-8">4.9.6.8</a>&#160;<tt> </tt>The <code>vprintf</code> function</h2>
+<p>
+See <a href="#4-9-6-7">&#167;4.9.6.7</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-6-9">4.9.6.9</a>&#160;<tt> </tt>The <code>vsprintf</code> function</h2>
+<p>
+See <a href="#4-9-6-7">&#167;4.9.6.7</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7">4.9.7</a>&#160;<tt> </tt>Character input/output functions</h2>
+<p>
+<h2><a name="4-9-7-1">4.9.7.1</a>&#160;<tt> </tt>The <a name="fgetc-4-9-7-1"><code>fgetc</code></a> function</h2>
+
+<p>
+Because much existing code assumes that <code>fgetc</code> and <code>fputc</code>
+are the actual functions equivalent to the macros <code>getc</code> and <code>putc</code>,
+the Standard requires that they not be implemented as macros.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7-2">4.9.7.2</a>&#160;<tt> </tt>The <a name="fgets-4-9-7-2"><code>fgets</code></a> function</h2>
+
+<p>
+This function subsumes <code>gets</code>,
+which has no limit to prevent storage
+overwrite on arbitrary input (see <a href="#4-9-7-7">&#167;4.9.7.7</a>).&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7-3">4.9.7.3</a>&#160;<tt> </tt>The <code>fputc</code> function</h2>
+<p>
+See <a href="#4-9-7-1">&#167;4.9.7.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7-4">4.9.7.4</a>&#160;<tt> </tt>The <code>fputs</code> function</h2>
+<p>
+<h2><a name="4-9-7-5">4.9.7.5</a>&#160;<tt> </tt>The <a name="getc-4-9-7-5"><code>getc</code></a> function</h2>
+<p>
+<code>getc</code> and <a name="putc-4-9-7-5"><code>putc</code></a> have often been implemented as unsafe macros,
+since it is difficult in such a macro to touch the
+<code>stream</code> argument only once.&#160;<tt> </tt>
+Since this danger is common in prior art, these two functions
+are explicitly permitted to evaluate <code>stream</code> more than once.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7-6">4.9.7.6</a>&#160;<tt> </tt>The <code>getchar</code> function</h2>
+<p>
+<h2><a name="4-9-7-7">4.9.7.7</a>&#160;<tt> </tt>The <code>gets</code> function</h2>
+<p>
+See <a href="#4-9-7-2">&#167;4.9.7.2</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7-8">4.9.7.8</a>&#160;<tt> </tt>The <code>putc</code> function</h2>
+<p>
+See <a href="#4-9-7-5">&#167;4.9.7.5</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7-9">4.9.7.9</a>&#160;<tt> </tt>The <code>putchar</code> function</h2>
+<p>
+<h2><a name="4-9-7-10">4.9.7.10</a>&#160;<tt> </tt>The <code>puts</code> function</h2>
+<p>
+<a name="puts-40s-41-4-9-7-10"><code>puts(s)</code></a> is not exactly equivalent to <code>fputs(stdout,s)</code>;
+<code>puts</code> also writes a new line after the argument string.&#160;<tt> </tt>
+This incompatibility reflects existing practice.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-7-11">4.9.7.11</a>&#160;<tt> </tt>The <a name="ungetc-4-9-7-11"><code>ungetc</code></a> function</h2>
+
+<p>
+The Base Document requires that at least one character be read before
+<code>ungetc</code> is called, in certain implementation-specific cases.&#160;<tt> </tt>
+The Committee has removed this requirement,
+thus obliging a <a name="FILE-4-9-7-11"><code>FILE</code></a> structure
+to have room to store one character of pushback regardless of the state
+of the buffer;
+it felt that this degree of generality makes clearer the ways
+in which the function may be used.&#160;<tt> </tt>
+<p>
+It is permissible to push back a different character than that which was read;
+this accords with common existing practice.&#160;<tt> </tt>
+The last-in, first-out nature of <code>ungetc</code> has been clarified.&#160;<tt> </tt>
+<p>
+
+<code>ungetc</code> is typically used to handle algorithms, such as tokenization,
+which involve one-character lookahead in text files.&#160;<tt> </tt>
+<a href="#fseek-4-9-9-2"><code>fseek</code></a> and <code>ftell</code> are used for random access, typically in binary files.&#160;<tt> </tt>
+So that these disparate file-handling disciplines are not unnecessarily linked,
+the value of a text file's file position indicator immediately after <code>ungetc</code>
+has been specified as indeterminate.&#160;<tt> </tt>
+<p>
+Existing practice relies on two different models of the effect of <code>ungetc</code>.&#160;<tt> </tt>
+One model can be characterized as writing the pushed-back character
+``on top of'' the previous character.&#160;<tt> </tt>
+This model implies an implementation in which the pushed-back characters are
+stored within the file buffer and bookkeeping is performed by
+setting the file position indicator to the previous character position.&#160;<tt> </tt>
+(Care must be taken in this model to recover the overwritten character
+values when the pushed-back characters are discarded as a result of
+other operations on the stream.)&#160;<tt> </tt>
+The other model can be characterized as pushing the character ``between''&#160;<tt> </tt>
+the current character and the previous character.&#160;<tt> </tt>
+This implies an implementation in which the pushed-back characters
+are specially buffered (within the FILE structure, say) and accounted
+for by a flag or count.&#160;<tt> </tt>
+In this model it is natural <i>not</i> to move the file position
+indicator.&#160;<tt> </tt>
+The indeterminacy of the file position indicator while pushed-back
+characters exist accommodates both models.&#160;<tt> </tt>
+<p>
+Mandating either model
+(by specifying the effect of <code>ungetc</code> on 
+a text file's file position indicator)&#160;<tt> </tt>
+creates problems with implementations that have assumed the other model.&#160;<tt> </tt>
+Requiring the file position indicator not to change after <code>ungetc</code>
+would necessitate changes in programs which combine random access
+and tokenization on text files,
+and rely on the file position indicator marking the end of a token
+even after pushback.&#160;<tt> </tt>
+Requiring the file position indicator to back up would create severe
+implementation problems in certain environments,
+since in some file organizations it can be impossible to find the previous
+input character position without having read the file sequentially to
+the point in question.&#160;<tt> </tt>[Footnote: 
+Consider, for instance, a sequential file of variable-length records in which
+a line is represented as a count field followed by the characters in the line.&#160;<tt> </tt>
+The file position indicator must encode a character position
+as the position of the count field plus an offset into the line;
+from the position of the count field and the length of the line,
+the next count field can be found.&#160;<tt> </tt>
+Insufficient information is available for finding the <i>previous</i>
+count field, so backing up from the first character of a line necessitates,
+in the general case, a sequential read from the start of the file.]&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-8">4.9.8</a>&#160;<tt> </tt>Direct input/output functions</h2>
+<p>
+<h2><a name="4-9-8-1">4.9.8.1</a>&#160;<tt> </tt>The <a name="fread-4-9-8-1"><code>fread</code></a> function</h2>
+
+<p>
+<a name="size-95t-4-9-8-1"><code>size_t</code></a>
+is the appropriate type both for an object size and for an array
+bound (see <a href="c3.html#3-3-3-4" tppabs="http://www.lysator.liu.se/c/rat/c3.html#3-3-3-4">&#167;3.3.3.4</a>),
+so this is the type of <code>size</code> and <code>nelem</code>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-8-2">4.9.8.2</a>&#160;<tt> </tt>The <code>fwrite</code> function</h2>
+<p>
+See <a href="#4-9-8-1">&#167;4.9.8.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-9">4.9.9</a>&#160;<tt> </tt>File positioning functions</h2>
+<p>
+<h2><a name="4-9-9-1">4.9.9.1</a>&#160;<tt> </tt>The <a name="fgetpos-4-9-9-1"><code>fgetpos</code></a> function</h2>
+
+<p>
+<code>fgetpos</code> and <code>fsetpos</code> have been added to allow random access
+operations on files which are too large to handle with <code>fseek</code>
+and <code>ftell</code>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-9-2">4.9.9.2</a>&#160;<tt> </tt>The <a name="fseek-4-9-9-2"><code>fseek</code></a> function</h2>
+
+<p>
+Whereas a binary file can be treated as an ordered sequence of bytes,
+counting from zero, a text file need not map one-to-one to its
+internal representation (see <a href="#4-9-2">&#167;4.9.2</a>).&#160;<tt> </tt>
+Thus, only seeks to an earlier reported position are permitted for
+text files.&#160;<tt> </tt>
+The need to encode both record position and position within a record
+in a <code>long</code> value may constrain the size of text files
+upon which <code>fseek</code>-<code>ftell</code> can be used
+to be considerably smaller than the size of binary files.&#160;<tt> </tt>
+<p>
+Given these restrictions,
+the Committee still felt that this function has enough utility,
+and is used in sufficient existing code,
+to warrant its retention in the Standard.&#160;<tt> </tt>
+<code>fgetpos</code> and <code>fsetpos</code> have been added to deal with files
+which are too large to handle with <code>fseek</code> and <code>ftell</code>.&#160;<tt> </tt>
+<p>
+<p>
+The <code>fseek</code> function will reset the end-of-file flag for the stream;
+the error flag is not changed unless an error occurs, when it will be set.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-9-3">4.9.9.3</a>&#160;<tt> </tt>The <code>fsetpos</code> function</h2>
+<p>
+<h2><a name="4-9-9-4">4.9.9.4</a>&#160;<tt> </tt>The <code>ftell</code> function</h2>
+<p>
+<code>ftell</code> can fail for at least two reasons:
+<ul><li>the stream is associated with a terminal, or some other file
+	type for which <a name="file-pos-indicator-4-9-9-4"><i>file position indicator</i></a> is meaningless; 
+    or
+<li>the file may be positioned at a location not representable
+	in a <code>long int</code>.&#160;<tt> </tt>
+</ul>Thus a method for <code>ftell</code> to report failure has been specified.&#160;<tt> </tt>
+<p>
+See also <a href="#4-9-9-1">&#167;4.9.9.1</a>.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-9-5">4.9.9.5</a>&#160;<tt> </tt>The <a name="rewind-4-9-9-5"><code>rewind</code></a> function</h2>
+
+<p>
+Resetting the end-of-file and error indicators
+was added to the specification of <code>rewind</code>
+to make the specification more logically consistent.&#160;<tt> </tt>
+<p>
+<h2><a name="4-9-10">4.9.10</a>&#160;<tt> </tt>Error-handling functions</h2>
+<p>
+<h2><a name="4-9-10-1">4.9.10.1</a>&#160;<tt> </tt>The <code>clearerr</code> function</h2>
+<p>
+<h2><a name="4-9-10-2">4.9.10.2</a>&#160;<tt> </tt>The <code>feof</code> function</h2>
+<p>
+<h2><a name="4-9-10-3">4.9.10.3</a>&#160;<tt> </tt>The <code>ferror</code> function</h2>
+<p>
+<h2><a name="4-9-10-4">4.9.10.4</a>&#160;<tt> </tt>The <code>perror</code> function</h2>
+<p>
+At various times, the Committee considered providing a form of <a name="perror-4-9-10-4"><code>perror</code></a>
+that delivers up an error string version of
+<a name="errno-4-9-10-4"><code>errno</code></a> without performing any output.&#160;<tt> </tt>
+It ultimately decided to provide this capability in a separate function,
+<a name="strerror-4-9-10-4"><code>strerror</code></a>.&#160;<tt> </tt>
+(See <a href="d11.html#4-11-6-1" tppabs="http://www.lysator.liu.se/c/rat/d11.html#4-11-6-1">&#167;4.11.6.1</a>).&#160;<tt> </tt>
+<hr>
+<a href="d8.html" tppabs="http://www.lysator.liu.se/c/rat/d8.html">4.8 Variable Arguments</a>
+<img src="c-small-left.xbm" tppabs="http://www.lysator.liu.se/c/c-small-left.xbm" alt=" -&lt; " align="top">
+<a href="title.html#4-9" tppabs="http://www.lysator.liu.se/c/rat/title.html#4-9">ANSI C Rationale</a>
+<img src="c-small-right.xbm" tppabs="http://www.lysator.liu.se/c/c-small-right.xbm" alt=" -&gt; " align="top">
+<a href="d10.html" tppabs="http://www.lysator.liu.se/c/rat/d10.html">4.10 General Utilities</a>&#160;<tt> </tt>
+&#160;<tt> </tt>&#160;<tt> </tt>&#160;<tt> </tt>
+<a href="index.html" tppabs="http://www.lysator.liu.se/c/rat/index.html"><i>Index</i></a>&#160;<tt> </tt>
+</body></html>
